@@ -17,8 +17,9 @@ one tap — into the **Customer app**, the **Merchant app**, or the embedded
 | `landing.html` | The **final marketing landing page** — the public entry point. Hero, the journey, categories, the three apps, Suda Express & embedded-banking spotlights, a live-metrics dashboard teaser, and CTAs into the app. Motion-rich: scroll reveals, animated counters, floating orbit, self-drawing widgets. |
 | `index.html` | The **unified app** — the view-router product itself (Marketplace → Services → Customer / Merchant / Bank). Supports hash deep-links: `index.html#customer`, `#merchant`, `#merchant:express`, `#bank`. |
 | `dashboard.html` | A **trendy, animated analytics dashboard** for the whole ecosystem — live KPIs with count-up + sparklines, a self-drawing GMV area chart, revenue bars, an animated escrow ring, remittance-corridor bars, Suda Express gauges, and a streaming live-activity feed. |
+| `merchant-onboarding.html` | A **6-step merchant onboarding wizard** — choose a type (standard merchant / Suda Express), enter business details, verify identity (KYC via a partner bank), set up banking & escrow-settled payouts, configure type-specific operations, then review and launch. Live profile preview, per-step validation, animated stepper/progress, and a celebratory success screen that deep-links into the merchant console. |
 
-The three link to each other: landing → app + dashboard, dashboard → app + landing.
+The pages link to each other: landing → app + dashboard, dashboard → app + landing, and the app / onboarding hand off into the merchant console (`index.html#merchant` / `#merchant:express`).
 
 ## Run it
 
