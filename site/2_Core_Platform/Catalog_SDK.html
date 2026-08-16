@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alSooq · السوق — Catalog SDK · حزمة تطوير الكتالوج</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════════
+   alSooq Catalog SDK v1.0 — token layer
+   Canon: sand / clay / palm.  Accent = clay.  ONE green in the
+   entire kit, and it marks settled payment. Nothing else.
+   ══════════════════════════════════════════════════════════════ */
+:root{
+  /* surface */
+  --sand:#F6F1E7; --sand-deep:#EDE4D3; --card:#FFFFFF; --kraft:#E4D2B4;
+  /* ink */
+  --ink:#2E241B; --ink-soft:#6B5B4B; --ink-faint:#9A8A79;
+  /* accent — clay */
+  --clay:#8A4B2A; --clay-deep:#5F3119; --clay-tint:#F3E4DA;
+  --clay-08:rgba(138,75,42,.08); --clay-15:rgba(138,75,42,.15); --clay-30:rgba(138,75,42,.30);
+  /* reserved */
+  --palm:#2F6B4F; --palm-tint:#E3EFE8;   /* settled payment ONLY */
+  --gold:#B8862F;                         /* Mwasalati identity chip ONLY */
+  /* structure */
+  --line:#DCCFBB; --hair:rgba(220,207,187,.6);
+  --r-xs:6px; --r-sm:8px; --r-md:12px; --r-lg:16px; --r-pill:999px;
+  /* elevation */
+  --e1:0 1px 2px rgba(46,36,27,.05);
+  --e2:0 1px 2px rgba(46,36,27,.05),0 8px 24px rgba(46,36,27,.07);
+  --e3:0 2px 4px rgba(46,36,27,.06),0 18px 46px rgba(46,36,27,.12);
+  /* motion — decelerating only */
+  --brake:cubic-bezier(.16,1,.3,1);
+  --snap:cubic-bezier(.2,0,0,1);
+  --t-fast:150ms; --t-base:250ms; --t-view:400ms;
+  /* type */
+  --ar:'IBM Plex Sans Arabic',system-ui,sans-serif;
+  --en:'IBM Plex Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--ar);background:var(--sand-deep);color:var(--ink);
+  line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased;
+}
+[data-lang="en"] body{font-family:var(--en)}
+[data-lang="ar"] .en-only{display:none}
+[data-lang="en"] .ar-only{display:none}
+.num{font-family:var(--en);font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono);font-size:.86em}
+svg{display:block}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+
+/* ── page chrome ───────────────────────────────────────────── */
+.topbar{
+  position:sticky;top:0;z-index:80;background:rgba(246,241,231,.94);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+}
+.topbar-in{max-width:1340px;margin:0 auto;padding:12px 26px;display:flex;align-items:center;gap:18px}
+.lockup{display:flex;align-items:center;gap:12px}
+.plate{width:52px;height:34px;border-radius:var(--r-xs);background:var(--kraft);display:grid;place-items:center;flex:none}
+.plate svg{width:40px;height:22px}
+.plate path{fill:none;stroke-width:5.5;stroke-linecap:round}
+.wordmark{font-size:21px;font-weight:700;letter-spacing:-.035em;line-height:1}
+.wordmark small{
+  display:block;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:600;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--ink-soft);margin-top:3px;
+}
+.topbar-spacer{flex:1}
+.seg{display:flex;background:var(--sand-deep);border:1px solid var(--line);border-radius:var(--r-pill);padding:3px}
+.seg button{
+  padding:6px 16px;border-radius:var(--r-pill);font-size:13px;font-weight:600;
+  color:var(--ink-soft);transition:background var(--t-base) var(--snap),color var(--t-base) var(--snap);
+}
+.seg button.on{background:var(--clay);color:var(--sand)}
+.seg.ghost button.on{background:var(--card);color:var(--ink);box-shadow:var(--e1)}
+
+/* ── hero ──────────────────────────────────────────────────── */
+.hero{background:var(--sand);border-bottom:1px solid var(--line)}
+.hero-in{max-width:1340px;margin:0 auto;padding:56px 26px 46px}
+.eyebrow{
+  font-family:var(--en);direction:ltr;font-size:10.5px;font-weight:700;
+  letter-spacing:.17em;text-transform:uppercase;color:var(--ink-soft);
+}
+.eyebrow i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--clay);margin-inline-end:8px;vertical-align:1px}
+h1{font-size:clamp(30px,4.4vw,50px);font-weight:700;letter-spacing:-.035em;line-height:1.16;margin-top:14px;max-width:20ch}
+.hero-en{font-family:var(--en);direction:ltr;font-size:18px;font-weight:600;color:var(--ink-soft);margin-top:12px;letter-spacing:-.01em}
+.hero-lead{font-size:16.5px;color:var(--ink-soft);max-width:56ch;margin-top:20px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.meta-chip{
+  font-family:var(--en);direction:ltr;font-size:11px;font-weight:600;letter-spacing:.03em;
+  border:1px solid var(--line);background:var(--card);border-radius:var(--r-pill);padding:5px 13px;color:var(--ink-soft);
+}
+
+/* ── stage: phone + spec ───────────────────────────────────── */
+.stage{max-width:1340px;margin:0 auto;padding:44px 26px 90px;display:grid;grid-template-columns:392px 1fr;gap:52px;align-items:start}
+@media(max-width:1080px){.stage{grid-template-columns:1fr;gap:36px}}
+
+.rail{position:sticky;top:82px}
+@media(max-width:1080px){.rail{position:static}}
+.rail-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.rail-title{font-size:13px;font-weight:700;letter-spacing:-.01em}
+.rail-title span{display:block;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-top:2px}
+
+/* ── phone shell ───────────────────────────────────────────── */
+.phone{
+  width:392px;height:800px;background:var(--ink);border-radius:44px;padding:11px;
+  box-shadow:var(--e3);position:relative;margin-inline:auto;
+}
+@media(max-width:430px){.phone{width:100%;height:740px;border-radius:34px;padding:8px}}
+.screen{
+  width:100%;height:100%;background:var(--sand);border-radius:34px;overflow:hidden;
+  position:relative;display:flex;flex-direction:column;
+}
+.notch{
+  position:absolute;top:11px;inset-inline:0;margin-inline:auto;width:112px;height:26px;
+  background:var(--ink);border-radius:0 0 16px 16px;z-index:40;
+}
+.statusbar{
+  flex:none;height:44px;display:flex;align-items:flex-end;justify-content:space-between;
+  padding:0 22px 5px;font-family:var(--en);direction:ltr;font-size:11.5px;font-weight:600;color:var(--ink);
+}
+.statusbar .sig{display:flex;gap:3px;align-items:flex-end}
+.statusbar .sig i{width:3px;background:var(--ink);border-radius:1px;display:block}
+.statusbar .sig i:nth-child(1){height:4px}.statusbar .sig i:nth-child(2){height:6px}
+.statusbar .sig i:nth-child(3){height:8px}.statusbar .sig i:nth-child(4){height:10px}
+.batt{width:22px;height:11px;border:1.4px solid var(--ink);border-radius:3px;position:relative}
+.batt::after{content:'';position:absolute;inset:1.5px;inset-inline-end:6px;background:var(--ink);border-radius:1px}
+
+/* app bar */
+.appbar{
+  flex:none;display:flex;align-items:center;gap:10px;padding:6px 18px 12px;
+  border-bottom:1px solid var(--hair);background:var(--sand);
+}
+.appbar .back{width:32px;height:32px;border-radius:var(--r-sm);display:grid;place-items:center;flex:none}
+.appbar .back:active{background:var(--clay-08)}
+.appbar .back svg{width:19px;height:19px;stroke:var(--ink);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+[dir="rtl"] .appbar .back svg{transform:scaleX(-1)}
+.appbar h3{font-size:16px;font-weight:700;letter-spacing:-.02em;flex:1;line-height:1.3}
+.appbar h3 span{display:block;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+.appbar .act{width:32px;height:32px;border-radius:var(--r-sm);display:grid;place-items:center;flex:none;position:relative}
+.appbar .act svg{width:19px;height:19px;stroke:var(--ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.badge{
+  position:absolute;top:-1px;inset-inline-end:-1px;min-width:16px;height:16px;padding:0 4px;
+  background:var(--clay);color:var(--sand);border-radius:var(--r-pill);
+  font-family:var(--en);font-size:9.5px;font-weight:700;display:grid;place-items:center;
+}
+
+/* view area */
+.views{flex:1;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
+.views::-webkit-scrollbar{display:none}
+.view{display:none;padding:16px 18px 26px;animation:enter 180ms var(--brake) both}
+.view.on{display:block}
+@keyframes enter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* tab bar */
+.tabbar{
+  flex:none;display:grid;border-top:1px solid var(--line);background:var(--card);
+  padding:7px 6px 12px;
+}
+.tabbar button{
+  display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 0;
+  font-size:10px;font-weight:600;color:var(--ink-faint);border-radius:var(--r-sm);
+  transition:color var(--t-fast) var(--snap);
+}
+.tabbar button svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tabbar button.on{color:var(--clay)}
+
+/* ── in-app components ─────────────────────────────────────── */
+.searchbar{
+  display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:10px 13px;margin-bottom:14px;
+}
+.searchbar svg{width:17px;height:17px;stroke:var(--ink-faint);fill:none;stroke-width:2;flex:none}
+.searchbar input{flex:1;border:0;background:none;font:inherit;font-size:13.5px;color:var(--ink);outline:none}
+.searchbar input::placeholder{color:var(--ink-faint)}
+
+.chiprow{display:flex;gap:7px;overflow-x:auto;padding-bottom:12px;margin-bottom:4px;scrollbar-width:none}
+.chiprow::-webkit-scrollbar{display:none}
+.chip{
+  flex:none;display:flex;align-items:center;gap:6px;padding:7px 13px;border-radius:var(--r-pill);
+  border:1px solid var(--line);background:var(--card);font-size:12.5px;font-weight:600;color:var(--ink-soft);
+  white-space:nowrap;transition:background var(--t-base) var(--snap),color var(--t-base) var(--snap),border-color var(--t-base) var(--snap);
+}
+.chip svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.chip.on{background:var(--clay);border-color:var(--clay);color:var(--sand)}
+
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.pcard{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
+  overflow:hidden;text-align:start;transition:transform var(--t-fast) var(--brake);
+}
+.pcard:active{transform:scale(.977)}
+.pmedia{
+  aspect-ratio:1/1;background:var(--sand-deep);display:grid;place-items:center;position:relative;
+  border-bottom:1px solid var(--hair);
+}
+.pmedia svg{width:46px;height:46px;stroke:var(--clay);fill:none;stroke-width:1.15;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.pmedia .ph{
+  position:absolute;bottom:6px;inset-inline-start:6px;font-family:var(--en);direction:ltr;
+  font-size:8px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);
+}
+.pbody{padding:10px 11px 12px}
+.pcat{font-family:var(--en);direction:ltr;font-size:8.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint)}
+.ptitle{font-size:13px;font-weight:600;line-height:1.42;margin-top:3px;min-height:2.84em}
+.pprice{font-size:15px;font-weight:700;letter-spacing:-.02em;margin-top:7px}
+.pprice small{font-size:10.5px;font-weight:500;color:var(--ink-soft);margin-inline-start:3px}
+
+/* status pills — clay ladder, never green */
+.pill{
+  display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;
+  border-radius:var(--r-pill);padding:2px 9px;line-height:1.7;white-space:nowrap;
+}
+.pill::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;flex:none}
+.pill.live{background:var(--clay);color:var(--sand)}
+.pill.review{background:var(--clay-tint);color:var(--clay-deep)}
+.pill.draft{background:var(--sand-deep);color:var(--ink-soft)}
+.pill.out{background:transparent;color:var(--ink-faint);border:1px dashed var(--line)}
+.pill.settled{background:var(--palm-tint);color:var(--palm)}
+
+/* PDP */
+.hero-media{
+  aspect-ratio:4/3;background:var(--sand-deep);border:1px solid var(--line);border-radius:var(--r-md);
+  display:grid;place-items:center;position:relative;margin-bottom:14px;
+}
+.hero-media svg{width:96px;height:96px;stroke:var(--clay);fill:none;stroke-width:.95;stroke-linecap:round;stroke-linejoin:round}
+.dots{position:absolute;bottom:11px;inset-inline:0;display:flex;justify-content:center;gap:5px}
+.dots i{width:5px;height:5px;border-radius:50%;background:var(--clay-30)}
+.dots i.on{background:var(--clay);width:15px;border-radius:var(--r-pill)}
+.pdp-cat{font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+.pdp-title{font-size:20px;font-weight:700;letter-spacing:-.025em;line-height:1.34;margin-top:5px}
+.pdp-en{font-family:var(--en);direction:ltr;font-size:12.5px;font-weight:500;color:var(--ink-soft);margin-top:3px}
+.priceblock{display:flex;align-items:baseline;gap:8px;margin-top:14px;flex-wrap:wrap}
+.priceblock .amt{font-size:27px;font-weight:700;letter-spacing:-.03em}
+.priceblock .cur{font-size:13px;font-weight:600;color:var(--ink-soft)}
+.rowline{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-top:1px solid var(--hair)}
+.rowline .k{font-size:12.5px;color:var(--ink-soft)}
+.rowline .v{font-size:12.5px;font-weight:600}
+.section-lbl{
+  font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-faint);margin:18px 0 9px;
+}
+.axis{display:flex;gap:7px;flex-wrap:wrap}
+.axis button{
+  border:1px solid var(--line);background:var(--card);border-radius:var(--r-sm);
+  padding:8px 14px;font-size:12.5px;font-weight:600;color:var(--ink-soft);
+  transition:border-color var(--t-base) var(--snap),color var(--t-base) var(--snap),background var(--t-base) var(--snap);
+}
+.axis button.on{border-color:var(--clay);background:var(--clay-08);color:var(--clay-deep)}
+.axis button:disabled{opacity:.42;text-decoration:line-through;cursor:not-allowed}
+
+.stickybar{
+  flex:none;display:flex;gap:10px;align-items:center;padding:11px 18px calc(11px + env(safe-area-inset-bottom));
+  border-top:1px solid var(--line);background:var(--card);
+}
+.btn{
+  border-radius:var(--r-sm);padding:12px 18px;font-size:14px;font-weight:600;
+  border:1px solid var(--line);background:var(--card);color:var(--ink);
+  transition:background var(--t-base) var(--snap),border-color var(--t-base) var(--snap),transform var(--t-fast);
+}
+.btn:active{transform:scale(.975)}
+.btn.solid{background:var(--clay);border-color:var(--clay);color:var(--sand)}
+.btn.solid:active{background:var(--clay-deep)}
+.btn.wide{flex:1;text-align:center}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* cart / stepper */
+.line{display:flex;gap:11px;align-items:center;padding:12px 0;border-bottom:1px solid var(--hair)}
+.line .thumb{width:52px;height:52px;border-radius:var(--r-sm);background:var(--sand-deep);display:grid;place-items:center;flex:none;border:1px solid var(--hair)}
+.line .thumb svg{width:26px;height:26px;stroke:var(--clay);fill:none;stroke-width:1.3}
+.line .info{flex:1;min-width:0}
+.line .info b{display:block;font-size:13px;font-weight:600;line-height:1.4}
+.line .info small{font-family:var(--en);direction:ltr;font-size:10.5px;color:var(--ink-faint);letter-spacing:.05em}
+.stepper{display:flex;align-items:center;gap:2px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--card);flex:none}
+.stepper button{width:28px;height:28px;display:grid;place-items:center;font-size:15px;font-weight:600;color:var(--clay)}
+.stepper button:active{background:var(--clay-08)}
+.stepper span{min-width:24px;text-align:center;font-family:var(--en);font-size:13px;font-weight:600}
+.totalrow{display:flex;justify-content:space-between;align-items:baseline;padding-top:14px;margin-top:4px}
+.totalrow .k{font-size:13.5px;color:var(--ink-soft)}
+.totalrow .v{font-size:22px;font-weight:700;letter-spacing:-.03em}
+
+/* merchant */
+.statstrip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:11px 12px}
+.stat b{display:block;font-family:var(--en);font-size:20px;font-weight:700;letter-spacing:-.03em;line-height:1.2}
+.stat span{font-size:10.5px;color:var(--ink-soft);font-weight:600}
+.mrow{
+  display:flex;gap:11px;align-items:center;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:11px;margin-bottom:8px;text-align:start;width:100%;
+  transition:border-color var(--t-base) var(--snap),transform var(--t-fast);
+}
+.mrow:active{transform:scale(.985);border-color:var(--clay-30)}
+.mrow .thumb{width:46px;height:46px;border-radius:var(--r-sm);background:var(--sand-deep);display:grid;place-items:center;flex:none}
+.mrow .thumb svg{width:24px;height:24px;stroke:var(--clay);fill:none;stroke-width:1.3}
+.mrow .info{flex:1;min-width:0}
+.mrow .info b{display:block;font-size:13px;font-weight:600;line-height:1.4}
+.mrow .info small{font-family:var(--en);direction:ltr;font-size:10px;color:var(--ink-faint);letter-spacing:.06em}
+.mrow .end{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none}
+.mrow .qty{font-family:var(--en);font-size:11px;font-weight:600;color:var(--ink-soft)}
+
+.steps{display:flex;gap:5px;margin-bottom:18px}
+.steps i{flex:1;height:3px;border-radius:2px;background:var(--line);transition:background var(--t-base) var(--snap)}
+.steps i.done{background:var(--clay)}
+.stepmeta{font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
+
+.field{margin-bottom:13px}
+.field label{display:block;font-size:11.5px;font-weight:600;color:var(--ink-soft);margin-bottom:5px}
+.field label em{font-family:var(--en);direction:ltr;font-style:normal;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-inline-start:5px}
+.field input,.field select,.field textarea{
+  width:100%;font:inherit;font-size:13.5px;color:var(--ink);background:var(--card);
+  border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;outline:none;
+  transition:border-color var(--t-fast) var(--snap),box-shadow var(--t-fast) var(--snap);
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--clay);box-shadow:0 0 0 3px var(--clay-08)}
+.field .hint{font-size:10.5px;color:var(--ink-faint);margin-top:4px;line-height:1.55}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.slot{
+  aspect-ratio:1/1;border:1.5px dashed var(--line);border-radius:var(--r-sm);background:var(--card);
+  display:grid;place-items:center;position:relative;transition:border-color var(--t-base) var(--snap),background var(--t-base) var(--snap);
+}
+.slot:active{border-color:var(--clay);background:var(--clay-08)}
+.slot svg{width:19px;height:19px;stroke:var(--ink-faint);fill:none;stroke-width:1.7;stroke-linecap:round}
+.slot.filled{border-style:solid;border-color:var(--line);background:var(--sand-deep)}
+.slot.filled svg{stroke:var(--clay);stroke-width:1.2;width:24px;height:24px}
+.slot em{
+  position:absolute;bottom:3px;inset-inline:0;text-align:center;font-family:var(--en);direction:ltr;
+  font-style:normal;font-size:7.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);
+}
+
+.vmatrix{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--card)}
+.vrow{display:flex;align-items:center;gap:10px;padding:10px 12px}
+.vrow+.vrow{border-top:1px solid var(--hair)}
+.vrow .vk{flex:1;min-width:0}
+.vrow .vk b{display:block;font-size:12.5px;font-weight:600}
+.vrow .vk small{font-family:var(--en);direction:ltr;font-size:9.5px;color:var(--ink-faint);letter-spacing:.06em}
+
+.check{display:flex;gap:10px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--hair)}
+.check .ico{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;flex:none;margin-top:1px}
+.check .ico svg{width:11px;height:11px;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.check.pass .ico{background:var(--clay-15)}
+.check.pass .ico svg{stroke:var(--clay-deep)}
+.check.fail .ico{background:var(--sand-deep);border:1px solid var(--line)}
+.check.fail .ico svg{stroke:var(--ink-faint)}
+.check .txt b{display:block;font-size:12.5px;font-weight:600;line-height:1.45}
+.check .txt small{font-size:11px;color:var(--ink-soft);line-height:1.55;display:block;margin-top:2px}
+
+.callout{
+  border:1px solid var(--line);border-inline-start:3px solid var(--clay);background:var(--card);
+  border-radius:var(--r-sm);padding:11px 13px;font-size:12px;color:var(--ink-soft);line-height:1.65;margin-top:14px;
+}
+.callout b{color:var(--ink);font-weight:600}
+.callout.settled{border-inline-start-color:var(--palm);background:var(--palm-tint)}
+
+.toast{
+  position:absolute;bottom:88px;inset-inline:0;margin-inline:auto;width:max-content;max-width:80%;
+  background:var(--ink);color:var(--sand);border-radius:var(--r-sm);padding:9px 17px;font-size:12.5px;
+  opacity:0;pointer-events:none;transform:translateY(8px);
+  transition:opacity var(--t-base) var(--brake),transform var(--t-base) var(--brake);z-index:60;
+}
+.toast.show{opacity:1;transform:none}
+
+/* ── spec column ───────────────────────────────────────────── */
+.spec{min-width:0}
+.sec{margin-bottom:56px;scroll-margin-top:92px}
+.sec-head{margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.sec-head h2{font-size:26px;font-weight:700;letter-spacing:-.028em;line-height:1.3}
+.sec-head .sub{font-family:var(--en);direction:ltr;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-top:4px;letter-spacing:-.005em}
+.sec-head p{font-size:14.5px;color:var(--ink-soft);margin-top:11px;max-width:62ch}
+
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
+.sw{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.sw .chip-c{height:56px;border-bottom:1px solid var(--hair)}
+.sw .m{padding:9px 11px 11px}
+.sw .m b{display:block;font-size:12.5px;font-weight:600}
+.sw .m code{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);letter-spacing:.02em}
+.sw .m small{display:block;font-size:10.5px;color:var(--ink-faint);margin-top:4px;line-height:1.5}
+
+.tbl{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.tbl th,.tbl td{text-align:start;padding:10px 13px;font-size:12.5px;border-bottom:1px solid var(--hair);vertical-align:top}
+.tbl th{background:var(--sand);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-family:var(--en);direction:ltr}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td code{font-family:var(--mono);font-size:11px;color:var(--clay-deep);background:var(--clay-08);padding:1px 5px;border-radius:var(--r-xs)}
+.tbl td.desc{color:var(--ink-soft);line-height:1.6}
+.tbl-wrap{overflow-x:auto;border-radius:var(--r-md)}
+
+pre{
+  background:var(--ink);color:#E8DFD2;border-radius:var(--r-md);padding:18px 20px;overflow-x:auto;
+  font-family:var(--mono);font-size:12px;line-height:1.75;direction:ltr;text-align:left;
+}
+pre .c{color:#8B7C6B}
+pre .k{color:#D9A06B}
+pre .s{color:#A8C3A0}
+pre .p{color:#C8B9A6}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:12px}
+.cc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:15px 16px}
+.cc .nm{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--clay-deep)}
+.cc .de{font-size:12.5px;color:var(--ink-soft);margin-top:7px;line-height:1.6}
+.cc .st{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.cc .st em{
+  font-family:var(--en);direction:ltr;font-style:normal;font-size:9.5px;font-weight:600;letter-spacing:.07em;
+  border:1px solid var(--line);border-radius:var(--r-xs);padding:2px 6px;color:var(--ink-faint);
+}
+
+.rules{display:grid;gap:9px}
+.rule{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:13px 15px}
+.rule .n{
+  font-family:var(--en);font-size:11px;font-weight:700;color:var(--clay);background:var(--clay-08);
+  width:24px;height:24px;border-radius:var(--r-xs);display:grid;place-items:center;flex:none;
+}
+.rule .t b{display:block;font-size:13.5px;font-weight:600;line-height:1.45}
+.rule .t p{font-size:12.5px;color:var(--ink-soft);margin-top:4px;line-height:1.65}
+
+footer{background:var(--ink);color:var(--sand-deep);padding:34px 26px 40px}
+.foot-in{max-width:1340px;margin:0 auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:flex-end}
+.foot-in .w{font-size:19px;font-weight:700;letter-spacing:-.03em;color:var(--sand)}
+.foot-in .w small{display:block;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;opacity:.6;margin-top:3px}
+.foot-in p{font-size:12px;opacity:.66;max-width:50ch;line-height:1.75}
+
+/* Reduced motion = gentler, not zero. Opacity and colour stay (they carry
+   state meaning); movement and scale are dropped. */
+@media (prefers-reduced-motion:reduce){
+  .view{animation:fadeOnly 160ms linear both}
+  @keyframes fadeOnly{from{opacity:0}to{opacity:1}}
+  .pcard:active,.btn:active,.mrow:active{transform:none}
+  .toast{transform:none;transition:opacity 160ms linear}
+  .toast.show{transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ TOP BAR ══════════ -->
+<div class="topbar"><div class="topbar-in">
+  <div class="lockup">
+    <div class="plate"><svg viewBox="0 0 40 22">
+      <path d="M3 4h34" stroke="#C8322B"/><path d="M3 11h34" stroke="#FFFFFF"/>
+      <path d="M3 18h34" stroke="#2E241B"/><path d="M2 3l8 8-8 8" stroke="#2F6B4F"/>
+    </svg></div>
+    <div class="wordmark">السوق<small>alSooq · Catalog SDK</small></div>
+  </div>
+  <div class="topbar-spacer"></div>
+  <div class="seg ghost" role="tablist">
+    <button class="on" onclick="setLang('ar',this)">عربي</button>
+    <button onclick="setLang('en',this)">EN</button>
+  </div>
+</div></div>
+
+<!-- ══════════ HERO ══════════ -->
+<div class="hero"><div class="hero-in">
+  <div class="eyebrow"><i></i>alSooq Design System · Catalog SDK v1.0</div>
+  <h1>
+    <span class="ar-only">كتالوج واحد. واجهتان.</span>
+    <span class="en-only">One catalog. Two surfaces.</span>
+  </h1>
+  <div class="hero-en">The product layer shared by the merchant workspace and the public storefront</div>
+  <p class="hero-lead">
+    <span class="ar-only">حزمة تطوير الكتالوج هي الطبقة التي يكتب فيها التاجر المنتج مرة واحدة، فيظهر للزبون فوراً بنفس البنية والرموز والحالات. الواجهتان تقرآن من نفس المخطط — لا نسخ، لا ازدواج، لا انحراف.</span>
+    <span class="en-only">The Catalog SDK is the layer where a merchant writes a product once and the customer sees it immediately — same schema, same tokens, same states. Both surfaces read one contract. No copies, no drift.</span>
+  </p>
+  <div class="hero-meta">
+    <span class="meta-chip">RTL-first</span>
+    <span class="meta-chip">AR / EN parity</span>
+    <span class="meta-chip">4px scale</span>
+    <span class="meta-chip">One accent · clay</span>
+    <span class="meta-chip">Live in &lt; 7 days</span>
+  </div>
+</div></div>
+
+<!-- ══════════ STAGE ══════════ -->
+<div class="stage">
+
+  <!-- ─── PHONE RAIL ─── -->
+  <div class="rail">
+    <div class="rail-head">
+      <div class="rail-title">
+        <span class="ar-only">النموذج التفاعلي</span><span class="en-only">Live prototype</span>
+        <span>Tap through — real state</span>
+      </div>
+      <div class="seg">
+        <button class="on" onclick="setSide('c',this)">زبون</button>
+        <button onclick="setSide('m',this)">تاجر</button>
+      </div>
+    </div>
+
+    <div class="phone"><div class="screen">
+      <div class="notch"></div>
+      <div class="statusbar">
+        <span id="clock">9:41</span>
+        <span style="display:flex;gap:6px;align-items:center">
+          <span class="sig"><i></i><i></i><i></i><i></i></span>
+          <span class="batt"></span>
+        </span>
+      </div>
+
+      <div class="appbar">
+        <button class="back" id="abBack" onclick="back()" style="display:none">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <h3 id="abTitle">السوق<span id="abSub">Marketplace</span></h3>
+        <button class="act" id="abAct" onclick="go('c-cart')">
+          <svg viewBox="0 0 24 24"><path d="M6 6h15l-1.6 9H7.5L6 3H3"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>
+          <span class="badge" id="abBadge">0</span>
+        </button>
+      </div>
+
+      <div class="views" id="views">
+
+        <!-- ══ CUSTOMER · BROWSE ══ -->
+        <div class="view on" id="v-c-browse">
+          <div class="searchbar">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+            <input placeholder="ابحث عن منتج أو تاجر…" oninput="search(this.value)">
+          </div>
+          <div class="chiprow" id="chips"></div>
+          <div class="pgrid" id="grid"></div>
+        </div>
+
+        <!-- ══ CUSTOMER · PDP ══ -->
+        <div class="view" id="v-c-pdp">
+          <div class="hero-media"><svg viewBox="0 0 24 24" id="pdpIcon"></svg>
+            <div class="dots"><i class="on"></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="pdp-cat" id="pdpCat"></div>
+          <div class="pdp-title" id="pdpTitle"></div>
+          <div class="pdp-en" id="pdpEn"></div>
+          <div class="priceblock">
+            <span class="amt num" id="pdpPrice"></span>
+            <span class="cur">ج.س · SDG</span>
+            <span class="pill live" id="pdpStock">متوفر</span>
+          </div>
+
+          <div class="section-lbl">Variant · المقاس</div>
+          <div class="axis" id="pdpAxis"></div>
+
+          <div class="section-lbl">Fulfilment · التسليم</div>
+          <div class="rowline"><span class="k">الشحن</span><span class="v">سودا إكسبرس</span></div>
+          <div class="rowline"><span class="k">مدة التجهيز</span><span class="v num">2–4 <span style="font-family:var(--ar)">أيام</span></span></div>
+          <div class="rowline"><span class="k">رمز التغليف</span><span class="v mono" id="pdpPack"></span></div>
+          <div class="rowline"><span class="k">التاجر</span><span class="v">ورشة النيل التجارية</span></div>
+
+          <div class="callout">
+            <b>ملاحظة SDK:</b> رمز التغليف يُشتق من الحجم الحقيقي لا من الاسم التجاري — يمنع خطأ الفرز عند المستودع.
+          </div>
+        </div>
+
+        <!-- ══ CUSTOMER · CART ══ -->
+        <div class="view" id="v-c-cart">
+          <div id="cartBody"></div>
+        </div>
+
+        <!-- ══ MERCHANT · CATALOG ══ -->
+        <div class="view" id="v-m-list">
+          <div class="statstrip">
+            <div class="stat"><b>12</b><span>منشور</span></div>
+            <div class="stat"><b>3</b><span>مسودة</span></div>
+            <div class="stat"><b>2</b><span>نفد</span></div>
+          </div>
+          <div class="stepmeta">Catalog · 17 SKUs</div>
+          <div id="mList"></div>
+          <button class="btn solid" style="width:100%;margin-top:14px" onclick="go('m-add')">＋ إضافة منتج جديد</button>
+        </div>
+
+        <!-- ══ MERCHANT · ADD (step 1) ══ -->
+        <div class="view" id="v-m-add">
+          <div class="steps"><i class="done"></i><i></i><i></i><i></i></div>
+          <div class="stepmeta">Step 1 of 4 · الأساسيات</div>
+          <div class="field">
+            <label>اسم المنتج <em>Arabic — required</em></label>
+            <input value="لوح شمسي ٥٥٠ واط">
+          </div>
+          <div class="field">
+            <label>اسم المنتج <em>English — required</em></label>
+            <input value="Solar panel 550W" dir="ltr" style="text-align:left">
+            <div class="hint">الحقلان إلزاميان. الكتالوج ثنائي اللغة على مستوى المخطط لا على مستوى الترجمة الآلية.</div>
+          </div>
+          <div class="field">
+            <label>الفئة <em>Category</em></label>
+            <select><option>☀ طاقة شمسية — solar</option><option>🏗 مواد بناء — building</option></select>
+          </div>
+          <div class="duo">
+            <div class="field"><label>السعر <em>SDG</em></label><input value="120000" dir="ltr" style="text-align:left"></div>
+            <div class="field"><label>رمز التغليف <em>Pack</em></label><input value="A1" dir="ltr" style="text-align:left"></div>
+          </div>
+          <div class="section-lbl">Media · 4 slots</div>
+          <div class="slots">
+            <div class="slot filled"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="12" rx="1"/><path d="M4 10h16M10 4v12M12 16v4M8 20h8"/></svg><em>hero</em></div>
+            <div class="slot filled"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="12" rx="1"/><path d="M4 10h16"/></svg><em>angle</em></div>
+            <div class="slot"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><em>scale</em></div>
+            <div class="slot"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><em>detail</em></div>
+          </div>
+          <div class="callout">
+            <b>لماذا أربع خانات؟</b> الخانة «scale» مرجع حجم إجباري قبل النشر — أكبر سبب لمرتجعات المنتجات في السوق هو سوء تقدير الحجم.
+          </div>
+          <button class="btn solid" style="width:100%;margin-top:16px" onclick="go('m-var')">التالي — المتغيرات ←</button>
+        </div>
+
+        <!-- ══ MERCHANT · VARIANTS ══ -->
+        <div class="view" id="v-m-var">
+          <div class="steps"><i class="done"></i><i class="done"></i><i class="done"></i><i></i></div>
+          <div class="stepmeta">Step 3 of 4 · المتغيرات والمخزون</div>
+          <div class="vmatrix" id="vMatrix"></div>
+          <div class="callout">
+            <b>قاعدة SDK:</b> كل متغير له SKU مستقل ورصيد مستقل. لا يوجد «مخزون عام» — نفاد مقاس واحد لا يُخفي المنتج كاملاً.
+          </div>
+          <button class="btn solid" style="width:100%;margin-top:16px" onclick="go('m-pub')">التالي — فحص النشر ←</button>
+        </div>
+
+        <!-- ══ MERCHANT · PUBLISH ══ -->
+        <div class="view" id="v-m-pub">
+          <div class="steps"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i></div>
+          <div class="stepmeta">Step 4 of 4 · جاهزية النشر</div>
+          <div id="checks"></div>
+          <div class="callout settled" style="margin-top:16px">
+            <b>الأخضر محجوز.</b> في هذه الحزمة كلها، اللون الأخضر يظهر في مكان واحد فقط: حالة «تمت التسوية». لا يُستخدم للنجاح العام ولا لحالة النشر.
+            <div style="margin-top:8px"><span class="pill settled">تمت التسوية</span></div>
+          </div>
+          <button class="btn solid" style="width:100%;margin-top:16px" id="pubBtn" onclick="publish()">نشر المنتج</button>
+        </div>
+
+      </div>
+
+      <div class="toast" id="toast"></div>
+      <div class="tabbar" id="tabbar"></div>
+    </div></div>
+  </div>
+
+  <!-- ─── SPEC COLUMN ─── -->
+  <div class="spec">
+
+    <!-- 1 · PRINCIPLES -->
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">المبادئ الحاكمة</span><span class="en-only">Governing principles</span></h2>
+        <div class="sub">Five rules the SDK enforces at the schema level, not by convention</div>
+      </div>
+      <div class="rules">
+        <div class="rule"><div class="n">01</div><div class="t">
+          <b>الكتالوج عام، غرفة العمل خاصة</b>
+          <p>واجهة الزبون تقرأ بدون حساب. واجهة التاجر تتطلب مصادقة. نفس البيانات، صلاحيتان — يُفرض عند نقطة النهاية لا في الواجهة.</p>
+        </div></div>
+        <div class="rule"><div class="n">02</div><div class="t">
+          <b>ثنائية اللغة في المخطط لا في الترجمة</b>
+          <p>كل حقل نصي هو كائن <span class="mono">{ar, en}</span>. المنتج بلا اسم إنجليزي لا يُنشر. لا اعتماد على ترجمة وقت العرض.</p>
+        </div></div>
+        <div class="rule"><div class="n">03</div><div class="t">
+          <b>المتغير هو وحدة المخزون</b>
+          <p>الرصيد يُمسك على مستوى المتغير لا المنتج. نفاد مقاس لا يُسقط المنتج من العرض، ويظهر مشطوباً في محدد المقاس.</p>
+        </div></div>
+        <div class="rule"><div class="n">04</div><div class="t">
+          <b>الحالة سلّم طيني لا إشارة مرور</b>
+          <p>مسودة ← مراجعة ← منشور تُقرأ بتدرجات لون واحد. الأخضر محجوز للتسوية المالية فقط، والأحمر لا يُستخدم كحالة كتالوج.</p>
+        </div></div>
+        <div class="rule"><div class="n">05</div><div class="t">
+          <b>النشر مشروط لا اختياري</b>
+          <p><span class="mono">publish()</span> ترجع قائمة موانع. زر النشر يُعطَّل حتى تُستوفى — الجودة تُفرض قبل الظهور لا بعد الشكوى.</p>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- 2 · TOKENS -->
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">طبقة الرموز</span><span class="en-only">Token layer</span></h2>
+        <div class="sub">Canon palette — sand / clay / palm. One accent, everything else neutral.</div>
+        <p><span class="ar-only">الطين هو لون التمييز الوحيد. النخيل محجوز لحالة واحدة. الذهبي لهوية مواصلات وحدها. ألوان العَلَم محصورة في التغليف ولا تدخل الواجهة.</span><span class="en-only">Clay is the only accent. Palm is reserved for one state. Gold belongs to Mwasalati identity alone. Flag colours stay quarantined to packaging and never enter the UI.</span></p>
+      </div>
+      <div class="swatches">
+        <div class="sw"><div class="chip-c" style="background:#F6F1E7"></div><div class="m"><b>sand</b><code>#F6F1E7</code><small>خلفية التطبيق</small></div></div>
+        <div class="sw"><div class="chip-c" style="background:#EDE4D3"></div><div class="m"><b>sand-deep</b><code>#EDE4D3</code><small>خانات الوسائط</small></div></div>
+        <div class="sw"><div class="chip-c" style="background:#FFFFFF;border-bottom:1px solid #DCCFBB"></div><div class="m"><b>card</b><code>#FFFFFF</code><small>البطاقات والحقول</small></div></div>
+        <div class="sw"><div class="chip-c" style="background:#8A4B2A"></div><div class="m"><b>clay · accent</b><code>#8A4B2A</code><small>الإجراء الأساسي، الحالة المنشورة</small></div></div>
+        <div class="sw"><div class="chip-c" style="background:#F3E4DA"></div><div class="m"><b>clay-tint</b><code>#F3E4DA</code><small>قيد المراجعة</small></div></div>
+        <div class="sw"><div class="chip-c" style="background:#2F6B4F"></div><div class="m"><b>palm · reserved</b><code>#2F6B4F</code><small>تمت التسوية — لا غير</small></div></div>
+        <div class="sw"><div class="chip-c" style="background:#2E241B"></div><div class="m"><b>ink</b><code>#2E241B</code><small>النص الأساسي</small></div></div>
+        <div class="sw"><div class="chip-c" style="background:#DCCFBB"></div><div class="m"><b>line</b><code>#DCCFBB</code><small>الحدود والفواصل</small></div></div>
+      </div>
+
+      <div class="tbl-wrap" style="margin-top:16px">
+        <table class="tbl">
+          <tr><th>Scale</th><th>Value</th><th>Applied to</th></tr>
+          <tr><td><code>space</code></td><td>4 · 8 · 12 · 16 · 24 · 32</td><td class="desc">كل الحشوات والفجوات مضاعفات ٤. لا قيم شاردة.</td></tr>
+          <tr><td><code>radius</code></td><td>6 · 8 · 12 · 16 · 999</td><td class="desc">١٢ للبطاقات، ٨ للحقول والأزرار، 999 للرقائق.</td></tr>
+          <tr><td><code>type</code></td><td>10.5 · 12.5 · 13.5 · 16 · 20 · 27</td><td class="desc">IBM Plex Sans Arabic + IBM Plex Sans. عائلتان لا أكثر.</td></tr>
+          <tr><td><code>motion</code></td><td>150 · 250 · 400ms</td><td class="desc">منحنى تباطؤ فقط. لا ارتداد على أي عنصر يقرأ ثقيلاً أو مالياً.</td></tr>
+          <tr><td><code>elevation</code></td><td>e1 · e2 · e3</td><td class="desc">e1 للبطاقات، e2 للأوراق المنبثقة، e3 لإطار الجهاز.</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3 · DATA MODEL -->
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">مخطط البيانات</span><span class="en-only">Data model</span></h2>
+        <div class="sub">The single contract both surfaces read from</div>
+      </div>
+      <pre><span class="c">// Product — the atom. Written once by the merchant, read by everyone.</span>
+{
+  <span class="k">"id"</span>: <span class="s">"prd_9f2c"</span>,
+  <span class="k">"merchant_id"</span>: <span class="s">"mch_nile_012"</span>,
+  <span class="k">"status"</span>: <span class="s">"draft" | "review" | "live" | "paused"</span>,
+
+  <span class="k">"title"</span>:       { <span class="k">"ar"</span>: <span class="s">"لوح شمسي ٥٥٠ واط"</span>, <span class="k">"en"</span>: <span class="s">"Solar panel 550W"</span> },
+  <span class="k">"description"</span>: { <span class="k">"ar"</span>: <span class="s">"…"</span>,  <span class="k">"en"</span>: <span class="s">"…"</span> },
+  <span class="k">"category_id"</span>: <span class="s">"solar"</span>,
+
+  <span class="c">// 4 fixed roles. "scale" is required before publish.</span>
+  <span class="k">"media"</span>: [
+    { <span class="k">"role"</span>: <span class="s">"hero"</span>,  <span class="k">"uri"</span>: <span class="s">"…"</span>, <span class="k">"alt"</span>: { <span class="k">"ar"</span>: <span class="s">"…"</span>, <span class="k">"en"</span>: <span class="s">"…"</span> } },
+    { <span class="k">"role"</span>: <span class="s">"angle"</span> }, { <span class="k">"role"</span>: <span class="s">"scale"</span> }, { <span class="k">"role"</span>: <span class="s">"detail"</span> }
+  ],
+
+  <span class="k">"price"</span>: { <span class="k">"amount"</span>: <span class="p">120000</span>, <span class="k">"currency"</span>: <span class="s">"SDG"</span>, <span class="k">"vat_inclusive"</span>: <span class="p">true</span> },
+
+  <span class="c">// Stock lives here — never on the product.</span>
+  <span class="k">"variants"</span>: [
+    { <span class="k">"sku"</span>: <span class="s">"SD-SOL-550-M"</span>, <span class="k">"axis"</span>: { <span class="k">"size"</span>: <span class="s">"550W"</span> },
+      <span class="k">"price_delta"</span>: <span class="p">0</span>, <span class="k">"stock"</span>: <span class="p">12</span> }
+  ],
+
+  <span class="k">"fulfilment"</span>: {
+    <span class="k">"mode"</span>: <span class="s">"sudaexpress" | "pickup" | "merchant"</span>,
+    <span class="k">"lead_time_days"</span>: [<span class="p">2</span>, <span class="p">4</span>],
+    <span class="k">"pack_code"</span>: <span class="s">"A1"</span>   <span class="c">// true volume, not label size</span>
+  },
+
+  <span class="k">"audit"</span>: { <span class="k">"created_at"</span>, <span class="k">"published_at"</span>, <span class="k">"updated_by"</span> }
+}</pre>
+
+      <div class="tbl-wrap" style="margin-top:16px">
+        <table class="tbl">
+          <tr><th>Entity</th><th>Key</th><th>Owns</th><th>Notes</th></tr>
+          <tr><td><code>Category</code></td><td><code>slug</code></td><td class="desc">التصنيف والأيقونة</td><td class="desc">ست فئات ثابتة. الشبكة متعددة الألوان تعيش هنا فقط — طبقة تصنيف لا طبقة هوية.</td></tr>
+          <tr><td><code>Product</code></td><td><code>id</code></td><td class="desc">العنوان، الوسائط، الفئة</td><td class="desc">لا يملك رصيداً ولا SKU.</td></tr>
+          <tr><td><code>Variant</code></td><td><code>sku</code></td><td class="desc">الرصيد، فرق السعر</td><td class="desc">وحدة الشراء الحقيقية. السلة تحمل SKU لا id.</td></tr>
+          <tr><td><code>Media</code></td><td><code>role</code></td><td class="desc">الصورة، النص البديل</td><td class="desc">أربعة أدوار ثابتة تمنع معارض عشوائية.</td></tr>
+          <tr><td><code>Inventory</code></td><td><code>sku</code></td><td class="desc">الحركات والأسباب</td><td class="desc">تعديل بسبب مسجّل، لا كتابة مباشرة على الرصيد.</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4 · API -->
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">واجهة الحزمة</span><span class="en-only">SDK surface</span></h2>
+        <div class="sub">Public reads need no auth. Writes are merchant-scoped.</div>
+      </div>
+      <pre><span class="k">import</span> { AlSooqCatalog } <span class="k">from</span> <span class="s">'@alsooq/catalog-sdk'</span>
+
+<span class="k">const</span> sooq = AlSooqCatalog.<span class="p">init</span>({
+  locale: <span class="s">'ar'</span>, dir: <span class="s">'rtl'</span>, currency: <span class="s">'SDG'</span>, theme: <span class="s">'canon'</span>
+})
+
+<span class="c">/* ── Customer surface · public, no account ──────────── */</span>
+sooq.categories.<span class="p">list</span>()
+sooq.products.<span class="p">list</span>({ category, cursor, limit: <span class="p">24</span> })
+sooq.products.<span class="p">get</span>(id)
+sooq.products.<span class="p">search</span>(q, { category, inStock: <span class="p">true</span> })
+sooq.cart.<span class="p">add</span>(sku, qty)        <span class="c">// SKU, never product id</span>
+sooq.cart.<span class="p">lines</span>()
+
+<span class="c">/* ── Merchant surface · auth required ───────────────── */</span>
+sooq.merchant.drafts.<span class="p">create</span>(payload)
+sooq.merchant.drafts.<span class="p">update</span>(id, patch)
+sooq.merchant.media.<span class="p">upload</span>(file, { role: <span class="s">'scale'</span> })
+sooq.merchant.variants.<span class="p">set</span>(id, matrix)
+sooq.merchant.inventory.<span class="p">adjust</span>(sku, delta, { reason })
+sooq.merchant.<span class="p">publish</span>(id)
+  <span class="c">// → { ok: false, blockers: ['media.scale', 'title.en'] }</span>
+
+<span class="c">/* ── UI kit · both surfaces, same tokens ────────────── */</span>
+<span class="k">import</span> { ProductCard, PriceBlock, VariantAxis,
+         StatusPill, MediaSlots, PublishGate } <span class="k">from</span> <span class="s">'@alsooq/catalog-ui'</span></pre>
+    </section>
+
+    <!-- 5 · COMPONENTS -->
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">مكتبة المكوّنات</span><span class="en-only">Component library</span></h2>
+        <div class="sub">Twelve primitives. Everything on the prototype is built from these.</div>
+      </div>
+      <div class="cards">
+        <div class="cc"><div class="nm">&lt;ProductCard /&gt;</div><div class="de">بطاقة المنتج — وسائط ١:١، فئة، عنوان سطران، سعر. الارتفاع ثابت لمنع تكسّر الشبكة.</div><div class="st"><em>grid</em><em>list</em><em>compact</em></div></div>
+        <div class="cc"><div class="nm">&lt;PriceBlock /&gt;</div><div class="de">المبلغ بخط العرض، العملة بخط النص، الحالة كرقاقة. الأرقام جدولية دائماً.</div><div class="st"><em>lg</em><em>sm</em><em>inline</em></div></div>
+        <div class="cc"><div class="nm">&lt;StatusPill /&gt;</div><div class="de">سلّم الحالة الطيني. الأخضر متاح كقيمة واحدة فقط: <span class="mono">settled</span>.</div><div class="st"><em>live</em><em>review</em><em>draft</em><em>out</em><em>settled</em></div></div>
+        <div class="cc"><div class="nm">&lt;CategoryChip /&gt;</div><div class="de">رقاقة تمرير أفقي مع أيقونة خطية. لا رموز تعبيرية في الواجهة.</div><div class="st"><em>icon</em><em>text</em></div></div>
+        <div class="cc"><div class="nm">&lt;VariantAxis /&gt;</div><div class="de">محدد المتغير. النافد يظهر مشطوباً ومعطّلاً لا مخفياً.</div><div class="st"><em>size</em><em>colour</em><em>capacity</em></div></div>
+        <div class="cc"><div class="nm">&lt;MediaSlots /&gt;</div><div class="de">أربع خانات بأدوار مسمّاة. خانة المقياس إلزامية قبل النشر.</div><div class="st"><em>hero</em><em>angle</em><em>scale</em><em>detail</em></div></div>
+        <div class="cc"><div class="nm">&lt;QtyStepper /&gt;</div><div class="de">مقيّد برصيد المتغير. الصفر يحذف السطر بدل تعطيله.</div><div class="st"><em>sm</em><em>md</em></div></div>
+        <div class="cc"><div class="nm">&lt;SearchBar /&gt;</div><div class="de">بحث فوري على العربية والإنجليزية معاً، بدون تبديل لغة.</div><div class="st"><em>plain</em><em>filters</em></div></div>
+        <div class="cc"><div class="nm">&lt;PublishGate /&gt;</div><div class="de">قائمة الموانع المباشرة من <span class="mono">publish()</span>. الزر معطّل حتى الاستيفاء.</div><div class="st"><em>checklist</em></div></div>
+        <div class="cc"><div class="nm">&lt;StockLedger /&gt;</div><div class="de">مصفوفة المتغيرات مع سبب كل تعديل. لا كتابة مباشرة على الرصيد.</div><div class="st"><em>matrix</em></div></div>
+        <div class="cc"><div class="nm">&lt;EmptyState /&gt;</div><div class="de">حالة الفراغ تقترح إجراءً دائماً — لا تكتفي بالإخبار.</div><div class="st"><em>search</em><em>cart</em><em>catalog</em></div></div>
+        <div class="cc"><div class="nm">&lt;Skeleton /&gt;</div><div class="de">هيكل تحميل بأبعاد البطاقة الحقيقية. لا دوّارات.</div><div class="st"><em>card</em><em>row</em></div></div>
+      </div>
+    </section>
+
+    <!-- 6 · HANDOFF -->
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">ما يلزم قبل الربط</span><span class="en-only">Open before integration</span></h2>
+        <div class="sub">Honest gaps — not decided by this document</div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <tr><th>Item</th><th>State</th><th>Needed from</th></tr>
+          <tr><td>الصيغة اللاتينية الموحّدة للاسم</td><td class="desc">أربع صيغ متداولة. هذا الملف يستخدم <span class="mono">alSooq</span> مؤقتاً.</td><td class="desc">قرارك</td></tr>
+          <tr><td>تسمية الشحن</td><td class="desc">Sudan Express مقابل Sudaexpress — الحزمة تكتب <span class="mono">sudaexpress</span>.</td><td class="desc">قرارك</td></tr>
+          <tr><td>سلّم أحجام التغليف</td><td class="desc">رموز A1/B3 توضيحية هنا؛ تحتاج الجدول الحقيقي بالحجم لا بالاسم.</td><td class="desc">العمليات</td></tr>
+          <tr><td>شعارات البنوك والشركاء</td><td class="desc">لا يظهر أي شعار في هذه الحزمة قبل الإذن الكتابي.</td><td class="desc">الاتفاقيات</td></tr>
+          <tr><td>محتوى المنتجات</td><td class="desc">كل الأسماء والأسعار هنا توضيحية للعرض فقط.</td><td class="desc">التجار</td></tr>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<footer><div class="foot-in">
+  <div class="w">السوق<small>alSooq · Catalog SDK v1.0</small></div>
+  <p>نموذج تصميم. أسماء المنتجات والأسعار وأرقام المخزون توضيحية بالكامل ولا تمثل بيانات حقيقية. لا تظهر شعارات شركاء قبل الاتفاقيات الكتابية.</p>
+</div></footer>
+
+<script>
+/* ═══════════ icons ═══════════ */
+const IC={
+  build:'<path d="M4 18L18 4M7 21L21 7M4 12l8 8"/>',
+  solar:'<rect x="4" y="4" width="16" height="12" rx="1"/><path d="M4 10h16M10 4v12M12 16v4M8 20h8"/>',
+  kitchen:'<rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 10h16M8 7h.01M12 7h.01M16 7h.01"/><rect x="8" y="13" width="8" height="4"/>',
+  home:'<rect x="3" y="5" width="18" height="12" rx="1"/><path d="M8 21h8M12 17v4"/>',
+  agri:'<circle cx="7" cy="17" r="3.5"/><circle cx="18" cy="18" r="2.5"/><path d="M10.5 17H15M7 13V8h5l2 5M12 8V6h4v7"/>',
+  vehicles:'<rect x="2" y="7" width="12" height="9"/><path d="M14 10h4l3 3v3h-3"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>'
+};
+const CATS=[
+  {id:'all',ar:'الكل',en:'All'},
+  {id:'build',ar:'مواد بناء',en:'Building'},
+  {id:'solar',ar:'طاقة شمسية',en:'Solar'},
+  {id:'home',ar:'أجهزة منزلية',en:'Home'},
+  {id:'kitchen',ar:'معدات مطاعم',en:'Kitchen'},
+  {id:'agri',ar:'معدات زراعية',en:'Agri'},
+  {id:'vehicles',ar:'مركبات',en:'Vehicles'}
+];
+/* Illustrative catalogue — demo content only */
+const P=[
+  {id:'p1',sku:'SD-SOL-550',c:'solar',ar:'لوح شمسي ٥٥٠ واط',en:'Solar panel 550W',price:120000,pack:'A1',stock:12,st:'live',axis:['550W','450W','330W'],out:[2]},
+  {id:'p2',sku:'SD-BLD-R12',c:'build',ar:'سيخ حديد ١٢ مم',en:'Steel rebar 12mm',price:25000,pack:'B3',stock:340,st:'live',axis:['12mm','16mm','20mm'],out:[]},
+  {id:'p3',sku:'SD-SOL-BAT',c:'solar',ar:'بطارية تخزين ٢٠٠ أمبير',en:'Storage battery 200Ah',price:80000,pack:'A2',stock:6,st:'live',axis:['200Ah','100Ah'],out:[]},
+  {id:'p4',sku:'SD-HOM-FRG',c:'home',ar:'ثلاجة ١٦ قدم',en:'Refrigerator 16ft',price:200000,pack:'C1',stock:0,st:'out',axis:['16ft','12ft'],out:[0,1]},
+  {id:'p5',sku:'SD-BLD-CEM',c:'build',ar:'أسمنت — كيس ٥٠ كجم',en:'Cement — 50kg bag',price:15000,pack:'B1',stock:820,st:'live',axis:['50kg','25kg'],out:[]},
+  {id:'p6',sku:'SD-KIT-OVN',c:'kitchen',ar:'فرن غاز تجاري',en:'Commercial gas oven',price:150000,pack:'C2',stock:4,st:'review',axis:['4 burner','6 burner'],out:[]},
+  {id:'p7',sku:'SD-AGR-PMP',c:'agri',ar:'مضخة ري ٣ بوصة',en:'Irrigation pump 3in',price:60000,pack:'B2',stock:9,st:'live',axis:['3in','4in'],out:[]},
+  {id:'p8',sku:'SD-HOM-ACU',c:'home',ar:'مكيف ١.٥ طن',en:'Air conditioner 1.5t',price:250000,pack:'C1',stock:3,st:'draft',axis:['1.5t','2t'],out:[]}
+];
+
+/* ═══════════ state ═══════════ */
+let side='c', cur='c-browse', stack=[], cat='all', q='', cart=[], sel=0, active=P[0];
+
+const TABS={
+  c:[{v:'c-browse',l:'السوق',i:'<path d="M4 8h16l-1.5 12H5.5z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>'},
+     {v:'c-browse',l:'بحث',i:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/>'},
+     {v:'c-cart',l:'السلة',i:'<path d="M6 6h15l-1.6 9H7.5L6 3H3"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/>'},
+     {v:'c-browse',l:'حسابي',i:'<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/>'}],
+  m:[{v:'m-list',l:'الكتالوج',i:'<rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/>'},
+     {v:'m-add',l:'إضافة',i:'<path d="M12 5v14M5 12h14"/>'},
+     {v:'m-var',l:'المخزون',i:'<path d="M4 7h16M4 12h16M4 17h16"/><circle cx="8" cy="7" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="10" cy="17" r="1.6"/>'}]
+};
+const TITLES={
+  'c-browse':['السوق','Marketplace'],'c-pdp':['تفاصيل المنتج','Product detail'],'c-cart':['السلة','Cart'],
+  'm-list':['غرفة العمل','Merchant workspace'],'m-add':['منتج جديد','New product'],
+  'm-var':['المتغيرات','Variants & stock'],'m-pub':['النشر','Publish gate']
+};
+
+const fmt=n=>n.toLocaleString('en-US');
+
+/* ═══════════ navigation ═══════════ */
+function go(v,push=true){
+  if(push && cur!==v) stack.push(cur);
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('on'));
+  const el=document.getElementById('v-'+v); if(el)el.classList.add('on');
+  cur=v;
+  document.getElementById('views').scrollTop=0;
+  const t=TITLES[v]||['السوق','alSooq'];
+  document.getElementById('abTitle').childNodes[0].nodeValue=t[0];
+  document.getElementById('abSub').textContent=t[1];
+  const root=v.split('-')[0];
+  document.getElementById('abBack').style.display=(v==='c-browse'||v==='m-list')?'none':'grid';
+  document.getElementById('abAct').style.display=(root==='c')?'grid':'none';
+  renderTabs();
+}
+function back(){ const p=stack.pop(); go(p||(side==='c'?'c-browse':'m-list'),false); }
+function setSide(s,btn){
+  side=s; stack=[];
+  btn.parentNode.querySelectorAll('button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  go(s==='c'?'c-browse':'m-list',false);
+}
+function setLang(l,btn){
+  document.documentElement.dataset.lang=l;
+  btn.parentNode.querySelectorAll('button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+function renderTabs(){
+  const list=TABS[side], bar=document.getElementById('tabbar');
+  const first=list.findIndex(t=>t.v===cur);   // only the first tab pointing at this view lights up
+  bar.style.gridTemplateColumns=`repeat(${list.length},1fr)`;
+  bar.innerHTML=list.map((t,i)=>`<button class="${i===first?'on':''}" onclick="go('${t.v}')">
+    <svg viewBox="0 0 24 24">${t.i}</svg>${t.l}</button>`).join('');
+}
+/* re-trigger a stagger group without leaving stale animation state */
+function replay(id){
+  const el=document.getElementById(id);
+  el.classList.remove('in'); void el.offsetWidth; el.classList.add('in');
+}
+
+/* ═══════════ customer ═══════════ */
+function renderChips(){
+  document.getElementById('chips').innerHTML=CATS.map(c=>
+    `<button class="chip ${cat===c.id?'on':''}" onclick="cat='${c.id}';renderChips();renderGrid()">
+      ${c.id!=='all'?`<svg viewBox="0 0 24 24">${IC[c.id]}</svg>`:''}${c.ar}</button>`).join('');
+}
+function search(v){q=v.trim().toLowerCase();renderGrid();}
+function renderGrid(){
+  const g=document.getElementById('grid');
+  const list=P.filter(p=>(cat==='all'||p.c===cat)&&(!q||p.ar.includes(q)||p.en.toLowerCase().includes(q)));
+  if(!list.length){
+    g.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px 12px;color:var(--ink-faint);font-size:13px">
+      لا نتائج مطابقة<br><button class="btn" style="margin-top:12px" onclick="cat='all';q='';renderChips();renderGrid()">عرض كل الفئات</button></div>`;
+    return;
+  }
+  g.innerHTML=list.map(p=>`<button class="pcard" onclick="openPdp('${p.id}')">
+    <div class="pmedia"><svg viewBox="0 0 24 24">${IC[p.c]}</svg><span class="ph">Photo pending</span></div>
+    <div class="pbody">
+      <div class="pcat">${p.c}</div>
+      <div class="ptitle">${p.ar}</div>
+      <div class="pprice num">${fmt(p.price)}<small>ج.س</small></div>
+    </div></button>`).join('');
+}
+function openPdp(id){
+  active=P.find(x=>x.id===id); sel=active.out.includes(0)?active.axis.findIndex((_,i)=>!active.out.includes(i)):0;
+  if(sel<0)sel=0;
+  document.getElementById('pdpIcon').innerHTML=IC[active.c];
+  document.getElementById('pdpCat').textContent=active.c+' · '+active.sku;
+  document.getElementById('pdpTitle').textContent=active.ar;
+  document.getElementById('pdpEn').textContent=active.en;
+  document.getElementById('pdpPrice').textContent=fmt(active.price);
+  document.getElementById('pdpPack').textContent=active.pack;
+  const s=document.getElementById('pdpStock');
+  const anyStock=active.stock>0;
+  s.className='pill '+(anyStock?'live':'out');
+  s.textContent=anyStock?`متوفر · ${active.stock}`:'نفد المخزون';
+  renderAxis();
+  go('c-pdp');
+}
+function renderAxis(){
+  document.getElementById('pdpAxis').innerHTML=active.axis.map((a,i)=>
+    `<button class="${sel===i?'on':''}" ${active.out.includes(i)?'disabled':''} onclick="sel=${i};renderAxis()">${a}</button>`
+  ).join('')+`<button class="btn solid" style="margin-inline-start:auto" onclick="addCart()">أضف للسلة</button>`;
+}
+function addCart(){
+  const key=active.sku+'/'+active.axis[sel];
+  const row=cart.find(r=>r.key===key);
+  row?row.qty++:cart.push({key,id:active.id,ax:active.axis[sel],qty:1});
+  bump(); toast('أُضيف إلى السلة');
+}
+function bump(){
+  const n=cart.reduce((s,r)=>s+r.qty,0);
+  document.getElementById('abBadge').textContent=n;
+  document.getElementById('abBadge').style.display=n?'grid':'none';
+  renderCart();
+}
+function chg(k,d){
+  const r=cart.find(x=>x.key===k); if(!r)return;
+  r.qty+=d; if(r.qty<=0)cart=cart.filter(x=>x.key!==k);
+  bump();
+}
+function renderCart(){
+  const b=document.getElementById('cartBody');
+  if(!cart.length){
+    b.innerHTML=`<div style="text-align:center;padding:52px 12px">
+      <div style="font-size:14px;font-weight:600">سلتك فاضية</div>
+      <div style="font-size:12.5px;color:var(--ink-soft);margin-top:6px">ابدأ من الفئات وأضف أول منتج</div>
+      <button class="btn solid" style="margin-top:16px" onclick="go('c-browse')">تصفّح السوق</button></div>`;
+    return;
+  }
+  const total=cart.reduce((s,r)=>s+P.find(p=>p.id===r.id).price*r.qty,0);
+  b.innerHTML=cart.map(r=>{
+    const p=P.find(x=>x.id===r.id);
+    return `<div class="line">
+      <div class="thumb"><svg viewBox="0 0 24 24">${IC[p.c]}</svg></div>
+      <div class="info"><b>${p.ar}</b><small>${p.sku} · ${r.ax}</small></div>
+      <div class="stepper">
+        <button onclick="chg('${r.key}',-1)">−</button><span>${r.qty}</span><button onclick="chg('${r.key}',1)">＋</button>
+      </div></div>`;
+  }).join('')+`
+    <div class="totalrow"><span class="k">الإجمالي</span><span class="v num">${fmt(total)} <span style="font-size:12px;font-family:var(--ar);font-weight:600;color:var(--ink-soft)">ج.س</span></span></div>
+    <div class="callout" style="margin-top:16px"><b>حالة السلة:</b> السطر يحمل SKU المتغير لا معرّف المنتج — ولذلك يمكن أن يحمل نفس المنتج بمقاسين في سطرين منفصلين.</div>
+    <button class="btn solid" style="width:100%;margin-top:14px" onclick="toast('نموذج عرض — لا يُرسل طلب')">متابعة الطلب</button>`;
+}
+
+/* ═══════════ merchant ═══════════ */
+const STL={live:'منشور',review:'قيد المراجعة',draft:'مسودة',out:'نفد'};
+function renderMerchant(){
+  document.getElementById('mList').innerHTML=P.map(p=>`
+    <button class="mrow" onclick="go('m-var')">
+      <div class="thumb"><svg viewBox="0 0 24 24">${IC[p.c]}</svg></div>
+      <div class="info"><b>${p.ar}</b><small>${p.sku} · pack ${p.pack}</small></div>
+      <div class="end"><span class="pill ${p.st}">${STL[p.st]}</span><span class="qty">${p.stock} <span style="font-family:var(--ar)">وحدة</span></span></div>
+    </button>`).join('');
+
+  document.getElementById('vMatrix').innerHTML=['550W','450W','330W'].map((a,i)=>`
+    <div class="vrow">
+      <div class="vk"><b>${a}</b><small>SD-SOL-${a}</small></div>
+      <span class="pill ${i===2?'out':'live'}">${i===2?'نفد':'متاح'}</span>
+      <div class="stepper"><button>−</button><span>${[12,7,0][i]}</span><button>＋</button></div>
+    </div>`).join('');
+
+  const CH=[
+    [1,'اسم عربي وإنجليزي','الحقلان مكتملان'],
+    [1,'صورة رئيسية','خانة hero مرفوعة'],
+    [1,'سعر وعملة','120,000 ج.س'],
+    [0,'صورة مرجع الحجم','خانة scale فارغة — إلزامية قبل النشر'],
+    [0,'وصف عربي','أقل من ٤٠ حرفاً']
+  ];
+  document.getElementById('checks').innerHTML=CH.map(c=>`
+    <div class="check ${c[0]?'pass':'fail'}">
+      <div class="ico"><svg viewBox="0 0 24 24">${c[0]?'<path d="M5 13l4 4L19 7"/>':'<path d="M12 7v6M12 17h.01"/>'}</svg></div>
+      <div class="txt"><b>${c[1]}</b><small>${c[2]}</small></div>
+    </div>`).join('');
+  document.getElementById('pubBtn').disabled=true;
+  document.getElementById('pubBtn').textContent='نشر المنتج — مانعان متبقيان';
+}
+function publish(){ toast('استوفِ الموانع أولاً'); }
+
+/* ═══════════ util ═══════════ */
+let tt;
+function toast(m){
+  const e=document.getElementById('toast');
+  e.textContent=m; e.classList.add('show');
+  clearTimeout(tt); tt=setTimeout(()=>e.classList.remove('show'),1700);
+}
+function clock(){
+  const d=new Date();
+  document.getElementById('clock').textContent=
+    d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+}
+
+renderChips(); renderGrid(); renderCart(); renderMerchant(); renderTabs(); bump(); clock();
+setInterval(clock,30000);
+</script>
+</body>
+</html>
