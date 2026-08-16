@@ -10,11 +10,22 @@ Browse the five categories, open a service, choose how you enter, and jump — i
 one tap — into the **Customer app**, the **Merchant app**, or the embedded
 **Bank** console.
 
+## Pages
+
+| File | What it is |
+| --- | --- |
+| `landing.html` | The **final marketing landing page** — the public entry point. Hero, the journey, categories, the three apps, Suda Express & embedded-banking spotlights, a live-metrics dashboard teaser, and CTAs into the app. Motion-rich: scroll reveals, animated counters, floating orbit, self-drawing widgets. |
+| `index.html` | The **unified app** — the view-router product itself (Marketplace → Services → Customer / Merchant / Bank). Supports hash deep-links: `index.html#customer`, `#merchant`, `#merchant:express`, `#bank`. |
+| `dashboard.html` | A **trendy, animated analytics dashboard** for the whole ecosystem — live KPIs with count-up + sparklines, a self-drawing GMV area chart, revenue bars, an animated escrow ring, remittance-corridor bars, Suda Express gauges, and a streaming live-activity feed. |
+
+The three link to each other: landing → app + dashboard, dashboard → app + landing.
+
 ## Run it
 
-Open `index.html` in any modern browser. No build step, no dependencies — all
-CSS, JavaScript and icons are inlined in the single file. Fonts (IBM Plex Sans /
-Sans Arabic) load from Google Fonts and fall back to system fonts offline.
+Open `landing.html` (or `index.html`) in any modern browser. No build step, no
+dependencies — all CSS, JavaScript and icons are inlined per file. Fonts
+(IBM Plex Sans / Sans Arabic) load from Google Fonts and fall back to system
+fonts offline. Everything respects `prefers-reduced-motion`.
 
 ## What's inside `index.html`
 
