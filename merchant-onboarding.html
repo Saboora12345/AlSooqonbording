@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar" data-step="1" data-type="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>السوق — انضمام التاجر · alSooq Merchant Onboarding</title>
+<meta name="description" content="alSooq merchant onboarding — join as a standard merchant or Suda Express, verify with a partner bank (KYC), and set up escrow-settled payouts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand:#F6F1E7; --sand-2:#EFE7D8; --sand-3:#EDE4D3; --card:#FFFCF6; --white:#fff;
+  --ink:#2E241B; --ink-2:#6B5B4B; --ink-3:#93826F; --kraft:#E4D2B4;
+  --clay:#8A4B2A; --clay-deep:#5F3119; --clay-08:rgba(138,75,42,.08); --clay-12:rgba(138,75,42,.12); --clay-30:rgba(138,75,42,.3);
+  --palm:#2F6B4F; --palm-tint:#E3EFE8; --palm-12:rgba(47,107,79,.12); --gold:#B8862F; --gold-tint:rgba(184,134,47,.12);
+  --line:#DCCFBB; --line-soft:rgba(220,207,187,.6);
+  --r:14px; --r-sm:10px; --r-lg:20px; --r-pill:999px;
+  --ease:cubic-bezier(.16,1,.3,1); --io:cubic-bezier(.77,0,.175,1);
+  --shadow:0 1px 2px rgba(46,36,27,.05),0 10px 30px -16px rgba(46,36,27,.2);
+  --shadow-lg:0 2px 6px rgba(46,36,27,.06),0 30px 60px -28px rgba(46,36,27,.32);
+  --ar:'IBM Plex Sans Arabic',system-ui,sans-serif; --en:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
+  --accent:var(--clay); --accent-tint:var(--clay-08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ar);background:var(--sand);color:var(--ink);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
+[data-lang="en"] body{font-family:var(--en)}
+[data-lang="ar"] .en-only{display:none}[data-lang="en"] .ar-only{display:none}
+[data-type="express"]{--accent:var(--clay);--accent-tint:var(--clay-08)}
+[data-type="normal"]{--accent:var(--gold);--accent-tint:var(--gold-tint)}
+.num{font-family:var(--en);font-variant-numeric:tabular-nums}.mono{font-family:var(--mono)}
+a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;width:22px;height:22px;display:block}
+.ic-sm{width:17px;height:17px}.ic-lg{width:26px;height:26px}
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bg span{position:absolute;border-radius:50%;filter:blur(90px)}
+.b1{width:48vw;height:48vw;top:-16vw;inset-inline-start:-12vw;background:radial-gradient(circle,rgba(138,75,42,.12),transparent 70%)}
+.b2{width:42vw;height:42vw;bottom:-16vw;inset-inline-end:-12vw;background:radial-gradient(circle,rgba(184,134,47,.1),transparent 70%)}
+
+/* header */
+.hdr{position:sticky;top:0;z-index:60;background:rgba(246,241,231,.82);backdrop-filter:saturate(1.5) blur(14px);border-bottom:1px solid var(--line-soft)}
+.hdr-in{max-width:1120px;margin-inline:auto;padding:0 24px;display:flex;align-items:center;gap:14px;height:64px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{width:36px;height:36px;border-radius:10px;color:#fff;display:grid;place-items:center;font-weight:700;font-size:20px;background:linear-gradient(145deg,var(--clay),var(--clay-deep));box-shadow:0 4px 14px -4px rgba(138,75,42,.5)}
+.brand b{font-size:16px;font-weight:700;line-height:1}
+.brand .en{font-size:8px;letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase;font-weight:600;display:block;margin-top:3px}
+.spacer{flex:1}
+.save{font-size:12.5px;color:var(--ink-3);font-weight:600;display:flex;align-items:center;gap:7px}
+.save .d{width:7px;height:7px;border-radius:50%;background:var(--palm)}
+.lang{display:flex;border:1px solid var(--line);border-radius:var(--r-pill);overflow:hidden}
+.lang button{padding:7px 12px;font-size:12px;font-weight:700;color:var(--ink-2);transition:.15s}
+.lang button[aria-pressed="true"]{background:var(--clay);color:#fff}
+.exit{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--ink-2);border:1px solid var(--line);background:var(--card);border-radius:var(--r-pill);padding:8px 14px;transition:.2s}
+.exit:hover{border-color:var(--clay-30);color:var(--clay)}
+.exit svg{width:15px;height:15px}
+
+/* layout */
+.shell{max-width:1120px;margin-inline:auto;padding:30px 24px 40px;display:grid;grid-template-columns:300px 1fr;gap:30px;align-items:start}
+@media(max-width:880px){.shell{grid-template-columns:1fr;gap:20px}}
+
+/* rail (stepper + preview) */
+.rail{position:sticky;top:88px;display:flex;flex-direction:column;gap:20px}
+@media(max-width:880px){.rail{position:static}.preview{display:none}}
+.steps{list-style:none;display:flex;flex-direction:column;gap:4px}
+.steps li{display:flex;align-items:center;gap:13px;padding:11px 12px;border-radius:var(--r-sm);transition:background .25s;position:relative}
+.steps li .sd{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:13px;font-weight:700;font-family:var(--mono);background:var(--sand-2);color:var(--ink-3);border:2px solid var(--line);transition:.3s}
+.steps li .sl{font-size:13.5px;font-weight:600;color:var(--ink-3);transition:.25s}
+.steps li .sl small{display:block;font-size:10.5px;font-weight:500;color:var(--ink-3);opacity:.8}
+.steps li.active{background:var(--accent-tint)}
+.steps li.active .sd{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 4px 12px -3px rgba(138,75,42,.4)}
+.steps li.active .sl{color:var(--ink)}
+.steps li.done .sd{background:var(--palm);border-color:var(--palm);color:#fff}
+.steps li.done .sl{color:var(--ink-2)}
+.steps li:not(:last-child)::after{content:"";position:absolute;inset-inline-start:26px;top:44px;height:8px;width:2px;background:var(--line)}
+[data-lang="en"] .steps li:not(:last-child)::after{inset-inline-start:26px}
+
+.preview{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow)}
+.preview .pv-t{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:700;margin-bottom:14px}
+.pv-card{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.pv-mark{width:46px;height:46px;border-radius:13px;flex:none;display:grid;place-items:center;font-weight:700;font-size:20px;color:#fff;background:linear-gradient(145deg,var(--accent),var(--clay-deep));transition:background .3s}
+.pv-card b{font-size:15px;font-weight:700;display:block;line-height:1.2}
+.pv-card .pv-badge{font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:var(--r-pill);background:var(--accent-tint);color:var(--accent);display:inline-block;margin-top:5px}
+.pv-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-top:1px solid var(--line-soft);font-size:12.5px}
+.pv-row .k{color:var(--ink-3);font-weight:600;display:flex;align-items:center;gap:7px}
+.pv-row .k svg{width:14px;height:14px}
+.pv-row .v{font-weight:600;color:var(--ink)}
+.pv-row .v.ok{color:var(--palm)}.pv-row .v.wait{color:var(--ink-3)}
+
+/* progress top bar (mobile-friendly, always visible) */
+.pbar{height:5px;background:var(--sand-2);border-radius:var(--r-pill);overflow:hidden;margin-bottom:22px}
+.pfill{height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));border-radius:var(--r-pill);width:20%;transition:width .5s var(--ease)}
+
+/* panel */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden}
+.panel-body{padding:34px 36px}
+@media(max-width:560px){.panel-body{padding:24px 20px}}
+.step-eyebrow{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.step-h{font-size:clamp(22px,3.4vw,30px);font-weight:700;letter-spacing:-.02em;margin-top:8px;line-height:1.15}
+.step-sub{font-size:14.5px;color:var(--ink-2);margin-top:10px;max-width:52ch}
+
+.step{display:none;animation:stepin .45s var(--ease)}
+.step.on{display:block}
+@keyframes stepin{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* type cards */
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+@media(max-width:560px){.type-grid{grid-template-columns:1fr}}
+.type-card{text-align:start;border:1.5px solid var(--line);border-radius:var(--r-lg);padding:24px;background:var(--white);position:relative;transition:transform .25s var(--ease),border-color .25s,box-shadow .25s;display:flex;flex-direction:column}
+.type-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.type-card .tc-ico{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;margin-bottom:16px}
+.type-card.normal .tc-ico{background:var(--gold-tint);color:var(--gold)}
+.type-card.express .tc-ico{background:var(--clay-08);color:var(--clay)}
+.type-card h3{font-size:19px;font-weight:700}
+.type-card p{font-size:13px;color:var(--ink-2);margin-top:7px;line-height:1.5;min-height:56px}
+.type-card ul{list-style:none;margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.type-card li{display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--ink-2)}
+.type-card li svg{width:15px;height:15px;color:var(--palm);flex:none}
+.type-card .tc-check{position:absolute;top:20px;inset-inline-end:20px;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;color:#fff;transition:.25s}
+.type-card .tc-check svg{width:15px;height:15px;opacity:0;transition:.2s}
+.type-card.normal[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-tint)}
+.type-card.express[aria-pressed="true"]{border-color:var(--clay);box-shadow:0 0 0 3px var(--clay-08)}
+.type-card.normal[aria-pressed="true"] .tc-check{background:var(--gold);border-color:var(--gold)}
+.type-card.express[aria-pressed="true"] .tc-check{background:var(--clay);border-color:var(--clay)}
+.type-card[aria-pressed="true"] .tc-check svg{opacity:1}
+
+/* form fields */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+.field{margin-top:18px}
+.field>label{display:block;font-size:12.5px;font-weight:600;color:var(--ink-2);margin-bottom:7px}
+.field>label .req{color:var(--clay)}
+.inp{width:100%;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-sm);padding:13px 14px;font-family:inherit;font-size:14.5px;color:var(--ink);outline:0;transition:border-color .2s,box-shadow .2s}
+.inp::placeholder{color:var(--ink-3)}
+.inp:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-tint)}
+.field.err .inp{border-color:var(--clay);box-shadow:0 0 0 3px var(--clay-08);animation:shake .3s}
+.field.err .hint{color:var(--clay)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.hint{font-size:11.5px;color:var(--ink-3);margin-top:6px}
+.inwrap{position:relative}
+.inwrap .pfx{position:absolute;inset-inline-start:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--ink-3);font-weight:600;pointer-events:none}
+.inwrap .inp.has-pfx{padding-inline-start:52px}
+
+/* chips select */
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:4px}
+.chip{font-size:13px;font-weight:600;padding:9px 15px;border-radius:var(--r-pill);border:1.5px solid var(--line);background:var(--white);color:var(--ink-2);transition:.2s;display:inline-flex;align-items:center;gap:7px}
+.chip svg{width:15px;height:15px}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* option rows (kyc / payout / banks) */
+.opt{display:flex;align-items:center;gap:14px;border:1.5px solid var(--line);border-radius:var(--r);padding:15px;background:var(--white);margin-top:12px;transition:.2s;text-align:start;width:100%}
+.opt:hover{border-color:var(--accent)}
+.opt[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-tint)}
+.opt .oi{width:42px;height:42px;border-radius:12px;flex:none;display:grid;place-items:center;background:var(--accent-tint);color:var(--accent)}
+.opt .ox{flex:1}.opt .ox b{font-size:14px;font-weight:600;display:block}.opt .ox span{font-size:12px;color:var(--ink-2)}
+.opt .oc{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;color:#fff;transition:.2s}
+.opt .oc svg{width:14px;height:14px;opacity:0;transition:.2s}
+.opt[aria-pressed="true"] .oc{background:var(--accent);border-color:var(--accent)}
+.opt[aria-pressed="true"] .oc svg{opacity:1}
+
+/* toggle */
+.tog{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:var(--r);padding:15px;background:var(--palm-tint);margin-top:18px}
+.tog .ti{width:40px;height:40px;border-radius:11px;background:var(--palm-12);color:var(--palm);display:grid;place-items:center;flex:none}
+.tog .tx{flex:1}.tog .tx b{font-size:14px;font-weight:600;display:block}.tog .tx span{font-size:12px;color:var(--ink-2)}
+.switch{width:46px;height:27px;border-radius:var(--r-pill);background:var(--line);position:relative;transition:background .25s;flex:none}
+.switch::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:21px;height:21px;border-radius:50%;background:#fff;transition:transform .25s var(--ease);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.switch[aria-pressed="true"]{background:var(--palm)}
+.switch[aria-pressed="true"]::after{transform:translateX(19px)}
+[data-lang="en"] .switch[aria-pressed="true"]::after{transform:translateX(19px)}
+[dir="rtl"] .switch[aria-pressed="true"]::after{transform:translateX(-19px)}
+
+/* callout */
+.callout{display:flex;gap:12px;align-items:flex-start;background:var(--sand-2);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-top:20px;font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.callout svg{width:18px;height:18px;color:var(--accent);flex:none;margin-top:1px}
+.callout b{color:var(--ink);font-weight:600}
+
+/* review */
+.rev-sec{border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-top:14px;background:var(--white)}
+.rev-sec .rs-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.rev-sec .rs-h b{font-size:13.5px;font-weight:700}
+.rev-sec .rs-edit{font-size:12px;font-weight:600;color:var(--accent)}
+.rev-line{display:flex;justify-content:space-between;font-size:13px;padding:5px 0}
+.rev-line .k{color:var(--ink-3)}.rev-line .v{font-weight:600}
+
+/* footer nav */
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--line-soft);padding:18px 36px;background:var(--sand-3)}
+@media(max-width:560px){.nav{padding:16px 20px}}
+.nav .step-count{font-size:12.5px;color:var(--ink-3);font-weight:600}
+.btn{display:inline-flex;align-items:center;gap:9px;border-radius:var(--r-pill);padding:12px 22px;font-size:14.5px;font-weight:600;transition:transform .22s var(--ease),box-shadow .22s,background .22s,opacity .2s}
+.btn svg{width:17px;height:17px}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 8px 20px -8px rgba(138,75,42,.5)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 28px -8px rgba(138,75,42,.55)}
+.btn-primary:disabled{opacity:.45;pointer-events:none;box-shadow:none}
+.btn-ghost{background:var(--white);border:1px solid var(--line);color:var(--ink-2)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn-ghost.hide{visibility:hidden}
+
+/* success */
+.done{text-align:center;padding:20px 10px 6px}
+.done .check{width:88px;height:88px;border-radius:50%;background:var(--palm-tint);display:grid;place-items:center;margin:0 auto 22px}
+.done .check svg{width:46px;height:46px;stroke:var(--palm);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.done .check .p{stroke-dasharray:40;stroke-dashoffset:40;animation:draw .7s var(--ease) .2s forwards}
+.done .ring{stroke-dasharray:200;stroke-dashoffset:200;animation:draw 1s var(--ease) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.done h2{font-size:28px;font-weight:700;letter-spacing:-.02em}
+.done p{font-size:15px;color:var(--ink-2);margin-top:12px;max-width:46ch;margin-inline:auto}
+.done .done-cta{margin-top:26px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:80}
+.confetti i{position:absolute;width:9px;height:14px;border-radius:2px;opacity:0;animation:fall 2.4s var(--ease) forwards}
+@keyframes fall{0%{opacity:1;transform:translateY(-10vh) rotate(0)}100%{opacity:0;transform:translateY(100vh) rotate(540deg)}}
+
+@media(prefers-reduced-motion:reduce){*{animation:none !important;transition-duration:1ms !important}.done .p,.done .ring{stroke-dashoffset:0}}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"><span class="b1"></span><span class="b2"></span></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><path d="M4 10v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9"/><path d="M3 6.5 4.5 4h15L21 6.5a2.5 2.5 0 0 1-4.5 1.5 2.5 2.5 0 0 1-4.5 0 2.5 2.5 0 0 1-4.5 0A2.5 2.5 0 0 1 3 6.5Z"/><path d="M9 20v-5h4v5"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><rect x="2.5" y="7" width="11" height="9" rx="1.4"/><path d="M13.5 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17.5" cy="18" r="1.6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></symbol>
+  <symbol id="i-id" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.4"/><circle cx="8.5" cy="11" r="2"/><path d="M5.5 16c.5-1.5 1.7-2.2 3-2.2s2.5.7 3 2.2"/><path d="M14 9.5h4M14 13h4M14 16h2.5"/></symbol>
+  <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 9 12 4l9 5"/><path d="M4 9h16"/><path d="M6 9v8M10 9v8M14 9v8M18 9v8"/><path d="M4 20h16"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v1"/><rect x="3.5" y="7.5" width="17" height="12" rx="2.4"/><path d="M20.5 12H16a2 2 0 0 0 0 4h4.5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 5.5V11c0 4.4 3 7.7 7 9 4-1.3 7-4.6 7-9V5.5z"/><path d="m9 11.5 2 2 3.5-3.8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6 7-11a7 7 0 0 0-14 0c0 5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6 3h3l1.5 5-2 1.5a12 12 0 0 0 6 6l1.5-2 5 1.5v3a2 2 0 0 1-2 2A17 17 0 0 1 4 5 2 2 0 0 1 6 3Z"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M4 11.5V5.5A1.5 1.5 0 0 1 5.5 4h6l8 8-6 6z"/><circle cx="8.5" cy="8.5" r="1.2"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M12 3 4 7v10l8 4 8-4V7z"/><path d="M4 7l8 4 8-4M12 11v10"/></symbol>
+  <symbol id="i-coins" viewBox="0 0 24 24"><ellipse cx="9" cy="7" rx="5" ry="2.6"/><path d="M4 7v4c0 1.4 2.2 2.6 5 2.6s5-1.2 5-2.6V7"/><path d="M14 12.5c2.6.2 5 1.4 5 2.5v-3"/><path d="M10 15.5c0 1.4 2.2 2.6 5 2.6s5-1.2 5-2.6"/></symbol>
+  <symbol id="i-flash" viewBox="0 0 24 24"><path d="M13 3 4 14h6l-1 7 9-11h-6z"/></symbol>
+  <symbol id="i-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h3v3M20 14v6M14 20h3"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3.5 6v14L9 18l6 2 5.5-2V4L15 6 9 4z"/><path d="M9 4v14M15 6v14"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14a0 0 0 0 1 0 0H6a0 0 0 0 1 0 0z" /><path d="M14 3v4h4M9 13h6M9 16h4"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+</defs></svg>
+
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="landing.html"><span class="brand-mark">س</span><span><b data-ar="السوق" data-en="alSooq">السوق</b><span class="en">Merchant Onboarding</span></span></a>
+  <div class="spacer"></div>
+  <span class="save"><span class="d"></span><span data-ar="حُفظ تلقائياً" data-en="Saved automatically">حُفظ تلقائياً</span></span>
+  <div class="lang" role="group" aria-label="Language"><button data-lang="ar" aria-pressed="true">ع</button><button data-lang="en" aria-pressed="false">EN</button></div>
+  <a class="exit" href="index.html#merchant"><svg class="ic"><use href="#i-back"/></svg><span data-ar="التطبيق" data-en="App">التطبيق</span></a>
+</div></header>
+
+<div class="shell">
+  <!-- rail -->
+  <aside class="rail">
+    <ul class="steps" id="steps">
+      <li data-s="1"><span class="sd num">1</span><span class="sl" data-ar="نوع التاجر" data-en="Merchant type">نوع التاجر<small data-ar="عادي أو سودا إكسبريس" data-en="Standard or Suda Express">عادي أو سودا إكسبريس</small></span></li>
+      <li data-s="2"><span class="sd num">2</span><span class="sl" data-ar="بيانات النشاط" data-en="Business details">بيانات النشاط<small data-ar="الاسم والفئة والموقع" data-en="Name, category, location">الاسم والفئة والموقع</small></span></li>
+      <li data-s="3"><span class="sd num">3</span><span class="sl" data-ar="الهوية والتوثيق" data-en="Identity & KYC">الهوية والتوثيق<small data-ar="عبر بنك شريك" data-en="via a partner bank">عبر بنك شريك</small></span></li>
+      <li data-s="4"><span class="sd num">4</span><span class="sl" data-ar="البنك والتسوية" data-en="Banking & payouts">البنك والتسوية<small data-ar="محفظة وأمانة" data-en="Wallet & escrow">محفظة وأمانة</small></span></li>
+      <li data-s="5"><span class="sd num">5</span><span class="sl" data-ar="التشغيل" data-en="Operations">التشغيل<small data-ar="حسب نوع التاجر" data-en="by merchant type">حسب نوع التاجر</small></span></li>
+      <li data-s="6"><span class="sd num">6</span><span class="sl" data-ar="المراجعة والإطلاق" data-en="Review & launch">المراجعة والإطلاق<small data-ar="تأكيد نهائي" data-en="final confirm">تأكيد نهائي</small></span></li>
+    </ul>
+
+    <div class="preview">
+      <div class="pv-t" data-ar="ملف التاجر" data-en="Merchant profile">ملف التاجر</div>
+      <div class="pv-card">
+        <span class="pv-mark" id="pvMark">؟</span>
+        <div><b id="pvName" data-ar="متجرك" data-en="Your store">متجرك</b><span class="pv-badge" id="pvBadge" data-ar="لم يُحدّد" data-en="Not set">لم يُحدّد</span></div>
+      </div>
+      <div class="pv-row"><span class="k"><svg class="ic"><use href="#i-tag"/></svg><span data-ar="الفئة" data-en="Category">الفئة</span></span><span class="v wait" id="pvCat" data-ar="—" data-en="—">—</span></div>
+      <div class="pv-row"><span class="k"><svg class="ic"><use href="#i-pin"/></svg><span data-ar="المدينة" data-en="City">المدينة</span></span><span class="v wait" id="pvCity" data-ar="—" data-en="—">—</span></div>
+      <div class="pv-row"><span class="k"><svg class="ic"><use href="#i-shield"/></svg><span data-ar="التوثيق" data-en="KYC">التوثيق</span></span><span class="v wait" id="pvKyc" data-ar="قيد الإكمال" data-en="Pending">قيد الإكمال</span></div>
+      <div class="pv-row"><span class="k"><svg class="ic"><use href="#i-coins"/></svg><span data-ar="التسوية" data-en="Payout">التسوية</span></span><span class="v wait" id="pvPayout" data-ar="—" data-en="—">—</span></div>
+    </div>
+  </aside>
+
+  <!-- panel -->
+  <main class="panel">
+    <div class="panel-body">
+      <div class="pbar"><div class="pfill" id="pfill"></div></div>
+
+      <!-- STEP 1 · type -->
+      <section class="step on" data-step="1">
+        <p class="step-eyebrow" data-ar="الخطوة ١ من ٦" data-en="Step 1 of 6">الخطوة ١ من ٦</p>
+        <h1 class="step-h" data-ar="كيف تريد أن تبيع في السوق؟" data-en="How will you sell in the souk?">كيف تريد أن تبيع في السوق؟</h1>
+        <p class="step-sub" data-ar="اختر نوع حسابك. يمكنك دائماً إضافة النوع الآخر لاحقاً من لوحة التاجر." data-en="Choose your account type. You can always add the other type later from the merchant console.">اختر نوع حسابك. يمكنك دائماً إضافة النوع الآخر لاحقاً من لوحة التاجر.</p>
+        <div class="type-grid">
+          <button class="type-card normal" data-type="normal" aria-pressed="false">
+            <span class="tc-check"><svg class="ic"><use href="#i-check"/></svg></span>
+            <span class="tc-ico"><svg class="ic ic-lg"><use href="#i-store"/></svg></span>
+            <h3 data-ar="تاجر عادي" data-en="Standard merchant">تاجر عادي</h3>
+            <p data-ar="لديك متجر ومنتجات — تبيع للعملاء، ويوصّل سودا إكسبريس نيابةً عنك." data-en="You have a storefront and products — you sell to customers and Suda Express delivers for you.">لديك متجر ومنتجات — تبيع للعملاء، ويوصّل سودا إكسبريس نيابةً عنك.</p>
+            <ul>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-ar="كتالوج ومنتجات" data-en="Catalog & products">كتالوج ومنتجات</span></li>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-ar="طلبات ومدفوعات" data-en="Orders & payouts">طلبات ومدفوعات</span></li>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-ar="تسوية عبر الأمانة" data-en="Escrow-settled">تسوية عبر الأمانة</span></li>
+            </ul>
+          </button>
+          <button class="type-card express" data-type="express" aria-pressed="false">
+            <span class="tc-check"><svg class="ic"><use href="#i-check"/></svg></span>
+            <span class="tc-ico"><svg class="ic ic-lg"><use href="#i-truck"/></svg></span>
+            <h3 data-ar="سودا إكسبريس" data-en="Suda Express">سودا إكسبريس</h3>
+            <p data-ar="شريك شحن — تسعّر الشحنات، تصدر البوالص، وتوصّل طلبات تجّار السوق." data-en="A logistics partner — you quote shipments, issue waybills and deliver souk merchants’ orders.">شريك شحن — تسعّر الشحنات، تصدر البوالص، وتوصّل طلبات تجّار السوق.</p>
+            <ul>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-ar="تسعير وبوالص" data-en="Quotes & waybills">تسعير وبوالص</span></li>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-ar="لوحة مهام حيّة" data-en="Live jobs board">لوحة مهام حيّة</span></li>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-ar="تسليم بالمسح" data-en="Scan-to-handover">تسليم بالمسح</span></li>
+            </ul>
+          </button>
+        </div>
+      </section>
+
+      <!-- STEP 2 · business -->
+      <section class="step" data-step="2">
+        <p class="step-eyebrow" data-ar="الخطوة ٢ من ٦" data-en="Step 2 of 6">الخطوة ٢ من ٦</p>
+        <h1 class="step-h" data-ar="عرّفنا بنشاطك" data-en="Tell us about your business">عرّفنا بنشاطك</h1>
+        <p class="step-sub" data-ar="هذه المعلومات تظهر للعملاء داخل السوق." data-en="This information appears to customers inside the souk.">هذه المعلومات تظهر للعملاء داخل السوق.</p>
+        <div class="grid2">
+          <div class="field"><label data-ar="اسم النشاط <span class='req'>*</span>" data-en="Business name <span class='req'>*</span>">اسم النشاط <span class="req">*</span></label>
+            <input class="inp" data-model="name" data-ar-ph="مثال: متجر النيل" data-en-ph="e.g. Nile Store" placeholder="مثال: متجر النيل">
+            <div class="hint" data-ar="الاسم الظاهر في السوق" data-en="Your public souk name">الاسم الظاهر في السوق</div>
+          </div>
+          <div class="field"><label data-ar="رقم الهاتف <span class='req'>*</span>" data-en="Phone <span class='req'>*</span>">رقم الهاتف <span class="req">*</span></label>
+            <div class="inwrap"><span class="pfx num">+249</span><input class="inp has-pfx num" data-model="phone" inputmode="tel" placeholder="9x xxx xxxx"></div>
+            <div class="hint" data-ar="لتأكيد الحساب والإشعارات" data-en="For account verification & alerts">لتأكيد الحساب والإشعارات</div>
+          </div>
+        </div>
+        <div class="field"><label data-ar="الفئة <span class='req'>*</span>" data-en="Category <span class='req'>*</span>">الفئة <span class="req">*</span></label>
+          <div class="chips" id="catChips" data-model="category">
+            <button class="chip" data-val="المتجر" data-en-val="Shop"><svg class="ic"><use href="#i-store"/></svg><span data-ar="المتجر" data-en="Shop">المتجر</span></button>
+            <button class="chip" data-val="مواد البناء" data-en-val="Building"><svg class="ic"><use href="#i-box"/></svg><span data-ar="مواد البناء" data-en="Building">مواد البناء</span></button>
+            <button class="chip" data-val="السفر" data-en-val="Travel"><svg class="ic"><use href="#i-map"/></svg><span data-ar="السفر" data-en="Travel">السفر</span></button>
+            <button class="chip" data-val="التعليم" data-en-val="Education"><svg class="ic"><use href="#i-doc"/></svg><span data-ar="التعليم" data-en="Education">التعليم</span></button>
+            <button class="chip" data-val="لوجستيات" data-en-val="Logistics"><svg class="ic"><use href="#i-truck"/></svg><span data-ar="لوجستيات" data-en="Logistics">لوجستيات</span></button>
+          </div>
+        </div>
+        <div class="field"><label data-ar="المدينة <span class='req'>*</span>" data-en="City <span class='req'>*</span>">المدينة <span class="req">*</span></label>
+          <div class="chips" id="cityChips" data-model="city">
+            <button class="chip" data-val="الخرطوم" data-en-val="Khartoum"><span data-ar="الخرطوم" data-en="Khartoum">الخرطوم</span></button>
+            <button class="chip" data-val="أم درمان" data-en-val="Omdurman"><span data-ar="أم درمان" data-en="Omdurman">أم درمان</span></button>
+            <button class="chip" data-val="بورتسودان" data-en-val="Port Sudan"><span data-ar="بورتسودان" data-en="Port Sudan">بورتسودان</span></button>
+            <button class="chip" data-val="ود مدني" data-en-val="Wad Madani"><span data-ar="ود مدني" data-en="Wad Madani">ود مدني</span></button>
+            <button class="chip" data-val="كسلا" data-en-val="Kassala"><span data-ar="كسلا" data-en="Kassala">كسلا</span></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 3 · KYC -->
+      <section class="step" data-step="3">
+        <p class="step-eyebrow" data-ar="الخطوة ٣ من ٦" data-en="Step 3 of 6">الخطوة ٣ من ٦</p>
+        <h1 class="step-h" data-ar="وثّق هويتك عبر بنك شريك" data-en="Verify your identity via a partner bank">وثّق هويتك عبر بنك شريك</h1>
+        <p class="step-sub" data-ar="يتم التوثيق (KYC) مباشرة مع بنك مرخّص — بياناتك تبقى لدى البنك، والسوق يستلم النتيجة فقط." data-en="KYC runs directly with a licensed bank — your documents stay with the bank; the souk only receives the result.">يتم التوثيق (KYC) مباشرة مع بنك مرخّص — بياناتك تبقى لدى البنك، والسوق يستلم النتيجة فقط.</p>
+        <div class="field" style="margin-top:22px"><label data-ar="نوع الوثيقة" data-en="Document type">نوع الوثيقة</label>
+          <button class="opt" data-model="idType" data-val="الرقم الوطني" data-en-val="National ID" aria-pressed="true"><span class="oi"><svg class="ic"><use href="#i-id"/></svg></span><span class="ox"><b data-ar="الرقم الوطني" data-en="National ID">الرقم الوطني</b><span data-ar="بطاقة الهوية الوطنية" data-en="National identity card">بطاقة الهوية الوطنية</span></span><span class="oc"><svg class="ic"><use href="#i-check"/></svg></span></button>
+          <button class="opt" data-model="idType" data-val="السجل التجاري" data-en-val="Commercial registration" aria-pressed="false"><span class="oi"><svg class="ic"><use href="#i-doc"/></svg></span><span class="ox"><b data-ar="السجل التجاري" data-en="Commercial registration">السجل التجاري</b><span data-ar="للشركات والمنشآت" data-en="For companies & establishments">للشركات والمنشآت</span></span><span class="oc"><svg class="ic"><use href="#i-check"/></svg></span></button>
+        </div>
+        <div class="field"><label data-ar="رقم الوثيقة <span class='req'>*</span>" data-en="Document number <span class='req'>*</span>">رقم الوثيقة <span class="req">*</span></label>
+          <input class="inp num" data-model="idNumber" placeholder="xxx-xxxx-xxxx">
+        </div>
+        <div class="callout"><svg class="ic"><use href="#i-shield"/></svg><span data-ar="التوثيق آلي وفوري في ٩٦٪ من الحالات. يُشفّر رقم وثيقتك ولا يظهر للسوق." data-en="Verification is automatic and instant in 96% of cases. Your document number is encrypted and never shown to the souk.">التوثيق آلي وفوري في ٩٦٪ من الحالات. يُشفّر رقم وثيقتك ولا يظهر للسوق.</span></div>
+      </section>
+
+      <!-- STEP 4 · banking -->
+      <section class="step" data-step="4">
+        <p class="step-eyebrow" data-ar="الخطوة ٤ من ٦" data-en="Step 4 of 6">الخطوة ٤ من ٦</p>
+        <h1 class="step-h" data-ar="أين تستلم أموالك؟" data-en="Where do you get paid?">أين تستلم أموالك؟</h1>
+        <p class="step-sub" data-ar="تُسوّى مدفوعاتك عبر بنك شريك وتُحفظ في الأمانة حتى يؤكّد سودا إكسبريس التسليم." data-en="Payouts settle through a partner bank and are held in escrow until Suda Express confirms handover.">تُسوّى مدفوعاتك عبر بنك شريك وتُحفظ في الأمانة حتى يؤكّد سودا إكسبريس التسليم.</p>
+        <div class="field" style="margin-top:22px"><label data-ar="طريقة التسوية" data-en="Payout method">طريقة التسوية</label>
+          <button class="opt" data-model="payout" data-val="محفظة حوّل" data-en-val="Hawil wallet" aria-pressed="true"><span class="oi"><svg class="ic"><use href="#i-wallet"/></svg></span><span class="ox"><b data-ar="محفظة حوّل" data-en="Hawil wallet">محفظة حوّل</b><span data-ar="فوري · بدون رسوم تحويل" data-en="Instant · no transfer fee">فوري · بدون رسوم تحويل</span></span><span class="oc"><svg class="ic"><use href="#i-check"/></svg></span></button>
+          <button class="opt" data-model="payout" data-val="حساب بنكي" data-en-val="Bank account" aria-pressed="false"><span class="oi"><svg class="ic"><use href="#i-bank"/></svg></span><span class="ox"><b data-ar="حساب بنكي" data-en="Bank account">حساب بنكي</b><span data-ar="تحويل يومي إلى بنكك" data-en="Daily transfer to your bank">تحويل يومي إلى بنكك</span></span><span class="oc"><svg class="ic"><use href="#i-check"/></svg></span></button>
+        </div>
+        <div class="field"><label data-ar="البنك الشريك" data-en="Partner bank">البنك الشريك</label>
+          <div class="chips" id="bankChips" data-model="bank">
+            <button class="chip" data-val="بنك النيلين" data-en-val="Nileen Bank" aria-pressed="true"><span data-ar="بنك النيلين" data-en="Nileen Bank">بنك النيلين</span></button>
+            <button class="chip" data-val="بنك الخرطوم" data-en-val="Khartoum Bank"><span data-ar="بنك الخرطوم" data-en="Khartoum Bank">بنك الخرطوم</span></button>
+            <button class="chip" data-val="بنك فيصل" data-en-val="Faisal Bank"><span data-ar="بنك فيصل" data-en="Faisal Bank">بنك فيصل</span></button>
+            <button class="chip" data-val="بنك أمدرمان" data-en-val="Omdurman Bank"><span data-ar="بنك أمدرمان" data-en="Omdurman Bank">بنك أمدرمان</span></button>
+          </div>
+        </div>
+        <div class="tog"><span class="ti"><svg class="ic"><use href="#i-shield"/></svg></span><div class="tx"><b data-ar="حماية الأمانة (ضمان)" data-en="Escrow protection">حماية الأمانة (ضمان)</b><span data-ar="يُفرج المبلغ عند تأكيد التسليم — موصى به" data-en="Funds release on confirmed handover — recommended">يُفرج المبلغ عند تأكيد التسليم — موصى به</span></div><button class="switch" id="escrowTog" data-model="escrow" aria-pressed="true" aria-label="Escrow"></button></div>
+      </section>
+
+      <!-- STEP 5 · operations (type-specific) -->
+      <section class="step" data-step="5">
+        <p class="step-eyebrow" data-ar="الخطوة ٥ من ٦" data-en="Step 5 of 6">الخطوة ٥ من ٦</p>
+        <h1 class="step-h" id="opsH" data-ar="جهّز تشغيلك" data-en="Set up operations">جهّز تشغيلك</h1>
+        <p class="step-sub" id="opsSub" data-ar="آخر خطوة قبل الإطلاق." data-en="One last step before launch.">آخر خطوة قبل الإطلاق.</p>
+
+        <!-- normal ops -->
+        <div data-ops="normal">
+          <div class="field" style="margin-top:22px"><label data-ar="أضف أول منتج <span class='req'>*</span>" data-en="Add your first product <span class='req'>*</span>">أضف أول منتج <span class="req">*</span></label>
+            <input class="inp" data-model="firstProduct" data-ar-ph="مثال: لوح شمسي ٥٥٠ واط" data-en-ph="e.g. Solar panel 550W" placeholder="مثال: لوح شمسي ٥٥٠ واط">
+          </div>
+          <div class="grid2">
+            <div class="field"><label data-ar="السعر (جنيه)" data-en="Price (SDG)">السعر (جنيه)</label>
+              <input class="inp num" data-model="firstPrice" inputmode="numeric" placeholder="42,000"></div>
+            <div class="field"><label data-ar="المخزون" data-en="Stock">المخزون</label>
+              <input class="inp num" data-model="stock" inputmode="numeric" placeholder="12"></div>
+          </div>
+          <div class="callout"><svg class="ic"><use href="#i-flash"/></svg><span data-ar="يمكنك رفع الكتالوج كاملاً لاحقاً، أو استيراده عبر واجهة الكتالوج (Catalog SDK)." data-en="You can upload your full catalog later, or import it via the Catalog SDK.">يمكنك رفع الكتالوج كاملاً لاحقاً، أو استيراده عبر واجهة الكتالوج (Catalog SDK).</span></div>
+        </div>
+
+        <!-- express ops -->
+        <div data-ops="express" style="display:none">
+          <div class="field" style="margin-top:22px"><label data-ar="مناطق التغطية <span class='req'>*</span>" data-en="Coverage areas <span class='req'>*</span>">مناطق التغطية <span class="req">*</span></label>
+            <div class="chips" id="coverChips" data-model="coverage" data-multi="1">
+              <button class="chip" data-val="الخرطوم" data-en-val="Khartoum"><span data-ar="الخرطوم" data-en="Khartoum">الخرطوم</span></button>
+              <button class="chip" data-val="أم درمان" data-en-val="Omdurman"><span data-ar="أم درمان" data-en="Omdurman">أم درمان</span></button>
+              <button class="chip" data-val="بحري" data-en-val="Bahri"><span data-ar="بحري" data-en="Bahri">بحري</span></button>
+              <button class="chip" data-val="بين المدن" data-en-val="Intercity"><span data-ar="بين المدن" data-en="Intercity">بين المدن</span></button>
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="field"><label data-ar="نوع الأسطول" data-en="Fleet type">نوع الأسطول</label>
+              <div class="chips" data-model="fleet">
+                <button class="chip" data-val="دراجات" data-en-val="Bikes" aria-pressed="true"><span data-ar="دراجات" data-en="Bikes">دراجات</span></button>
+                <button class="chip" data-val="عربات" data-en-val="Vans"><span data-ar="عربات" data-en="Vans">عربات</span></button>
+                <button class="chip" data-val="شاحنات" data-en-val="Trucks"><span data-ar="شاحنات" data-en="Trucks">شاحنات</span></button>
+              </div>
+            </div>
+            <div class="field"><label data-ar="سعر أساس التوصيل (جنيه)" data-en="Base delivery price (SDG)">سعر أساس التوصيل (جنيه)</label>
+              <input class="inp num" data-model="basePrice" inputmode="numeric" placeholder="4,800"></div>
+          </div>
+          <div class="callout"><svg class="ic"><use href="#i-qr"/></svg><span data-ar="ستحصل على تطبيق السائق ورمز QR للمسح عند الاستلام والتسليم بعد الإطلاق." data-en="You’ll get the rider app and a QR code for pickup/handover scans after launch.">ستحصل على تطبيق السائق ورمز QR للمسح عند الاستلام والتسليم بعد الإطلاق.</span></div>
+        </div>
+      </section>
+
+      <!-- STEP 6 · review -->
+      <section class="step" data-step="6">
+        <p class="step-eyebrow" data-ar="الخطوة ٦ من ٦" data-en="Step 6 of 6">الخطوة ٦ من ٦</p>
+        <h1 class="step-h" data-ar="راجع وأطلق متجرك" data-en="Review & launch">راجع وأطلق متجرك</h1>
+        <p class="step-sub" data-ar="تأكّد من التفاصيل قبل الإطلاق. يمكنك تعديل أي شيء لاحقاً من لوحة التاجر." data-en="Confirm the details before launch. You can edit anything later from the merchant console.">تأكّد من التفاصيل قبل الإطلاق. يمكنك تعديل أي شيء لاحقاً من لوحة التاجر.</p>
+        <div class="rev-sec">
+          <div class="rs-h"><b data-ar="النشاط" data-en="Business">النشاط</b><button class="rs-edit" data-goto="2" data-ar="تعديل" data-en="Edit">تعديل</button></div>
+          <div class="rev-line"><span class="k" data-ar="النوع" data-en="Type">النوع</span><span class="v" data-show="typeLabel">—</span></div>
+          <div class="rev-line"><span class="k" data-ar="الاسم" data-en="Name">الاسم</span><span class="v" data-show="name">—</span></div>
+          <div class="rev-line"><span class="k" data-ar="الفئة" data-en="Category">الفئة</span><span class="v" data-show="category">—</span></div>
+          <div class="rev-line"><span class="k" data-ar="المدينة" data-en="City">المدينة</span><span class="v" data-show="city">—</span></div>
+          <div class="rev-line"><span class="k" data-ar="الهاتف" data-en="Phone">الهاتف</span><span class="v"><span class="num">+249 </span><span data-show="phone">—</span></span></div>
+        </div>
+        <div class="rev-sec">
+          <div class="rs-h"><b data-ar="التوثيق والبنك" data-en="KYC & banking">التوثيق والبنك</b><button class="rs-edit" data-goto="3" data-ar="تعديل" data-en="Edit">تعديل</button></div>
+          <div class="rev-line"><span class="k" data-ar="التوثيق" data-en="KYC">التوثيق</span><span class="v" data-show="idType">—</span></div>
+          <div class="rev-line"><span class="k" data-ar="التسوية" data-en="Payout">التسوية</span><span class="v" data-show="payout">—</span></div>
+          <div class="rev-line"><span class="k" data-ar="البنك الشريك" data-en="Partner bank">البنك الشريك</span><span class="v" data-show="bank">—</span></div>
+          <div class="rev-line"><span class="k" data-ar="الأمانة" data-en="Escrow">الأمانة</span><span class="v" data-show="escrowLabel">—</span></div>
+        </div>
+        <div class="rev-sec">
+          <div class="rs-h"><b data-ar="التشغيل" data-en="Operations">التشغيل</b><button class="rs-edit" data-goto="5" data-ar="تعديل" data-en="Edit">تعديل</button></div>
+          <div id="revOps"></div>
+        </div>
+      </section>
+
+      <!-- DONE -->
+      <section class="step" data-step="7">
+        <div class="done">
+          <div class="check"><svg viewBox="0 0 52 52"><circle class="ring" cx="26" cy="26" r="23"/><path class="p" d="M15 27l7 7 15-15"/></svg></div>
+          <h2 data-ar="أهلاً بك في السوق! 🎉" data-en="Welcome to the souk! 🎉">أهلاً بك في السوق! 🎉</h2>
+          <p id="doneMsg" data-ar="تم إنشاء حسابك. متجرك الآن جزء من منظومة هويل، جاهز لاستقبال الطلبات." data-en="Your account is live. Your store is now part of the Hawil ecosystem, ready to take orders.">تم إنشاء حسابك. متجرك الآن جزء من منظومة هويل، جاهز لاستقبال الطلبات.</p>
+          <div class="done-cta">
+            <a class="btn btn-primary" id="doneOpen" href="index.html#merchant"><svg class="ic"><use href="#i-store"/></svg><span data-ar="افتح لوحة التاجر" data-en="Open merchant console">افتح لوحة التاجر</span></a>
+            <a class="btn btn-ghost" href="dashboard.html"><svg class="ic"><use href="#i-coins"/></svg><span data-ar="شاهد اللوحة" data-en="See the dashboard">شاهد اللوحة</span></a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- nav -->
+    <div class="nav" id="nav">
+      <button class="btn btn-ghost hide" id="backBtn"><svg class="ic"><use href="#i-back"/></svg><span data-ar="السابق" data-en="Back">السابق</span></button>
+      <span class="step-count" id="stepCount"></span>
+      <button class="btn btn-primary" id="nextBtn" disabled><span data-ar="متابعة" data-en="Continue">متابعة</span><svg class="ic"><use href="#i-arrow"/></svg></button>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var docEl=document.documentElement, reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var TOTAL=6, cur=1;
+  var state={type:'',name:'',phone:'',category:'',city:'',idType:'الرقم الوطني',idNumber:'',payout:'محفظة حوّل',bank:'بنك النيلين',escrow:true,
+             firstProduct:'',firstPrice:'',stock:'',coverage:[],fleet:'دراجات',basePrice:''};
+  var L=function(a,e){return docEl.getAttribute('data-lang')==='ar'?a:e;};
+
+  /* i18n */
+  function setLang(l){
+    var ar=l==='ar'; docEl.lang=l; docEl.dir=ar?'rtl':'ltr'; docEl.setAttribute('data-lang',l);
+    document.querySelectorAll('[data-ar]').forEach(function(e){var v=ar?e.getAttribute('data-ar'):e.getAttribute('data-en');if(v!=null){if(e.querySelector('.req'))e.innerHTML=v;else e.textContent=v;}});
+    document.querySelectorAll('[data-ar-ph]').forEach(function(e){e.placeholder=ar?e.getAttribute('data-ar-ph'):e.getAttribute('data-en-ph');});
+    document.querySelectorAll('.lang [data-lang]').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-lang')===l?'true':'false');});
+    // re-evaluate chip labels handled via data-val (kept in AR canonical); refresh preview + review
+    render();
+  }
+  document.querySelectorAll('.lang [data-lang]').forEach(function(b){b.addEventListener('click',function(){setLang(b.getAttribute('data-lang'));});});
+
+  /* helpers to display a value bilingually via data-en-val map on chips/opts */
+  function disp(val){
+    if(!val) return L('—','—');
+    // find a control whose data-val === val to grab its EN label
+    var el=document.querySelector('[data-val="'+CSS.escape(val)+'"]');
+    if(el&&docEl.getAttribute('data-lang')==='en'&&el.getAttribute('data-en-val'))return el.getAttribute('data-en-val');
+    return val;
+  }
+
+  /* type selection */
+  document.querySelectorAll('.type-card').forEach(function(c){
+    c.addEventListener('click',function(){
+      state.type=c.getAttribute('data-type');
+      docEl.setAttribute('data-type',state.type);
+      document.querySelectorAll('.type-card').forEach(function(x){x.setAttribute('aria-pressed',x===c?'true':'false');});
+      // toggle ops variant
+      document.querySelector('[data-ops="normal"]').style.display=state.type==='normal'?'':'none';
+      document.querySelector('[data-ops="express"]').style.display=state.type==='express'?'':'none';
+      render(); validate();
+    });
+  });
+
+  /* text inputs */
+  document.querySelectorAll('.inp[data-model]').forEach(function(inp){
+    inp.addEventListener('input',function(){state[inp.getAttribute('data-model')]=inp.value.trim();inp.closest('.field').classList.remove('err');render();validate();});
+  });
+
+  /* single-select chips / opts */
+  document.querySelectorAll('[data-model]').forEach(function(group){
+    if(group.classList.contains('inp')||group.classList.contains('type-card'))return;
+    if(group.classList.contains('switch'))return;
+    var multi=group.getAttribute('data-multi'), model=group.getAttribute('data-model');
+    var btns=group.matches('.opt')?[group]:group.querySelectorAll('.chip,.opt');
+    // For .opt groups, data-model is on each button; collect siblings by same model
+  });
+  // chips groups (container has data-model)
+  document.querySelectorAll('.chips[data-model]').forEach(function(group){
+    var model=group.getAttribute('data-model'), multi=group.getAttribute('data-multi');
+    group.querySelectorAll('.chip').forEach(function(chip){
+      chip.addEventListener('click',function(){
+        var val=chip.getAttribute('data-val');
+        if(multi){
+          var i=state[model].indexOf(val);
+          if(i>-1){state[model].splice(i,1);chip.setAttribute('aria-pressed','false');}
+          else{state[model].push(val);chip.setAttribute('aria-pressed','true');}
+        }else{
+          group.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed','false');});
+          chip.setAttribute('aria-pressed','true'); state[model]=val;
+          group.closest('.field').classList.remove('err');
+        }
+        render();validate();
+      });
+    });
+  });
+  // opt buttons (each has data-model) — group by model within same step
+  document.querySelectorAll('.opt[data-model]').forEach(function(opt){
+    opt.addEventListener('click',function(){
+      var model=opt.getAttribute('data-model');
+      document.querySelectorAll('.opt[data-model="'+model+'"]').forEach(function(x){x.setAttribute('aria-pressed','false');});
+      opt.setAttribute('aria-pressed','true'); state[model]=opt.getAttribute('data-val'); render();validate();
+    });
+  });
+  // escrow toggle
+  var esc=document.getElementById('escrowTog');
+  esc.addEventListener('click',function(){var on=esc.getAttribute('aria-pressed')!=='true';esc.setAttribute('aria-pressed',on?'true':'false');state.escrow=on;render();});
+
+  /* render preview + review + ops labels */
+  function render(){
+    var mark=state.name?state.name.trim()[0]:(state.type==='express'?'سإ':'؟');
+    document.getElementById('pvMark').textContent=mark;
+    document.getElementById('pvName').textContent=state.name||L('متجرك','Your store');
+    var badge=document.getElementById('pvBadge');
+    badge.textContent=state.type?L(state.type==='express'?'سودا إكسبريس':'تاجر عادي',state.type==='express'?'Suda Express':'Standard merchant'):L('لم يُحدّد','Not set');
+    setPV('pvCat',state.category?disp(state.category):null);
+    setPV('pvCity',state.city?disp(state.city):null);
+    setPV('pvPayout',state.payout?disp(state.payout):null);
+    var kyc=document.getElementById('pvKyc');
+    if(cur>3&&state.idNumber){kyc.textContent=L('مُوثّق','Verified');kyc.className='v ok';}
+    else{kyc.textContent=L('قيد الإكمال','Pending');kyc.className='v wait';}
+    // ops step title
+    document.getElementById('opsH').textContent=state.type==='express'?L('نطاق الخدمة والتسعير','Coverage & pricing'):L('متجرك وأول منتج','Store & first product');
+    document.getElementById('opsSub').textContent=state.type==='express'?L('حدّد أين تعمل وكيف تسعّر.','Set where you work and how you price.'):L('أضف أول منتج لتبدأ البيع.','Add your first product to start selling.');
+    // review data-show
+    document.querySelectorAll('[data-show]').forEach(function(el){
+      var k=el.getAttribute('data-show'),v;
+      if(k==='typeLabel')v=state.type?L(state.type==='express'?'سودا إكسبريس':'تاجر عادي',state.type==='express'?'Suda Express':'Standard merchant'):'—';
+      else if(k==='escrowLabel')v=state.escrow?L('مُفعّلة','Enabled'):L('متوقفة','Off');
+      else if(['category','city','payout','bank','idType'].indexOf(k)>-1)v=state[k]?disp(state[k]):'—';
+      else v=state[k]||'—';
+      el.textContent=v;
+    });
+    // review ops block
+    var ro=document.getElementById('revOps');
+    if(state.type==='express'){
+      ro.innerHTML=line(L('التغطية','Coverage'),state.coverage.length?state.coverage.map(disp).join('، '):'—')+
+        line(L('الأسطول','Fleet'),disp(state.fleet))+line(L('سعر الأساس','Base price'),state.basePrice?state.basePrice+' '+L('ج','SDG'):'—');
+    }else if(state.type==='normal'){
+      ro.innerHTML=line(L('أول منتج','First product'),state.firstProduct||'—')+
+        line(L('السعر','Price'),state.firstPrice?state.firstPrice+' '+L('ج','SDG'):'—')+line(L('المخزون','Stock'),state.stock||'—');
+    }else ro.innerHTML=line(L('النوع','Type'),'—');
+  }
+  function line(k,v){return '<div class="rev-line"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+  function setPV(id,v){var el=document.getElementById(id);if(v){el.textContent=v;el.className='v';}else{el.textContent='—';el.className='v wait';}}
+
+  /* validation per step */
+  function required(step){
+    switch(step){
+      case 1:return !!state.type;
+      case 2:return state.name&&state.phone&&state.category&&state.city;
+      case 3:return !!state.idNumber;
+      case 4:return !!state.payout&&!!state.bank;
+      case 5:return state.type==='express'?(state.coverage.length>0&&state.basePrice):(!!state.firstProduct);
+      case 6:return true;
+      default:return true;
+    }
+  }
+  function validate(){document.getElementById('nextBtn').disabled=!required(cur);}
+
+  /* mark invalid fields on failed next */
+  function flagStep(step){
+    var sec=document.querySelector('.step[data-step="'+step+'"]');
+    sec.querySelectorAll('.field').forEach(function(f){
+      var inp=f.querySelector('.inp[data-model]'), chips=f.querySelector('.chips[data-model]');
+      if(inp&&inp.closest('.step').getAttribute('data-step')===String(step)){
+        var m=inp.getAttribute('data-model');
+        if(f.querySelector('label') && /req/.test(f.querySelector('label').innerHTML) && !state[m]) f.classList.add('err');
+      }
+      if(chips){var m=chips.getAttribute('data-model');var need=/req/.test((f.querySelector('label')||{innerHTML:''}).innerHTML);
+        if(need && (chips.getAttribute('data-multi')?!state[m].length:!state[m])) f.classList.add('err');}
+    });
+  }
+
+  /* stepper + progress */
+  function paintStepper(){
+    document.querySelectorAll('#steps li').forEach(function(li){
+      var s=+li.getAttribute('data-s');
+      li.classList.toggle('active',s===cur);
+      li.classList.toggle('done',s<cur);
+    });
+    document.getElementById('pfill').style.width=Math.min(cur,TOTAL)/TOTAL*100+'%';
+    document.getElementById('stepCount').textContent=cur<=TOTAL?L('الخطوة '+cur+' من '+TOTAL,'Step '+cur+' of '+TOTAL):'';
+  }
+
+  function show(step){
+    document.querySelectorAll('.step').forEach(function(s){s.classList.toggle('on',+s.getAttribute('data-step')===step);});
+    cur=step; paintStepper(); validate();
+    var back=document.getElementById('backBtn'), next=document.getElementById('nextBtn');
+    back.classList.toggle('hide',step<=1||step>TOTAL);
+    if(step>TOTAL){document.getElementById('nav').style.display='none';return;}
+    document.getElementById('nav').style.display='';
+    next.querySelector('span').textContent=step===TOTAL?L('إطلاق المتجر','Launch store'):L('متابعة','Continue');
+    render();
+    if(!reduce)window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  document.getElementById('nextBtn').addEventListener('click',function(){
+    if(!required(cur)){flagStep(cur);return;}
+    if(cur===TOTAL){launch();return;}
+    show(cur+1);
+  });
+  document.getElementById('backBtn').addEventListener('click',function(){if(cur>1)show(cur-1);});
+  document.querySelectorAll('[data-goto]').forEach(function(b){b.addEventListener('click',function(){show(+b.getAttribute('data-goto'));});});
+
+  function launch(){
+    // finalize done screen
+    var open=document.getElementById('doneOpen');
+    open.setAttribute('href','index.html#'+(state.type==='express'?'merchant:express':'merchant'));
+    document.getElementById('doneMsg').textContent=state.type==='express'
+      ? L('تم إنشاء حساب سودا إكسبريس. أنت الآن ضمن شبكة الشحن، جاهز لاستلام المهام.','Your Suda Express account is live. You’re now on the logistics network, ready to take jobs.')
+      : L((state.name||'متجرك')+' الآن جزء من منظومة هويل، جاهز لاستقبال الطلبات.',(state.name||'Your store')+' is now part of the Hawil ecosystem, ready to take orders.');
+    show(TOTAL+1);
+    if(!reduce)confetti();
+  }
+  function confetti(){
+    var wrap=document.createElement('div');wrap.className='confetti';document.body.appendChild(wrap);
+    var cols=['#8A4B2A','#B8862F','#2F6B4F','#E4D2B4'];
+    for(var i=0;i<70;i++){var s=document.createElement('i');s.style.insetInlineStart=Math.random()*100+'vw';
+      s.style.background=cols[i%cols.length];s.style.animationDelay=(Math.random()*.5)+'s';
+      s.style.transform='translateY(-10vh)';wrap.appendChild(s);}
+    setTimeout(function(){wrap.remove();},3000);
+  }
+
+  /* boot */
+  setLang('ar'); show(1);
+})();
+</script>
+</body>
+</html>
