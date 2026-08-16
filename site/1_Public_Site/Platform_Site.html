@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>السوق — منصة التجارة والدفع السودانية | alSooq</title>
+<meta name="description" content="السوق: منصة تجارة إلكترونية ومدفوعات سودانية ضمن منظومة حوّل. سوق موحّد، دفع بـ QR، لوجستيات، ومقاعد سفر.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* alSooq canonical brand system — do not override */
+  --sand:#F6F1E7;
+  --sand-2:#EFE7D8;
+  --card:#FFFCF6;
+  --ink:#2E241B;
+  --ink-2:#6B5B4B;
+  --ink-3:#93826F;
+  --clay:#8A4B2A;
+  --clay-deep:#5F3119;
+  --clay-08:rgba(138,75,42,.08);
+  --clay-15:rgba(138,75,42,.15);
+  --clay-30:rgba(138,75,42,.30);
+  --palm:#2F6B4F;           /* settled / paid states ONLY */
+  --palm-08:rgba(47,107,79,.09);
+  --gold:#B8862F;           /* Mwasalati identity chip ONLY */
+  --gold-10:rgba(184,134,47,.12);
+  --kraft:#E4D2B4;
+  --line:#DCCFBB;
+  --line-soft:rgba(220,207,187,.6);
+  --r:12px;
+  --r-sm:8px;
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  --ease-in-out:cubic-bezier(0.77,0,0.175,1);
+  --d-fast:160ms;
+  --d:220ms;
+  --shadow:0 1px 2px rgba(46,36,27,.05), 0 8px 24px -12px rgba(46,36,27,.18);
+  --shadow-lg:0 2px 4px rgba(46,36,27,.06), 0 24px 48px -20px rgba(46,36,27,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
+body{
+  font-family:'IBM Plex Sans Arabic','IBM Plex Sans',system-ui,sans-serif;
+  background:var(--sand);
+  color:var(--ink);
+  font-size:17px;
+  line-height:1.65;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+html[dir="ltr"] body{font-family:'IBM Plex Sans','IBM Plex Sans Arabic',system-ui,sans-serif}
+
+/* --- browser surfaces: themed, not defaults --- */
+::selection{background:var(--clay-15);color:var(--clay-deep)}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:var(--sand-2)}
+::-webkit-scrollbar-thumb{background:var(--kraft);border:3px solid var(--sand-2);border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:var(--clay-30)}
+*{scrollbar-color:var(--kraft) var(--sand-2);scrollbar-width:thin}
+:focus-visible{outline:2px solid var(--clay);outline-offset:3px;border-radius:4px}
+input,textarea{caret-color:var(--clay)}
+a{color:inherit;text-decoration:none;text-underline-offset:4px;text-decoration-thickness:1px}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+table{border-collapse:collapse;width:100%}
+.num{font-variant-numeric:tabular-nums lining-nums;letter-spacing:0}
+
+/* --- layout --- */
+.wrap{max-width:1380px;margin-inline:auto;padding-inline:clamp(20px,4vw,48px)}
+section{position:relative}
+.rule{height:1px;background:var(--line);border:0}
+
+/* --- type --- */
+h1,h2,h3,h4{font-weight:700;line-height:1.14;letter-spacing:-.03em;text-wrap:balance}
+h1{font-size:clamp(2.5rem,5.4vw,4.5rem);letter-spacing:-.04em}
+h2{font-size:clamp(1.9rem,3.4vw,3rem)}
+h3{font-size:clamp(1.15rem,1.6vw,1.5rem);letter-spacing:-.02em}
+h4{font-size:1.02rem;letter-spacing:-.01em;font-weight:600}
+p{max-width:68ch}
+.lede{font-size:clamp(1.05rem,1.35vw,1.3rem);color:var(--ink-2);line-height:1.6}
+.sub{color:var(--ink-2)}
+.small{font-size:.86rem;line-height:1.55}
+.en{font-family:'IBM Plex Sans',sans-serif;letter-spacing:-.01em}
+.mark{color:var(--clay)}
+
+/* --- icons --- */
+.ic{width:24px;height:24px;flex:none;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ic-sm{width:18px;height:18px}
+.ic-lg{width:28px;height:28px}
+
+/* --- buttons --- */
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:13px 22px;border-radius:var(--r-sm);
+  font-weight:600;font-size:.97rem;letter-spacing:-.01em;
+  transition:background var(--d-fast) var(--ease-out),color var(--d-fast) var(--ease-out),border-color var(--d-fast) var(--ease-out),box-shadow var(--d-fast) var(--ease-out);
+}
+.btn-primary{background:var(--clay);color:#fff;box-shadow:0 1px 2px rgba(95,49,25,.2),0 10px 22px -14px rgba(95,49,25,.7)}
+.btn-ghost{border:1px solid var(--line);color:var(--ink);background:var(--card)}
+@media (hover:hover) and (pointer:fine){
+  .btn-primary:hover{background:var(--clay-deep)}
+  .btn-ghost:hover{border-color:var(--clay-30);color:var(--clay)}
+}
+.btn:active{box-shadow:none}
+.arw{transition:transform var(--d-fast) var(--ease-out)}
+html[dir="rtl"] .arw{transform:scaleX(-1)}
+
+/* --- chips --- */
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 10px;border-radius:99px;
+  font-size:.74rem;font-weight:600;letter-spacing:.01em;
+  border:1px solid transparent;white-space:nowrap;
+}
+.chip-plan{background:var(--clay-08);color:var(--clay-deep);border-color:var(--clay-15)}
+.chip-dep{background:transparent;color:var(--ink-3);border-color:var(--line);border-style:dashed}
+.chip-settled{background:var(--palm-08);color:var(--palm)}
+.chip-mw{background:var(--gold-10);color:#7A5716;border-color:rgba(184,134,47,.28)}
+.dot{width:6px;height:6px;border-radius:99px;background:currentColor;flex:none}
+
+/* --- reveal --- */
+.rv-armed{opacity:0;transform:translateY(12px);transition:opacity 460ms var(--ease-out),transform 460ms var(--ease-out)}
+.rv-armed.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .rv-armed{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-build" viewBox="0 0 24 24"><path d="M4 20h16M6 20V8l7-4v16M6 9l7 2M17 20v-7l-4-1.5"/><path d="M9 13h1M9 16h1"/></symbol>
+<symbol id="i-agri" viewBox="0 0 24 24"><path d="M12 21V9M12 9c0-3 2-5 5-5 0 3-2 5-5 5ZM12 12c0-3-2-5-5-5 0 3 2 5 5 5ZM4 21h16"/></symbol>
+<symbol id="i-gold" viewBox="0 0 24 24"><path d="M4 17h16l-2-5H6l-2 5ZM7 12l1.5-4h7L17 12"/><path d="M9.5 8 10 5h4l.5 3"/></symbol>
+<symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 16V6h11v10M14 9h4l3 3v4h-3"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/><path d="M9 18h6"/></symbol>
+<symbol id="i-cart" viewBox="0 0 24 24"><path d="M3 4h2.2l2.3 10.5h9.6L19 7H6"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+<symbol id="i-bid" viewBox="0 0 24 24"><path d="M4 8h13l-2.5-2.5M20 16H7l2.5 2.5"/><path d="M4 8l2.5 2.5M20 16l-2.5-2.5"/></symbol>
+<symbol id="i-swap" viewBox="0 0 24 24"><circle cx="9" cy="9" r="4.5"/><circle cx="15" cy="15" r="4.5"/><path d="M9 6.5v5M6.5 9h5M12.8 15h4.4"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.2 2.3 3.3 5.3 3.3 8.5S14.2 18.2 12 20.5c-2.2-2.3-3.3-5.3-3.3-8.5S9.8 5.8 12 3.5Z"/></symbol>
+<symbol id="i-qr" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1"/><path d="M14 14h3v3h-3zM20.5 14v6.5H17"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19M6 15h3.5"/></symbol>
+<symbol id="i-container" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="11" rx="1.5"/><path d="M7.5 7v11M12 7v11M16.5 7v11"/></symbol>
+<symbol id="i-parcel" viewBox="0 0 24 24"><path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5v-7Z"/><path d="M4 8.5 12 13l8-4.5M12 13v7"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="1.5"/><path d="M4 11h16M12 7v4M9.5 4.5 12 7l2.5-2.5"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.5 19 6v5.5c0 4.3-3 7.6-7 9-4-1.4-7-4.7-7-9V6l7-2.5Z"/><path d="m9 12 2 2 4-4"/></symbol>
+<symbol id="i-bus" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="13" rx="2.5"/><path d="M4 11h16M8 4v7M16 4v7M7 17v2M17 17v2"/></symbol>
+<symbol id="i-seat" viewBox="0 0 24 24"><path d="M7 4h6a2 2 0 0 1 2 2v8H7V4ZM7 14H5.5A1.5 1.5 0 0 0 4 15.5V20h13M17 9h1.5A1.5 1.5 0 0 1 20 10.5V20"/></symbol>
+<symbol id="i-wallet" viewBox="0 0 24 24"><path d="M3.5 7.5A2.5 2.5 0 0 1 6 5h11.5v3"/><rect x="3.5" y="7.5" width="17" height="11.5" rx="2.5"/><circle cx="16" cy="13" r="1.2"/></symbol>
+<symbol id="i-bank" viewBox="0 0 24 24"><path d="M3.5 9.5 12 4.5l8.5 5M5 9.5V18M9.5 9.5V18M14.5 9.5V18M19 9.5V18M3 20.5h18"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3.5h7l5 5V20a.5.5 0 0 1-.5.5h-11A.5.5 0 0 1 6 20V4a.5.5 0 0 1 .5-.5Z"/><path d="M13 3.5V9h5M9 13h6M9 16.5h4"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.9-3.7 3.9-5.6 7.5-5.6s6.6 1.9 7.5 5.6"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20h-5v-5.5H9V20H4v-9.5Z"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M6 8.5v4a3.5 3.5 0 0 0 3.5 3.5H15"/></symbol>
+<symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 4v16M6 8h12M4 8l-2 5h4L4 8ZM20 8l-2 5h4l-2-5ZM8 20h8"/></symbol>
+</defs></svg>
+
+<style>
+/* ================= HEADER ================= */
+.hdr{position:sticky;top:0;z-index:60;background:rgba(246,241,231,.92);border-bottom:1px solid var(--line-soft);backdrop-filter:saturate(1.2) blur(10px)}
+.hdr-in{display:flex;align-items:center;gap:28px;height:66px}
+.brand{display:flex;align-items:center;gap:11px;flex:none}
+.brand-mark{width:34px;height:34px;border-radius:9px;background:var(--clay);color:#fff;display:grid;place-items:center;font-weight:700;font-size:1.05rem;letter-spacing:-.03em}
+.brand-txt{display:flex;flex-direction:column;line-height:1.1}
+.brand-txt b{font-size:1.06rem;letter-spacing:-.02em}
+.brand-txt span{font-size:.68rem;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
+.nav{display:flex;gap:4px;margin-inline-start:auto}
+.nav a{padding:8px 13px;border-radius:var(--r-sm);font-size:.93rem;font-weight:500;color:var(--ink-2);transition:color var(--d-fast) var(--ease-out),background var(--d-fast) var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.nav a:hover{color:var(--clay);background:var(--clay-08)}}
+.hdr-act{display:flex;align-items:center;gap:10px;flex:none}
+.lang{display:flex;border:1px solid var(--line);border-radius:99px;overflow:hidden;background:var(--card)}
+.lang button{padding:6px 13px;font-size:.8rem;font-weight:600;color:var(--ink-3);transition:background var(--d-fast) var(--ease-out),color var(--d-fast) var(--ease-out)}
+.lang button[aria-pressed="true"]{background:var(--clay);color:#fff}
+@media(max-width:1080px){.nav{display:none}}
+@media(max-width:700px){
+  .hdr-in{gap:12px;height:60px}
+  .hdr-act .btn{display:none}
+  .brand-txt span{display:none}
+  .lang{margin-inline-start:auto}
+}
+
+/* ================= HERO ================= */
+.hero{position:relative;padding:clamp(48px,5.5vw,84px) 0 clamp(56px,6vw,92px);overflow:hidden}
+#loom{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero-scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(246,241,231,.28),rgba(246,241,231,.80) 52%,var(--sand))}
+.hero-in{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.82fr);gap:clamp(28px,5vw,72px);align-items:center}
+.hero h1{margin-bottom:20px}
+.hero h1 em{font-style:normal;color:var(--clay);display:block}
+.hero-en{font-family:'IBM Plex Sans',sans-serif;font-size:.94rem;color:var(--ink-3);letter-spacing:.02em;margin-bottom:14px;direction:ltr;text-align:start}
+html[dir="rtl"] .hero-en{text-align:right}
+.hero .lede{margin-bottom:26px;max-width:56ch}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:30px}
+.hero-facts{display:flex;flex-wrap:wrap;gap:10px 22px;padding-top:20px;border-top:1px solid var(--line)}
+.fact{display:flex;align-items:center;gap:8px;font-size:.86rem;color:var(--ink-2)}
+.fact svg{color:var(--clay)}
+.seed{position:absolute;z-index:3;inset-inline-end:clamp(20px,4vw,48px);bottom:14px;display:flex;align-items:center;gap:7px;font-size:.7rem;color:var(--ink-3);border:1px solid var(--line);background:rgba(255,252,246,.7);padding:5px 11px;border-radius:99px;transition:color var(--d-fast) var(--ease-out),border-color var(--d-fast) var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.seed:hover{color:var(--clay);border-color:var(--clay-30)}}
+
+/* ---- phone frame (Paytm-grammar home, small) ---- */
+.phone{width:100%;max-width:322px;margin-inline:auto;background:var(--ink);border-radius:38px;padding:9px;box-shadow:var(--shadow-lg)}
+.phone-scr{background:var(--sand);border-radius:30px;overflow:hidden;height:578px;display:flex;flex-direction:column}
+.ph-top{background:var(--clay);color:#fff;padding:14px 14px 16px}
+.ph-status{display:flex;justify-content:space-between;font-size:.66rem;opacity:.85;margin-bottom:12px}
+.ph-search{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.16);border-radius:9px;padding:9px 11px;font-size:.8rem;color:rgba(255,255,255,.9)}
+.ph-bal{display:flex;gap:8px;margin-top:12px}
+.ph-bal div{flex:1;background:rgba(255,255,255,.13);border-radius:9px;padding:8px 10px}
+.ph-bal small{display:block;font-size:.62rem;opacity:.8;margin-bottom:2px}
+.ph-bal b{font-size:.9rem;letter-spacing:-.02em}
+.ph-body{flex:1;overflow:hidden;padding:14px 12px;background:var(--sand)}
+.ph-sec{font-size:.72rem;font-weight:600;color:var(--ink-3);margin:0 2px 9px}
+.ph-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:15px}
+.ph-tile{background:var(--card);border:1px solid var(--line-soft);border-radius:11px;padding:9px 4px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.ph-tile svg{color:var(--clay);width:20px;height:20px}
+.ph-tile span{font-size:.58rem;line-height:1.25;color:var(--ink-2);font-weight:500}
+.ph-strip{background:var(--card);border:1px solid var(--line-soft);border-radius:11px;padding:10px 11px;display:flex;align-items:center;gap:9px}
+.ph-strip b{font-size:.74rem;font-weight:600}
+.ph-strip small{font-size:.63rem;color:var(--ink-3);display:block}
+.ph-nav{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);background:var(--card);padding:9px 0 12px}
+.ph-nav i{display:flex;flex-direction:column;align-items:center;gap:3px;font-style:normal;font-size:.55rem;color:var(--ink-3)}
+.ph-nav i svg{width:19px;height:19px}
+.ph-nav i.on{color:var(--clay)}
+@media(max-width:900px){.hero-in{grid-template-columns:1fr}.phone{order:-1;max-width:290px}}
+</style>
+
+<header class="hdr">
+  <div class="wrap hdr-in">
+    <a class="brand" href="#top">
+      <span class="brand-mark">س</span>
+      <span class="brand-txt"><b data-ar="السوق" data-en="alSooq">السوق</b><span class="en">HAWIL ECOSYSTEM</span></span>
+    </a>
+    <nav class="nav">
+      <a href="#platform" data-ar="المنصة" data-en="Platform">المنصة</a>
+      <a href="#services" data-ar="الخدمات" data-en="Services">الخدمات</a>
+      <a href="#roadmap" data-ar="خارطة الطريق" data-en="Roadmap">خارطة الطريق</a>
+      <a href="#corridors" data-ar="الممرات والتحويلات" data-en="Corridors">الممرات والتحويلات</a>
+      <a href="#mwasalati" data-ar="مواصلاتي" data-en="Mwasalati">مواصلاتي</a>
+      <a href="#open" data-ar="قرارات مفتوحة" data-en="Open decisions">قرارات مفتوحة</a>
+    </nav>
+    <div class="hdr-act">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="ar" aria-pressed="true">عربي</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn btn-primary" href="#platform" style="padding:9px 16px;font-size:.88rem" data-ar="دخول التاجر" data-en="Merchant login">دخول التاجر</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <canvas id="loom" aria-hidden="true"></canvas>
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <div class="rv">
+      <p class="hero-en en">First Sudanese global e-commerce &amp; fintech platform</p>
+      <h1><span data-ar="سوق واحد" data-en="One marketplace.">سوق واحد</span> <em data-ar="لكل السودانيين، أينما كانوا." data-en="For every Sudanese, wherever they are.">لكل السودانيين، أينما كانوا.</em></h1>
+      <p class="lede" data-ar="من الخرطوم إلى القاهرة، ومن جدة إلى دبي — اشترِ، بِع، واستثمر في السودان بطريقة لم تكن ممكنة من قبل. بنية دفع مرخّصة من بنك السودان المركزي، وسوق موحّد، ولوجستيات ونقل مدمجة في تطبيق واحد." data-en="From Khartoum to Cairo, from Jeddah to Dubai — buy, sell and invest in Sudan like never before. CBOS-licensed payment rails, a unified marketplace, and embedded logistics and mobility in one app.">من الخرطوم إلى القاهرة، ومن جدة إلى دبي — اشترِ، بِع، واستثمر في السودان بطريقة لم تكن ممكنة من قبل. بنية دفع مرخّصة من بنك السودان المركزي، وسوق موحّد، ولوجستيات ونقل مدمجة في تطبيق واحد.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#platform"><span data-ar="استعرض المنصة" data-en="Explore the platform">استعرض المنصة</span><svg class="ic ic-sm arw"><use href="#i-arrow"/></svg></a>
+        <a class="btn btn-ghost" href="#roadmap" data-ar="خارطة الطريق ٢٠٢٦–٢٠٢٧" data-en="Roadmap 2026–2027">خارطة الطريق ٢٠٢٦–٢٠٢٧</a>
+      </div>
+      <div class="hero-facts">
+        <span class="fact"><svg class="ic ic-sm"><use href="#i-shield"/></svg><span data-ar="ترخيص بنك السودان المركزي ٢٠١٨/٠٢ — ٢٣ يناير ٢٠١٨" data-en="CBOS licence 2018/02 — 23 January 2018">ترخيص بنك السودان المركزي ٢٠١٨/٠٢ — ٢٣ يناير ٢٠١٨</span></span>
+        <span class="fact"><svg class="ic ic-sm"><use href="#i-bank"/></svg><span data-ar="متصل ببنية حوّل المصرفية" data-en="Connected to Hawil banking infrastructure">متصل ببنية حوّل المصرفية</span></span>
+        <span class="fact"><svg class="ic ic-sm"><use href="#i-pin"/></svg><span data-ar="الخرطوم · أم درمان · بحري" data-en="Khartoum · Omdurman · Bahri">الخرطوم · أم درمان · بحري</span></span>
+      </div>
+    </div>
+
+    <div class="rv">
+      <div class="phone" aria-label="alSooq app home">
+        <div class="phone-scr">
+          <div class="ph-top">
+            <div class="ph-status en"><span>9:41</span><span data-ar="السوق" data-en="alSooq">السوق</span></div>
+            <div class="ph-search"><svg class="ic ic-sm"><use href="#i-search"/></svg><span data-ar="ابحث عن سلعة أو تاجر أو خط" data-en="Search goods, merchants, routes">ابحث عن سلعة أو تاجر أو خط</span></div>
+            <div class="ph-bal">
+              <div><small data-ar="رصيد حوّل" data-en="Hawil balance">رصيد حوّل</small><b class="num">—</b></div>
+              <div><small data-ar="طلبات قيد التسليم" data-en="Orders in transit">طلبات قيد التسليم</small><b class="num">—</b></div>
+            </div>
+          </div>
+          <div class="ph-body">
+            <p class="ph-sec" data-ar="ادفع وحوّل" data-en="Pay &amp; transfer">ادفع وحوّل</p>
+            <div class="ph-grid">
+              <div class="ph-tile"><svg class="ic"><use href="#i-qr"/></svg><span data-ar="مسح QR" data-en="Scan QR">مسح QR</span></div>
+              <div class="ph-tile"><svg class="ic"><use href="#i-swap"/></svg><span data-ar="تحويل" data-en="Transfer">تحويل</span></div>
+              <div class="ph-tile"><svg class="ic"><use href="#i-card"/></svg><span data-ar="بطاقة افتراضية" data-en="Virtual card">بطاقة افتراضية</span></div>
+              <div class="ph-tile"><svg class="ic"><use href="#i-gold"/></svg><span data-ar="ذهب" data-en="Gold">ذهب</span></div>
+            </div>
+            <p class="ph-sec" data-ar="تسوّق" data-en="Shop">تسوّق</p>
+            <div class="ph-grid">
+              <div class="ph-tile"><svg class="ic"><use href="#i-build"/></svg><span data-ar="مواد بناء" data-en="Construction">مواد بناء</span></div>
+              <div class="ph-tile"><svg class="ic"><use href="#i-agri"/></svg><span data-ar="زراعة" data-en="Agriculture">زراعة</span></div>
+              <div class="ph-tile"><svg class="ic"><use href="#i-cart"/></svg><span data-ar="استهلاكية" data-en="Consumer">استهلاكية</span></div>
+              <div class="ph-tile"><svg class="ic"><use href="#i-bid"/></svg><span data-ar="عروض التجار" data-en="Offers">عروض التجار</span></div>
+            </div>
+            <div class="ph-strip">
+              <svg class="ic" style="color:var(--clay)"><use href="#i-truck"/></svg>
+              <div style="flex:1"><b data-ar="طرد إلى المربع ٥ — الخرطوم" data-en="Parcel to Block 5 — Khartoum">طرد إلى المربع ٥ — الخرطوم</b><small data-ar="سودا إكسبريس · بيانات تجريبية" data-en="Sudaexpress · placeholder data">سودا إكسبريس · بيانات تجريبية</small></div>
+              <span class="chip chip-settled"><span class="dot"></span><span data-ar="مدفوع" data-en="Paid">مدفوع</span></span>
+            </div>
+          </div>
+          <div class="ph-nav">
+            <i class="on"><svg class="ic"><use href="#i-home"/></svg><span data-ar="الرئيسية" data-en="Home">الرئيسية</span></i>
+            <i><svg class="ic"><use href="#i-cart"/></svg><span data-ar="السوق" data-en="Market">السوق</span></i>
+            <i><svg class="ic"><use href="#i-qr"/></svg><span data-ar="ادفع" data-en="Pay">ادفع</span></i>
+            <i><svg class="ic"><use href="#i-bus"/></svg><span data-ar="مواصلاتي" data-en="Mwasalati">مواصلاتي</span></i>
+            <i><svg class="ic"><use href="#i-user"/></svg><span data-ar="حسابي" data-en="Account">حسابي</span></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="seed" type="button" id="reseed"><svg class="ic ic-sm"><use href="#i-swap"/></svg><span data-ar="نول: إعادة توليد النسيج" data-en="Loom: regenerate weave">نول: إعادة توليد النسيج</span></button>
+</section>
+
+<style>
+/* ================= WIDE APP SHELL (Paytm grammar) ================= */
+.sec{padding:clamp(56px,6.5vw,96px) 0}
+.sec-head{max-width:72ch;margin-bottom:clamp(28px,3.5vw,48px)}
+.sec-head h2{margin-bottom:14px}
+
+.shell{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.shell-bar{display:flex;align-items:center;gap:16px;padding:14px 20px;background:var(--clay);color:#fff}
+.shell-bar .brand-mark{background:rgba(255,255,255,.18)}
+.shell-search{flex:1;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.15);border-radius:10px;padding:10px 14px;font-size:.9rem;color:rgba(255,255,255,.92);max-width:640px}
+.shell-bar-act{display:flex;align-items:center;gap:14px;margin-inline-start:auto;font-size:.85rem}
+.shell-bar-act span{display:flex;align-items:center;gap:7px;opacity:.94}
+.shell-body{display:grid;grid-template-columns:248px minmax(0,1fr) 316px}
+.rail{border-inline-end:1px solid var(--line);padding:18px 14px;background:var(--sand)}
+.rail-lbl{font-size:.72rem;font-weight:600;color:var(--ink-3);padding:0 10px;margin:0 0 9px}
+.rail button{display:flex;align-items:center;gap:11px;width:100%;padding:11px 12px;border-radius:10px;font-size:.92rem;font-weight:500;color:var(--ink-2);text-align:start;transition:background var(--d-fast) var(--ease-out),color var(--d-fast) var(--ease-out)}
+.rail button svg{color:var(--ink-3);transition:color var(--d-fast) var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.rail button:hover{background:var(--clay-08);color:var(--clay-deep)}}
+.rail button[aria-selected="true"]{background:var(--clay);color:#fff;font-weight:600}
+.rail button[aria-selected="true"] svg{color:#fff}
+.rail hr{margin:16px 6px;height:1px;background:var(--line);border:0}
+.rail-note{padding:0 12px;font-size:.75rem;color:var(--ink-3);line-height:1.5}
+
+.panel{padding:24px clamp(18px,2.2vw,30px);min-height:520px}
+.panel[hidden]{display:none}
+.panel-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.panel-h h3{margin:0}
+.panel-sub{color:var(--ink-2);font-size:.94rem;margin-bottom:22px;max-width:64ch}
+.grp{margin-bottom:26px}
+.grp-t{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:9px;margin-bottom:14px;border-bottom:1px solid var(--line-soft)}
+.grp-t h4{margin:0}
+.grp-t span{font-size:.78rem;color:var(--ink-3)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:9px;text-align:center;padding:16px 8px;border-radius:12px;border:1px solid var(--line-soft);background:var(--sand);transition:border-color var(--d-fast) var(--ease-out),background var(--d-fast) var(--ease-out),transform var(--d-fast) var(--ease-out)}
+.tile svg{color:var(--clay)}
+.tile b{font-size:.8rem;font-weight:600;letter-spacing:-.01em;line-height:1.3}
+.tile small{font-size:.68rem;color:var(--ink-3);line-height:1.3}
+@media (hover:hover) and (pointer:fine){.tile:hover{background:var(--card);border-color:var(--clay-30);transform:translateY(-2px)}}
+
+.side{border-inline-start:1px solid var(--line);padding:18px 16px;background:var(--sand)}
+.side-card{background:var(--card);border:1px solid var(--line-soft);border-radius:12px;padding:14px;margin-bottom:14px}
+.side-card h4{margin-bottom:3px}
+.ph-flag{display:inline-flex;align-items:center;gap:5px;font-size:.62rem;font-weight:700;letter-spacing:.08em;color:var(--ink-3);border:1px dashed var(--line);border-radius:5px;padding:2px 6px}
+.bal{display:flex;align-items:baseline;gap:8px;margin:10px 0 4px}
+.bal b{font-size:1.75rem;letter-spacing:-.04em;font-weight:700}
+.bal span{font-size:.8rem;color:var(--ink-3)}
+.side-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line-soft)}
+.side-row:first-of-type{border-top:0}
+.side-row svg{color:var(--clay)}
+.side-row div{flex:1;min-width:0}
+.side-row b{display:block;font-size:.82rem;font-weight:600}
+.side-row small{font-size:.72rem;color:var(--ink-3)}
+@media(max-width:1180px){.shell-body{grid-template-columns:210px minmax(0,1fr)}.side{grid-column:1/-1;border-inline-start:0;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.side-card{margin:0}}
+@media(max-width:760px){.shell-body{grid-template-columns:1fr}.rail{border-inline-end:0;border-bottom:1px solid var(--line);display:flex;gap:8px;overflow-x:auto}.rail button{width:auto;white-space:nowrap}.rail hr,.rail-lbl,.rail-note{display:none}.shell-bar-act{display:none}}
+</style>
+
+<section class="sec" id="platform">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2 data-ar="منصة واحدة، أربع خدمات مدمجة" data-en="One platform, four embedded services">منصة واحدة، أربع خدمات مدمجة</h2>
+      <p class="lede" data-ar="نحو قواعد ⁦Paytm⁩ في التصميم، وروح سودانية في التنفيذ: شريط بحث واحد، شبكة خدمات كثيفة، ومحفظة حاضرة في كل شاشة. النموذج أدناه تفاعلي — اختر خدمة من الشريط الجانبي." data-en="Paytm grammar, Sudanese soul: one search bar, a dense service grid, and the wallet present on every screen. The shell below is interactive — pick a service from the rail.">نحو قواعد ⁦Paytm⁩ في التصميم، وروح سودانية في التنفيذ: شريط بحث واحد، شبكة خدمات كثيفة، ومحفظة حاضرة في كل شاشة. النموذج أدناه تفاعلي — اختر خدمة من الشريط الجانبي.</p>
+    </div>
+
+    <div class="shell rv">
+      <div class="shell-bar">
+        <span class="brand-mark">س</span>
+        <div class="shell-search"><svg class="ic ic-sm"><use href="#i-search"/></svg><span data-ar="ابحث عن سلعة، تاجر، مربع سكني، أو خط سفر" data-en="Search goods, merchants, blocks, or routes">ابحث عن سلعة، تاجر، مربع سكني، أو خط سفر</span></div>
+        <div class="shell-bar-act">
+          <span><svg class="ic ic-sm"><use href="#i-pin"/></svg><span data-ar="المربع ٥ — الخرطوم" data-en="Block 5 — Khartoum">المربع ٥ — الخرطوم</span></span>
+          <span><svg class="ic ic-sm"><use href="#i-wallet"/></svg><span class="num">— SDG</span></span>
+        </div>
+      </div>
+
+      <div class="shell-body">
+        <nav class="rail" role="tablist" aria-label="alSooq services">
+          <p class="rail-lbl" data-ar="الخدمات" data-en="Services">الخدمات</p>
+          <button role="tab" aria-selected="true" aria-controls="p-souq" id="t-souq"><svg class="ic ic-sm"><use href="#i-cart"/></svg><span data-ar="السوق" data-en="Marketplace">السوق</span></button>
+          <button role="tab" aria-selected="false" aria-controls="p-hawil" id="t-hawil"><svg class="ic ic-sm"><use href="#i-wallet"/></svg><span data-ar="حوّل — المدفوعات" data-en="Hawil — Payments">حوّل — المدفوعات</span></button>
+          <button role="tab" aria-selected="false" aria-controls="p-express" id="t-express"><svg class="ic ic-sm"><use href="#i-truck"/></svg><span data-ar="سودا إكسبريس" data-en="Sudaexpress">سودا إكسبريس</span></button>
+          <button role="tab" aria-selected="false" aria-controls="p-mw" id="t-mw"><svg class="ic ic-sm"><use href="#i-bus"/></svg><span data-ar="مواصلاتي" data-en="Mwasalati">مواصلاتي</span></button>
+          <hr>
+          <p class="rail-note" data-ar="كل الأرقام في هذا النموذج بيانات تجريبية. الأسعار والعمولات لم تُعتمد بعد من التشغيل." data-en="Every figure in this shell is placeholder data. Fares and commissions are not yet approved by operations.">كل الأرقام في هذا النموذج بيانات تجريبية. الأسعار والعمولات لم تُعتمد بعد من التشغيل.</p>
+        </nav>
+
+        <!-- ===== SOUQ ===== -->
+        <div class="panel" id="p-souq" role="tabpanel" aria-labelledby="t-souq">
+          <div class="panel-h"><h3 data-ar="السوق الموحّد" data-en="Unified marketplace">السوق الموحّد</h3><span class="chip chip-plan"><span class="dot"></span><span data-ar="مخطط للربع الأول ٢٠٢٦" data-en="Planned Q1 2026">مخطط للربع الأول ٢٠٢٦</span></span></div>
+          <p class="panel-sub" data-ar="متجر واحد للبناء والزراعة والذهب والنقل والسلع الاستهلاكية، مرتّب حسب المربع السكني حتى يرى المشتري التجار الأقرب إليه أولاً." data-en="One store for construction, agriculture, gold, transport and consumer goods — ordered by residential block so buyers see their nearest merchants first.">متجر واحد للبناء والزراعة والذهب والنقل والسلع الاستهلاكية، مرتّب حسب المربع السكني حتى يرى المشتري التجار الأقرب إليه أولاً.</p>
+          <div class="grp">
+            <div class="grp-t"><h4 data-ar="الفئات" data-en="Categories">الفئات</h4><span data-ar="٥ فئات عند الإطلاق" data-en="5 categories at launch">٥ فئات عند الإطلاق</span></div>
+            <div class="tiles">
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-build"/></svg><b data-ar="مواد البناء" data-en="Construction">مواد البناء</b><small data-ar="أسمنت · حديد · ركام" data-en="Cement · steel · aggregate">أسمنت · حديد · ركام</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-agri"/></svg><b data-ar="الزراعة" data-en="Agriculture">الزراعة</b><small data-ar="بذور · أعلاف · معدات" data-en="Seed · feed · equipment">بذور · أعلاف · معدات</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-gold"/></svg><b data-ar="الذهب" data-en="Gold">الذهب</b><small data-ar="سبائك موثّقة" data-en="Documented bullion">سبائك موثّقة</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-truck"/></svg><b data-ar="النقل" data-en="Transport">النقل</b><small data-ar="شحن وتأجير" data-en="Freight &amp; hire">شحن وتأجير</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-cart"/></svg><b data-ar="سلع استهلاكية" data-en="Consumer goods">سلع استهلاكية</b><small data-ar="جملة وتجزئة" data-en="Wholesale &amp; retail">جملة وتجزئة</small></div>
+            </div>
+          </div>
+          <div class="grp">
+            <div class="grp-t"><h4 data-ar="أدوات الشراء" data-en="Buying tools">أدوات الشراء</h4><span data-ar="مطابقة بالموقع ودرجة الثقة" data-en="Location + trust-score matching">مطابقة بالموقع ودرجة الثقة</span></div>
+            <div class="tiles">
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-pin"/></svg><b data-ar="فلتر المربع" data-en="Block filter">فلتر المربع</b><small data-ar="مثال: المربع ٥" data-en="e.g. Block 5">مثال: المربع ٥</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-bid"/></svg><b data-ar="عروض التجار" data-en="Merchant offers">عروض التجار</b><small data-ar="مساومة ضمن نطاق معلن" data-en="Bounded negotiation">مساومة ضمن نطاق معلن</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-shield"/></svg><b data-ar="درجة الثقة" data-en="Trust score">درجة الثقة</b><small data-ar="سجل التسليم والدفع" data-en="Delivery &amp; payment record">سجل التسليم والدفع</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-doc"/></svg><b data-ar="عقد تلقائي" data-en="Auto contract">عقد تلقائي</b><small data-ar="طلب · تسليم · دفع" data-en="Order · delivery · payment">طلب · تسليم · دفع</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-scale"/></svg><b data-ar="شراء بالجملة" data-en="Bulk buying">شراء بالجملة</b><small data-ar="تجميع طلبات المربع" data-en="Pooled block orders">تجميع طلبات المربع</small></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== HAWIL ===== -->
+        <div class="panel" id="p-hawil" role="tabpanel" aria-labelledby="t-hawil" hidden>
+          <div class="panel-h"><h3 data-ar="حوّل — بنية الدفع" data-en="Hawil — payment rails">حوّل — بنية الدفع</h3><span class="chip chip-plan"><span class="dot"></span><span data-ar="مرخّصة من بنك السودان المركزي" data-en="CBOS-licensed">مرخّصة من بنك السودان المركزي</span></span></div>
+          <p class="panel-sub" data-ar="طبقة التسوية أسفل كل معاملة في السوق. رمز QR موحّد، تحويل بين المحافظ والحسابات البنكية، وممرات للمغتربين." data-en="The settlement layer beneath every alSooq transaction: one unified QR, wallet-to-bank transfer, and diaspora corridors.">طبقة التسوية أسفل كل معاملة في السوق. رمز QR موحّد، تحويل بين المحافظ والحسابات البنكية، وممرات للمغتربين.</p>
+          <div class="grp">
+            <div class="grp-t"><h4 data-ar="الدفع" data-en="Pay">الدفع</h4><span data-ar="جاهز على بنية حوّل" data-en="On Hawil rails">جاهز على بنية حوّل</span></div>
+            <div class="tiles">
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-qr"/></svg><b data-ar="رمز QR موحّد" data-en="Unified QR">رمز QR موحّد</b><small data-ar="محفظة أو حساب بنكي" data-en="Wallet or bank">محفظة أو حساب بنكي</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-bank"/></svg><b data-ar="تحويل بنكي" data-en="Bank transfer">تحويل بنكي</b><small data-ar="٣٨ بنكاً تجارياً" data-en="38 commercial banks">٣٨ بنكاً تجارياً</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-wallet"/></svg><b data-ar="محفظة التاجر" data-en="Merchant wallet">محفظة التاجر</b><small data-ar="تسوية يومية" data-en="Daily settlement">تسوية يومية</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-card"/></svg><b data-ar="بطاقة افتراضية" data-en="Virtual card">بطاقة افتراضية</b><small data-ar="يتطلب اتفاقية مصدر" data-en="Issuer agreement required">يتطلب اتفاقية مصدر</small></div>
+            </div>
+          </div>
+          <div class="grp">
+            <div class="grp-t"><h4 data-ar="الذهب والصرف" data-en="Gold &amp; FX">الذهب والصرف</h4><span data-ar="أسعار معلنة قبل التأكيد" data-en="Rate shown before confirm">أسعار معلنة قبل التأكيد</span></div>
+            <div class="tiles">
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-gold"/></svg><b data-ar="رمز الذهب" data-en="Gold token">رمز الذهب</b><small data-ar="مغطّى بذهب مادي" data-en="Physically backed">مغطّى بذهب مادي</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-swap"/></svg><b data-ar="صرف العملات" data-en="FX">صرف العملات</b><small data-ar="جنيه · دولار · جنيه مصري" data-en="SDG · USD · EGP">جنيه · دولار · جنيه مصري</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-globe"/></svg><b data-ar="تحويلات المغتربين" data-en="Diaspora remittance">تحويلات المغتربين</b><small data-ar="مصر · الخليج" data-en="Egypt · Gulf">مصر · الخليج</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-doc"/></svg><b data-ar="سند ذهب" data-en="Gold bond">سند ذهب</b><small data-ar="قيد المراجعة التنظيمية" data-en="Under regulatory review">قيد المراجعة التنظيمية</small></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== SUDAEXPRESS ===== -->
+        <div class="panel" id="p-express" role="tabpanel" aria-labelledby="t-express" hidden>
+          <div class="panel-h"><h3 data-ar="سودا إكسبريس" data-en="Sudaexpress">سودا إكسبريس</h3><span class="chip chip-plan"><span class="dot"></span><span data-ar="ثلاث فئات شحن" data-en="Three shipment classes">ثلاث فئات شحن</span></span></div>
+          <p class="panel-sub" data-ar="حاوية للجملة، طرد للمتوسط، وصندوق للصغير عالي القيمة — بنفس شاشة التتبّع وبنفس دورة حياة الطلب." data-en="Container for bulk, parcel for medium, box for small high-value — one tracking screen, one order lifecycle.">حاوية للجملة، طرد للمتوسط، وصندوق للصغير عالي القيمة — بنفس شاشة التتبّع وبنفس دورة حياة الطلب.</p>
+          <div class="grp">
+            <div class="grp-t"><h4 data-ar="فئات الشحن" data-en="Shipment classes">فئات الشحن</h4><span data-ar="تسعير حسب الحجم والمسافة" data-en="Priced by size &amp; distance">تسعير حسب الحجم والمسافة</span></div>
+            <div class="tiles">
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-container"/></svg><b data-ar="حاوية" data-en="Container">حاوية</b><small data-ar="جملة" data-en="Bulk">جملة</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-parcel"/></svg><b data-ar="طرد" data-en="Parcel">طرد</b><small data-ar="متوسط" data-en="Medium">متوسط</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-box"/></svg><b data-ar="صندوق" data-en="Box">صندوق</b><small data-ar="صغير عالي القيمة" data-en="Small, high value">صغير عالي القيمة</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-pin"/></svg><b data-ar="تتبّع مباشر" data-en="Live tracking">تتبّع مباشر</b><small data-ar="تحديث لكل مرحلة" data-en="Per-stage updates">تحديث لكل مرحلة</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-user"/></svg><b data-ar="مندوب معتمد" data-en="Approved courier">مندوب معتمد</b><small data-ar="الميل الأخير" data-en="Last mile">الميل الأخير</small></div>
+            </div>
+          </div>
+          <div class="grp">
+            <div class="grp-t"><h4 data-ar="دورة حياة الطلب" data-en="Order lifecycle">دورة حياة الطلب</h4><span data-ar="ثماني حالات · أربعة مسارات" data-en="Eight states · four lanes">ثماني حالات · أربعة مسارات</span></div>
+            <div class="tiles">
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-doc"/></svg><b data-ar="طلب" data-en="Placed">طلب</b><small>1</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-shield"/></svg><b data-ar="تأكيد" data-en="Confirmed">تأكيد</b><small>2</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-box"/></svg><b data-ar="تجهيز" data-en="Packed">تجهيز</b><small>3</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-truck"/></svg><b data-ar="في الطريق" data-en="In transit">في الطريق</b><small>4</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-home"/></svg><b data-ar="تسليم" data-en="Delivered">تسليم</b><small>5</small></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== MWASALATI ===== -->
+        <div class="panel" id="p-mw" role="tabpanel" aria-labelledby="t-mw" hidden>
+          <div class="panel-h"><h3 data-ar="مواصلاتي" data-en="Mwasalati">مواصلاتي</h3><span class="chip chip-mw"><span class="dot"></span><span data-ar="الخدمة ٠٢ — التنقل" data-en="Service 02 — Mobility">الخدمة ٠٢ — التنقل</span></span></div>
+          <p class="panel-sub" data-ar="حجز مقاعد على خطوط معلنة، مع مساومة محدودة داخل نطاق الأجرة المنشور — لا تسعير متغيّر ولا رفع عند الذروة." data-en="Seat booking on published lines, with counter-offers bounded by the published fare band — no surge pricing.">حجز مقاعد على خطوط معلنة، مع مساومة محدودة داخل نطاق الأجرة المنشور — لا تسعير متغيّر ولا رفع عند الذروة.</p>
+          <div class="grp">
+            <div class="grp-t"><h4 data-ar="الحجز" data-en="Booking">Booking</h4><span data-ar="أسماء الخطوط استرشادية" data-en="Line names indicative">أسماء الخطوط استرشادية</span></div>
+            <div class="tiles">
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-seat"/></svg><b data-ar="حجز مقعد" data-en="Book a seat">حجز مقعد</b><small class="num">— SDG</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-route"/></svg><b data-ar="الخطوط" data-en="Routes">الخطوط</b><small data-ar="٥ خطوط مقترحة" data-en="5 proposed lines">٥ خطوط مقترحة</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-bid"/></svg><b data-ar="عرض مقابل" data-en="Counter-offer">عرض مقابل</b><small data-ar="داخل النطاق فقط" data-en="Within band only">داخل النطاق فقط</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-clock"/></svg><b data-ar="مهلة القبول" data-en="Offer TTL">مهلة القبول</b><small class="num">45s</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-bus"/></svg><b data-ar="رحلة السوق الأسبوعية" data-en="Weekly market run">رحلة السوق الأسبوعية</b><small data-ar="لتجار الجملة" data-en="For wholesale buyers">لتجار الجملة</small></div>
+            </div>
+          </div>
+          <div class="grp">
+            <div class="grp-t"><h4 data-ar="البيع الإضافي للتجار" data-en="Merchant upsell">البيع الإضافي للتجار</h4><span data-ar="عرض دائماً وقابل للرفض" data-en="Always suggested, always declinable">عرض دائماً وقابل للرفض</span></div>
+            <div class="tiles">
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-seat"/></svg><b data-ar="تحويل توصيل إلى استلام ذاتي" data-en="Delivery → self-collect">تحويل توصيل إلى استلام ذاتي</b><small data-ar="مقعد بدل مندوب" data-en="Seat instead of courier">مقعد بدل مندوب</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-route"/></svg><b data-ar="إرفاق رحلة العودة" data-en="Attach return leg">إرفاق رحلة العودة</b><small data-ar="بعد الاستلام" data-en="After pickup">بعد الاستلام</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-scale"/></svg><b data-ar="مقعد مرافق للطرد الكبير" data-en="Companion seat">مقعد مرافق للطرد الكبير</b><small data-ar="حسب الحجم" data-en="By parcel size">حسب الحجم</small></div>
+              <div class="tile"><svg class="ic ic-lg"><use href="#i-shield"/></svg><b data-ar="حارس السعة" data-en="Capacity guard">حارس السعة</b><small data-ar="لا يمكن تعطيله" data-en="Cannot be disabled">لا يمكن تعطيله</small></div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="side">
+          <div class="side-card">
+            <h4 data-ar="محفظة حوّل" data-en="Hawil wallet">محفظة حوّل</h4>
+            <span class="ph-flag" data-ar="بيانات تجريبية" data-en="PLACEHOLDER DATA">بيانات تجريبية</span>
+            <div class="bal"><b class="num">—</b><span class="num">SDG</span></div>
+            <div class="side-row"><svg class="ic ic-sm"><use href="#i-qr"/></svg><div><b data-ar="آخر عملية" data-en="Last payment">آخر عملية</b><small data-ar="—" data-en="—">—</small></div><span class="chip chip-settled"><span class="dot"></span><span data-ar="تمت التسوية" data-en="Settled">تمت التسوية</span></span></div>
+            <div class="side-row"><svg class="ic ic-sm"><use href="#i-swap"/></svg><div><b data-ar="عمولة الإحالة" data-en="Referral commission">عمولة الإحالة</b><small class="num">—%</small></div></div>
+          </div>
+          <div class="side-card">
+            <h4 data-ar="طلبات نشطة" data-en="Active orders">طلبات نشطة</h4>
+            <div class="side-row"><svg class="ic ic-sm"><use href="#i-container"/></svg><div><b data-ar="حاوية · أم درمان" data-en="Container · Omdurman">حاوية · أم درمان</b><small data-ar="في الطريق" data-en="In transit">في الطريق</small></div></div>
+            <div class="side-row"><svg class="ic ic-sm"><use href="#i-box"/></svg><div><b data-ar="صندوق · بحري" data-en="Box · Bahri">صندوق · بحري</b><small data-ar="قيد التجهيز" data-en="Packing">قيد التجهيز</small></div></div>
+            <div class="side-row"><svg class="ic ic-sm"><use href="#i-seat"/></svg><div><b data-ar="مقعد · خط مقترح" data-en="Seat · proposed line">مقعد · خط مقترح</b><small data-ar="بانتظار اعتماد التشغيل" data-en="Pending ops approval">بانتظار اعتماد التشغيل</small></div></div>
+          </div>
+          <div class="side-card">
+            <h4 data-ar="شعارات الشركاء" data-en="Partner marks">شعارات الشركاء</h4>
+            <p class="small sub" style="margin-top:6px" data-ar="خانات محجوزة بأسماء نصّية. لا يُعرض أي شعار بنك أو شريك قبل إذن كتابي." data-en="Named text slots only. No bank or partner mark is displayed before written permission.">خانات محجوزة بأسماء نصّية. لا يُعرض أي شعار بنك أو شريك قبل إذن كتابي.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* ================= CONTENT SECTIONS ================= */
+.band{background:var(--sand-2);border-block:1px solid var(--line)}
+.claims{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:0}
+.claim{padding:26px 26px 26px 0;border-top:2px solid var(--clay);margin-inline-end:26px}
+html[dir="rtl"] .claim{padding:26px 0 26px 26px;margin-inline-end:0;margin-inline-start:26px}
+.claim h3{margin-bottom:8px}
+.claim p{color:var(--ink-2);font-size:.95rem;max-width:38ch}
+
+/* table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+table.feat{min-width:820px;font-size:.95rem}
+table.feat th{text-align:start;font-weight:600;font-size:.78rem;letter-spacing:.04em;color:var(--ink-3);padding:14px 18px;border-bottom:1px solid var(--line);background:var(--sand)}
+table.feat td{padding:16px 18px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+table.feat tr:last-child td{border-bottom:0}
+table.feat .fname{display:flex;align-items:center;gap:11px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+table.feat .fname svg{color:var(--clay)}
+table.feat td p{color:var(--ink-2);font-size:.9rem;max-width:52ch}
+@media (hover:hover) and (pointer:fine){table.feat tbody tr{transition:background var(--d-fast) var(--ease-out)}table.feat tbody tr:hover{background:var(--clay-08)}}
+
+/* roadmap */
+.streams{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:30px}
+.stream{border-top:1px solid var(--line);padding-top:18px}
+.stream h4{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.stream h4 svg{color:var(--clay)}
+.stream ul{list-style:none}
+.stream li{padding:9px 0;border-top:1px solid var(--line-soft);font-size:.9rem;color:var(--ink-2)}
+.stream li:first-child{border-top:0}
+.stream li b{display:block;color:var(--ink);font-weight:600;font-size:.93rem;margin-bottom:2px}
+
+/* corridors */
+.corr{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:center}
+.corr-svg{width:100%;height:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px}
+.corr-list{list-style:none}
+.corr-list li{display:flex;gap:13px;padding:15px 0;border-top:1px solid var(--line)}
+.corr-list li svg{color:var(--clay);margin-top:2px}
+.corr-list b{display:block;margin-bottom:3px}
+.corr-list span{color:var(--ink-2);font-size:.92rem}
+@media(max-width:900px){.corr{grid-template-columns:1fr}}
+
+/* economics */
+.econ{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.econ div{background:var(--card);padding:20px}
+.econ b{display:block;font-size:1.7rem;font-weight:700;letter-spacing:-.04em;margin-bottom:4px}
+.econ small{display:block;color:var(--ink-3);font-size:.8rem;margin-top:6px;line-height:1.45}
+.econ span{font-size:.9rem;color:var(--ink-2);font-weight:500}
+
+/* open decisions */
+.open-list{list-style:none;border-top:1px solid var(--line)}
+.open-list li{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:16px;align-items:start;padding:20px 0;border-bottom:1px solid var(--line)}
+.open-list svg{color:var(--clay);margin-top:2px}
+.open-list b{display:block;margin-bottom:4px;font-size:1.02rem;letter-spacing:-.01em}
+.open-list p{color:var(--ink-2);font-size:.93rem}
+@media(max-width:680px){.open-list li{grid-template-columns:28px 1fr}.open-list li>.chip{grid-column:2}}
+
+/* footer */
+footer{background:var(--ink);color:var(--sand);padding:56px 0 34px;margin-top:0}
+footer a{color:var(--kraft)}
+.ft{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(0,1fr));gap:34px;padding-bottom:32px;border-bottom:1px solid rgba(228,210,180,.18)}
+.ft h5{font-size:.78rem;letter-spacing:.06em;color:var(--kraft);margin-bottom:12px;font-weight:600}
+.ft ul{list-style:none}
+.ft li{padding:5px 0;font-size:.9rem;color:rgba(246,241,231,.75);overflow-wrap:anywhere}
+.ft-note{padding-top:22px;font-size:.8rem;color:rgba(246,241,231,.6);line-height:1.65;max-width:88ch}
+@media(max-width:820px){.ft{grid-template-columns:1fr 1fr}}
+</style>
+
+<!-- ============ WHY ============ -->
+<section class="sec band">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 data-ar="لماذا السوق؟" data-en="Why alSooq?">لماذا السوق؟</h2>
+      <p class="lede" data-ar="ليست منصة تجارة إلكترونية فحسب — بل منظومة رقمية تربط السودانيين في الداخل والخارج بتجارة واحدة." data-en="Not just an e-commerce platform — a digital ecosystem connecting Sudanese at home and abroad through one trade layer.">ليست منصة تجارة إلكترونية فحسب — بل منظومة رقمية تربط السودانيين في الداخل والخارج بتجارة واحدة.</p>
+    </div>
+    <div class="claims">
+      <div class="claim"><h3 data-ar="توحيد التجارة" data-en="Unify trade">توحيد التجارة</h3><p data-ar="سوق واحد للسودانيين في السودان ومصر والخليج، بدل عشرات المجموعات المغلقة وقوائم الأسعار المتفرقة." data-en="One market for Sudanese in Sudan, Egypt and the Gulf — instead of dozens of closed groups and scattered price lists.">سوق واحد للسودانيين في السودان ومصر والخليج، بدل عشرات المجموعات المغلقة وقوائم الأسعار المتفرقة.</p></div>
+      <div class="claim"><h3 data-ar="سدّ فجوات الصرف والإمداد" data-en="Bridge FX &amp; supply gaps">سدّ فجوات الصرف والإمداد</h3><p data-ar="ربط التحويلات بسلسلة الإمداد: المال الذي يصل يشتري سلعة محددة من تاجر محدد، لا مجرد رصيد." data-en="Tie remittance to supply: money that arrives buys a named good from a named merchant, not just a balance.">ربط التحويلات بسلسلة الإمداد: المال الذي يصل يشتري سلعة محددة من تاجر محدد، لا مجرد رصيد.</p></div>
+      <div class="claim"><h3 data-ar="بناء الثقة" data-en="Build trust">بناء الثقة</h3><p data-ar="سعر معلن، سجل تسليم، وعقد يُنشأ تلقائياً مع كل طلب — الشفافية قبل التقنية." data-en="Published price, delivery record, and a contract generated with every order — transparency before technology.">سعر معلن، سجل تسليم، وعقد يُنشأ تلقائياً مع كل طلب — الشفافية قبل التقنية.</p></div>
+      <div class="claim"><h3 data-ar="دعم المنشآت الصغيرة" data-en="Support SMEs">دعم المنشآت الصغيرة</h3><p data-ar="تسجيل التاجر، رأس مال تشغيلي، وأدوات بيع — للورشة والدكان قبل الشركة الكبيرة." data-en="Merchant onboarding, working capital and selling tools — for the workshop and the corner shop first.">تسجيل التاجر، رأس مال تشغيلي، وأدوات بيع — للورشة والدكان قبل الشركة الكبيرة.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 data-ar="ما الذي نبنيه" data-en="What we are building">ما الذي نبنيه</h2>
+      <p class="lede" data-ar="ثمانية مكوّنات في الإصدار الأول. الحالة أدناه تعكس ما هو مخطط، لا ما هو مُشغّل — وكل مكوّن يعتمد على طرف ثالث موسوم بذلك صراحة." data-en="Eight components in the first release. Status below reflects what is planned, not what is live — and every third-party-dependent component is marked as such.">ثمانية مكوّنات في الإصدار الأول. الحالة أدناه تعكس ما هو مخطط، لا ما هو مُشغّل — وكل مكوّن يعتمد على طرف ثالث موسوم بذلك صراحة.</p>
+    </div>
+    <div class="tbl-wrap">
+      <table class="feat">
+        <thead><tr>
+          <th data-ar="المكوّن" data-en="Component">المكوّن</th>
+          <th data-ar="الوصف" data-en="Description">الوصف</th>
+          <th data-ar="الحالة" data-en="Status">الحالة</th>
+        </tr></thead>
+        <tbody>
+          <tr><td><span class="fname"><svg class="ic"><use href="#i-cart"/></svg><span data-ar="السوق الموحّد" data-en="Unified marketplace">السوق الموحّد</span></span></td>
+            <td><p data-ar="بناء، زراعة، ذهب، نقل، وسلع استهلاكية في متجر واحد." data-en="Construction, agriculture, gold, transport and consumer goods in one store.">بناء، زراعة، ذهب، نقل، وسلع استهلاكية في متجر واحد.</p></td>
+            <td><span class="chip chip-plan"><span class="dot"></span><span data-ar="مخطط · ر١ ٢٠٢٦" data-en="Planned · Q1 2026">مخطط · ر١ ٢٠٢٦</span></span></td></tr>
+          <tr><td><span class="fname"><svg class="ic"><use href="#i-pin"/></svg><span data-ar="فلتر المربع والحي" data-en="Block / district filter">فلتر المربع والحي</span></span></td>
+            <td><p data-ar="مطابقة الطلبات والتجار حسب الموقع — مثال: المربع ٥، الخرطوم." data-en="Orders and merchants matched by location — e.g. Block 5, Khartoum.">مطابقة الطلبات والتجار حسب الموقع — مثال: المربع ٥، الخرطوم.</p></td>
+            <td><span class="chip chip-plan"><span class="dot"></span><span data-ar="مخطط · ر١ ٢٠٢٦" data-en="Planned · Q1 2026">مخطط · ر١ ٢٠٢٦</span></span></td></tr>
+          <tr><td><span class="fname"><svg class="ic"><use href="#i-bid"/></svg><span data-ar="عروض التجار المباشرة" data-en="Live merchant offers">عروض التجار المباشرة</span></span></td>
+            <td><p data-ar="يرى المشتري عروضاً فورية من عدة تجار ويختار الأنسب، ضمن نطاق سعري معلن." data-en="Buyers see real-time offers from several merchants and pick — inside a published price band.">يرى المشتري عروضاً فورية من عدة تجار ويختار الأنسب، ضمن نطاق سعري معلن.</p></td>
+            <td><span class="chip chip-plan"><span class="dot"></span><span data-ar="مخطط · ر٢ ٢٠٢٦" data-en="Planned · Q2 2026">مخطط · ر٢ ٢٠٢٦</span></span></td></tr>
+          <tr><td><span class="fname"><svg class="ic"><use href="#i-gold"/></svg><span data-ar="الذهب والصرف" data-en="Gold &amp; FX">الذهب والصرف</span></span></td>
+            <td><p data-ar="شراء وبيع رموز الذهب المغطّاة والتحويل بأسعار معلنة قبل التأكيد." data-en="Buy and sell backed gold tokens and convert at rates shown before confirmation.">شراء وبيع رموز الذهب المغطّاة والتحويل بأسعار معلنة قبل التأكيد.</p></td>
+            <td><span class="chip chip-dep"><span data-ar="يتطلب موافقة تنظيمية" data-en="Regulatory approval required">يتطلب موافقة تنظيمية</span></span></td></tr>
+          <tr><td><span class="fname"><svg class="ic"><use href="#i-globe"/></svg><span data-ar="دمج المغتربين" data-en="Diaspora integration">دمج المغتربين</span></span></td>
+            <td><p data-ar="يشتري السوداني في الخارج رصيداً أو سلعة ويرسلها لأهله في السودان مباشرة." data-en="Sudanese abroad buy value or goods and send them directly to family in Sudan.">يشتري السوداني في الخارج رصيداً أو سلعة ويرسلها لأهله في السودان مباشرة.</p></td>
+            <td><span class="chip chip-plan"><span class="dot"></span><span data-ar="مخطط · ر٢ ٢٠٢٦" data-en="Planned · Q2 2026">مخطط · ر٢ ٢٠٢٦</span></span></td></tr>
+          <tr><td><span class="fname"><svg class="ic"><use href="#i-qr"/></svg><span data-ar="مدفوعات QR الموحّدة" data-en="Unified QR payments">مدفوعات QR الموحّدة</span></span></td>
+            <td><p data-ar="دفع فوري عبر محفظة حوّل أو الحساب البنكي برمز واحد عند التاجر." data-en="Instant payment via the Hawil wallet or a bank account from one merchant code.">دفع فوري عبر محفظة حوّل أو الحساب البنكي برمز واحد عند التاجر.</p></td>
+            <td><span class="chip chip-plan"><span class="dot"></span><span data-ar="مخطط · ر١ ٢٠٢٦" data-en="Planned · Q1 2026">مخطط · ر١ ٢٠٢٦</span></span></td></tr>
+          <tr><td><span class="fname"><svg class="ic"><use href="#i-card"/></svg><span data-ar="البطاقات الافتراضية" data-en="Virtual cards">البطاقات الافتراضية</span></span></td>
+            <td><p data-ar="بطاقة ذات ١٦ رقماً للاستخدام مرة واحدة عبر الإنترنت، تُعاد قيمتها إن لم تُستخدم خلال ٢٤ ساعة." data-en="A 16-digit single-use card for online payments; value returns if unused within 24 hours.">بطاقة ذات ١٦ رقماً للاستخدام مرة واحدة عبر الإنترنت، تُعاد قيمتها إن لم تُستخدم خلال ٢٤ ساعة.</p></td>
+            <td><span class="chip chip-dep"><span data-ar="يتطلب اتفاقية مُصدِر" data-en="Issuer agreement required">يتطلب اتفاقية مُصدِر</span></span></td></tr>
+          <tr><td><span class="fname"><svg class="ic"><use href="#i-truck"/></svg><span data-ar="حاوية · طرد · صندوق" data-en="Container · parcel · box">حاوية · طرد · صندوق</span></span></td>
+            <td><p data-ar="ثلاث فئات تسليم بحسب الحجم، بتتبّع مرحلي على نفس شاشة الطلب." data-en="Three delivery classes by size, with stage tracking on the same order screen.">ثلاث فئات تسليم بحسب الحجم، بتتبّع مرحلي على نفس شاشة الطلب.</p></td>
+            <td><span class="chip chip-plan"><span class="dot"></span><span data-ar="مخطط · ر١ ٢٠٢٦" data-en="Planned · Q1 2026">مخطط · ر١ ٢٠٢٦</span></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROADMAP ============ -->
+<section class="sec band" id="roadmap">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 data-ar="المرحلة الأولى: الإطلاق والتوطين — ر١–ر٢ ٢٠٢٦" data-en="Phase 1: Launch &amp; localization — Q1–Q2 2026">المرحلة الأولى: الإطلاق والتوطين — ر١–ر٢ ٢٠٢٦</h2>
+      <p class="lede" data-ar="إطلاق محدود في السودان ومصر، مع تحضير التوسّع الخليجي. أربعة مسارات عمل متوازية." data-en="Soft launch in Sudan and Egypt with Gulf expansion prep. Four parallel workstreams.">إطلاق محدود في السودان ومصر، مع تحضير التوسّع الخليجي. أربعة مسارات عمل متوازية.</p>
+    </div>
+    <div class="streams">
+      <div class="stream">
+        <h4><svg class="ic ic-sm"><use href="#i-home"/></svg><span data-ar="نواة المنصة" data-en="Platform core">نواة المنصة</span></h4>
+        <ul>
+          <li><b data-ar="لغتان بالتكافؤ" data-en="Two languages at parity">لغتان بالتكافؤ</b><span data-ar="عربية سودانية وإنجليزية، بواجهة تدعم الاتجاهين بالكامل." data-en="Sudanese Arabic and English, fully bidirectional interface.">عربية سودانية وإنجليزية، بواجهة تدعم الاتجاهين بالكامل.</span></li>
+          <li><b data-ar="مطابقة ذكية" data-en="Smart matching">مطابقة ذكية</b><span data-ar="ربط المشتري بالتاجر حسب الموقع والصنف ودرجة الثقة." data-en="Buyer to merchant by location, category and trust score.">ربط المشتري بالتاجر حسب الموقع والصنف ودرجة الثقة.</span></li>
+          <li><b data-ar="عقود تلقائية" data-en="Auto-generated contracts">عقود تلقائية</b><span data-ar="مستند واحد يغطي الطلب والتسليم والدفع." data-en="One document covering order, delivery and payment.">مستند واحد يغطي الطلب والتسليم والدفع.</span></li>
+        </ul>
+      </div>
+      <div class="stream">
+        <h4><svg class="ic ic-sm"><use href="#i-wallet"/></svg><span data-ar="حلول الدفع" data-en="Payments">حلول الدفع</span></h4>
+        <ul>
+          <li><b data-ar="رمز QR موحّد" data-en="Unified QR">رمز QR موحّد</b><span data-ar="يعمل مع محفظة حوّل والبنوك ومحافظ الهاتف." data-en="Works with the Hawil wallet, banks and mobile money.">يعمل مع محفظة حوّل والبنوك ومحافظ الهاتف.</span></li>
+          <li><b data-ar="بطاقة افتراضية" data-en="Virtual card">بطاقة افتراضية</b><span data-ar="١٦ رقماً · صلاحية ٢٤ ساعة · يتطلب اتفاقية مُصدِر." data-en="16 digits · 24-hour validity · issuer agreement required.">١٦ رقماً · صلاحية ٢٤ ساعة · يتطلب اتفاقية مُصدِر.</span></li>
+          <li><b data-ar="رموز الذهب" data-en="Gold tokens">رموز الذهب</b><span data-ar="مغطّاة بذهب مادي، للتحويل والادّخار." data-en="Physically backed, for remittance and savings.">مغطّاة بذهب مادي، للتحويل والادّخار.</span></li>
+        </ul>
+      </div>
+      <div class="stream">
+        <h4><svg class="ic ic-sm"><use href="#i-truck"/></svg><span data-ar="اللوجستيات" data-en="Logistics">اللوجستيات</span></h4>
+        <ul>
+          <li><b data-ar="شبكة الشركاء" data-en="Partner network">شبكة الشركاء</b><span data-ar="حاويات للجملة، طرود للمتوسط، صناديق للصغير عالي القيمة." data-en="Containers for bulk, parcels for medium, boxes for small high-value.">حاويات للجملة، طرود للمتوسط، صناديق للصغير عالي القيمة.</span></li>
+          <li><b data-ar="تتبّع لكل مرحلة" data-en="Stage tracking">تتبّع لكل مرحلة</b><span data-ar="حالة معلنة عند كل انتقال، لا تقدير زمني مصطنع." data-en="A declared state at each transition — no invented ETAs.">حالة معلنة عند كل انتقال، لا تقدير زمني مصطنع.</span></li>
+          <li><b data-ar="الميل الأخير" data-en="Last mile">الميل الأخير</b><span data-ar="مندوبون معتمدون في السودان ومصر والخليج." data-en="Approved couriers across Sudan, Egypt and the Gulf.">مندوبون معتمدون في السودان ومصر والخليج.</span></li>
+        </ul>
+      </div>
+      <div class="stream">
+        <h4><svg class="ic ic-sm"><use href="#i-user"/></svg><span data-ar="تسجيل التجار" data-en="Merchant onboarding">تسجيل التجار</span></h4>
+        <ul>
+          <li><b data-ar="اعرف عميلك في دقائق" data-en="KYC in minutes">اعرف عميلك في دقائق</b><span data-ar="تحقّق من السجل التجاري والهوية والحساب البنكي." data-en="Verify business registration, ID and bank account.">تحقّق من السجل التجاري والهوية والحساب البنكي.</span></li>
+          <li><b data-ar="رصيد افتتاحي" data-en="Opening balance">رصيد افتتاحي</b><span data-ar="بدون فائدة، يُحسب كمتوسط مبيعات أسبوع — البنية التمويلية قيد الإقرار." data-en="Interest-free, sized at one week's average sales — funding structure not yet settled.">بدون فائدة، يُحسب كمتوسط مبيعات أسبوع — البنية التمويلية قيد الإقرار.</span></li>
+          <li><b data-ar="عدّة الأجهزة" data-en="Hardware kit">عدّة الأجهزة</b><span data-ar="نقطة بيع وقارئ بدون تلامس — المورّد غير محدد بعد." data-en="POS terminal and contactless reader — supplier not yet selected.">نقطة بيع وقارئ بدون تلامس — المورّد غير محدد بعد.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CORRIDORS ============ -->
+<section class="sec" id="corridors">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 data-ar="الممرات والتحويلات" data-en="Corridors &amp; remittance">الممرات والتحويلات</h2>
+      <p class="lede" data-ar="حوّل طبقة التسوية، والسوق واجهة الاستهلاك. المسار واحد في كل الحالات: قيمة تدخل من الخارج، تُسوّى بالجنيه، وتُصرف على سلعة أو مقعد أو شحنة داخل السودان." data-en="Hawil is the settlement layer; alSooq is the consumer surface. One path throughout: value enters from abroad, settles in SDG, and is spent on a good, a seat or a shipment inside Sudan.">حوّل طبقة التسوية، والسوق واجهة الاستهلاك. المسار واحد في كل الحالات: قيمة تدخل من الخارج، تُسوّى بالجنيه، وتُصرف على سلعة أو مقعد أو شحنة داخل السودان.</p>
+    </div>
+    <div class="corr">
+      <svg class="corr-svg" viewBox="0 0 720 300" role="img" aria-label="Corridor diagram: EGP and USD settle into SDG, then into goods, seats and shipments">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10" fill="none" stroke="#8A4B2A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+        <g font-family="IBM Plex Sans, sans-serif" font-size="13" fill="#2E241B">
+          <rect x="24" y="34" width="150" height="52" rx="10" fill="#F6F1E7" stroke="#DCCFBB"/>
+          <text x="99" y="58" text-anchor="middle" font-weight="600">EGP · Cairo</text>
+          <text x="99" y="74" text-anchor="middle" font-size="11" fill="#93826F">Diaspora sender</text>
+
+          <rect x="24" y="122" width="150" height="52" rx="10" fill="#F6F1E7" stroke="#DCCFBB"/>
+          <text x="99" y="146" text-anchor="middle" font-weight="600">USD · Gulf</text>
+          <text x="99" y="162" text-anchor="middle" font-size="11" fill="#93826F">Jeddah · Dubai</text>
+
+          <rect x="24" y="210" width="150" height="52" rx="10" fill="#F6F1E7" stroke="#DCCFBB"/>
+          <text x="99" y="234" text-anchor="middle" font-weight="600">Gold token</text>
+          <text x="99" y="250" text-anchor="middle" font-size="11" fill="#93826F">Backed value</text>
+
+          <rect x="278" y="102" width="164" height="92" rx="12" fill="#8A4B2A"/>
+          <text x="360" y="140" text-anchor="middle" fill="#fff" font-weight="700" font-size="15">Hawil</text>
+          <text x="360" y="160" text-anchor="middle" fill="#E4D2B4" font-size="11">Settlement · CBOS 2018/02</text>
+          <text x="360" y="177" text-anchor="middle" fill="#E4D2B4" font-size="11">SDG clearing</text>
+
+          <rect x="546" y="34" width="150" height="52" rx="10" fill="#F6F1E7" stroke="#DCCFBB"/>
+          <text x="621" y="58" text-anchor="middle" font-weight="600">Goods</text>
+          <text x="621" y="74" text-anchor="middle" font-size="11" fill="#93826F">alSooq merchants</text>
+
+          <rect x="546" y="122" width="150" height="52" rx="10" fill="#F6F1E7" stroke="#DCCFBB"/>
+          <text x="621" y="146" text-anchor="middle" font-weight="600">Shipment</text>
+          <text x="621" y="162" text-anchor="middle" font-size="11" fill="#93826F">Sudaexpress</text>
+
+          <rect x="546" y="210" width="150" height="52" rx="10" fill="#F6F1E7" stroke="#DCCFBB"/>
+          <text x="621" y="234" text-anchor="middle" font-weight="600">Seat</text>
+          <text x="621" y="250" text-anchor="middle" font-size="11" fill="#93826F">Mwasalati</text>
+        </g>
+        <g fill="none" stroke="#8A4B2A" stroke-width="1.6" marker-end="url(#ah)" opacity=".85">
+          <path d="M174 60 C 226 60, 232 128, 272 138"/>
+          <path d="M174 148 H 272"/>
+          <path d="M174 236 C 226 236, 232 168, 272 158"/>
+          <path d="M448 138 C 490 128, 496 60, 540 60"/>
+          <path d="M448 148 H 540"/>
+          <path d="M448 158 C 490 168, 496 236, 540 236"/>
+        </g>
+      </svg>
+      <ul class="corr-list">
+        <li><svg class="ic"><use href="#i-globe"/></svg><div><b data-ar="القيمة تدخل مُوجَّهة" data-en="Value enters with a destination">القيمة تدخل مُوجَّهة</b><span data-ar="المرسل يختار ما تشتريه الحوالة قبل إرسالها — سلعة، مقعد، أو شحنة." data-en="The sender chooses what the transfer buys before sending it — a good, a seat, or a shipment.">المرسل يختار ما تشتريه الحوالة قبل إرسالها — سلعة، مقعد، أو شحنة.</span></div></li>
+        <li><svg class="ic"><use href="#i-shield"/></svg><div><b data-ar="التسوية داخل بنية مرخّصة" data-en="Settlement on licensed rails">التسوية داخل بنية مرخّصة</b><span data-ar="ترخيص بنك السودان المركزي رقم ٢٠١٨/٠٢ الصادر في ٢٣ يناير ٢٠١٨." data-en="CBOS licence 2018/02, issued 23 January 2018.">ترخيص بنك السودان المركزي رقم ٢٠١٨/٠٢ الصادر في ٢٣ يناير ٢٠١٨.</span></div></li>
+        <li><svg class="ic"><use href="#i-bank"/></svg><div><b data-ar="ربط مصرفي واسع" data-en="Broad bank connectivity">ربط مصرفي واسع</b><span data-ar="مبني على تغطية حوّل للبنوك التجارية السودانية — التكامل الفعلي لكل بنك يتم على مراحل." data-en="Built on Hawil's Sudanese commercial bank coverage — per-bank integration is phased.">مبني على تغطية حوّل للبنوك التجارية السودانية — التكامل الفعلي لكل بنك يتم على مراحل.</span></div></li>
+        <li><svg class="ic"><use href="#i-swap"/></svg><div><b data-ar="سعر معلن قبل التأكيد" data-en="Rate shown before confirm">سعر معلن قبل التأكيد</b><span data-ar="لا يظهر سعر الصرف بعد إتمام العملية — يظهر قبلها، وقابل للإلغاء." data-en="The FX rate is never revealed after the fact — it is shown first, and is cancellable.">لا يظهر سعر الصرف بعد إتمام العملية — يظهر قبلها، وقابل للإلغاء.</span></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MWASALATI ECONOMICS ============ -->
+<section class="sec band" id="mwasalati">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 data-ar="اقتصاديات المركبة — مواصلاتي" data-en="Vehicle economics — Mwasalati">اقتصاديات المركبة — مواصلاتي</h2>
+      <p class="lede" data-ar="الأرقام أدناه مشتقّة حسابياً من جدول «⁦14 seater deals⁩» المرفوع، وليست معتمدة من التشغيل. عُرضت هنا لأنها الطريقة الوحيدة لتسوية الخلاف القائم في تعرفة الخط ١١." data-en="The figures below are derived arithmetically from the uploaded “14 seater deals” sheet and are not operations-approved. They appear here because they are the only way to settle the standing Line 11 tariff conflict.">الأرقام أدناه مشتقّة حسابياً من جدول «⁦14 seater deals⁩» المرفوع، وليست معتمدة من التشغيل. عُرضت هنا لأنها الطريقة الوحيدة لتسوية الخلاف القائم في تعرفة الخط ١١.</p>
+      <span class="ph-flag" style="margin-top:6px" data-ar="مشتق من جدول مرفوع · غير معتمد" data-en="DERIVED FROM UPLOADED SHEET · UNAPPROVED">مشتق من جدول مرفوع · غير معتمد</span>
+    </div>
+    <div class="econ">
+      <div><b class="num">224</b><span data-ar="مقعد-رحلة في اليوم" data-en="seat-trips per day">مقعد-رحلة في اليوم</span><small data-ar="١٤ مقعداً × ١٦ رحلة — من الجدول مباشرة." data-en="14 seats × 16 trips — read directly from the sheet.">١٤ مقعداً × ١٦ رحلة — من الجدول مباشرة.</small></div>
+      <div><b class="num">1,120,000</b><span data-ar="جنيه إجمالي يومي" data-en="SDG gross per day">جنيه إجمالي يومي</span><small data-ar="عند أجرة ٥٬٠٠٠ للمقعد — الحد الأعلى في خطة عباس." data-en="At a 5,000 SDG seat fare — the top of Abbas's plan band.">عند أجرة ٥٬٠٠٠ للمقعد — الحد الأعلى في خطة عباس.</small></div>
+      <div><b class="num">11,200,000</b><span data-ar="جنيه على عشرة أيام" data-en="SDG over ten days">جنيه على عشرة أيام</span><small data-ar="الرقم المكتوب في الجدول. يتطابق فقط عند أجرة ٥٬٠٠٠ — ولا يتطابق مطلقاً عند ١٬٥٠٠." data-en="The figure written in the sheet. It reconciles only at a 5,000 fare — never at 1,500.">الرقم المكتوب في الجدول. يتطابق فقط عند أجرة ٥٬٠٠٠ — ولا يتطابق مطلقاً عند ١٬٥٠٠.</small></div>
+      <div><b class="num">8,333 – 11,667</b><span data-ar="تكلفة المركبة بالدولار" data-en="vehicle cost, USD">تكلفة المركبة بالدولار</span><small data-ar="من قيمتي ٥٠٠٬٠٠٠ و٧٠٠٬٠٠٠ في الجدول بمقسوم ٦٠ — عملة المصدر غير مكتوبة." data-en="From the sheet's 500,000 and 700,000 at a divisor of 60 — the source currency is not labelled.">من قيمتي ٥٠٠٬٠٠٠ و٧٠٠٬٠٠٠ في الجدول بمقسوم ٦٠ — عملة المصدر غير مكتوبة.</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OPEN DECISIONS ============ -->
+<section class="sec" id="open">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 data-ar="قرارات مفتوحة" data-en="Open decisions">قرارات مفتوحة</h2>
+      <p class="lede" data-ar="لم يُخترع أي رقم لملء فراغ. البنود التالية مفتوحة، ومعروضة هنا كما هي حتى يُبتّ فيها." data-en="No figure was invented to fill a gap. The following items are open and shown as-is until they are settled.">لم يُخترع أي رقم لملء فراغ. البنود التالية مفتوحة، ومعروضة هنا كما هي حتى يُبتّ فيها.</p>
+    </div>
+    <ul class="open-list">
+      <li><svg class="ic"><use href="#i-scale"/></svg>
+        <div><b data-ar="تعرفة الخط ١١" data-en="Line 11 tariff">تعرفة الخط ١١</b><p data-ar="الإنفوجرافيك يعرض ١٬٥٠٠ جنيه؛ الخطة تعرض ٣٬٥٠٠–٥٬٠٠٠. عند ٢٥٠ جنيه/كم يقع الرقم الأول تحت أرضية كل خط. جدول المركبة المرفوع يرجّح ٥٬٠٠٠." data-en="The infographic shows 1,500 SDG; the plan shows 3,500–5,000. At 250 SDG/km the first figure sits below every line's floor. The uploaded vehicle sheet favours 5,000.">الإنفوجرافيك يعرض ١٬٥٠٠ جنيه؛ الخطة تعرض ٣٬٥٠٠–٥٬٠٠٠. عند ٢٥٠ جنيه/كم يقع الرقم الأول تحت أرضية كل خط. جدول المركبة المرفوع يرجّح ٥٬٠٠٠.</p></div>
+        <span class="chip chip-dep"><span data-ar="قرار مطلوب" data-en="Decision needed">قرار مطلوب</span></span></li>
+      <li><svg class="ic"><use href="#i-shield"/></svg>
+        <div><b data-ar="ذكر أسماء الشركاء والمصدّرين" data-en="Naming partners and issuers">ذكر أسماء الشركاء والمصدّرين</b><p data-ar="نص المصدر يذكر مزوّد اتصالات وشبكتي بطاقات بالاسم كخدمات «فعّالة في ٢٠٢٦». حُذفت الأسماء من هذا الموقع واستُبدلت بوسم «يتطلب اتفاقية مُصدِر»: نشر شراكة غير موقّعة على منتج مالي مرخّص من بنك السودان المركزي مخاطرة قانونية، لا مسألة تسويق." data-en="The source text names a telecom provider and two card networks as services “live in 2026”. Those names were removed here and replaced with an “issuer agreement required” marker: publishing an unsigned partnership on a CBOS-licensed financial product is a legal exposure, not a marketing question.">نص المصدر يذكر مزوّد اتصالات وشبكتي بطاقات بالاسم كخدمات «فعّالة في ٢٠٢٦». حُذفت الأسماء من هذا الموقع واستُبدلت بوسم «يتطلب اتفاقية مُصدِر»: نشر شراكة غير موقّعة على منتج مالي مرخّص من بنك السودان المركزي مخاطرة قانونية، لا مسألة تسويق.</p></div>
+        <span class="chip chip-dep"><span data-ar="أُزيل من النشر" data-en="Removed from publication">أُزيل من النشر</span></span></li>
+      <li><svg class="ic"><use href="#i-doc"/></svg>
+        <div><b data-ar="صياغة الحالة «فعّال في ٢٠٢٦»" data-en="“Live in 2026” status wording">صياغة الحالة «فعّال في ٢٠٢٦»</b><p data-ar="ثمانية مكوّنات كانت موسومة بعلامة صح في المصدر. أُعيدت صياغتها إلى «مخطط» مع الربع الزمني، لأن العلامة تقرأ كإقرار بالتشغيل الفعلي." data-en="Eight components carried a tick in the source. They were restated as “planned” with a quarter, because the tick reads as a claim of live operation.">ثمانية مكوّنات كانت موسومة بعلامة صح في المصدر. أُعيدت صياغتها إلى «مخطط» مع الربع الزمني، لأن العلامة تقرأ كإقرار بالتشغيل الفعلي.</p></div>
+        <span class="chip chip-dep"><span data-ar="أُعيدت الصياغة" data-en="Restated">أُعيدت الصياغة</span></span></li>
+      <li><svg class="ic"><use href="#i-swap"/></svg>
+        <div><b data-ar="نسبة عمولة الإحالة" data-en="Referral commission rate">نسبة عمولة الإحالة</b><p data-ar="تظهر في الواجهة كـ «—٪». لم تُقدَّر ولم تُملأ." data-en="Rendered in the interface as “—%”. Not estimated, not filled in.">تظهر في الواجهة كـ «—٪». لم تُقدَّر ولم تُملأ.</p></div>
+        <span class="chip chip-dep"><span data-ar="غير محددة" data-en="Unset">غير محددة</span></span></li>
+      <li><svg class="ic"><use href="#i-route"/></svg>
+        <div><b data-ar="الخط ٩: فاصل ٣٩ دقيقة بثلاث مركبات" data-en="Line 9: 39-minute headway on three vehicles">الخط ٩: فاصل ٣٩ دقيقة بثلاث مركبات</b><p data-ar="غير مقبول تشغيلياً. إما مركبة رابعة، أو إطلاق قصير (السوق إلى المنشية) قبل التمديد إلى سوبا." data-en="Operationally unacceptable. Either a fourth vehicle, or a short launch (Souq to Manshiya) before extending to Soba.">غير مقبول تشغيلياً. إما مركبة رابعة، أو إطلاق قصير (السوق إلى المنشية) قبل التمديد إلى سوبا.</p></div>
+        <span class="chip chip-dep"><span data-ar="قرار مطلوب" data-en="Decision needed">قرار مطلوب</span></span></li>
+      <li><svg class="ic"><use href="#i-doc"/></svg>
+        <div><b data-ar="ثلاث صيغ لاسم المنصة" data-en="Three spellings of the platform name">ثلاث صيغ لاسم المنصة</b><p data-ar="موجودة عبر الملفات المرفوعة. هذا الموقع يستخدم «السوق» و«⁦alSooq⁩» فقط، بانتظار الحسم." data-en="Present across the uploaded assets. This site uses only “السوق” and “alSooq” pending resolution.">موجودة عبر الملفات المرفوعة. هذا الموقع يستخدم «السوق» و«⁦alSooq⁩» فقط، بانتظار الحسم.</p></div>
+        <span class="chip chip-dep"><span data-ar="قرار مطلوب" data-en="Decision needed">قرار مطلوب</span></span></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="ft">
+      <div>
+        <div class="brand" style="margin-bottom:12px"><span class="brand-mark">س</span><span class="brand-txt"><b style="color:var(--sand)">السوق</b><span style="color:var(--kraft)">HAWIL ECOSYSTEM</span></span></div>
+        <p style="color:rgba(246,241,231,.72);font-size:.92rem;max-width:44ch" data-ar="منصة تجارة ومدفوعات سودانية، تُطوَّر تحت مظلة ⁦Dynasty for Trade and Investment⁩ ضمن منظومة حوّل." data-en="A Sudanese commerce and payments platform, developed under Dynasty for Trade and Investment within the Hawil ecosystem.">منصة تجارة ومدفوعات سودانية، تُطوَّر تحت مظلة ⁦Dynasty for Trade and Investment⁩ ضمن منظومة حوّل.</p>
+      </div>
+      <div><h5 data-ar="الخدمات" data-en="Services">الخدمات</h5><ul>
+        <li data-ar="السوق الموحّد" data-en="Unified marketplace">السوق الموحّد</li>
+        <li data-ar="حوّل — المدفوعات" data-en="Hawil — payments">حوّل — المدفوعات</li>
+        <li data-ar="سودا إكسبريس" data-en="Sudaexpress">سودا إكسبريس</li>
+        <li data-ar="مواصلاتي" data-en="Mwasalati">مواصلاتي</li></ul></div>
+      <div><h5 data-ar="للتجار" data-en="For merchants">للتجار</h5><ul>
+        <li data-ar="التسجيل والتحقق" data-en="Onboarding &amp; KYC">التسجيل والتحقق</li>
+        <li data-ar="لوحة الطلبات" data-en="Order dashboard">لوحة الطلبات</li>
+        <li data-ar="كتالوج الخطوط" data-en="Route catalog">كتالوج الخطوط</li>
+        <li data-ar="قواعد الإرفاق" data-en="Attachment rules">قواعد الإرفاق</li></ul></div>
+      <div><h5 data-ar="النطاقات" data-en="Domains">النطاقات</h5><ul>
+        <li class="en">alsooq.sd</li>
+        <li class="en">alsooq.sd/merchant</li>
+        <li class="en">MohamedSabirAbbas.github.io/AlSouq</li></ul></div>
+    </div>
+    <p class="ft-note" data-ar="ترخيص بنك السودان المركزي رقم ٢٠١٨/٠٢ بتاريخ ٢٣ يناير ٢٠١٨ يخص البنية المالية لمنظومة حوّل. جميع الخطوط والأجرة والمقاعد والنِسب المعروضة في هذا الموقع مقترحة أو استرشادية ولم تُعتمد من التشغيل. لا يُعرض أي شعار لبنك أو شريك قبل الحصول على إذن كتابي من المؤسسة المعنية. تصميم النسيج في الترويسة مولّد خوارزمياً ببذرة قابلة للتكرار." data-en="CBOS licence 2018/02 dated 23 January 2018 applies to the Hawil ecosystem's financial infrastructure. All lines, fares, seats and rates shown on this site are proposed or indicative and have not been approved by operations. No bank or partner mark is displayed before written permission from that institution. The header weave is algorithmically generated from a reproducible seed.">ترخيص بنك السودان المركزي رقم ٢٠١٨/٠٢ بتاريخ ٢٣ يناير ٢٠١٨ يخص البنية المالية لمنظومة حوّل. جميع الخطوط والأجرة والمقاعد والنِسب المعروضة في هذا الموقع مقترحة أو استرشادية ولم تُعتمد من التشغيل. لا يُعرض أي شعار لبنك أو شريك قبل الحصول على إذن كتابي من المؤسسة المعنية. تصميم النسيج في الترويسة مولّد خوارزمياً ببذرة قابلة للتكرار.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ---------- language parity ---------- */
+  var btns = document.querySelectorAll('.lang button');
+  function setLang(l){
+    document.documentElement.lang = l;
+    document.documentElement.dir  = (l === 'ar') ? 'rtl' : 'ltr';
+    var nodes = document.querySelectorAll('[data-ar]');
+    for (var i = 0; i < nodes.length; i++){
+      var v = nodes[i].getAttribute('data-' + l);
+      if (v !== null) nodes[i].textContent = v;
+    }
+    for (var j = 0; j < btns.length; j++){
+      btns[j].setAttribute('aria-pressed', String(btns[j].dataset.lang === l));
+    }
+  }
+  for (var b = 0; b < btns.length; b++){
+    btns[b].addEventListener('click', function(){ setLang(this.dataset.lang); });
+  }
+
+  /* ---------- service tabs ---------- */
+  var tabs = document.querySelectorAll('.rail [role="tab"]');
+  function selectTab(tab){
+    for (var i = 0; i < tabs.length; i++){
+      var sel = tabs[i] === tab;
+      tabs[i].setAttribute('aria-selected', String(sel));
+      var p = document.getElementById(tabs[i].getAttribute('aria-controls'));
+      if (p) p.hidden = !sel;
+    }
+  }
+  for (var t = 0; t < tabs.length; t++){
+    tabs[t].addEventListener('click', function(){ selectTab(this); });
+    tabs[t].addEventListener('keydown', function(e){
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      e.preventDefault();
+      var list = Array.prototype.slice.call(tabs);
+      var i = list.indexOf(this);
+      var n = list[(i + (e.key === 'ArrowDown' ? 1 : list.length - 1)) % list.length];
+      n.focus(); selectTab(n);
+    });
+  }
+
+  /* ---------- reveal on scroll ---------- */
+  var rv = document.querySelectorAll('.rv');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if ('IntersectionObserver' in window && !reduce){
+    for (var a = 0; a < rv.length; a++) rv[a].classList.add('rv-armed');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en, k){
+        if (!en.isIntersecting) return;
+        en.target.style.transitionDelay = (k * 60) + 'ms';
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    for (var r = 0; r < rv.length; r++) io.observe(rv[r]);
+  }
+
+  /* ================================================================
+     "نول / Warp & Weft" — generative weave
+     Philosophy: trade as accumulation. Every corridor travelled lays
+     down one more thread; density, not colour, records the traffic.
+     Deterministic: one seed reproduces the cloth exactly. Drawn once,
+     never looped — woven cloth is finished, not animated.
+     ================================================================ */
+  var cv = document.getElementById('loom');
+  if (cv && cv.getContext){
+    var ctx = cv.getContext('2d');
+    var seed = 20260101;
+
+    function mulberry32(a){
+      return function(){
+        a |= 0; a = a + 0x6D2B79F5 | 0;
+        var t = Math.imul(a ^ a >>> 15, 1 | a);
+        t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      };
+    }
+    function noise1(rng){
+      var p = new Float32Array(512), i;
+      for (i = 0; i < 512; i++) p[i] = rng();
+      return function(x){
+        var f0 = Math.floor(x), f = x - f0, u = f * f * (3 - 2 * f);
+        var a = p[((f0 % 512) + 512) % 512], b = p[((f0 + 1) % 512 + 512) % 512];
+        return a + (b - a) * u;
+      };
+    }
+
+    function draw(){
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var w = cv.clientWidth, h = cv.clientHeight;
+      if (!w || !h) return;
+      cv.width = w * dpr; cv.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      var rng = mulberry32(seed);
+      var nz  = noise1(rng);
+      var i, y, x;
+
+      /* warp — vertical threads, kraft */
+      var warpGap = Math.max(9, w / 130);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(184,158,116,0.30)';
+      for (i = 0; i * warpGap < w + warpGap; i++){
+        ctx.beginPath();
+        for (y = 0; y <= h; y += 8){
+          x = i * warpGap + (nz(y * 0.006 + i * 3.7) - 0.5) * 26;
+          if (y === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+
+      /* weft — horizontal threads, clay */
+      var weftGap = Math.max(11, h / 46);
+      ctx.strokeStyle = 'rgba(138,75,42,0.13)';
+      for (i = 0; i * weftGap < h + weftGap; i++){
+        ctx.beginPath();
+        for (x = 0; x <= w; x += 10){
+          y = i * weftGap + (nz(x * 0.004 + i * 8.3) - 0.5) * 20;
+          if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+
+      /* corridors — the routes that get travelled most, drawn heavier */
+      ctx.lineCap = 'round';
+      for (i = 0; i < 7; i++){
+        var y0 = rng() * h, y1 = rng() * h, cy = rng() * h;
+        ctx.beginPath();
+        ctx.moveTo(-40, y0);
+        ctx.quadraticCurveTo(w * (0.3 + rng() * 0.4), cy, w + 40, y1);
+        ctx.lineWidth = 1 + rng() * 2.2;
+        ctx.strokeStyle = 'rgba(138,75,42,' + (0.06 + rng() * 0.07).toFixed(3) + ')';
+        ctx.stroke();
+      }
+
+      /* nodes — where corridors meet the cloth */
+      for (i = 0; i < 46; i++){
+        var nx = rng() * w, ny = rng() * h, rr = 1 + rng() * 2;
+        ctx.beginPath();
+        ctx.arc(nx, ny, rr, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(95,49,25,' + (0.05 + rng() * 0.08).toFixed(3) + ')';
+        ctx.fill();
+      }
+    }
+
+    draw();
+    var rt;
+    window.addEventListener('resize', function(){
+      clearTimeout(rt); rt = setTimeout(draw, 180);
+    });
+    var rs = document.getElementById('reseed');
+    if (rs) rs.addEventListener('click', function(){
+      seed = (seed * 1664525 + 1013904223) >>> 0;
+      draw();
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mwasalati — Scenario Benchmark</title>
+<style>
+/* ══════════════════════════════════════════════════════════════
+   Standalone shell for the revenue/occupancy benchmark widget.
+   The original fragment (from the project doc) was authored to
+   inherit --color-* custom properties from a host page. This
+   wrapper defines those tokens using the alSooq canonical palette
+   so the widget renders correctly on its own.
+   ══════════════════════════════════════════════════════════════ */
+:root{
+  --color-text-primary:#2E241B;
+  --color-text-secondary:#6B5B4B;
+  --color-text-success:#2F6B4F;
+  --color-background-primary:#F6F1E7;
+  --color-background-secondary:#EDE4D3;
+  --color-border-secondary:#DCCFBB;
+  --color-border-tertiary:#DCCFBB;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --color-text-primary:#F6F1E7;
+    --color-text-secondary:#C7B9A6;
+    --color-text-success:#9FE1CB;
+    --color-background-primary:#2E241B;
+    --color-background-secondary:#3A2E22;
+    --color-border-secondary:#5A4A38;
+    --color-border-tertiary:#5A4A38;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--color-background-primary);
+  color:var(--color-text-primary);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  max-width:960px;
+  margin:0 auto;
+  padding:24px;
+}
+</style>
+</head>
+<body>
+
+<style>
+*{box-sizing:border-box}
+.w{padding:1rem 0;font-size:13px;color:var(--color-text-primary)}
+h3{font-size:15px;font-weight:500;margin:0 0 10px}
+.tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:5px 12px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointer;font-size:12px;color:var(--color-text-secondary)}
+.tab.on{background:#185FA5;border-color:#185FA5;color:#fff}
+.panel{display:none}.panel.on{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px 14px}
+.val{font-size:18px;font-weight:500}
+.sub{font-size:11px;color:var(--color-text-secondary);margin-top:3px}
+.lbl{font-size:11px;color:var(--color-text-secondary);margin-bottom:3px}
+.blue{background:#E6F1FB;border-color:#85B7EB}.blue .val{color:#0C447C}
+.green{background:#EAF3DE;border-color:#97C459}.green .val{color:#27500A}
+.amber{background:#FAEEDA;border-color:#EF9F27}.amber .val{color:#633806}
+.red{background:#FCEBEB;border-color:#F09595}.red .val{color:#791F1F}
+.teal{background:#E1F5EE;border-color:#5DCAA5}.teal .val{color:#085041}
+@media(prefers-color-scheme:dark){
+.blue{background:#0C447C;border-color:#378ADD}.blue .val{color:#B5D4F4}
+.green{background:#27500A;border-color:#639922}.green .val{color:#C0DD97}
+.amber{background:#633806;border-color:#BA7517}.amber .val{color:#FAC775}
+.red{background:#791F1F;border-color:#E24B4A}.red .val{color:#F7C1C1}
+.teal{background:#085041;border-color:#1D9E75}.teal .val{color:#9FE1CB}}
+table{width:100%;border-collapse:collapse;font-size:12px}
+td,th{padding:7px 10px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left}
+th{font-weight:500;font-size:11px;color:var(--color-text-secondary)}
+.r{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:none}
+.divider{border-top:1px solid var(--color-border-secondary);margin:16px 0}
+.note{font-size:11px;color:var(--color-text-secondary);margin-top:8px}
+.big{font-size:22px!important}
+.occ-row td{transition:background .2s}
+.occ-row.hi{background:rgba(99,152,34,.08)}
+.slider-wrap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.slider-wrap label{font-size:12px;color:var(--color-text-secondary);white-space:nowrap}
+input[type=range]{flex:1}
+#occ-val{font-weight:500;min-width:36px}
+</style>
+<div class="w">
+<div class="tabs">
+  <div class="tab on" onclick="show('base')">Base setup</div>
+  <div class="tab" onclick="show('occ')">Occupancy scenarios</div>
+  <div class="tab" onclick="show('time')">Time accumulation</div>
+  <div class="tab" onclick="show('fleet')">Fleet scaling</div>
+  <div class="tab" onclick="show('cost')">Cost vs revenue</div>
+</div>
+
+<!-- BASE -->
+<div id="base" class="panel on">
+  <h3>Assumptions</h3>
+  <div class="grid4">
+    <div class="card blue"><div class="lbl">Fare / ticket</div><div class="val">5,000</div><div class="sub">Local currency</div></div>
+    <div class="card"><div class="lbl">Seats / vehicle</div><div class="val">14</div><div class="sub">Full capacity</div></div>
+    <div class="card"><div class="lbl">Trips / shift</div><div class="val">16</div><div class="sub">Drop trips</div></div>
+    <div class="card"><div class="lbl">Fleet size</div><div class="val">10</div><div class="sub">Vehicles</div></div>
+  </div>
+  <div class="divider"></div>
+  <h3>1 vehicle — 100% occupancy</h3>
+  <div class="grid3">
+    <div class="card green"><div class="lbl">Per trip</div><div class="val">70,000</div><div class="sub">5,000 × 14</div></div>
+    <div class="card green"><div class="lbl">Per shift</div><div class="val">1,120,000</div><div class="sub">70,000 × 16</div></div>
+    <div class="card green"><div class="lbl">Per day (2 shifts)</div><div class="val">2,240,000</div><div class="sub">1.12M × 2</div></div>
+  </div>
+  <div class="divider"></div>
+  <h3>10 vehicles — 100% occupancy</h3>
+  <div class="grid3">
+    <div class="card teal"><div class="lbl">Per shift</div><div class="val big">11,200,000</div><div class="sub">Matches file figure ✓</div></div>
+    <div class="card teal"><div class="lbl">Per day (2 shifts)</div><div class="val">22,400,000</div><div class="sub"></div></div>
+    <div class="card teal"><div class="lbl">Per month (26 days)</div><div class="val">582,400,000</div><div class="sub"></div></div>
+  </div>
+</div>
+
+<!-- OCCUPANCY -->
+<div id="occ" class="panel">
+  <h3>Occupancy matrix — fleet of 10, per shift</h3>
+  <div class="slider-wrap">
+    <label>Highlight occupancy:</label>
+    <input type="range" min="1" max="6" value="6" oninput="highlightOcc(this.value)">
+    <span id="occ-val">100%</span>
+  </div>
+  <table>
+    <tr><th>Occupancy</th><th>Seats filled</th><th class="r">Per trip (fleet)</th><th class="r">Per shift (fleet)</th><th class="r">Per day 2-shift</th><th class="r">Per month 26d</th></tr>
+    <tr class="occ-row" id="occ6"><td>100%</td><td>140 / 140</td><td class="r">700,000</td><td class="r">11,200,000</td><td class="r">22,400,000</td><td class="r">582,400,000</td></tr>
+    <tr class="occ-row" id="occ5"><td>90%</td><td>126 / 140</td><td class="r">630,000</td><td class="r">10,080,000</td><td class="r">20,160,000</td><td class="r">524,160,000</td></tr>
+    <tr class="occ-row" id="occ4"><td>75%</td><td>105 / 140</td><td class="r">525,000</td><td class="r">8,400,000</td><td class="r">16,800,000</td><td class="r">436,800,000</td></tr>
+    <tr class="occ-row" id="occ3"><td>60%</td><td>84 / 140</td><td class="r">420,000</td><td class="r">6,720,000</td><td class="r">13,440,000</td><td class="r">349,440,000</td></tr>
+    <tr class="occ-row" id="occ2"><td>50%</td><td>70 / 140</td><td class="r">350,000</td><td class="r">5,600,000</td><td class="r">11,200,000</td><td class="r">291,200,000</td></tr>
+    <tr class="occ-row" id="occ1"><td>25%</td><td>35 / 140</td><td class="r">175,000</td><td class="r">2,800,000</td><td class="r">5,600,000</td><td class="r">145,600,000</td></tr>
+  </table>
+  <div class="note">Fleet = 10 vehicles × 14 seats. Day = 2 shifts. Month = 26 operating days.</div>
+</div>
+
+<!-- TIME -->
+<div id="time" class="panel">
+  <h3>Revenue accumulation — full fleet, 100% occupancy</h3>
+  <table>
+    <tr><th>Period</th><th class="r">1 vehicle</th><th class="r">Fleet (10)</th></tr>
+    <tr><td>1 trip</td><td class="r">70,000</td><td class="r">700,000</td></tr>
+    <tr><td>1 shift (16 trips)</td><td class="r">1,120,000</td><td class="r">11,200,000</td></tr>
+    <tr><td>1 day (2 shifts)</td><td class="r">2,240,000</td><td class="r">22,400,000</td></tr>
+    <tr><td>1 week (6 days)</td><td class="r">13,440,000</td><td class="r">134,400,000</td></tr>
+    <tr><td>2 weeks</td><td class="r">26,880,000</td><td class="r">268,800,000</td></tr>
+    <tr><td>1 month (26 days)</td><td class="r">58,240,000</td><td class="r">582,400,000</td></tr>
+    <tr><td>3 months</td><td class="r">174,720,000</td><td class="r">1,747,200,000</td></tr>
+    <tr><td>6 months</td><td class="r">349,440,000</td><td class="r">3,494,400,000</td></tr>
+    <tr><td>1 year</td><td class="r">698,880,000</td><td class="r">6,988,800,000</td></tr>
+  </table>
+  <div class="note">Week = 6 days. Month = 26 days.</div>
+</div>
+
+<!-- FLEET SCALING -->
+<div id="fleet" class="panel">
+  <h3>Fleet size comparison — per shift, 100% occupancy</h3>
+  <table>
+    <tr><th>Vehicles</th><th class="r">Per shift</th><th class="r">Per day</th><th class="r">Per month</th><th class="r">Per year</th></tr>
+    <tr><td>1</td><td class="r">1,120,000</td><td class="r">2,240,000</td><td class="r">58,240,000</td><td class="r">698,880,000</td></tr>
+    <tr><td>5</td><td class="r">5,600,000</td><td class="r">11,200,000</td><td class="r">291,200,000</td><td class="r">3,494,400,000</td></tr>
+    <tr><td>10</td><td class="r">11,200,000</td><td class="r">22,400,000</td><td class="r">582,400,000</td><td class="r">6,988,800,000</td></tr>
+    <tr><td>15</td><td class="r">16,800,000</td><td class="r">33,600,000</td><td class="r">873,600,000</td><td class="r">10,483,200,000</td></tr>
+    <tr><td>20</td><td class="r">22,400,000</td><td class="r">44,800,000</td><td class="r">1,164,800,000</td><td class="r">13,977,600,000</td></tr>
+    <tr><td>50</td><td class="r">56,000,000</td><td class="r">112,000,000</td><td class="r">2,912,000,000</td><td class="r">34,944,000,000</td></tr>
+  </table>
+</div>
+
+<!-- COST vs REVENUE -->
+<div id="cost" class="panel">
+  <h3>Fleet of 10 — monthly P&L at different occupancy (local currency)</h3>
+  <table>
+    <tr><th>Occupancy</th><th class="r">Gross revenue</th><th class="r">Rent cost</th><th class="r">Install. A (USD)</th><th class="r">Net (excl. ops)</th></tr>
+    <tr><td>100%</td><td class="r">582,400,000</td><td class="r">5,000</td><td class="r">$83,333</td><td class="r" style="color:var(--color-text-success)">582,390,000+</td></tr>
+    <tr><td>75%</td><td class="r">436,800,000</td><td class="r">5,000</td><td class="r">$83,333</td><td class="r" style="color:var(--color-text-success)">436,790,000+</td></tr>
+    <tr><td>50%</td><td class="r">291,200,000</td><td class="r">5,000</td><td class="r">$83,333</td><td class="r" style="color:var(--color-text-success)">291,190,000+</td></tr>
+    <tr><td>25%</td><td class="r">145,600,000</td><td class="r">5,000</td><td class="r">$83,333</td><td class="r" style="color:var(--color-text-success)">145,590,000+</td></tr>
+  </table>
+  <div class="note">Rent is minimal vs revenue. Net shown before fuel, driver salaries, maintenance, and USD conversion of installments.</div>
+  <div class="divider"></div>
+  <h3>Breakeven — how many tickets/day to cover Option A installment ($83,333/mo)?</h3>
+  <div class="grid2">
+    <div class="card amber">
+      <div class="lbl">Installment in local (est. @ 50 SDG/USD)</div>
+      <div class="val">4,166,650</div>
+      <div class="sub">Per month</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Tickets needed / day</div>
+      <div class="val">~3,205</div>
+      <div class="sub">4.17M ÷ 26 days ÷ 5,000</div>
+    </div>
+  </div>
+  <div class="note">Fleet at 100% = 2,240 tickets/shift × 2 = 4,480/day — well above breakeven at any reasonable FX rate.</div>
+</div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  event.target.classList.add('on');
+}
+const occLabels={1:'25%',2:'50%',3:'60%',4:'75%',5:'90%',6:'100%'};
+function highlightOcc(v){
+  document.querySelectorAll('.occ-row').forEach(r=>r.classList.remove('hi'));
+  document.getElementById('occ'+v).classList.add('hi');
+  document.getElementById('occ-val').textContent=occLabels[v];
+}
+</script>
+
+</body>
+</html>

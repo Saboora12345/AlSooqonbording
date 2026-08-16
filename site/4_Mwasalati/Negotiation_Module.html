@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مواصلاتي · Mwasalati — Negotiation Module</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════════
+   Mwasalati Negotiation Module v1.0
+   Accent = GOLD. This is the one module where gold is the accent
+   rather than an identity chip, because it IS the Mwasalati
+   surface. Clay stays out entirely. Palm = settled fare only.
+   ══════════════════════════════════════════════════════════════ */
+:root{
+  --sand:#F6F1E7; --sand-deep:#EDE4D3; --card:#FFFFFF; --kraft:#E4D2B4;
+  --ink:#2E241B; --ink-soft:#6B5B4B; --ink-faint:#9A8A79;
+  --gold:#B8862F; --gold-deep:#8A6320; --gold-tint:#F5EBD6;
+  --gold-08:rgba(184,134,47,.08); --gold-15:rgba(184,134,47,.15); --gold-30:rgba(184,134,47,.30);
+  --palm:#2F6B4F; --palm-tint:#E3EFE8;    /* settled fare ONLY */
+  --line:#DCCFBB; --hair:rgba(220,207,187,.55);
+  --r-xs:6px; --r-sm:8px; --r-md:12px; --r-lg:16px; --r-pill:999px;
+  --e1:0 1px 2px rgba(46,36,27,.05);
+  --e2:0 1px 2px rgba(46,36,27,.05),0 8px 24px rgba(46,36,27,.07);
+  --e3:0 2px 4px rgba(46,36,27,.06),0 18px 46px rgba(46,36,27,.12);
+
+  /* motion contract — inherited from sudaexpress, one addition */
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-in-out:cubic-bezier(.77,0,.175,1);
+  --ease-drawer:cubic-bezier(.32,.72,0,1);
+  --d-press:160ms;
+  --d-nav:180ms;
+  --d-offer:260ms;   /* NEW — counter-offer arrival, transition-based */
+  --d-sheet:340ms;
+  --d-hold:1200ms;
+  --d-expire:45s;    /* offer lifetime, linear — it is a clock */
+
+  --ar:'IBM Plex Sans Arabic',system-ui,sans-serif;
+  --en:'IBM Plex Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--ar);background:var(--sand-deep);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+[data-lang="en"] body{font-family:var(--en)}
+[data-lang="ar"] .en-only{display:none}
+[data-lang="en"] .ar-only{display:none}
+.num{font-family:var(--en);font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono);font-size:.86em}
+svg{display:block}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+
+.topbar{position:sticky;top:0;z-index:80;background:rgba(246,241,231,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1340px;margin:0 auto;padding:12px 26px;display:flex;align-items:center;gap:18px}
+.lockup{display:flex;align-items:center;gap:12px}
+.plate{width:52px;height:34px;border-radius:var(--r-xs);background:var(--kraft);display:grid;place-items:center;flex:none}
+.plate svg{width:36px;height:20px;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.wordmark{font-size:21px;font-weight:700;letter-spacing:-.035em;line-height:1}
+.wordmark small{display:block;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-soft);margin-top:3px}
+.sp{flex:1}
+.seg{display:flex;background:var(--sand-deep);border:1px solid var(--line);border-radius:var(--r-pill);padding:3px}
+.seg button{padding:6px 16px;border-radius:var(--r-pill);font-size:13px;font-weight:600;color:var(--ink-soft);transition:color var(--d-press) var(--ease-out)}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--e1)}
+
+.hero{background:var(--sand);border-bottom:1px solid var(--line)}
+.hero-in{max-width:1340px;margin:0 auto;padding:56px 26px 46px}
+.eyebrow{font-family:var(--en);direction:ltr;font-size:10.5px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-soft)}
+.eyebrow i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin-inline-end:8px;vertical-align:1px}
+h1{font-size:clamp(30px,4.4vw,50px);font-weight:700;letter-spacing:-.035em;line-height:1.16;margin-top:14px;max-width:21ch}
+.hero-en{font-family:var(--en);direction:ltr;font-size:18px;font-weight:600;color:var(--ink-soft);margin-top:12px;letter-spacing:-.01em}
+.hero-lead{font-size:16.5px;color:var(--ink-soft);max-width:58ch;margin-top:20px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.meta-chip{font-family:var(--en);direction:ltr;font-size:11px;font-weight:600;border:1px solid var(--line);background:var(--card);border-radius:var(--r-pill);padding:5px 13px;color:var(--ink-soft)}
+
+.stage{max-width:1340px;margin:0 auto;padding:44px 26px 90px;display:grid;grid-template-columns:392px 1fr;gap:52px;align-items:start}
+@media(max-width:1080px){.stage{grid-template-columns:1fr;gap:36px}}
+.rail{position:sticky;top:82px}
+@media(max-width:1080px){.rail{position:static}}
+.rail-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.rail-title{font-size:13px;font-weight:700}
+.rail-title span{display:block;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-top:2px}
+
+.phone{width:392px;height:800px;background:var(--ink);border-radius:44px;padding:11px;box-shadow:var(--e3);position:relative;margin-inline:auto}
+@media(max-width:430px){.phone{width:100%;height:740px;border-radius:34px;padding:8px}}
+.screen{width:100%;height:100%;background:var(--sand);border-radius:34px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.notch{position:absolute;top:11px;inset-inline:0;margin-inline:auto;width:112px;height:26px;background:var(--ink);border-radius:0 0 16px 16px;z-index:40}
+.statusbar{flex:none;height:44px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 22px 5px;font-family:var(--en);direction:ltr;font-size:11.5px;font-weight:600}
+.sig{display:flex;gap:3px;align-items:flex-end}
+.sig i{width:3px;background:var(--ink);border-radius:1px;display:block}
+.sig i:nth-child(1){height:4px}.sig i:nth-child(2){height:6px}.sig i:nth-child(3){height:8px}.sig i:nth-child(4){height:10px}
+.batt{width:22px;height:11px;border:1.4px solid var(--ink);border-radius:3px;position:relative}
+.batt::after{content:'';position:absolute;inset:1.5px;inset-inline-end:6px;background:var(--ink);border-radius:1px}
+
+.appbar{flex:none;display:flex;align-items:center;gap:10px;padding:6px 18px 12px;border-bottom:1px solid var(--hair);background:var(--sand)}
+.appbar .back{width:32px;height:32px;border-radius:var(--r-sm);display:grid;place-items:center;flex:none;transition:background var(--d-press) var(--ease-out)}
+.appbar .back:active{background:var(--gold-08)}
+.appbar .back svg{width:19px;height:19px;stroke:var(--ink);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+[dir="rtl"] .appbar .back svg{transform:scaleX(-1)}
+.appbar h3{font-size:16px;font-weight:700;letter-spacing:-.02em;flex:1;line-height:1.3}
+.appbar h3 span{display:block;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+
+.views{flex:1;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
+.views::-webkit-scrollbar{display:none}
+.view{display:none;padding:14px 18px 26px;animation:enter var(--d-nav) var(--ease-out) both}
+.view.on{display:block}
+@keyframes enter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.tabbar{flex:none;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);background:var(--card);padding:7px 6px 12px}
+.tabbar button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 0;font-size:10px;font-weight:600;color:var(--ink-faint);border-radius:var(--r-sm)}
+.tabbar button svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tabbar button.on{color:var(--gold)}
+
+/* ── schematic map (NOT a real map — no tiles faked) ───────── */
+.mapbox{position:relative;border:1px solid var(--line);border-radius:var(--r-md);background:var(--sand-deep);overflow:hidden;margin-bottom:12px}
+.mapbox svg{width:100%;height:170px;display:block}
+.mapbox .cap{
+  position:absolute;bottom:6px;inset-inline-start:8px;font-family:var(--en);direction:ltr;
+  font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);
+  background:rgba(246,241,231,.82);border-radius:3px;padding:1px 5px;
+}
+.route-line{fill:none;stroke:var(--gold);stroke-width:2.4;stroke-linecap:round}
+.route-ghost{fill:none;stroke:var(--line);stroke-width:2.4;stroke-linecap:round}
+.stopdot{fill:var(--card);stroke:var(--gold);stroke-width:2}
+.stopdot.off{stroke:var(--line)}
+.veh{fill:var(--ink);opacity:.82}
+.maplbl{font-family:var(--ar);font-size:8.5px;fill:var(--ink-soft);font-weight:600}
+
+.lbl{font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:14px 0 8px}
+.lbl:first-child{margin-top:0}
+
+.rowsel{display:flex;gap:7px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
+.rowsel::-webkit-scrollbar{display:none}
+.linechip{
+  flex:none;padding:7px 13px;border-radius:var(--r-pill);border:1px solid var(--line);background:var(--card);
+  font-size:12.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;
+  transition:background var(--d-press) var(--ease-out),color var(--d-press) var(--ease-out),border-color var(--d-press) var(--ease-out);
+}
+.linechip.on{background:var(--gold);border-color:var(--gold);color:var(--sand)}
+
+/* ── fare band composer ────────────────────────────────────── */
+.fare{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:15px}
+.fare .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
+.fare .top .k{font-size:11.5px;color:var(--ink-soft);font-weight:600}
+.fare .top .ph{font-family:var(--en);direction:ltr;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);background:var(--gold-15);border-radius:3px;padding:1px 5px}
+.fare .amt{display:flex;align-items:baseline;gap:6px;justify-content:center;margin:6px 0 2px}
+.fare .amt b{font-family:var(--en);font-size:38px;font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.fare .amt span{font-size:13px;font-weight:600;color:var(--ink-soft)}
+.fare .per{text-align:center;font-size:11px;color:var(--ink-faint);margin-bottom:12px}
+
+/* the band rail — floor and ceiling are visible constraints */
+.band{position:relative;height:34px;margin:0 4px 6px}
+.band .track{position:absolute;inset-inline:0;top:14px;height:5px;border-radius:3px;background:var(--sand-deep);border:1px solid var(--line)}
+.band .live{position:absolute;top:14px;height:5px;border-radius:3px;background:var(--gold-30)}
+.band .knob{
+  position:absolute;top:8px;width:18px;height:18px;border-radius:50%;background:var(--card);
+  border:2.5px solid var(--gold);margin-inline-start:-9px;box-shadow:var(--e1);
+  transition:inset-inline-start var(--d-press) var(--ease-out);
+}
+.band .edge{position:absolute;top:24px;font-family:var(--en);font-size:9px;font-weight:700;color:var(--ink-faint);letter-spacing:.04em}
+.band .edge.lo{inset-inline-end:0}
+.band .edge.hi{inset-inline-start:0}
+.steprow{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:4px}
+.steprow button{
+  width:42px;height:42px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--card);
+  font-size:20px;font-weight:600;color:var(--gold-deep);display:grid;place-items:center;
+  transition:transform var(--d-press) var(--ease-out),background var(--d-press) var(--ease-out);
+}
+.steprow button:active{transform:scale(.94);background:var(--gold-08)}
+.steprow button:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.bandnote{font-size:11px;color:var(--ink-soft);text-align:center;margin-top:10px;line-height:1.6}
+.bandnote b{color:var(--ink);font-weight:600}
+
+.seatpick{display:flex;gap:7px;justify-content:center;margin-top:12px}
+.seatpick button{
+  width:38px;height:38px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--card);
+  font-family:var(--en);font-size:14px;font-weight:600;color:var(--ink-soft);
+  transition:border-color var(--d-press) var(--ease-out),background var(--d-press) var(--ease-out),color var(--d-press) var(--ease-out),transform var(--d-press) var(--ease-out);
+}
+.seatpick button:active{transform:scale(.94)}
+.seatpick button.on{border-color:var(--gold);background:var(--gold-08);color:var(--gold-deep)}
+
+.btn{border-radius:var(--r-sm);padding:12px 18px;font-size:14px;font-weight:600;border:1px solid var(--line);background:var(--card);color:var(--ink);
+  transition:transform var(--d-press) var(--ease-out),background var(--d-press) var(--ease-out),border-color var(--d-press) var(--ease-out)}
+.btn:active{transform:scale(.97)}
+.btn.solid{background:var(--gold);border-color:var(--gold);color:#fff}
+.btn.solid:active{background:var(--gold-deep)}
+.btn.full{width:100%;text-align:center}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+/* ── counter-offer cards ───────────────────────────────────── */
+.waiting{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--ink-soft);padding:10px 2px}
+.waiting .dots{display:flex;gap:4px}
+.waiting .dots i{width:5px;height:5px;border-radius:50%;background:var(--gold-30);animation:pulse 1.1s var(--ease-in-out) infinite}
+.waiting .dots i:nth-child(2){animation-delay:.14s}
+.waiting .dots i:nth-child(3){animation-delay:.28s}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+.offer{
+  display:block;width:100%;text-align:start;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:12px 13px 0;margin-bottom:9px;overflow:hidden;
+  opacity:0;transform:translateY(10px);
+  transition:opacity var(--d-offer) var(--ease-out),transform var(--d-offer) var(--ease-out),border-color var(--d-press) var(--ease-out);
+}
+.offer.in{opacity:1;transform:none}          /* transition, not keyframe — arrivals are rapid */
+.offer.gone{opacity:0;transform:translateY(-6px)}
+.offer .oh{display:flex;gap:10px;align-items:center}
+.offer .av{width:40px;height:40px;border-radius:50%;background:var(--sand-deep);display:grid;place-items:center;flex:none;font-weight:700;font-size:14px;color:var(--gold-deep)}
+.offer .om{flex:1;min-width:0}
+.offer .om b{display:block;font-size:13.5px;font-weight:600;line-height:1.35}
+.offer .om small{font-size:11px;color:var(--ink-soft);display:block}
+.offer .op{text-align:end;flex:none}
+.offer .op b{font-family:var(--en);font-size:18px;font-weight:700;letter-spacing:-.03em;display:block;line-height:1.2}
+.offer .op small{font-size:9.5px;color:var(--ink-faint);font-weight:600;font-family:var(--en);letter-spacing:.06em}
+.offer .delta{font-family:var(--en);font-size:10px;font-weight:700;letter-spacing:.04em}
+.offer .delta.up{color:var(--gold-deep)}
+.offer .delta.down{color:var(--ink-faint)}
+.offer .oa{display:flex;gap:7px;margin:11px 0 12px}
+.offer .oa .mini{flex:none;padding:8px 13px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--card);font-size:12px;font-weight:600;color:var(--ink-soft);transition:transform var(--d-press) var(--ease-out)}
+.offer .oa .mini:active{transform:scale(.95)}
+.offer .oa .acc{flex:1}
+/* expiry rail — linear, because it is literally a clock */
+.exp{height:2px;background:var(--sand-deep);margin:0 -13px}
+.exp i{display:block;height:100%;background:var(--gold-30);transform-origin:right;transform:scaleX(1);transition:transform var(--d-expire) linear}
+.offer.ticking .exp i{transform:scaleX(0)}
+
+/* hold-to-accept — same gesture as sudaexpress handover */
+.hold{position:relative;overflow:hidden;border-radius:var(--r-sm);border:1px solid var(--gold);background:var(--card);color:var(--gold-deep);
+  padding:11px 14px;font-size:13px;font-weight:600;text-align:center;isolation:isolate;
+  transition:transform var(--d-press) var(--ease-out)}
+.hold:active{transform:scale(.985)}
+.hold .fill{position:absolute;inset:0;background:var(--gold);z-index:-1;clip-path:inset(0 0 0 100%);transition:clip-path 200ms var(--ease-out)}
+.hold.pressing .fill{clip-path:inset(0 0 0 0);transition:clip-path var(--d-hold) linear}
+.hold.pressing{color:#fff}
+
+/* ── ticket ────────────────────────────────────────────────── */
+.ticket{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.tk-top{padding:14px 15px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border-bottom:1px dashed var(--line)}
+.tk-top b{font-size:15px;font-weight:700;letter-spacing:-.02em;display:block}
+.tk-top small{font-family:var(--mono);direction:ltr;font-size:10.5px;color:var(--ink-soft);letter-spacing:.05em}
+.qr{width:66px;height:66px;flex:none;background:var(--ink);border-radius:var(--r-xs);padding:6px}
+.qr svg{width:100%;height:100%;fill:var(--sand)}
+.tk-b{padding:12px 15px}
+.tk-r{display:flex;justify-content:space-between;gap:12px;padding:7px 0;font-size:12.5px}
+.tk-r+.tk-r{border-top:1px solid var(--hair)}
+.tk-r .k{color:var(--ink-soft)}
+.tk-r .v{font-weight:600;text-align:end}
+.seatgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;padding:12px 15px 15px;border-top:1px dashed var(--line)}
+.seatgrid i{aspect-ratio:1/1;border-radius:4px;background:var(--sand-deep);border:1px solid var(--line);display:block}
+.seatgrid i.taken{background:var(--gold-15);border-color:var(--gold-30)}
+.seatgrid i.mine{background:var(--gold);border-color:var(--gold-deep)}
+.seatgrid i.blocked{background:transparent;border-style:dashed;opacity:.5}
+.caplbl{display:flex;justify-content:space-between;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);padding:0 15px}
+
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;border-radius:var(--r-pill);padding:2px 9px;line-height:1.7}
+.pill::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+.pill.settled{background:var(--palm-tint);color:var(--palm)}
+.pill.gold{background:var(--gold);color:#fff}
+
+.callout{border:1px solid var(--line);border-inline-start:3px solid var(--gold);background:var(--card);border-radius:var(--r-sm);padding:11px 13px;font-size:12px;color:var(--ink-soft);line-height:1.65;margin-top:12px}
+.callout b{color:var(--ink);font-weight:600}
+.callout.settled{border-inline-start-color:var(--palm);background:var(--palm-tint)}
+.callout.warn{border-inline-start-color:var(--ink);background:var(--sand-deep)}
+
+.toast{position:absolute;bottom:88px;inset-inline:0;margin-inline:auto;width:max-content;max-width:82%;background:var(--ink);color:var(--sand);border-radius:var(--r-sm);padding:9px 17px;font-size:12.5px;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity var(--d-offer) var(--ease-out),transform var(--d-offer) var(--ease-out);z-index:60}
+.toast.show{opacity:1;transform:none}
+
+/* ── spec ──────────────────────────────────────────────────── */
+.spec{min-width:0}
+.sec{margin-bottom:56px}
+.sec-head{margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.sec-head h2{font-size:26px;font-weight:700;letter-spacing:-.028em;line-height:1.3}
+.sec-head .sub{font-family:var(--en);direction:ltr;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-top:4px}
+.sec-head p{font-size:14.5px;color:var(--ink-soft);margin-top:11px;max-width:62ch}
+.tbl{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.tbl th,.tbl td{text-align:start;padding:10px 13px;font-size:12.5px;border-bottom:1px solid var(--hair);vertical-align:top}
+.tbl th{background:var(--sand);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-family:var(--en);direction:ltr}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td code{font-family:var(--mono);font-size:11px;color:var(--gold-deep);background:var(--gold-08);padding:1px 5px;border-radius:var(--r-xs)}
+.tbl td.desc{color:var(--ink-soft);line-height:1.6}
+.tbl-wrap{overflow-x:auto;border-radius:var(--r-md)}
+pre{background:var(--ink);color:#E8DFD2;border-radius:var(--r-md);padding:18px 20px;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.75;direction:ltr;text-align:left}
+pre .c{color:#8B7C6B} pre .k{color:#D9A06B} pre .s{color:#A8C3A0} pre .p{color:#C8B9A6}
+.rules{display:grid;gap:9px}
+.rule{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:13px 15px}
+.rule .n{font-family:var(--en);font-size:11px;font-weight:700;color:var(--gold-deep);background:var(--gold-08);width:24px;height:24px;border-radius:var(--r-xs);display:grid;place-items:center;flex:none}
+.rule .t b{display:block;font-size:13.5px;font-weight:600;line-height:1.45}
+.rule .t p{font-size:12.5px;color:var(--ink-soft);margin-top:4px;line-height:1.65}
+.flag{background:var(--card);border:1px solid var(--line);border-inline-start:3px solid var(--ink);border-radius:var(--r-md);padding:16px 18px;margin-top:16px}
+.flag h4{font-size:14.5px;font-weight:700;margin-bottom:8px}
+.flag p{font-size:13px;color:var(--ink-soft);line-height:1.7}
+.flag .figs{display:flex;gap:10px;margin:12px 0 4px;flex-wrap:wrap}
+.flag .fig{border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 13px;background:var(--sand)}
+.flag .fig b{display:block;font-family:var(--en);font-size:17px;font-weight:700;letter-spacing:-.02em}
+.flag .fig small{font-size:10.5px;color:var(--ink-soft)}
+
+footer{background:var(--ink);color:var(--sand-deep);padding:34px 26px 40px}
+.foot-in{max-width:1340px;margin:0 auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:flex-end}
+.foot-in .w{font-size:19px;font-weight:700;letter-spacing:-.03em;color:var(--sand)}
+.foot-in .w small{display:block;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;opacity:.6;margin-top:3px}
+.foot-in p{font-size:12px;opacity:.66;max-width:54ch;line-height:1.75}
+
+@media (hover:hover) and (pointer:fine){
+  .offer:hover,.linechip:hover{border-color:var(--gold-30)}
+}
+@media (prefers-reduced-motion:reduce){
+  .view{animation:fadeOnly 150ms linear both}
+  @keyframes fadeOnly{from{opacity:0}to{opacity:1}}
+  .offer{transform:none;transition:opacity 150ms linear}
+  .offer.in,.offer.gone{transform:none}
+  .waiting .dots i{animation:none;opacity:.6}
+  .btn:active,.hold:active,.steprow button:active,.seatpick button:active,.offer .oa .mini:active{transform:none}
+  .toast{transform:none}.toast.show{transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="topbar-in">
+  <div class="lockup">
+    <div class="plate"><svg viewBox="0 0 36 20">
+      <rect x="3" y="4" width="20" height="11" rx="2" stroke="#B8862F"/>
+      <path d="M3 10h20M9 4v6M16 4v6" stroke="#B8862F"/>
+      <circle cx="8" cy="16.5" r="1.6" stroke="#2E241B"/><circle cx="19" cy="16.5" r="1.6" stroke="#2E241B"/>
+      <path d="M26 8h7M27 11h6M28 14h4" stroke="#2E241B"/>
+    </svg></div>
+    <div class="wordmark">مواصلاتي<small>Mwasalati · Negotiation Module</small></div>
+  </div>
+  <div class="sp"></div>
+  <div class="seg">
+    <button class="on" onclick="setLang('ar',this)">عربي</button>
+    <button onclick="setLang('en',this)">EN</button>
+  </div>
+</div></div>
+
+<div class="hero"><div class="hero-in">
+  <div class="eyebrow"><i></i>Service 02 · Mobility · alSooq ecosystem</div>
+  <h1>
+    <span class="ar-only">تفاوض داخل نطاق، لا مزاد مفتوح.</span>
+    <span class="en-only">Negotiation inside a band — not an open auction.</span>
+  </h1>
+  <div class="hero-en">inDriver-style counter-offers, bounded by the published route fare</div>
+  <p class="hero-lead">
+    <span class="ar-only">آلية العرض المضاد تعطي الراكب صوتاً والسائق مرونة. لكن مواصلاتي قامت على مبدأ «الأجرة تُحدد بالخط لا بالزحام» — والمزاد المفتوح يكسر هذا المبدأ. الحل: الخط ينشر أرضية وسقفاً، والتفاوض كله يجري بينهما. السائق لا يستطيع أن يستغل مطراً، والراكب لا يستطيع أن يهبط بالأجرة تحت عتبة تشغيل المركبة.</span>
+    <span class="en-only">Counter-offers give the passenger a voice and the driver flexibility. But Mwasalati was built on "fares set per route, not per crowd" — and an open auction breaks that. The resolution: each line publishes a floor and a ceiling, and all negotiation happens between them. A driver cannot exploit rain; a passenger cannot bid below the vehicle's operating threshold.</span>
+  </p>
+  <div class="hero-meta">
+    <span class="meta-chip">Banded counter-offers</span>
+    <span class="meta-chip">Per-seat, not per-vehicle</span>
+    <span class="meta-chip">14-seat hard cap</span>
+    <span class="meta-chip">Hold-to-accept</span>
+    <span class="meta-chip">Schematic map</span>
+  </div>
+</div></div>
+
+<div class="stage">
+
+  <!-- ═══ PHONE ═══ -->
+  <div class="rail">
+    <div class="rail-head">
+      <div class="rail-title">
+        <span class="ar-only">تطبيق الراكب</span><span class="en-only">Passenger app</span>
+        <span>Send an offer, watch counters arrive</span>
+      </div>
+    </div>
+
+    <div class="phone"><div class="screen">
+      <div class="notch"></div>
+      <div class="statusbar">
+        <span id="clock">9:41</span>
+        <span style="display:flex;gap:6px;align-items:center"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="batt"></span></span>
+      </div>
+      <div class="appbar">
+        <button class="back" id="abBack" onclick="back()" style="display:none"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <h3 id="abT">اطلب مقعد<span id="abS">Request a seat</span></h3>
+      </div>
+
+      <div class="views" id="views">
+
+        <!-- ═══ COMPOSE ═══ -->
+        <div class="view on" id="v-ask">
+          <div class="mapbox">
+            <svg viewBox="0 0 340 170" aria-hidden="true">
+              <path class="route-ghost" d="M24 132 C70 128, 96 104, 128 96 S196 88, 232 62 S296 40, 316 30"/>
+              <path class="route-line" id="rLine" d="M24 132 C70 128, 96 104, 128 96 S196 88, 232 62 S296 40, 316 30"
+                    stroke-dasharray="430" stroke-dashoffset="430"/>
+              <circle class="stopdot" cx="24"  cy="132" r="5"/>
+              <circle class="stopdot" cx="128" cy="96"  r="4.5"/>
+              <circle class="stopdot off" cx="232" cy="62" r="4.5"/>
+              <circle class="stopdot off" cx="316" cy="30" r="5"/>
+              <text class="maplbl" x="14"  y="150">السوق العربي</text>
+              <text class="maplbl" x="106" y="114">الموردة</text>
+              <text class="maplbl" x="212" y="80">شمبات</text>
+              <text class="maplbl" x="286" y="48">الحاج يوسف</text>
+              <g class="veh"><rect x="70" y="112" width="13" height="7" rx="1.6"/><circle cx="73" cy="120" r="1.5"/><circle cx="80" cy="120" r="1.5"/></g>
+              <g class="veh"><rect x="168" y="82" width="13" height="7" rx="1.6"/><circle cx="171" cy="90" r="1.5"/><circle cx="178" cy="90" r="1.5"/></g>
+              <g class="veh"><rect x="256" y="50" width="13" height="7" rx="1.6"/><circle cx="259" cy="58" r="1.5"/><circle cx="266" cy="58" r="1.5"/></g>
+            </svg>
+            <span class="cap">Schematic — not a live map</span>
+          </div>
+
+          <div class="rowsel">
+            <button class="linechip on" onclick="pickLine(this)">خط ١١ — السوق ← الحاج يوسف</button>
+            <button class="linechip" onclick="pickLine(this)">خط ٤ — بحري</button>
+            <button class="linechip" onclick="pickLine(this)">خط ٧ — أم درمان</button>
+          </div>
+
+          <div class="lbl">Your offer · per seat</div>
+          <div class="fare">
+            <div class="top">
+              <span class="k">أجرة الخط المنشورة</span>
+              <span class="ph">placeholder — unresolved</span>
+            </div>
+            <div class="amt"><b class="num" id="fareVal">4,000</b><span>ج.س</span></div>
+            <div class="per">للمقعد الواحد · <span id="seatEcho">مقعد واحد</span></div>
+
+            <div class="band">
+              <div class="track"></div>
+              <div class="live" id="bandLive"></div>
+              <div class="knob" id="knob"></div>
+              <div class="edge lo">3,500 <span style="font-family:var(--ar)">أرضية</span></div>
+              <div class="edge hi"><span style="font-family:var(--ar)">سقف</span> 5,000</div>
+            </div>
+
+            <div class="steprow">
+              <button id="minus" onclick="bump(-250)">−</button>
+              <button id="plus" onclick="bump(250)">＋</button>
+            </div>
+            <div class="bandnote" id="bnote"><b>داخل النطاق.</b> السائقون على هذا الخط يرون عرضك ويردّون.</div>
+
+            <div class="lbl" style="text-align:center;margin-bottom:6px">Seats</div>
+            <div class="seatpick" id="seatPick"></div>
+          </div>
+
+          <button class="btn solid full" style="margin-top:14px" onclick="sendOffer()">أرسل العرض للسائقين</button>
+          <div class="callout">
+            <b>لماذا نطاق؟</b> الأرضية تحمي تشغيل المركبة، والسقف يمنع تسعير الزحام. المبدأ المنشور — «الأجرة بالخط لا بالزحام» — يبقى صحيحاً مع وجود التفاوض.
+          </div>
+        </div>
+
+        <!-- ═══ OFFERS ═══ -->
+        <div class="view" id="v-offers">
+          <div class="lbl">Your offer</div>
+          <div class="fare" style="padding:12px 15px">
+            <div class="amt" style="margin:0"><b class="num" id="myEcho">4,000</b><span>ج.س</span></div>
+            <div class="per" style="margin:2px 0 0">خط ١١ · <span id="seatEcho2">مقعد واحد</span> · الموردة</div>
+          </div>
+
+          <div class="lbl">Counter-offers · <span id="offCount">0</span></div>
+          <div class="waiting" id="waiting">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span>ننتظر ردود السائقين على الخط…</span>
+          </div>
+          <div id="offerList"></div>
+          <div class="callout warn" id="expNote" style="display:none">
+            <b>العروض تنتهي.</b> الشريط أسفل كل بطاقة عدّاد ٤٥ ثانية. السائق يتحرك، فالعرض لا يبقى صالحاً بلا نهاية.
+          </div>
+        </div>
+
+        <!-- ═══ TICKET ═══ -->
+        <div class="view" id="v-ticket">
+          <div class="ticket">
+            <div class="tk-top">
+              <div>
+                <b>مواصلاتي — تذكرة</b>
+                <small>MWS-3390-K11</small>
+                <div style="margin-top:6px"><span class="pill gold">مقعد ٦</span></div>
+              </div>
+              <div class="qr"><svg viewBox="0 0 21 21" id="qrSvg"></svg></div>
+            </div>
+            <div class="tk-b">
+              <div class="tk-r"><span class="k">الخط</span><span class="v">١١ — السوق العربي ← الحاج يوسف</span></div>
+              <div class="tk-r"><span class="k">نقطة الركوب</span><span class="v">الموردة — النقطة المعتمدة</span></div>
+              <div class="tk-r"><span class="k">السائق</span><span class="v">م. الطيب · ★ 4.8</span></div>
+              <div class="tk-r"><span class="k">المركبة</span><span class="v mono">KRT 4471</span></div>
+              <div class="tk-r"><span class="k">الأجرة المتفق عليها</span><span class="v num" id="tkFare">4,000 <span style="font-family:var(--ar)">ج.س</span></span></div>
+            </div>
+            <div class="caplbl"><span>Vehicle capacity</span><span id="capTxt">6 / 14 taken</span></div>
+            <div class="seatgrid" id="seatGrid"></div>
+          </div>
+
+          <div class="callout settled" style="margin-top:12px">
+            <b>الأخضر محجوز.</b> يظهر مرة واحدة في هذه الحزمة — على تسوية الأجرة بعد انتهاء الرحلة. لا يُستخدم لتأكيد الحجز ولا لقبول العرض.
+            <div style="margin-top:8px"><span class="pill settled">سُوّيت الأجرة</span></div>
+          </div>
+          <div class="callout">
+            <b>رمز واحد يربط ثلاثة:</b> الراكب، المقعد، ونقطة الركوب. الشبكة أعلاه تعرض السقف الحقيقي — ١٤ مقعداً من ١٦ خانة؛ الخانتان المشطوبتان لا تُباعان.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="toast" id="toast"></div>
+      <div class="tabbar" id="tabbar"></div>
+    </div></div>
+  </div>
+
+  <!-- ═══ SPEC ═══ -->
+  <div class="spec">
+
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">التوتّر الذي يحلّه هذا التصميم</span><span class="en-only">The conflict this design resolves</span></h2>
+        <div class="sub">inDriver's mechanic vs. Mwasalati's published principle</div>
+      </div>
+      <p style="font-size:14.5px;color:var(--ink-soft);max-width:62ch;margin-bottom:18px">
+        <span class="ar-only">آلية إنdrive قائمة على مزاد حر: الراكب يعرض، السائق يعرض مضاداً، بلا سقف ولا أرضية. لكن مادة مواصلاتي المنشورة تقول نصّاً: «الأجرة تُحدد بالخط لا بالزحام». المزاد الحر هو تسعير بالزحام تحديداً — في المطر يرتفع، وفي الركود ينهار تحت تكلفة الوقود. الاثنان لا يجتمعان بلا وسيط.</span>
+        <span class="en-only">inDriver's mechanic is a free auction: passenger bids, driver counters, no floor and no ceiling. But Mwasalati's published material says plainly that fares are set per route, not per crowd. A free auction is crowd pricing — it spikes in rain and collapses below fuel cost in a lull. The two cannot coexist unmediated.</span>
+      </p>
+      <div class="rules">
+        <div class="rule"><div class="n">01</div><div class="t"><b>الخط ينشر نطاقاً لا رقماً</b>
+          <p>كل خط له <span class="mono">floor</span> و<span class="mono">ceiling</span>. الأرضية تُشتق من تكلفة تشغيل المركبة، والسقف من قرار الخط. التفاوض حرّ بينهما ومستحيل خارجهما.</p></div></div>
+        <div class="rule"><div class="n">02</div><div class="t"><b>التفاوض على المقعد لا على المركبة</b>
+          <p>إن‑درايفر يساوم على السيارة كاملة. هنا الوحدة مقعد — فالسائق قد يقبل ثلاثة عروض بأسعار مختلفة في نفس الرحلة، وكلها داخل النطاق.</p></div></div>
+        <div class="rule"><div class="n">03</div><div class="t"><b>العرض له عمر</b>
+          <p>٤٥ ثانية ثم يسقط. السائق يتحرك على الخط، فعرضٌ قديم يعني موقعاً كاذباً. العدّاد خطّي لأنه ساعة لا زخرفة.</p></div></div>
+        <div class="rule"><div class="n">04</div><div class="t"><b>السقف يبقى ١٤ مقعداً مهما بلغ الطلب</b>
+          <p>لا يوجد مسار يبيع المقعد الخامس عشر. النطاق يضبط السعر، والسعة تضبط الحمولة — لا يتنازل أحدهما للآخر.</p></div></div>
+        <div class="rule"><div class="n">05</div><div class="t"><b>القبول ضغطة مستمرة</b>
+          <p>نفس إيماءة تسليم سودا إكسبرس. القبول التزام مالي على شاشة تُلمس في زحام — الضغطة الواحدة تُخطئ.</p></div></div>
+      </div>
+
+      <div class="flag">
+        <h4>تعارض الأجرة — ما يزال مفتوحاً</h4>
+        <p>ملفاتك تحمل رقمين متناقضين لنفس الخط. هذا الملف لا يحسم أيّهما صحيح، لكنه يُظهر شيئاً مفيداً: لو كان نطاق خطة مواصلاتي صحيحاً، فرقم الإنفوجرافيك يقع <b>تحت الأرضية</b> — أي أنه ليس نقطة داخل النطاق، بل رقم من نظام تسعير آخر تماماً.</p>
+        <div class="figs">
+          <div class="fig"><b>1,500</b><small>إنفوجرافيك الخدمات — خط ١١</small></div>
+          <div class="fig"><b>3,500 – 5,000</b><small>خطة مواصلاتي — نطاق الخطوط</small></div>
+        </div>
+        <p style="margin-top:10px">شاشة العرض تعمل على نطاق ٣٬٥٠٠–٥٬٠٠٠ ووسم <span class="mono">placeholder</span> ظاهر فوق الرقم. أي واحدة من الحالتين تفسّر التناقض: الإنفوجرافيك قديم من قبل مراجعة التعرفة، أو أن ١٬٥٠٠ أجرة مدعومة لشريحة محددة وليست أجرة الخط. القرار قرارك.</p>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">آلة الحالة</span><span class="en-only">Negotiation state machine</span></h2>
+        <div class="sub">Every transition is bounded — no state can leave the band</div>
+      </div>
+      <pre><span class="c">// A seat request moves through exactly these states.</span>
+
+  <span class="k">composed</span>  <span class="c">— passenger sets fare + seats. Clamped to [floor, ceiling].</span>
+      │
+      ▼
+  <span class="k">broadcast</span> <span class="c">— visible to drivers assigned to this line only.</span>
+      │            <span class="c">Not to "nearby drivers" — line assignment is the filter.</span>
+      ▼
+  <span class="k">countered</span> <span class="c">— 0..n driver counters. Each also clamped to the band.</span>
+      │            <span class="c">Each carries expires_at = now + 45s.</span>
+      ├──────────────► <span class="k">expired</span>   <span class="c">(driver moved; offer is stale)</span>
+      ├──────────────► <span class="k">withdrawn</span> <span class="c">(passenger raised their own offer)</span>
+      ▼
+  <span class="k">accepted</span>  <span class="c">— requires held_ms ≥ 1200. Seat is decremented atomically.</span>
+      │            <span class="c">Rejected if it would breach the 14-seat cap.</span>
+      ▼
+  <span class="k">ticketed</span>  <span class="c">— QR minted, binding passenger + seat + boarding point.</span>
+      │
+      ▼
+  <span class="k">completed</span> ──► <span class="k">settled</span>  <span class="c">← the ONLY green state in this module</span></pre>
+
+      <div class="tbl-wrap" style="margin-top:16px">
+        <table class="tbl">
+          <tr><th>Guard</th><th>Rule</th><th>On breach</th></tr>
+          <tr><td><code>band</code></td><td class="desc">floor ≤ fare ≤ ceiling على الطرفين معاً</td><td class="desc">يُرفض قبل البث — الواجهة لا تسمح أصلاً بتجاوز الحدّين</td></tr>
+          <tr><td><code>capacity</code></td><td class="desc">taken + seats ≤ 14</td><td class="desc">القبول يفشل ذرّياً، والعرض يُعاد للقائمة</td></tr>
+          <tr><td><code>line_scope</code></td><td class="desc">السائق مُسند لهذا الخط</td><td class="desc">لا يرى الطلب إطلاقاً</td></tr>
+          <tr><td><code>freshness</code></td><td class="desc">now &lt; expires_at</td><td class="desc">البطاقة تُزال من القائمة تلقائياً</td></tr>
+          <tr><td><code>intent</code></td><td class="desc">held_ms ≥ 1200</td><td class="desc">القبول لا يُسجَّل</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">واجهة الحزمة</span><span class="en-only">SDK surface</span></h2>
+        <div class="sub">Line-scoped, band-enforced server-side</div>
+      </div>
+      <pre><span class="k">import</span> { Mwasalati } <span class="k">from</span> <span class="s">'@hawil/mwasalati-sdk'</span>
+
+<span class="k">const</span> mws = Mwasalati.<span class="p">init</span>({ locale: <span class="s">'ar'</span>, dir: <span class="s">'rtl'</span>, currency: <span class="s">'SDG'</span> })
+
+<span class="c">/* ── Lines · public read ─────────────────────────────── */</span>
+mws.lines.<span class="p">list</span>()          <span class="c">// → 5 lines, each with band + boarding points</span>
+mws.lines.<span class="p">band</span>(line_id)  <span class="c">// → { floor, ceiling, published_at }</span>
+mws.lines.<span class="p">points</span>(line_id) <span class="c">// approved boarding points — no open-street pickup</span>
+
+<span class="c">/* ── Passenger ───────────────────────────────────────── */</span>
+mws.requests.<span class="p">compose</span>({ line_id, point_id, seats, fare_per_seat })
+  <span class="c">// throws FARE_OUT_OF_BAND — clamping is server-side too</span>
+mws.requests.<span class="p">broadcast</span>(request_id)
+mws.requests.<span class="p">counters</span>(request_id)      <span class="c">// live stream, 45s TTL each</span>
+mws.requests.<span class="p">accept</span>(counter_id, { held_ms })
+  <span class="c">// throws SEAT_CAP_REACHED · OFFER_EXPIRED · INTENT_TOO_SHORT</span>
+
+<span class="c">/* ── Driver ──────────────────────────────────────────── */</span>
+mws.driver.<span class="p">inbox</span>(line_id)              <span class="c">// only their assigned line</span>
+mws.driver.<span class="p">counter</span>(request_id, fare)  <span class="c">// also band-clamped</span>
+mws.driver.<span class="p">seatsRemaining</span>(trip_id)    <span class="c">// hard ceiling 14</span>
+
+<span class="c">/* ── Ticket ──────────────────────────────────────────── */</span>
+mws.tickets.<span class="p">get</span>(ticket_id)   <span class="c">// QR binds passenger + seat + point</span>
+mws.tickets.<span class="p">verify</span>(qr)      <span class="c">// driver-side scan at boarding</span>
+
+<span class="c">/* ── UI kit ──────────────────────────────────────────── */</span>
+<span class="k">import</span> { BandComposer, CounterOfferList, LineMap,
+         SeatCapGrid, HoldToAccept, TicketCard } <span class="k">from</span> <span class="s">'@hawil/mwasalati-ui'</span></pre>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">قرارات الحركة</span><span class="en-only">Motion decisions</span></h2>
+        <div class="sub">Three that differ from the sudaexpress contract, and why</div>
+      </div>
+      <div class="tbl-wrap"><table class="tbl">
+        <tr><th>Element</th><th>Treatment</th><th>Reason</th></tr>
+        <tr><td>Counter-offer arrival</td><td class="desc"><code>transition</code> 260ms ease-out — never keyframes</td><td class="desc">تصل بسرعة وقد تُزال أثناء وصول غيرها. الإطارات المفتاحية تبدأ من الصفر عند المقاطعة؛ الانتقالات تُعيد التوجيه بسلاسة.</td></tr>
+        <tr><td>Expiry rail</td><td class="desc"><code>scaleX</code> 45s <b>linear</b></td><td class="desc">الاستثناء الوحيد للخط المستقيم في المنظومة — لأنه ساعة، والساعة لا تتباطأ في نهايتها.</td></tr>
+        <tr><td>Fare number</td><td class="desc">لا حركة إطلاقاً</td><td class="desc">يتغيّر عشرات المرات في الجلسة الواحدة. أي انتقال عليه يجعل الضغط يبدو بطيئاً.</td></tr>
+        <tr><td>Band knob</td><td class="desc"><code>inset-inline-start</code> 160ms ease-out</td><td class="desc">استجابة ضغط. لا يتحرك الرقم لكن المقبض يتحرك — الموضع داخل النطاق هو المعلومة.</td></tr>
+        <tr><td>Route draw</td><td class="desc"><code>stroke-dashoffset</code> 900ms ease-in-out، مرة واحدة</td><td class="desc">حركة على الشاشة لا دخول إليها. لا تتكرر عند العودة للشاشة.</td></tr>
+        <tr><td>Waiting dots</td><td class="desc">نبض 1.1s، عتامة فقط</td><td class="desc">حالة انتظار حقيقية. عتامة لا حركة — والنبض يتوقف تحت <span class="mono">reduced-motion</span>.</td></tr>
+      </table></div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">ما يلزم قبل الربط</span><span class="en-only">Open before integration</span></h2>
+        <div class="sub">Not decided here</div>
+      </div>
+      <div class="tbl-wrap"><table class="tbl">
+        <tr><th>Item</th><th>State</th><th>From</th></tr>
+        <tr><td>الأجرة الحقيقية لكل خط</td><td class="desc">رقمان متناقضان. النطاق المعروض ٣٬٥٠٠–٥٬٠٠٠ موسوم placeholder.</td><td class="desc">قرارك — عاجل</td></tr>
+        <tr><td>اشتقاق الأرضية</td><td class="desc">يجب أن تُحسب من تكلفة تشغيل حقيقية (وقود، صيانة، عائد السائق) لا أن تُختار.</td><td class="desc">العمليات</td></tr>
+        <tr><td>الخطوط الخمسة ونقاط الركوب</td><td class="desc">خط واحد مرسوم تخطيطياً بأربع نقاط. الأربعة الباقية غير معرّفة هنا.</td><td class="desc">التشغيل</td></tr>
+        <tr><td>الخريطة</td><td class="desc">تخطيطية عمداً وموسومة كذلك. لم تُزيَّف واجهة خرائط حقيقية.</td><td class="desc">قرار المزوّد لاحقاً</td></tr>
+        <tr><td>موقف التنظيم من التفاوض</td><td class="desc">تسعير متغيّر للنقل العام قد يخضع لتعرفة معتمدة. النطاق يجعل الحجّة أسهل، لا يُغني عنها.</td><td class="desc">قانوني</td></tr>
+      </table></div>
+    </section>
+
+  </div>
+</div>
+
+<footer><div class="foot-in">
+  <div class="w">مواصلاتي<small>Mwasalati · Negotiation Module v1.0</small></div>
+  <p>نموذج تصميم. الأجرة والنطاق وأسماء السائقين والخطوط كلها توضيحية. الخريطة تخطيطية وليست واجهة خرائط حقيقية. تعارض التعرفة موثّق أعلاه ولم يُحسم.</p>
+</div></footer>
+
+<script>
+/* ═══════════ config ═══════════ */
+const FLOOR=3500, CEIL=5000, STEP=250;
+let fare=4000, seats=1, cur='ask', stack=[], offers=[], oid=0, drawn=false;
+
+const TITLES={ask:['اطلب مقعد','Request a seat'],offers:['العروض','Counter-offers'],ticket:['التذكرة','Ticket']};
+const TABS=[
+  {v:'ask',l:'اطلب',i:'<path d="M12 5v14M5 12h14"/>'},
+  {v:'offers',l:'العروض',i:'<path d="M4 7h16v10H4z"/><path d="M4 7l8 6 8-6"/>'},
+  {v:'ticket',l:'تذكرتي',i:'<path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 0 0 4 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-4 2 2 0 0 0 0-4z"/><path d="M13 6v12"/>'}
+];
+const DRIVERS=[
+  {n:'م. الطيب',v:'KRT 4471',r:'4.8',eta:'٣ دقائق',free:8,f:4250,ini:'ط'},
+  {n:'ع. الفاتح',v:'KRT 2208',r:'4.6',eta:'٦ دقائق',free:5,f:3900,ini:'ف'},
+  {n:'س. النور',v:'OMD 1913',r:'4.9',eta:'٩ دقائق',free:11,f:4600,ini:'ن'}
+];
+const fmt=n=>n.toLocaleString('en-US');
+
+/* ═══════════ nav ═══════════ */
+function go(v,push=true){
+  if(push&&cur!==v)stack.push(cur);
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('on'));
+  document.getElementById('v-'+v).classList.add('on');
+  cur=v; document.getElementById('views').scrollTop=0;
+  const t=TITLES[v];
+  document.getElementById('abT').childNodes[0].nodeValue=t[0];
+  document.getElementById('abS').textContent=t[1];
+  document.getElementById('abBack').style.display=(v==='ask')?'none':'grid';
+  if(v==='ask')drawRoute();
+  renderTabs();
+}
+function back(){go(stack.pop()||'ask',false)}
+function setLang(l,b){document.documentElement.dataset.lang=l;b.parentNode.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on')}
+function renderTabs(){
+  document.getElementById('tabbar').innerHTML=TABS.map(t=>
+    `<button class="${cur===t.v?'on':''}" onclick="go('${t.v}')"><svg viewBox="0 0 24 24">${t.i}</svg>${t.l}</button>`).join('');
+}
+/* route draws once — repeating it on every return would be decoration */
+function drawRoute(){
+  if(drawn)return; drawn=true;
+  const p=document.getElementById('rLine');
+  p.style.transition='stroke-dashoffset 900ms cubic-bezier(.77,0,.175,1)';
+  requestAnimationFrame(()=>{p.style.strokeDashoffset='0'});
+}
+
+/* ═══════════ fare band ═══════════ */
+function bump(d){
+  fare=Math.min(CEIL,Math.max(FLOOR,fare+d));
+  paint();
+}
+function paint(){
+  document.getElementById('fareVal').textContent=fmt(fare);
+  document.getElementById('myEcho').textContent=fmt(fare);
+  const pct=(fare-FLOOR)/(CEIL-FLOOR);
+  /* RTL: floor sits at the right edge, ceiling at the left */
+  document.getElementById('knob').style.insetInlineStart=(pct*100)+'%';
+  document.getElementById('bandLive').style.insetInlineEnd='0';
+  document.getElementById('bandLive').style.width=(pct*100)+'%';
+  document.getElementById('minus').disabled=fare<=FLOOR;
+  document.getElementById('plus').disabled=fare>=CEIL;
+  const n=document.getElementById('bnote');
+  if(fare<=FLOOR) n.innerHTML='<b>عند الأرضية.</b> لا يمكن النزول أكثر — هذه عتبة تشغيل المركبة.';
+  else if(fare>=CEIL) n.innerHTML='<b>عند السقف.</b> لا يمكن الزيادة — السقف يمنع تسعير الزحام.';
+  else n.innerHTML='<b>داخل النطاق.</b> السائقون على هذا الخط يرون عرضك ويردّون.';
+  const sTxt=seats===1?'مقعد واحد':(seats===2?'مقعدان':seats+' مقاعد');
+  document.getElementById('seatEcho').textContent=sTxt;
+  document.getElementById('seatEcho2').textContent=sTxt;
+}
+document.getElementById('seatPick').innerHTML=[1,2,3,4].map(n=>
+  `<button class="${n===1?'on':''}" onclick="setSeats(${n},this)">${n}</button>`).join('');
+function setSeats(n,el){
+  seats=n;
+  el.parentNode.querySelectorAll('button').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on'); paint();
+}
+function pickLine(el){
+  el.parentNode.querySelectorAll('.linechip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  toast('نطاق هذا الخط معروض — القيم توضيحية');
+}
+
+/* ═══════════ offers ═══════════ */
+let timers=[];
+function sendOffer(){
+  go('offers');
+  offers=[]; oid=0;
+  document.getElementById('offerList').innerHTML='';
+  document.getElementById('waiting').style.display='flex';
+  document.getElementById('expNote').style.display='none';
+  document.getElementById('offCount').textContent='0';
+  timers.forEach(clearTimeout); timers=[];
+  DRIVERS.forEach((d,i)=>timers.push(setTimeout(()=>addOffer(d),1400+i*1800)));
+}
+function addOffer(d){
+  document.getElementById('waiting').style.display='none';
+  document.getElementById('expNote').style.display='block';
+  const id='o'+(++oid);
+  const diff=d.f-fare;
+  const el=document.createElement('div');
+  el.className='offer'; el.id=id;
+  el.innerHTML=`
+    <div class="oh">
+      <div class="av">${d.ini}</div>
+      <div class="om"><b>${d.n} · ★ ${d.r}</b><small>${d.v} · يصل خلال ${d.eta}</small>
+        <small>${d.free} مقاعد شاغرة من ١٤</small></div>
+      <div class="op"><b class="num">${fmt(d.f)}</b><small>SDG / SEAT</small>
+        <span class="delta ${diff>0?'up':'down'}">${diff>0?'+':''}${fmt(diff)}</span></div>
+    </div>
+    <div class="oa">
+      <button class="hold acc" data-id="${id}" data-fare="${d.f}"><span class="fill"></span>استمر بالضغط للقبول</button>
+      <button class="mini" onclick="declineOffer('${id}')">تجاهل</button>
+    </div>
+    <div class="exp"><i></i></div>`;
+  document.getElementById('offerList').appendChild(el);
+  offers.push(id);
+  document.getElementById('offCount').textContent=offers.length;
+  /* two frames: mount, then transition — never a keyframe on a rapid arrival */
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    el.classList.add('in'); el.classList.add('ticking');
+  }));
+  wireHold(el.querySelector('.hold'));
+  timers.push(setTimeout(()=>expire(id),45000));
+}
+function expire(id){
+  const el=document.getElementById(id); if(!el)return;
+  removeOffer(id,'انتهت صلاحية عرض — السائق تحرّك');
+}
+function declineOffer(id){removeOffer(id,'تم تجاهل العرض')}
+function removeOffer(id,msg){
+  const el=document.getElementById(id); if(!el)return;
+  el.classList.add('gone');
+  setTimeout(()=>{
+    el.remove();
+    offers=offers.filter(x=>x!==id);
+    document.getElementById('offCount').textContent=offers.length;
+    if(!offers.length)document.getElementById('waiting').style.display='flex';
+  },260);
+  if(msg)toast(msg);
+}
+
+/* ═══════════ hold to accept ═══════════ */
+function wireHold(btn){
+  let timer=null,done=false;
+  function start(e){
+    if(done||timer)return;                    // multi-touch guard
+    e.preventDefault();
+    btn.setPointerCapture?.(e.pointerId);      // survives finger drift
+    btn.classList.add('pressing');
+    timer=setTimeout(()=>{
+      done=true;timer=null;
+      btn.classList.remove('pressing');
+      const f=+btn.dataset.fare;
+      timers.forEach(clearTimeout);timers=[];
+      document.getElementById('tkFare').innerHTML=fmt(f)+' <span style="font-family:var(--ar)">ج.س</span>';
+      toast('تم القبول — صدرت تذكرتك');
+      setTimeout(()=>go('ticket'),480);
+    },1200);
+  }
+  function cancel(){if(done||!timer)return;clearTimeout(timer);timer=null;btn.classList.remove('pressing')}
+  btn.addEventListener('pointerdown',start);
+  ['pointerup','pointercancel','pointerleave'].forEach(ev=>btn.addEventListener(ev,cancel));
+}
+
+/* ═══════════ ticket ═══════════ */
+(function(){
+  let g='';
+  for(let i=0;i<16;i++){
+    const cls=i>=14?'blocked':(i===5?'mine':(i<6?'taken':''));
+    g+=`<i class="${cls}"></i>`;
+  }
+  document.getElementById('seatGrid').innerHTML=g;
+})();
+(function(){ /* pseudo-QR block — deterministic, not scannable */
+  let s='';
+  for(let y=0;y<21;y++)for(let x=0;x<21;x++){
+    const f=(x<7&&y<7)||(x>13&&y<7)||(x<7&&y>13);
+    const on=f?((x%6===0||y%6===0)||(x>1&&x<5&&y>1&&y<5)):((x*11+y*5)%3===0);
+    if(on)s+=`<rect x="${x}" y="${y}" width="1" height="1"/>`;
+  }
+  document.getElementById('qrSvg').innerHTML=s;
+})();
+
+let tt;
+function toast(m){
+  const e=document.getElementById('toast');
+  e.textContent=m;e.classList.add('show');
+  clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),1800);
+}
+function clock(){const d=new Date();document.getElementById('clock').textContent=
+  String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+
+paint(); renderTabs(); drawRoute(); clock(); setInterval(clock,30000);
+</script>
+</body>
+</html>

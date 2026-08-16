@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>السوق · alSooq — مقترح شراكة استراتيجية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand:#F6F1E7; --sand-deep:#EDE4D3; --ink:#2E241B; --ink-soft:#6B5B4B;
+  --clay:#8A4B2A; --clay-tint:#F3E4DA; --palm:#2F6B4F; --palm-deep:#1E4634;
+  --palm-tint:#E3EFE8; --card:#FFFFFF; --line:#DCCFBB; --kraft:#E4D2B4;
+  --gold:#B8862F; --flag-red:#C8322B;
+  --brake:cubic-bezier(.16,1,.3,1);
+  --spring:cubic-bezier(.34,1.42,.52,1);
+  --ar:'IBM Plex Sans Arabic',system-ui,sans-serif;
+  --en:'IBM Plex Sans',system-ui,sans-serif;
+  --sh:0 1px 2px rgba(46,36,27,.05),0 10px 26px rgba(46,36,27,.07);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--sand-deep);overflow:hidden}
+body{font-family:var(--ar);color:var(--ink);display:grid;place-items:center;
+  -webkit-font-smoothing:antialiased}
+
+#stage{width:1280px;height:720px;background:var(--sand);position:relative;
+  overflow:hidden;transform-origin:center;box-shadow:0 14px 46px rgba(46,36,27,.16)}
+
+.slide{position:absolute;inset:0;padding:56px 76px 74px;display:none;
+  flex-direction:column}
+.slide.on{display:flex}
+
+/* ---------- chrome ---------- */
+.hdr{display:flex;justify-content:space-between;align-items:flex-start;
+  flex:0 0 auto;margin-bottom:26px}
+.eyebrow{font-family:var(--en);font-size:10.5px;font-weight:700;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--ink-soft)}
+.eyebrow i{display:inline-block;width:6px;height:6px;border-radius:50%;
+  background:var(--palm);margin-inline-end:8px;vertical-align:1px}
+.snum{font-family:var(--en);font-size:10.5px;font-weight:700;letter-spacing:.14em;
+  color:var(--ink-soft);opacity:.75}
+.body{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:center}
+.foot{position:absolute;bottom:26px;right:76px;left:76px;display:flex;
+  justify-content:space-between;align-items:center;
+  border-top:1px solid var(--line);padding-top:13px}
+.foot .l{font-family:var(--en);font-size:9.5px;font-weight:600;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--ink-soft);opacity:.8}
+.foot .r{font-size:11px;font-weight:600;color:var(--ink-soft);opacity:.8}
+
+h1{font-size:52px;font-weight:700;letter-spacing:-.032em;line-height:1.16}
+h2{font-size:40px;font-weight:700;letter-spacing:-.028em;line-height:1.2}
+.sub-en{font-family:var(--en);direction:ltr;text-align:right;font-size:16px;
+  font-weight:600;color:var(--ink-soft);margin-top:9px;letter-spacing:-.01em}
+.lede{font-size:20px;font-weight:500;line-height:1.6;color:var(--ink-soft);
+  margin-top:18px;max-width:900px}
+.grn{color:var(--palm)}
+
+/* ---------- motion ---------- */
+.slide.on .an{animation:rise .6s var(--brake) both;animation-delay:var(--d,0ms)}
+@keyframes rise{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:none}}
+.slide.on .anx{animation:risex .66s var(--brake) both;animation-delay:var(--d,0ms)}
+@keyframes risex{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+
+/* ---------- cover ---------- */
+.cover{height:100%;display:flex;flex-direction:column;justify-content:center}
+.lock{display:flex;align-items:center;gap:28px;margin-bottom:52px}
+.plate{width:132px;height:82px;border-radius:11px;background:var(--kraft);
+  display:grid;place-items:center}
+.plate svg{width:102px;height:56px}
+.plate path{fill:none;stroke-width:7.5;stroke-linecap:round}
+.wm{font-size:62px;font-weight:700;letter-spacing:-.045em;line-height:.88}
+.wm small{display:block;font-family:var(--en);font-size:18px;font-weight:600;
+  color:var(--ink-soft);letter-spacing:0;margin-top:7px}
+.covtitle{font-size:44px;font-weight:700;letter-spacing:-.028em;line-height:1.28;max-width:880px}
+.covsub{font-size:19px;font-weight:500;color:var(--ink-soft);margin-top:16px}
+.covmeta{display:flex;gap:44px;margin-top:46px;padding-top:24px;
+  border-top:2px solid var(--ink)}
+.covmeta div .k{font-family:var(--en);font-size:9.5px;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--ink-soft)}
+.covmeta div .v{font-size:16px;font-weight:600;margin-top:6px}
+.conf{position:absolute;top:56px;left:76px;font-family:var(--en);font-size:10px;
+  font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--clay);
+  border:1px solid var(--clay);border-radius:5px;padding:6px 12px}
+
+/* ---------- statement ---------- */
+.stmt{font-size:46px;font-weight:700;letter-spacing:-.03em;line-height:1.36;max-width:1020px}
+.stmt b{color:var(--palm)}
+.stmt-en{font-family:var(--en);direction:ltr;text-align:right;font-size:17px;
+  font-weight:600;color:var(--ink-soft);margin-top:24px}
+
+/* ---------- grids ---------- */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:22px 24px;box-shadow:var(--sh)}
+.card.q{background:var(--sand-deep);box-shadow:none}
+.card h3{font-size:19px;font-weight:700;letter-spacing:-.015em;
+  display:flex;align-items:center;gap:9px}
+.card h3 i{width:8px;height:8px;border-radius:50%;background:var(--palm);flex:0 0 8px}
+.card .en{font-family:var(--en);direction:ltr;font-size:11px;font-weight:600;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--ink-soft);margin-top:5px}
+.card ul{list-style:none;margin-top:13px;display:grid;gap:7px}
+.card li{font-size:14.5px;font-weight:500;color:var(--ink-soft);line-height:1.45;
+  padding-inline-start:14px;position:relative}
+.card li::before{content:'';position:absolute;right:0;top:8px;width:4px;height:4px;
+  border-radius:50%;background:var(--line)}
+.card p{font-size:14.5px;font-weight:500;color:var(--ink-soft);line-height:1.55;margin-top:11px}
+
+/* ---------- stack diagram ---------- */
+.stack{display:grid;gap:11px;max-width:820px;margin:0 auto}
+.layer{border-radius:12px;padding:17px 24px;display:flex;align-items:center;
+  justify-content:space-between;border:1px solid var(--line);background:var(--card)}
+.layer.k{background:var(--palm);border-color:var(--palm);color:var(--sand)}
+.layer.k2{background:var(--palm-tint);border-color:var(--palm)}
+.layer.g{background:var(--sand-deep);box-shadow:none}
+.layer .n{font-size:19px;font-weight:700;letter-spacing:-.02em}
+.layer .e{font-family:var(--en);direction:ltr;font-size:11.5px;font-weight:600;
+  letter-spacing:.11em;text-transform:uppercase;opacity:.72}
+.arrowdn{display:grid;place-items:center;height:12px;color:var(--line);font-size:15px;line-height:1}
+
+/* ---------- chain flow ---------- */
+.chain{display:flex;align-items:stretch;gap:0;margin-top:8px}
+.step{flex:1;background:var(--card);border:1px solid var(--line);
+  padding:17px 15px;text-align:center;position:relative}
+.step:first-child{border-radius:0 12px 12px 0}
+.step:last-child{border-radius:12px 0 0 12px}
+.step + .step{border-right:0}
+.step.k{background:var(--palm-tint);border-color:var(--palm)}
+.step .i{font-family:var(--en);font-size:9.5px;font-weight:700;letter-spacing:.12em;
+  color:var(--palm)}
+.step .n{font-size:15px;font-weight:700;margin-top:7px;line-height:1.3}
+.step .e{font-family:var(--en);direction:ltr;font-size:10.5px;color:var(--ink-soft);
+  margin-top:4px;line-height:1.35}
+
+/* ---------- compare ---------- */
+.cmp{display:grid;grid-template-columns:1fr 64px 1fr;align-items:center;gap:0}
+.cmp .side{border-radius:12px;padding:26px 28px}
+.cmp .old{background:var(--sand-deep);border:1px solid var(--line)}
+.cmp .new{background:var(--card);border:1px solid var(--palm);box-shadow:var(--sh)}
+.cmp .lbl{font-family:var(--en);font-size:10px;font-weight:700;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--ink-soft);margin-bottom:13px}
+.cmp .new .lbl{color:var(--palm)}
+.cmp .flowline{font-size:15px;font-weight:600;line-height:2.1;color:var(--ink-soft)}
+.cmp .new .flowline{color:var(--ink);font-weight:700}
+.cmp .mid{display:grid;place-items:center;font-size:26px;color:var(--palm)}
+
+/* ---------- table ---------- */
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+thead th{font-family:var(--en);font-size:10px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-soft);text-align:right;
+  padding:0 16px 11px;border-bottom:2px solid var(--ink)}
+thead th:first-child{font-family:var(--ar);font-size:13px;letter-spacing:0;
+  text-transform:none;font-weight:700;color:var(--ink)}
+tbody td{padding:12px 16px;border-bottom:1px solid var(--line);font-weight:500;
+  color:var(--ink-soft)}
+tbody td:first-child{font-weight:700;color:var(--ink)}
+.tag{display:inline-block;font-family:var(--en);font-size:10px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:99px}
+.tag.hi{background:var(--clay-tint);color:var(--clay)}
+.tag.md{background:var(--sand-deep);color:var(--ink-soft)}
+
+/* ---------- roadmap ---------- */
+.rmap{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-top:14px}
+.ph{padding:0 12px;position:relative}
+.ph .bar{height:5px;border-radius:99px;background:var(--line);margin-bottom:18px}
+.ph.k .bar{background:var(--palm)}
+.ph .p{font-family:var(--en);font-size:9.5px;font-weight:700;letter-spacing:.13em;
+  color:var(--palm)}
+.ph .t{font-size:16px;font-weight:700;margin-top:6px;line-height:1.25}
+.ph ul{list-style:none;margin-top:11px;display:grid;gap:5px}
+.ph li{font-size:12.5px;font-weight:500;color:var(--ink-soft);line-height:1.4}
+
+/* ---------- ask ---------- */
+.ask{display:grid;grid-template-columns:repeat(2,1fr);gap:11px 22px;margin-top:6px}
+.ai{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+  border:1px solid var(--line);border-radius:10px;padding:14px 17px}
+.ai b{width:22px;height:22px;border-radius:50%;background:var(--palm-tint);
+  border:1.5px solid var(--palm);flex:0 0 22px;display:grid;place-items:center;
+  font-family:var(--en);font-size:10px;font-weight:700;color:var(--palm)}
+.ai .x{font-size:15px;font-weight:600;line-height:1.35}
+.ai .x small{display:block;font-family:var(--en);direction:ltr;font-size:11.5px;
+  font-weight:400;color:var(--ink-soft);margin-top:3px}
+
+/* ---------- closing ---------- */
+.close{height:100%;display:flex;flex-direction:column;justify-content:center}
+.closeline{font-size:56px;font-weight:700;letter-spacing:-.035em;line-height:1.24}
+.roles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:52px;
+  padding-top:26px;border-top:2px solid var(--ink)}
+.role .n{font-size:17px;font-weight:700}
+.role .e{font-family:var(--en);direction:ltr;font-size:11px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-top:5px}
+.role .d{font-size:13px;font-weight:500;color:var(--ink-soft);margin-top:8px;line-height:1.45}
+
+/* ---------- qualifier note ---------- */
+.qual{margin-top:20px;font-size:12.5px;font-weight:500;color:var(--ink-soft);
+  background:var(--clay-tint);border-inline-start:3px solid var(--clay);
+  border-radius:0 8px 8px 0;padding:11px 15px;line-height:1.55}
+.qual b{color:var(--clay);font-weight:700}
+
+/* ---------- nav ---------- */
+.rail{position:absolute;bottom:0;right:0;left:0;height:3px;background:var(--line)}
+.rail .f{position:absolute;top:0;right:0;height:3px;background:var(--palm);
+  width:0;transition:width .6s var(--brake)}
+.help{position:fixed;bottom:14px;left:18px;font-family:var(--en);font-size:10px;
+  color:var(--ink-soft);opacity:.75;z-index:9}
+kbd{border:1px solid var(--line);border-radius:3px;padding:1px 5px;
+  background:var(--card);font-size:9px}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- ============ 01 COVER ============ -->
+<section class="slide on">
+  <div class="conf an" style="--d:700ms">سري · CONFIDENTIAL DRAFT</div>
+  <div class="cover">
+    <div class="lock an">
+      <div class="plate">
+        <svg viewBox="0 0 102 56" aria-hidden="true">
+          <path d="M6 12 C30 5, 72 17, 96 9" stroke="var(--flag-red)"/>
+          <path d="M6 28 C32 20, 70 34, 96 26" stroke="#FFFFFF"/>
+          <path d="M6 44 C30 36, 74 49, 96 41" stroke="var(--palm)"/>
+        </svg>
+      </div>
+      <div class="wm">السوق<small>alSooq</small></div>
+    </div>
+    <div class="covtitle an" style="--d:140ms">
+      المنصة الوطنية للتجارة<br>والخدمات والتمويل الرقمي
+    </div>
+    <div class="covsub an" style="--d:240ms">بناء البنية التحتية للاقتصاد الرقمي السوداني</div>
+    <div class="covmeta an" style="--d:360ms">
+      <div><div class="k">Document</div><div class="v">مقترح شراكة استراتيجية</div></div>
+      <div><div class="k">Prepared by</div><div class="v">Dynasty for Trade &amp; Investment</div></div>
+      <div><div class="k">Status</div><div class="v">مسودة للمناقشة</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 IDEA ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>The Idea</div><div class="snum an">02 / 20</div></div>
+  <div class="body">
+    <div class="stmt an" style="--d:80ms">
+      السوق لا يعيد بناء الأسواق القديمة؛<br>بل يبني <b>سوق السودان الجديد رقمياً</b>.
+    </div>
+    <div class="stmt-en an" style="--d:220ms">alSooq does not rebuild the old markets — it builds Sudan's new market, digitally.</div>
+    <div class="lede an" style="--d:320ms">
+      بدلاً من إعادة بناء كل سوق من الطوب والإسمنت ثم انتظار قدرة المواطن على الشراء منه،
+      يعرض التاجر السوداني بضاعته على المنصة ويصل بها إلى العملاء في مختلف أنحاء السودان.
+      وهنا يتحوّل الاستثمار من <b>إعادة بناء مكان للبيع</b> إلى <b>بناء شبكة وطنية للتجارة</b>.
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">الفكرة في جملة واحدة</div></div>
+</section>
+
+<!-- ============ 03 CHALLENGE ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>The Challenge</div><div class="snum an">03 / 20</div></div>
+  <div class="body">
+    <h2 class="an">التحدي الاقتصادي</h2>
+    <div class="sub-en an" style="--d:60ms">Four interlocking constraints on the Sudanese market</div>
+    <div class="g4" style="margin-top:24px">
+      <div class="card q an" style="--d:140ms"><h3><i></i>التجارة</h3><div class="en">Commerce</div>
+        <ul><li>تضرر الأسواق التقليدية</li><li>ارتفاع تكاليف التشغيل</li><li>تعدد الوسطاء</li><li>صعوبة الوصول إلى العملاء</li></ul></div>
+      <div class="card q an" style="--d:210ms"><h3><i></i>المدفوعات</h3><div class="en">Payments</div>
+        <ul><li>الاعتماد على النقد</li><li>تشتت قنوات الدفع</li><li>صعوبة التسوية بين المؤسسات</li><li>محدودية القبول الرقمي</li></ul></div>
+      <div class="card q an" style="--d:280ms"><h3><i></i>التمويل</h3><div class="en">Finance</div>
+        <ul><li>صعوبة وصول التمويل</li><li>انفصاله عن النشاط الحقيقي</li><li>الحاجة إلى شفافية أكبر</li></ul></div>
+      <div class="card q an" style="--d:350ms"><h3><i></i>المواطن</h3><div class="en">Citizen</div>
+        <ul><li>ارتفاع تكلفة الوصول للسلع</li><li>تفاوت الأسعار</li><li>صعوبة الوصول خارج المراكز</li></ul></div>
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">التحدي الاقتصادي</div></div>
+</section>
+
+<!-- ============ 04 STRATEGIC QUESTION ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>The Strategic Question</div><div class="snum an">04 / 20</div></div>
+  <div class="body">
+    <div class="stmt an" style="--d:60ms">
+      هل نعيد بناء اقتصاد الأمس؟<br>أم نستغل إعادة الإعمار لبناء <b>اقتصاد رقمي جديد</b>؟
+    </div>
+    <div class="g2 an" style="--d:280ms;margin-top:40px">
+      <div class="card"><h3><i></i>مواطن في قرية</h3>
+        <p>يصل إلى نفس السوق الرقمي الذي يصل إليه المواطن في الخرطوم — دون فرق في الكتالوج أو السعر المعروض.</p></div>
+      <div class="card"><h3><i></i>تاجر في ولاية</h3>
+        <p>يبيع بضاعته وطنياً دون الحاجة إلى بناء سلسلة من المتاجر والفروع في كل مدينة.</p></div>
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">السؤال الاستراتيجي</div></div>
+</section>
+
+<!-- ============ 05 VISION ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>Vision</div><div class="snum an">05 / 20</div></div>
+  <div class="body">
+    <h2 class="an">منصة وطنية تجعل التجارة والخدمات المالية<br>أكثر <span class="grn">وصولاً وشفافية وكفاءة</span></h2>
+    <div class="g3" style="margin-top:28px">
+      <div class="card an" style="--d:120ms"><h3><i></i>المواطن</h3><p>يشتري، ويدفع، ويحصل على التمويل.</p></div>
+      <div class="card an" style="--d:180ms"><h3><i></i>التاجر</h3><p>يعرض، ويبيع، ويحصّل مدفوعاته، ويموّل أعماله.</p></div>
+      <div class="card an" style="--d:240ms"><h3><i></i>الشركة</h3><p>تدير تجارتها وسلاسل التوريد والتحصيل.</p></div>
+      <div class="card an" style="--d:300ms"><h3><i></i>المغترب</h3><p>يدعم أسرته ويشتري لهم ويدفع عنهم رقمياً.</p></div>
+      <div class="card an" style="--d:360ms"><h3><i></i>البنك</h3><p>يقدّم الخدمات المالية داخل رحلة التجارة نفسها.</p></div>
+      <div class="card an" style="--d:420ms"><h3><i></i>شركاء التنمية</h3><p>يوجّهون التمويل إلى الاقتصاد الحقيقي بصورة قابلة للمتابعة.</p></div>
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">الرؤية</div></div>
+</section>
+
+<!-- ============ 06 ARCHITECTURE ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>Architecture</div><div class="snum an">06 / 20</div></div>
+  <div class="body">
+    <h2 class="an" style="text-align:center;font-size:34px">طبقات المنظومة</h2>
+    <div class="stack" style="margin-top:22px">
+      <div class="layer g an" style="--d:100ms">
+        <span class="n">المواطنون · التجار · الشركات · المغتربون</span>
+        <span class="e">Demand &amp; Supply</span></div>
+      <div class="arrowdn an" style="--d:150ms">▼</div>
+      <div class="layer k an" style="--d:200ms">
+        <span class="n">السوق</span><span class="e">Digital Marketplace</span></div>
+      <div class="arrowdn an" style="--d:250ms">▼</div>
+      <div class="layer k2 an" style="--d:300ms">
+        <span class="n">حِوال — الطبقة المالية</span><span class="e">Financial Orchestration</span></div>
+      <div class="arrowdn an" style="--d:350ms">▼</div>
+      <div class="layer an" style="--d:400ms">
+        <span class="n">البنوك · شبكات الدفع · التمويل</span><span class="e">Licensed Institutions</span></div>
+      <div class="arrowdn an" style="--d:450ms">▼</div>
+      <div class="layer g an" style="--d:500ms">
+        <span class="n">الاقتصاد الحقيقي</span><span class="e">The Real Economy</span></div>
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">طبقات المنظومة</div></div>
+</section>
+
+<!-- ============ 07 MERCHANT FIRST ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>Supply Side</div><div class="snum an">07 / 20</div></div>
+  <div class="body">
+    <h2 class="an">السوق تبدأ من <span class="grn">التاجر السوداني</span></h2>
+    <div class="lede an" style="--d:80ms;max-width:960px">
+      لا نبني منصة تعتمد على سلع مجهولة المصدر، بل سوقاً سودانياً للتجار والشركات السودانية.
+      المنتج المعروض يجب أن يعكس <b>مخزوناً حقيقياً قابلاً للتحقق</b> — وهذا ما يحوّل المنصة من كتالوج إلكتروني إلى سوق حقيقية تعمل رقمياً.
+    </div>
+    <div class="chain an" style="--d:220ms;margin-top:26px">
+      <div class="step"><div class="i">01</div><div class="n">التسجيل</div><div class="e">Register</div></div>
+      <div class="step"><div class="i">02</div><div class="n">التحقق</div><div class="e">Verify</div></div>
+      <div class="step"><div class="i">03</div><div class="n">المنتجات</div><div class="e">Catalogue</div></div>
+      <div class="step"><div class="i">04</div><div class="n">الكميات</div><div class="e">Stock</div></div>
+      <div class="step"><div class="i">05</div><div class="n">التسعير</div><div class="e">Pricing</div></div>
+      <div class="step"><div class="i">06</div><div class="n">التوصيل</div><div class="e">Fulfilment</div></div>
+      <div class="step k"><div class="i">07</div><div class="n">استلام المدفوعات</div><div class="e">Get paid</div></div>
+    </div>
+    <div class="g3 an" style="--d:340ms;margin-top:20px">
+      <div class="card q"><p style="margin:0"><b>تحسين توافر السلع</b> وتقليل الطلبات الوهمية.</p></div>
+      <div class="card q"><p style="margin:0"><b>شفافية الأسعار</b> ودعم إدارة المخزون.</p></div>
+      <div class="card q"><p style="margin:0"><b>بناء ثقة المستهلك</b> في السوق الرقمي.</p></div>
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">مخزون حقيقي — تجارة حقيقية</div></div>
+</section>
+
+<!-- ============ 08 NATIONAL REACH ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>Reach</div><div class="snum an">08 / 20</div></div>
+  <div class="body">
+    <h2 class="an">إعادة بناء الأسواق<br>دون إعادة بناء كل المباني</h2>
+    <div class="cmp an" style="--d:180ms;margin-top:30px">
+      <div class="side old">
+        <div class="lbl">السوق التقليدي · Physical rebuild</div>
+        <div class="flowline">أرض · مبانٍ · كهرباء · أمن<br>صيانة · إيجارات · بنية تحتية<br><b>سنوات من التنفيذ</b></div>
+      </div>
+      <div class="mid">←</div>
+      <div class="side new">
+        <div class="lbl">السوق الرقمي · Digital channel</div>
+        <div class="flowline">هاتف + حساب + تاجر<br>+ منتج + نظام دفع + لوجستيات<br><b>يبدأ الآن</b></div>
+      </div>
+    </div>
+    <div class="qual an" style="--d:320ms">
+      <b>ملاحظة.</b> هذا لا يلغي أهمية الأسواق المادية — بل يوفر قناة تجارية فورية موازية يمكن أن تبدأ قبل اكتمال إعادة الإعمار المادي.
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">الوصول الوطني</div></div>
+</section>
+
+<!-- ============ 09 RECONSTRUCTION LOOP ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>Reconstruction Model</div><div class="snum an">09 / 20</div></div>
+  <div class="body">
+    <h2 class="an">نموذج إعادة الإعمار الرقمي</h2>
+    <div class="sub-en an" style="--d:60ms">Finance enters a real economic cycle, not a cash disbursement</div>
+    <div class="chain an" style="--d:180ms;margin-top:30px">
+      <div class="step k"><div class="i">01</div><div class="n">تمويل</div><div class="e">Financing</div></div>
+      <div class="step"><div class="i">02</div><div class="n">المواطن / المشروع</div><div class="e">Beneficiary</div></div>
+      <div class="step"><div class="i">03</div><div class="n">السوق</div><div class="e">Marketplace</div></div>
+      <div class="step"><div class="i">04</div><div class="n">مواد وخدمات معتمدة</div><div class="e">Eligible goods</div></div>
+      <div class="step"><div class="i">05</div><div class="n">التاجر / المورد</div><div class="e">Supplier</div></div>
+      <div class="step"><div class="i">06</div><div class="n">التسوية</div><div class="e">Settlement</div></div>
+      <div class="step k"><div class="i">07</div><div class="n">البنك</div><div class="e">Bank</div></div>
+    </div>
+    <div class="g2 an" style="--d:320ms;margin-top:26px">
+      <div class="card"><h3><i></i>التمويل المرتبط بالغرض</h3>
+        <p>بدلاً من صرف التمويل نقداً بالكامل، يمكن توجيهه إلى شراء المنتجات والخدمات المؤهلة داخل المنظومة — أسمنت، حديد، كهرباء، أبواب، سيراميك، سباكة.</p></div>
+      <div class="card"><h3><i></i>ما يراه البنك</h3>
+        <p>ليس «طلب تمويل» فقط، بل السلسلة كاملة وفق التكامل والضوابط المعتمدة: العميل ← الطلب ← المنتج ← التاجر ← الفاتورة ← الدفع ← التسوية.</p></div>
+    </div>
+    <div class="qual an" style="--d:420ms">
+      <b>مقترح.</b> منتجات التمويل المرتبط بالغرض تُعرض كنموذج مقترح يخضع لموافقة المؤسسات المالية وإدارة المخاطر والجهة الرقابية، وليست آلية تشغيلية قائمة.
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">نموذج إعادة الإعمار</div></div>
+</section>
+
+<!-- ============ 10 HAWILL ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>Financial Layer</div><div class="snum an">10 / 20</div></div>
+  <div class="body">
+    <h2 class="an">حِوال | Hawill<br><span style="font-size:24px;font-weight:600;color:var(--ink-soft)">ليست محفظة — بل طبقة تنسيق مالي</span></h2>
+    <div class="g3 an" style="--d:160ms;margin-top:26px">
+      <div class="card"><h3><i></i>تربط</h3>
+        <ul><li>السوق</li><li>البنوك ومقدمي الخدمات المالية</li><li>شبكات الدفع</li></ul></div>
+      <div class="card"><h3><i></i>توفّر</h3>
+        <ul><li>الحسابات الرقمية</li><li>المدفوعات والتحويلات</li><li>التحصيل وقبول التجار</li></ul></div>
+      <div class="card"><h3><i></i>تُدير</h3>
+        <ul><li>التسويات والمطابقة المالية</li><li>واجهات الربط APIs</li><li>التمويل المدمج</li></ul></div>
+    </div>
+    <div class="qual an" style="--d:300ms">
+      <b>الإطار التنظيمي.</b> جميع الخدمات المذكورة تُقدَّم وفق التراخيص والشراكات المعتمدة. لا يتضمن هذا المستند أي ادعاء باعتماد تنظيمي قائم ما لم يُرفق مستند رسمي يثبته.
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">البنية المالية</div></div>
+</section>
+
+<!-- ============ 11 DIASPORA ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>Diaspora</div><div class="snum an">11 / 20</div></div>
+  <div class="body">
+    <h2 class="an">المغترب ليس مُرسِل حوالة —<br>بل <span class="grn">مشارك اقتصادي رقمي</span></h2>
+    <div class="cmp an" style="--d:180ms;margin-top:28px">
+      <div class="side old">
+        <div class="lbl">النموذج الحالي · Today</div>
+        <div class="flowline">المغترب ← حوالة ← مستفيد<br>← نقد ← شراء</div>
+      </div>
+      <div class="mid">←</div>
+      <div class="side new">
+        <div class="lbl">الرحلة المقترحة · Proposed</div>
+        <div class="flowline">المغترب ← حساب ← السوق<br>← المنتج ← التاجر ← الأسرة</div>
+      </div>
+    </div>
+    <div class="lede an" style="--d:300ms;margin-top:22px">
+      وهذا يحوّل جزءاً من التحويلات من مجرد نقل أموال إلى
+      <b>تحويل + تجارة + استهلاك + استثمار اقتصادي</b> —
+      حيثما تتوفر القنوات والتراخيص اللازمة في كل سوق.
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">نموذج المغترب</div></div>
+</section>
+
+<!-- ============ 12 CIRCULAR ECONOMY ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>Compounding Effect</div><div class="snum an">12 / 20</div></div>
+  <div class="body">
+    <h2 class="an">الأثر المضاعف</h2>
+    <div class="sub-en an" style="--d:60ms">Commerce drives finance; finance drives growth</div>
+    <div class="chain an" style="--d:180ms;margin-top:32px">
+      <div class="step k"><div class="i">01</div><div class="n">تاجر جديد</div><div class="e">Merchant</div></div>
+      <div class="step"><div class="i">02</div><div class="n">منتجات أكثر</div><div class="e">Products</div></div>
+      <div class="step"><div class="i">03</div><div class="n">مبيعات أكثر</div><div class="e">Sales</div></div>
+      <div class="step"><div class="i">04</div><div class="n">مدفوعات أكثر</div><div class="e">Payments</div></div>
+      <div class="step"><div class="i">05</div><div class="n">سجل معاملات</div><div class="e">Records</div></div>
+      <div class="step k"><div class="i">06</div><div class="n">فرص تمويل أفضل</div><div class="e">Credit access</div></div>
+    </div>
+    <div class="stmt an" style="--d:340ms;font-size:32px;margin-top:38px;text-align:center">
+      التجارة تقود التمويل، والتمويل يقود <b>النمو</b>.
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">الاقتصاد الدائري</div></div>
+</section>
+
+<!-- ============ 13 BUSINESS MODEL ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>Business Model</div><div class="snum an">13 / 20</div></div>
+  <div class="body">
+    <h2 class="an">مصادر الإيرادات المحتملة</h2>
+    <div class="g3" style="margin-top:24px">
+      <div class="card an" style="--d:120ms"><h3><i></i>التجارة</h3><div class="en">Commerce</div>
+        <ul><li>رسوم قبول أو خدمة</li><li>اشتراكات التجار</li><li>خدمات القيمة المضافة</li></ul></div>
+      <div class="card an" style="--d:180ms"><h3><i></i>المدفوعات</h3><div class="en">Payments</div>
+        <ul><li>رسوم المعاملات</li><li>خدمات القبول</li><li>خدمات المؤسسات</li></ul></div>
+      <div class="card an" style="--d:240ms"><h3><i></i>التمويل</h3><div class="en">Finance</div>
+        <ul><li>إيرادات أو هوامش وفق المنتج</li><li>وبحسب الشريك المالي</li></ul></div>
+      <div class="card an" style="--d:300ms"><h3><i></i>الخدمات الرقمية</h3><div class="en">Digital services</div>
+        <ul><li>واجهات الربط APIs</li><li>حلول الشركات</li></ul></div>
+      <div class="card an" style="--d:360ms"><h3><i></i>التحويلات</h3><div class="en">Transfers</div>
+        <ul><li>رسوم الخدمات</li><li>وفق القنوات المرخصة</li></ul></div>
+      <div class="card q an" style="--d:420ms"><h3><i></i>المبدأ</h3>
+        <p style="margin-top:9px">تنوّع المصادر يقلل الاعتماد على مصدر واحد ويدعم الاستدامة طويلة الأجل.</p></div>
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">نموذج الأعمال</div></div>
+</section>
+
+<!-- ============ 14 PARTNER VALUE ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>Value to Partners</div><div class="snum an">14 / 20</div></div>
+  <div class="body">
+    <h2 class="an">ماذا يكسب كل شريك؟</h2>
+    <div class="g4" style="margin-top:24px">
+      <div class="card an" style="--d:120ms"><h3><i></i>البنوك</h3><div class="en">Financial institutions</div>
+        <ul><li>عملاء جدد من التجارة</li><li>اكتساب التجار</li><li>حجم معاملات أكبر</li><li>فرص تمويل مدمج</li><li>بيانات تشغيلية أفضل</li></ul></div>
+      <div class="card an" style="--d:190ms"><h3><i></i>الحكومة والجهات التنظيمية</h3><div class="en">Government</div>
+        <ul><li>زيادة المدفوعات الرقمية</li><li>تقليل الاعتماد على النقد</li><li>شفافية المعاملات</li><li>بيانات اقتصادية أفضل</li><li>دعم الاقتصاد الرسمي</li></ul></div>
+      <div class="card an" style="--d:260ms"><h3><i></i>شركاء التنمية</h3><div class="en">Development partners</div>
+        <ul><li>الشمول المالي</li><li>المؤسسات الصغيرة والمتوسطة</li><li>إعادة الإعمار</li><li>تمكين الشباب والنساء</li><li>قنوات قابلة للتتبع</li></ul></div>
+      <div class="card an" style="--d:330ms"><h3><i></i>التجار</h3><div class="en">Merchants</div>
+        <ul><li>متجر + دفع + تحصيل</li><li>سجل معاملات رقمي</li><li>وصول إلى عملاء وطنيين</li><li>فرص تمويل مستقبلية</li></ul></div>
+    </div>
+    <div class="qual an" style="--d:420ms">
+      <b>شرط الحوكمة.</b> مشاركة شركاء التنمية تتطلب اتفاقيات واضحة بشأن الحوكمة والأهلية والبيانات والرقابة والتدقيق وحماية المستفيد.
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">قيمة الشراكة</div></div>
+</section>
+
+<!-- ============ 15 OPEN MODEL ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>Partnership Model</div><div class="snum an">15 / 20</div></div>
+  <div class="body">
+    <div class="stmt an" style="--d:60ms">
+      المشروع ليس مصمماً لمؤسسة مالية واحدة.<br>
+      نبني <b>منظومة مالية مفتوحة</b> — لا منصة مصرفية مغلقة.
+    </div>
+    <div class="stmt-en an" style="--d:200ms">An open financial ecosystem, not a closed banking platform.</div>
+    <div class="g2 an" style="--d:300ms;margin-top:34px">
+      <div class="card"><h3><i></i>ما توفّره المؤسسة المالية الشريكة</h3>
+        <ul><li>الحسابات والتسوية</li><li>التمويل والسيولة</li><li>البنية المصرفية وخدمات المؤسسات</li></ul></div>
+      <div class="card"><h3><i></i>ما توفّره المنظومة</h3>
+        <ul><li>السوق: طبقة التجارة والخدمات</li><li>حِوال: الطبقة الرقمية والتشغيلية</li><li>شبكة التجار والمنتجات</li></ul></div>
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">نموذج الشراكة المفتوح</div></div>
+</section>
+
+<!-- ============ 16 GOVERNANCE ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>Governance</div><div class="snum an">16 / 20</div></div>
+  <div class="body">
+    <h2 class="an">الحوكمة</h2>
+    <div class="sub-en an" style="--d:60ms">No single company controls the system</div>
+    <div class="g3" style="margin-top:24px">
+      <div class="card an" style="--d:130ms"><h3><i></i>Dynasty</h3><p>التقنية والتشغيل والتطوير والشراكات التجارية.</p></div>
+      <div class="card an" style="--d:190ms"><h3><i></i>حِوال</h3><p>الخدمات المالية ضمن الترخيص والشراكات المعتمدة.</p></div>
+      <div class="card an" style="--d:250ms"><h3><i></i>المؤسسات المالية</h3><p>الحسابات والتسوية والتمويل والخدمات المصرفية.</p></div>
+      <div class="card an" style="--d:310ms"><h3><i></i>الجهات التنظيمية</h3><p>الإشراف والضوابط والإطار الرقابي.</p></div>
+      <div class="card an" style="--d:370ms"><h3><i></i>التجار</h3><p>المخزون والمنتجات والتنفيذ.</p></div>
+      <div class="card an" style="--d:430ms"><h3><i></i>العملاء</h3><p>الاستخدام والطلب — وهم مقياس النجاح الحقيقي.</p></div>
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">الحوكمة</div></div>
+</section>
+
+<!-- ============ 17 RISK ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>Risk &amp; Compliance</div><div class="snum an">17 / 20</div></div>
+  <div class="body">
+    <h2 class="an">الامتثال جزء من التصميم — لا مرحلة لاحقة</h2>
+    <table class="an" style="--d:160ms;margin-top:22px">
+      <thead><tr><th>المخاطر</th><th>Impact</th><th>Response</th></tr></thead>
+      <tbody>
+        <tr><td>الاحتيال</td><td><span class="tag hi">مرتفع</span></td><td>KYC + Fraud Monitoring</td></tr>
+        <tr><td>الأمن السيبراني</td><td><span class="tag hi">مرتفع</span></td><td>Security Architecture</td></tr>
+        <tr><td>مخاطر التسوية</td><td><span class="tag hi">مرتفع</span></td><td>Limits + Reconciliation</td></tr>
+        <tr><td>مخاطر الائتمان</td><td><span class="tag hi">مرتفع</span></td><td>Credit Policy</td></tr>
+        <tr><td>الامتثال</td><td><span class="tag hi">مرتفع</span></td><td>Regulatory Governance</td></tr>
+        <tr><td>السمعة</td><td><span class="tag hi">مرتفع</span></td><td>Customer Protection</td></tr>
+        <tr><td>التشغيل</td><td><span class="tag md">متوسط</span></td><td>SLA + BCP</td></tr>
+        <tr><td>مخاطر التاجر</td><td><span class="tag md">متوسط</span></td><td>Merchant Verification</td></tr>
+      </tbody>
+    </table>
+    <div class="qual an" style="--d:300ms">
+      <b>الإطار.</b> KYC · AML/CFT · حماية البيانات · الأمن السيبراني · إدارة السيولة · Audit Trail · Reconciliation — وكل ذلك وفق القوانين واللوائح والتعليمات السارية.
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">مصفوفة المخاطر</div></div>
+</section>
+
+<!-- ============ 18 ROADMAP ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>Roadmap</div><div class="snum an">18 / 20</div></div>
+  <div class="body">
+    <h2 class="an">خارطة الطريق</h2>
+    <div class="rmap an" style="--d:160ms">
+      <div class="ph k"><div class="bar"></div><div class="p">Phase 1</div><div class="t">التأسيس</div>
+        <ul><li>الهيكل القانوني</li><li>الشراكات والحوكمة</li><li>التكامل المصرفي</li></ul></div>
+      <div class="ph k"><div class="bar"></div><div class="p">Phase 2</div><div class="t">التجارة</div>
+        <ul><li>إطلاق السوق</li><li>استقطاب التجار</li><li>بناء الكتالوج</li></ul></div>
+      <div class="ph"><div class="bar"></div><div class="p">Phase 3</div><div class="t">الخدمات المالية</div>
+        <ul><li>حِوال</li><li>التحويلات</li><li>قبول التجار</li></ul></div>
+      <div class="ph"><div class="bar"></div><div class="p">Phase 4</div><div class="t">التمويل المدمج</div>
+        <ul><li>الهوية الرقمية</li><li>التقييم الائتماني</li><li>Embedded Finance</li></ul></div>
+      <div class="ph"><div class="bar"></div><div class="p">Phase 5</div><div class="t">التوسع الوطني</div>
+        <ul><li>ولايات السودان</li><li>شبكة اللوجستيات</li></ul></div>
+      <div class="ph"><div class="bar"></div><div class="p">Phase 6</div><div class="t">التكامل الدولي</div>
+        <ul><li>المغتربون</li><li>المدفوعات العابرة</li><li>برامج التنمية</li></ul></div>
+    </div>
+    <div class="qual an" style="--d:320ms">
+      <b>التسلسل مقصود.</b> التجارة أولاً، ثم الطبقة المالية، ثم التمويل — كل مرحلة تبني قاعدة الاستخدام التي تجعل المرحلة التالية قابلة للتمويل والترخيص.
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">خارطة الطريق</div></div>
+</section>
+
+<!-- ============ 19 THE ASK ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>The Ask</div><div class="snum an">19 / 20</div></div>
+  <div class="body">
+    <h2 class="an">القرار المطلوب<br><span style="font-size:22px;font-weight:600;color:var(--palm)">Phase 0 — Strategic Validation</span></h2>
+    <div class="lede an" style="--d:80ms">
+      لا نطلب اعتماد نموذج واحد مغلق، بل إنشاء <b>إطار شراكة وطني قابل للتوسع</b>.
+    </div>
+    <div class="ask an" style="--d:200ms">
+      <div class="ai"><b>1</b><div class="x">تشكيل لجنة مشتركة<small>Joint steering committee</small></div></div>
+      <div class="ai"><b>2</b><div class="x">مراجعة النموذج التنظيمي<small>Regulatory model review</small></div></div>
+      <div class="ai"><b>3</b><div class="x">تحديد الشركاء الماليين<small>Identify financial partners</small></div></div>
+      <div class="ai"><b>4</b><div class="x">إعداد دراسة الجدوى<small>Business case</small></div></div>
+      <div class="ai"><b>5</b><div class="x">تحديد متطلبات التكامل<small>Integration requirements</small></div></div>
+      <div class="ai"><b>6</b><div class="x">تحديد نطاق التجربة<small>Define the pilot</small></div></div>
+    </div>
+    <div class="stmt an" style="--d:360ms;font-size:26px;margin-top:24px;text-align:center">
+      ثم: <b>Pilot → Validate → Scale</b>
+    </div>
+  </div>
+  <div class="foot"><div class="l">alSooq · Strategic Partnership Proposal</div><div class="r">القرار المطلوب</div></div>
+</section>
+
+<!-- ============ 20 CLOSING ============ -->
+<section class="slide">
+  <div class="hdr"><div class="eyebrow an"><i></i>Closing</div><div class="snum an">20 / 20</div></div>
+  <div class="close">
+    <div class="closeline an">نبني السوق<br>قبل أن نبني <span class="grn">الجدران</span>.</div>
+    <div class="stmt-en an" style="--d:160ms">Sudan does not only need to rebuild its markets — it needs to rebuild how the market works.</div>
+    <div class="roles">
+      <div class="role an" style="--d:280ms"><div class="n">السوق</div><div class="e">Commerce Layer</div>
+        <div class="d">منصة التجارة والخدمات الرقمية.</div></div>
+      <div class="role an" style="--d:340ms"><div class="n">حِوال</div><div class="e">Financial Layer</div>
+        <div class="d">البنية المالية الرقمية والتنسيق التشغيلي.</div></div>
+      <div class="role an" style="--d:400ms"><div class="n">الشركاء الماليون</div><div class="e">Banking Layer</div>
+        <div class="d">الحسابات والتسوية والتمويل.</div></div>
+      <div class="role an" style="--d:460ms"><div class="n">Dynasty</div><div class="e">Delivery</div>
+        <div class="d">التطوير والتشغيل والشراكات.</div></div>
+    </div>
+  </div>
+  <div class="foot"><div class="l">سري · Confidential — for discussion purposes only</div><div class="r">السوق — عندما يصبح السوق نفسه رقمياً</div></div>
+</section>
+
+<div class="rail"><div class="f" id="fill"></div></div>
+</div>
+
+<div class="help"><kbd>←</kbd> <kbd>→</kbd> navigate · <kbd>F</kbd> fullscreen · <kbd>Home</kbd> first</div>
+
+<script>
+(function(){
+  var stage=document.getElementById('stage'),
+      slides=[].slice.call(document.querySelectorAll('.slide')),
+      fill=document.getElementById('fill'), i=0;
+
+  function fit(){
+    stage.style.transform='scale('+Math.min(innerWidth/1280,innerHeight/720)*0.95+')';
+  }
+  addEventListener('resize',fit); fit();
+
+  function go(n){
+    i=(n+slides.length)%slides.length;
+    slides.forEach(function(s,k){
+      s.classList.remove('on');
+      if(k===i){ void s.offsetWidth; s.classList.add('on'); }
+    });
+    fill.style.width=((i+1)/slides.length*100)+'%';
+  }
+
+  addEventListener('keydown',function(e){
+    var k=e.key.toLowerCase();
+    if(e.key==='ArrowLeft'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(i+1);}
+    else if(e.key==='ArrowRight'||e.key==='PageUp'){e.preventDefault();go(i-1);}
+    else if(e.key==='Home'){go(0);}
+    else if(e.key==='End'){go(slides.length-1);}
+    else if(k==='f'){
+      if(document.fullscreenElement){document.exitFullscreen();}
+      else{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}
+    }
+  });
+  stage.addEventListener('click',function(e){
+    go(i+(e.clientX<innerWidth/2?1:-1));
+  });
+
+  go(0);
+})();
+</script>
+</body>
+</html>

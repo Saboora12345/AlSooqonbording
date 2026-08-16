@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>رحلة انضمام التاجر · Merchant Onboarding — alSooq</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand:#F6F1E7; --sand-deep:#EDE4D3; --ink:#2E241B; --ink-soft:#6B5B4B;
+  --clay:#8A4B2A; --palm:#2F6B4F; --palm-deep:#1E4634; --palm-tint:#E3EFE8;
+  --card:#FFFFFF; --line:#DCCFBB; --kraft:#E4D2B4; --gold:#B8862F; --flag-red:#C8322B;
+
+  /* ---- motion curves ----
+     gravity  : accelerates. things that FALL use this.
+     brake    : decelerates. things that ARRIVE use this.
+     settle   : damped, no overshoot. heavy objects.
+     spring   : ~8% overshoot then settle. light objects only.
+     snap     : mechanical, for UI state changes.                    */
+  --gravity:cubic-bezier(.55,.06,.68,.19);
+  --brake:cubic-bezier(.16,1,.3,1);
+  --settle:cubic-bezier(.22,1,.36,1);
+  --spring:cubic-bezier(.34,1.42,.52,1);
+  --snap:cubic-bezier(.4,0,.2,1);
+
+  --ar:'IBM Plex Sans Arabic',system-ui,sans-serif;
+  --en:'IBM Plex Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--sand-deep);overflow:hidden}
+body{font-family:var(--ar);color:var(--ink);display:grid;place-items:center;
+  -webkit-font-smoothing:antialiased}
+
+#stage{width:1280px;height:720px;background:var(--sand);position:relative;
+  transform-origin:center;overflow:hidden;box-shadow:0 12px 40px rgba(46,36,27,.14);
+  display:flex;flex-direction:column;padding:44px 64px 30px}
+
+/* ---------------- chrome ---------------- */
+.top{display:flex;justify-content:space-between;align-items:flex-start;
+  flex:0 0 auto;z-index:6}
+.brandline{display:flex;align-items:center;gap:14px}
+.plate{width:74px;height:46px;border-radius:7px;background:var(--kraft);
+  display:grid;place-items:center}
+.plate svg{width:58px;height:32px}
+.plate path{fill:none;stroke-width:5.5;stroke-linecap:round}
+.brandline .w{font-size:27px;font-weight:700;letter-spacing:-.04em;line-height:1}
+.brandline .w small{display:block;font-family:var(--en);font-size:10px;font-weight:600;
+  color:var(--ink-soft);letter-spacing:.02em;margin-top:2px}
+.jt{text-align:left}
+.jt .a{font-size:19px;font-weight:700;letter-spacing:-.01em}
+.jt .b{font-family:var(--en);font-size:10.5px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
+
+/* ---------------- scene ---------------- */
+.scenes{position:relative;flex:1 1 auto;min-height:0;margin-top:20px;z-index:2}
+.act{position:absolute;inset:0;display:none}
+.act.is-live{display:block}
+.stagebox{position:absolute;inset:0;display:grid;place-items:center}
+
+/* copy block */
+.copy{flex:0 0 auto;margin-top:16px;z-index:5;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:48px}
+.copy .mask{overflow:hidden;height:60px}
+.copy h2{font-size:47px;font-weight:700;letter-spacing:-.03em;line-height:1.24;
+  transform:translateY(105%)}
+.copy h2.go{transform:translateY(0);transition:transform .72s var(--brake)}
+.copy .en{font-family:var(--en);direction:ltr;font-size:19px;font-weight:600;
+  color:var(--ink-soft);margin-top:8px;opacity:0;transform:translateY(9px)}
+.copy .en.go{opacity:1;transform:none;transition:all .6s var(--brake) .12s}
+.copyR{max-width:460px;padding-bottom:3px}
+.copy .desc{font-size:16px;font-weight:500;color:var(--ink-soft);margin-top:11px;
+  line-height:1.55;opacity:0;transform:translateY(9px)}
+.copy .desc.go{opacity:1;transform:none;transition:all .6s var(--brake) .2s}
+.daybadge{display:inline-block;background:var(--palm);color:var(--sand);
+  border-radius:999px;padding:9px 21px;font-family:var(--en);font-size:13px;
+  font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  opacity:0;transform:scale(.86)}
+.daybadge.go{opacity:1;transform:none;transition:all .5s var(--spring)}
+
+/* ---------------- progress rail ---------------- */
+.rail{flex:0 0 auto;margin-top:26px;z-index:6}
+.track{position:relative;height:2px;background:var(--line)}
+.track .fill{position:absolute;top:0;right:0;height:2px;background:var(--palm);
+  width:0;transition:width .85s var(--settle)}
+.nodes{display:flex;justify-content:space-between;margin-top:-7px}
+.node{display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;flex:1}
+.node .dot{width:14px;height:14px;border-radius:50%;background:var(--sand);
+  border:2px solid var(--line);transition:all .4s var(--spring)}
+.node.done .dot{background:var(--palm);border-color:var(--palm)}
+.node.now .dot{background:var(--palm);border-color:var(--palm);transform:scale(1.5)}
+.node .t{font-size:12.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;
+  transition:color .3s}
+.node.now .t{color:var(--ink);font-weight:700}
+.node .d{font-family:var(--en);font-size:9.5px;font-weight:700;letter-spacing:.1em;
+  color:var(--line);transition:color .3s}
+.node.now .d,.node.done .d{color:var(--palm)}
+
+.ctrl{position:absolute;bottom:9px;left:64px;font-family:var(--en);font-size:10.5px;
+  letter-spacing:.06em;color:var(--ink-soft);z-index:6}
+kbd{border:1px solid var(--line);border-radius:3px;padding:1px 5px;background:var(--card);font-size:9.5px}
+.mnote{position:absolute;bottom:56px;right:64px;max-width:390px;z-index:7;
+  background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:13px 16px;display:none}
+.mnote.show{display:block}
+.mnote h4{font-family:var(--en);font-size:9.5px;font-weight:700;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--palm);margin-bottom:6px}
+.mnote p{font-family:var(--en);direction:ltr;font-size:11.5px;line-height:1.6;color:var(--ink-soft)}
+
+/* ================= SHARED PRIMITIVES ================= */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 1px 2px rgba(46,36,27,.05),0 12px 30px rgba(46,36,27,.07)}
+.shadow{position:absolute;border-radius:50%;background:rgba(46,36,27,.16);filter:blur(7px)}
+
+/* ================= ACT 1 · CREATE ACCOUNT ================= */
+.form{width:400px;padding:28px 30px}
+.frow{height:44px;border:1px solid var(--line);border-radius:9px;margin-bottom:13px;
+  position:relative;overflow:hidden;background:var(--sand)}
+.frow .lab{position:absolute;top:13px;right:15px;font-size:14px;color:var(--ink-soft);
+  font-weight:500;z-index:2}
+.frow .ink{position:absolute;top:0;right:0;bottom:0;width:0;background:var(--palm-tint);
+  border-left:2px solid var(--palm)}
+.is-live .frow:nth-child(1) .ink{animation:typeIn .62s var(--snap) .45s forwards}
+.is-live .frow:nth-child(2) .ink{animation:typeIn .62s var(--snap) 1.15s forwards}
+.is-live .frow:nth-child(3) .ink{animation:typeIn .62s var(--snap) 1.85s forwards}
+@keyframes typeIn{to{width:82%}}
+.okbtn{height:46px;border-radius:9px;background:var(--sand-deep);display:grid;
+  place-items:center;font-size:16px;font-weight:600;color:var(--ink-soft);
+  margin-top:4px;position:relative;overflow:hidden}
+.is-live .okbtn{animation:btnArm .5s var(--spring) 2.6s forwards}
+@keyframes btnArm{to{background:var(--palm);color:var(--sand)}}
+.tick{position:absolute;left:-56px;top:50%;width:44px;height:44px;border-radius:50%;
+  background:var(--palm);display:grid;place-items:center;transform:translateY(-50%) scale(0)}
+.tick svg{width:22px;height:22px;stroke:var(--sand);stroke-width:3;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+.is-live .tick{animation:pop .52s var(--spring) 3.05s forwards}
+@keyframes pop{0%{transform:translateY(-50%) scale(0)}
+  60%{transform:translateY(-50%) scale(1.12)}100%{transform:translateY(-50%) scale(1)}}
+
+/* ================= ACT 2 · VERIFY ================= */
+.idwrap{position:relative;width:420px;height:250px}
+.idcard{position:absolute;inset:0;padding:24px 26px;transform:rotate(-3deg) translateY(26px);
+  opacity:0}
+.is-live .idcard{animation:idIn .78s var(--brake) .25s forwards}
+@keyframes idIn{to{transform:rotate(-3deg) translateY(0);opacity:1}}
+.idcard .ph{width:78px;height:96px;border-radius:8px;background:var(--sand-deep);
+  border:1px solid var(--line)}
+.idrow{display:flex;gap:18px}
+.idlines{flex:1;display:grid;gap:11px;padding-top:6px}
+.idlines i{display:block;height:11px;border-radius:3px;background:var(--sand-deep);
+  transform-origin:right;transform:scaleX(.25);opacity:.5}
+.is-live .idlines i:nth-child(1){animation:resolve .5s var(--snap) 1.5s forwards}
+.is-live .idlines i:nth-child(2){animation:resolve .5s var(--snap) 1.62s forwards}
+.is-live .idlines i:nth-child(3){animation:resolve .5s var(--snap) 1.74s forwards}
+@keyframes resolve{to{transform:scaleX(1);opacity:1;background:var(--palm-tint)}}
+.idfoot{margin-top:20px;height:11px;border-radius:3px;background:var(--sand-deep);width:60%}
+.scan{position:absolute;left:0;right:0;top:0;height:70px;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(47,107,79,0),rgba(47,107,79,.20),rgba(47,107,79,0));
+  border-bottom:2px solid var(--palm);opacity:0}
+.is-live .scan{animation:scanDown 1.25s cubic-bezier(.5,0,.5,1) .95s}
+@keyframes scanDown{
+  0%{opacity:0;transform:translateY(-70px)} 12%{opacity:1}
+  88%{opacity:1} 100%{opacity:0;transform:translateY(250px)}
+}
+.stamp{position:absolute;left:-26px;bottom:-22px;width:104px;height:104px;border-radius:50%;
+  background:var(--palm);color:var(--sand);display:grid;place-items:center;text-align:center;
+  font-size:15px;font-weight:700;line-height:1.25;
+  transform:translateY(-190px) rotate(-24deg) scale(1.25);opacity:0}
+.is-live .stamp{animation:stampDrop .72s var(--gravity) 2.35s forwards}
+@keyframes stampDrop{
+  0%{transform:translateY(-190px) rotate(-24deg) scale(1.25);opacity:0}
+  10%{opacity:1}
+  72%{transform:translateY(0) rotate(-9deg) scale(1);opacity:1}
+  82%{transform:translateY(0) rotate(-9deg) scaleX(1.1) scaleY(.9)}
+  100%{transform:translateY(0) rotate(-9deg) scale(1)}
+}
+.stampring{position:absolute;left:-26px;bottom:-22px;width:104px;height:104px;
+  border-radius:50%;border:2px solid var(--palm);opacity:0}
+.is-live .stampring{animation:ring .8s var(--brake) 2.88s forwards}
+@keyframes ring{0%{transform:scale(1);opacity:.85}100%{transform:scale(1.75);opacity:0}}
+
+/* ================= ACT 3 · STORE SETUP ================= */
+.shop{position:relative;width:470px;height:290px}
+.base{position:absolute;bottom:0;left:0;right:0;height:172px;border-radius:12px;
+  background:var(--card);border:1px solid var(--line);transform:translateY(112%)}
+.is-live .base{animation:up .72s var(--brake) .3s forwards}
+@keyframes up{to{transform:translateY(0)}}
+.awning{position:absolute;bottom:172px;left:0;right:0;height:52px;transform-origin:bottom;
+  transform:scaleY(0);display:flex;overflow:hidden;border-radius:9px 9px 0 0}
+.awning i{flex:1;height:100%}
+.awning i:nth-child(odd){background:var(--palm)}
+.awning i:nth-child(even){background:var(--palm-tint)}
+.is-live .awning{animation:unfold .68s var(--spring) 1.0s forwards}
+@keyframes unfold{to{transform:scaleY(1)}}
+.shelf{position:absolute;left:26px;right:26px;height:12px;border-radius:4px;
+  background:var(--sand-deep);opacity:0}
+.shelf.s1{bottom:104px;transform:translateX(46px)}
+.shelf.s2{bottom:62px;transform:translateX(-46px)}
+.is-live .shelf.s1{animation:slideSet .6s var(--brake) 1.55s forwards}
+.is-live .shelf.s2{animation:slideSet .6s var(--brake) 1.7s forwards}
+@keyframes slideSet{to{transform:translateX(0);opacity:1}}
+.sign{position:absolute;top:0;left:50%;width:198px;height:60px;margin-left:-99px;
+  border-radius:10px;background:var(--ink);color:var(--sand);display:grid;place-items:center;
+  font-size:25px;font-weight:700;letter-spacing:-.03em;
+  transform:translateY(-140px);opacity:0}
+.is-live .sign{animation:signDrop .82s var(--gravity) 2.2s forwards}
+@keyframes signDrop{
+  0%{transform:translateY(-140px);opacity:0} 12%{opacity:1}
+  70%{transform:translateY(0)}
+  80%{transform:translateY(0) scaleX(1.06) scaleY(.94)}
+  90%{transform:translateY(-5px) scale(1)}
+  100%{transform:translateY(0) scale(1)}
+}
+.signshadow{position:absolute;top:64px;left:50%;width:150px;height:9px;margin-left:-75px;
+  opacity:0}
+.is-live .signshadow{animation:shFade .5s var(--brake) 2.78s forwards}
+@keyframes shFade{from{opacity:0;transform:scaleX(.5)}to{opacity:.5;transform:scaleX(1)}}
+
+/* ================= ACT 4 · PAYMENT ================= */
+.pay{position:relative;width:470px;height:270px;display:grid;place-items:center}
+.pos{width:180px;height:222px;border-radius:16px;padding:16px;position:relative;z-index:2}
+.pos .scr{height:74px;border-radius:8px;background:var(--sand-deep);display:grid;
+  place-items:center;font-family:var(--en);font-size:21px;font-weight:700;color:var(--ink)}
+.pos .keys{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:13px}
+.pos .keys i{height:26px;border-radius:5px;background:var(--sand)}
+.paycard{position:absolute;top:34px;right:-176px;width:168px;height:104px;border-radius:11px;
+  background:var(--ink);z-index:3;padding:14px;opacity:0}
+.paycard .chip{width:26px;height:20px;border-radius:4px;background:var(--gold)}
+.paycard .no{margin-top:26px;height:7px;width:74%;border-radius:2px;background:rgba(246,241,231,.35)}
+.paycard .nm{margin-top:9px;height:6px;width:46%;border-radius:2px;background:rgba(246,241,231,.22)}
+.is-live .paycard{animation:tap 1.9s var(--brake) .55s forwards}
+@keyframes tap{
+  0%{opacity:0;transform:translate(0,0) rotate(-9deg)}
+  14%{opacity:1}
+  48%{transform:translate(150px,26px) rotate(-3deg)}   /* arc: x and y ease differently */
+  62%{transform:translate(178px,34px) rotate(0deg)}    /* contact */
+  72%{transform:translate(168px,32px) rotate(0deg)}    /* recoil */
+  100%{transform:translate(172px,33px) rotate(0deg);opacity:1}
+}
+.pulse{position:absolute;top:76px;left:50%;width:70px;height:70px;margin-left:-35px;
+  border-radius:50%;border:2px solid var(--palm);opacity:0;z-index:1}
+.is-live .pulse{animation:pulseOut 1.05s var(--brake) 1.75s forwards}
+.is-live .pulse.p2{animation-delay:1.95s}
+@keyframes pulseOut{0%{transform:scale(.55);opacity:.9}100%{transform:scale(3.1);opacity:0}}
+.wallet{position:absolute;bottom:6px;left:0;width:196px;padding:15px 18px;opacity:0;
+  transform:translateY(16px)}
+.wallet .l{font-size:13px;color:var(--ink-soft);font-weight:600}
+.wallet .v{font-family:var(--en);font-size:26px;font-weight:700;color:var(--palm);
+  letter-spacing:-.02em;margin-top:3px}
+.is-live .wallet{animation:slideSet .6s var(--brake) 2.1s forwards}
+
+/* ================= ACT 5 · LOGISTICS ================= */
+.road{position:relative;width:620px;height:250px}
+.roadline{position:absolute;bottom:56px;left:0;right:0;height:2px;background:var(--line)}
+.roadfill{position:absolute;bottom:56px;right:0;height:2px;background:var(--palm);width:0}
+.is-live .roadfill{animation:pave 1.75s var(--brake) .5s forwards}
+@keyframes pave{to{width:100%}}
+.truck{position:absolute;bottom:58px;right:-130px;width:132px;height:76px}
+.is-live .truck{animation:drive 1.9s var(--brake) .45s forwards}
+@keyframes drive{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-470px)}
+}
+.tbody{position:absolute;inset:0;transform-origin:center bottom}
+.is-live .tbody{animation:bob .34s ease-in-out .45s 5,tilt 1.9s var(--brake) .45s forwards}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.6px)}}
+@keyframes tilt{
+  0%{rotate:0deg} 12%{rotate:-1.6deg}    /* squat under acceleration */
+  70%{rotate:0deg} 86%{rotate:1.4deg}    /* dive under braking */
+  100%{rotate:0deg}
+}
+.truck svg{width:132px;height:76px}
+.wheel{transform-origin:center;transform-box:fill-box}
+.is-live .wheel{animation:roll 1.9s linear .45s forwards}
+@keyframes roll{to{transform:rotate(-560deg)}}
+.parcel{position:absolute;bottom:120px;right:322px;width:56px;height:44px;border-radius:5px;
+  background:var(--kraft);border:1px solid rgba(46,36,27,.16);opacity:0;z-index:4}
+.parcel::after{content:'';position:absolute;left:50%;top:0;bottom:0;width:5px;
+  margin-left:-2.5px;background:rgba(46,36,27,.12)}
+.is-live .parcel{animation:parcelDrop .62s var(--gravity) 2.15s forwards}
+@keyframes parcelDrop{
+  0%{opacity:0;transform:translateY(-104px) rotate(-11deg)}
+  16%{opacity:1}
+  76%{transform:translateY(0) rotate(0deg)}
+  86%{transform:translateY(0) scaleX(1.12) scaleY(.86)}
+  100%{transform:translateY(0) scale(1)}
+}
+.pin{position:absolute;bottom:44px;width:26px;height:26px;border-radius:50%;
+  border:2px solid var(--palm);background:var(--sand);transform:scale(0)}
+.pin.a{right:16px}.pin.b{right:300px}.pin.c{left:16px;background:var(--palm)}
+.is-live .pin.a{animation:pinPop .45s var(--spring) .6s forwards}
+.is-live .pin.b{animation:pinPop .45s var(--spring) 1.35s forwards}
+.is-live .pin.c{animation:pinPop .45s var(--spring) 2.15s forwards}
+@keyframes pinPop{to{transform:scale(1)}}
+
+/* ================= ACT 6 · PRODUCTS ================= */
+.grid6{display:grid;grid-template-columns:repeat(4,120px);gap:16px}
+.tile{height:96px;border-radius:11px;background:var(--card);border:1px solid var(--line);
+  display:grid;place-items:center;opacity:0;transform:scale(.62) rotate(var(--r,-6deg))}
+.tile b{width:44px;height:34px;border-radius:5px;background:var(--sand-deep);display:block}
+.is-live .tile{animation:tilePop .58s var(--spring) forwards}
+@keyframes tilePop{
+  0%{opacity:0;transform:scale(.62) rotate(var(--r))}
+  100%{opacity:1;transform:scale(1) rotate(0deg)}
+}
+.counter{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);
+  font-family:var(--en);font-size:17px;font-weight:700;color:var(--palm);letter-spacing:.06em}
+
+/* ================= ACT 7 · GO LIVE ================= */
+.live{position:relative;width:470px;height:290px;display:grid;place-items:center}
+.golive{width:300px;height:158px;border-radius:16px;background:var(--palm-deep);
+  color:var(--sand);display:grid;place-items:center;text-align:center;
+  transform:scale(.9);opacity:0;position:relative;z-index:3}
+.is-live .golive{animation:goliveIn .78s var(--spring) .4s forwards}
+@keyframes goliveIn{to{transform:scale(1);opacity:1}}
+.golive .ar{font-size:44px;font-weight:700;letter-spacing:-.03em}
+.golive .en{font-family:var(--en);font-size:13px;font-weight:700;letter-spacing:.24em;
+  text-transform:uppercase;opacity:.75;margin-top:5px}
+.beacon{position:absolute;top:26px;right:26px;width:12px;height:12px;border-radius:50%;
+  background:#7FD4A0;z-index:4;opacity:0}
+.is-live .beacon{animation:fadeIn .4s var(--snap) 1.05s forwards,beat 1.6s ease-in-out 1.45s infinite}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes beat{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.55}}
+.halo{position:absolute;width:300px;height:158px;border-radius:16px;
+  border:2px solid var(--palm);opacity:0;z-index:1}
+.is-live .halo{animation:haloOut 1.5s var(--brake) 1.15s forwards}
+.is-live .halo.h2{animation-delay:1.55s}
+@keyframes haloOut{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.5);opacity:0}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;transition-duration:.001ms !important}
+}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <div class="top">
+    <div class="brandline">
+      <div class="plate">
+        <svg viewBox="0 0 58 32"><path d="M4 7 C18 3, 41 10, 54 5" stroke="var(--flag-red)"/>
+        <path d="M4 16 C19 12, 40 20, 54 15" stroke="#FFFFFF"/>
+        <path d="M4 25 C18 21, 42 28, 54 23" stroke="var(--palm)"/></svg>
+      </div>
+      <div class="w">السوق<small>alSooq</small></div>
+    </div>
+    <div class="jt">
+      <div class="a">رحلة انضمام التاجر</div>
+      <div class="b">Merchant Onboarding Journey</div>
+    </div>
+  </div>
+
+  <div class="scenes">
+
+    <!-- ACT 1 -->
+    <div class="act" data-motion="Fields fill left-to-right on a mechanical snap curve — data entry has no mass, so no overshoot. The confirm button arms only after the last field lands, and the tick uses the one spring in the scene: 12% overshoot, because a small light object is what it represents.">
+      <div class="stagebox"><div class="panel form" style="position:relative">
+        <div class="frow"><span class="lab">الاسم التجاري</span><span class="ink"></span></div>
+        <div class="frow"><span class="lab">رقم الهاتف</span><span class="ink"></span></div>
+        <div class="frow"><span class="lab">البريد الإلكتروني</span><span class="ink"></span></div>
+        <div class="okbtn">إنشاء الحساب</div>
+        <div class="tick"><svg viewBox="0 0 24 24"><path d="M5 13l4.5 4.5L19 7"/></svg></div>
+      </div></div>
+    </div>
+
+    <!-- ACT 2 -->
+    <div class="act" data-motion="The scan bar runs on a symmetric ease — machines move at constant speed, so acceleration in and out only. The stamp is the opposite: it FALLS on a gravity curve, accelerating into contact, squashes 10% on impact, then recovers. Falling objects that decelerate are the single most common tell of fake motion.">
+      <div class="stagebox"><div class="idwrap">
+        <div class="panel idcard">
+          <div class="idrow">
+            <div class="ph"></div>
+            <div class="idlines"><i></i><i></i><i></i></div>
+          </div>
+          <div class="idfoot"></div>
+          <div class="scan"></div>
+        </div>
+        <div class="stampring"></div>
+        <div class="stamp">تم<br>التوثيق</div>
+      </div></div>
+    </div>
+
+    <!-- ACT 3 -->
+    <div class="act" data-motion="Built in assembly order, never all at once: base rises, awning unfolds from its own hinge line, shelves slide in from opposite sides 150ms apart, then the sign drops last on gravity. Its cast shadow fades in AFTER the sign lands — follow-through. Shadows that arrive with the object read as stickers.">
+      <div class="stagebox"><div class="shop">
+        <div class="sign">السوق</div>
+        <div class="shadow signshadow"></div>
+        <div class="awning"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="base">
+          <div class="shelf s1"></div>
+          <div class="shelf s2"></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- ACT 4 -->
+    <div class="act" data-motion="The card travels an ARC, not a line — x and y are keyed at different rates so it swings in rather than sliding. It overshoots the terminal by 6px on contact and recoils, the way a hand actually taps. Two pulses fire 200ms apart, not simultaneously; the second one is what makes it read as a real transaction.">
+      <div class="stagebox"><div class="pay">
+        <div class="panel pos">
+          <div class="scr">SDG</div>
+          <div class="keys"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="pulse"></div><div class="pulse p2"></div>
+        <div class="paycard"><div class="chip"></div><div class="no"></div><div class="nm"></div></div>
+        <div class="panel wallet">
+          <div class="l">محفظة حِوال</div>
+          <div class="v" id="wv">0.00</div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- ACT 5 -->
+    <div class="act" data-motion="Four independent motions on one object: the truck translates on a braking curve, the body bobs on its own 340ms suspension cycle, the chassis TILTS back 1.6° under acceleration and dives 1.4° under braking, and the wheels roll linearly. Layered motion at different frequencies is what separates a vehicle from a moving rectangle.">
+      <div class="stagebox"><div class="road">
+        <div class="roadline"></div><div class="roadfill"></div>
+        <div class="pin a"></div><div class="pin b"></div><div class="pin c"></div>
+        <div class="parcel"></div>
+        <div class="truck"><div class="tbody">
+          <svg viewBox="0 0 132 76">
+            <rect x="2" y="20" width="76" height="38" rx="5" fill="var(--card)"
+              stroke="var(--clay)" stroke-width="2.4"/>
+            <path d="M78 30 h24 l20 16 v12 H78 z" fill="var(--card)" stroke="var(--clay)"
+              stroke-width="2.4" stroke-linejoin="round"/>
+            <rect x="84" y="34" width="17" height="12" rx="2" fill="var(--sand-deep)"/>
+            <circle class="wheel" cx="26" cy="61" r="9" fill="var(--sand)"
+              stroke="var(--ink)" stroke-width="2.6"/>
+            <line class="wheel" x1="26" y1="54" x2="26" y2="68" stroke="var(--ink)" stroke-width="2"/>
+            <circle class="wheel" cx="100" cy="61" r="9" fill="var(--sand)"
+              stroke="var(--ink)" stroke-width="2.6"/>
+            <line class="wheel" x1="100" y1="54" x2="100" y2="68" stroke="var(--ink)" stroke-width="2"/>
+          </svg>
+        </div></div>
+      </div></div>
+    </div>
+
+    <!-- ACT 6 -->
+    <div class="act" data-motion="Tiles arrive on a 70ms stagger, each starting from a different rotation so the grid assembles organically instead of marching. Spring curve with 42% overshoot is legitimate here — these are small, light objects. The same curve on the truck would look like a cartoon.">
+      <div class="stagebox"><div style="position:relative">
+        <div class="grid6" id="tiles"></div>
+        <div class="counter" id="pcount">0 منتج</div>
+      </div></div>
+    </div>
+
+    <!-- ACT 7 -->
+    <div class="act" data-motion="One confident scale-in, then the motion hands off to a slow infinite beacon — the scene stops performing and starts idling. Two halos expand 400ms apart on a decelerating curve so the energy radiates outward and dissipates rather than pumping.">
+      <div class="stagebox"><div class="live">
+        <div class="halo"></div><div class="halo h2"></div>
+        <div class="golive">
+          <div>
+            <div class="ar">المتجر مباشر</div>
+            <div class="en">Store is live</div>
+          </div>
+          <div class="beacon"></div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+
+  <div class="copy">
+    <div class="copyL">
+      <div class="mask"><h2 id="ttl">إنشاء حساب</h2></div>
+      <div class="en" id="ten">Create account</div>
+    </div>
+    <div class="copyR">
+      <div class="daybadge" id="badge">DAY 1</div>
+      <div class="desc" id="tdesc">يبدأ التاجر بحساب واحد — لا رسوم، ولا دعوة، ولا موافقة مسبقة.</div>
+    </div>
+  </div>
+
+  <div class="rail">
+    <div class="track"><div class="fill" id="fill"></div></div>
+    <div class="nodes" id="nodes"></div>
+  </div>
+
+  <div class="ctrl"><kbd>Space</kbd> play/pause · <kbd>←</kbd> <kbd>→</kbd> step · <kbd>R</kbd> replay · <kbd>M</kbd> motion notes</div>
+  <div class="mnote" id="mnote"><h4>Motion technique</h4><p id="mtext"></p></div>
+
+</div>
+
+<script>
+(function(){
+  const stage=document.getElementById('stage');
+  const acts=[...document.querySelectorAll('.act')];
+  const STEPS=[
+    {d:'DAY 1',  ar:'إنشاء حساب',   en:'Create account',
+     x:'يبدأ التاجر بحساب واحد — لا رسوم، ولا دعوة، ولا موافقة مسبقة.', t:4600},
+    {d:'DAY 1–2',ar:'التوثيق',      en:'Verify · KYC / KYB',
+     x:'توثيق الهوية والنشاط التجاري. المدة تعتمد على اكتمال المستندات.', t:4400},
+    {d:'DAY 2',  ar:'إعداد المتجر',  en:'Store setup',
+     x:'الاسم، الشعار، الأقسام، وسياسة الإرجاع — واجهة المتجر جاهزة.', t:4300},
+    {d:'DAY 3',  ar:'ربط الدفع',    en:'Payment setup · Hawil',
+     x:'ربط محفظة حِوال. التحصيل والتسوية من داخل المنصة.', t:4400},
+    {d:'DAY 4',  ar:'إعداد التوصيل', en:'Logistics setup',
+     x:'تفعيل سودا إكسبريس: مناطق التغطية، الأوزان، ومواعيد الاستلام.', t:4400},
+    {d:'DAY 5',  ar:'إضافة المنتجات',en:'Add products',
+     x:'رفع المنتجات بالصور والأسعار والمخزون — دفعة واحدة أو منتجًا منتجًا.', t:4200},
+    {d:'DAY 6–7',ar:'إطلاق المتجر',  en:'Go live',
+     x:'المتجر يظهر للجميع. من زائر إلى تاجر في أقل من أسبوع.', t:5200}
+  ];
+
+  let i=0,timer=null,playing=true;
+  const badge=document.getElementById('badge'), ttl=document.getElementById('ttl'),
+        ten=document.getElementById('ten'), tdesc=document.getElementById('tdesc'),
+        fill=document.getElementById('fill'), nodesEl=document.getElementById('nodes'),
+        mnote=document.getElementById('mnote'), mtext=document.getElementById('mtext');
+
+  function fit(){stage.style.transform='scale('+Math.min(innerWidth/1280,innerHeight/720)*0.95+')';}
+  addEventListener('resize',fit);fit();
+
+  /* build product tiles (act 6) */
+  const tw=document.getElementById('tiles');
+  for(let k=0;k<8;k++){
+    const t=document.createElement('div');
+    t.className='tile';
+    t.style.setProperty('--r',(k%2?6:-6)+'deg');
+    t.style.animationDelay=(0.35+k*0.07)+'s';
+    t.innerHTML='<b></b>';
+    tw.appendChild(t);
+  }
+
+  /* build rail */
+  STEPS.forEach((s,n)=>{
+    const el=document.createElement('div');
+    el.className='node';
+    el.innerHTML='<span class="dot"></span><span class="t">'+s.ar+'</span><span class="d">'+s.d+'</span>';
+    el.addEventListener('click',()=>{go(n);pause();});
+    nodesEl.appendChild(el);
+  });
+  const nodeEls=[...nodesEl.children];
+
+  /* animated counters */
+  let cTimer=null;
+  function count(el,to,dur,fmt){
+    clearInterval(cTimer);
+    const t0=performance.now();
+    cTimer=setInterval(()=>{
+      const p=Math.min(1,(performance.now()-t0)/dur);
+      const e=1-Math.pow(1-p,3);                    // ease-out cubic
+      el.textContent=fmt(to*e);
+      if(p>=1)clearInterval(cTimer);
+    },32);
+  }
+
+  function go(n){
+    i=(n+STEPS.length)%STEPS.length;
+    const s=STEPS[i];
+
+    acts.forEach((a,k)=>{
+      a.classList.remove('is-live');
+      if(k===i){void a.offsetWidth;a.classList.add('is-live');}
+    });
+
+    /* copy: masked reveal — retrigger by removing then re-adding */
+    [ttl,ten,tdesc,badge].forEach(el=>el.classList.remove('go'));
+    ttl.textContent=s.ar; ten.textContent=s.en; tdesc.textContent=s.x; badge.textContent=s.d;
+    void ttl.offsetWidth;
+    [ttl,ten,tdesc,badge].forEach(el=>el.classList.add('go'));
+
+    nodeEls.forEach((el,k)=>{
+      el.classList.toggle('done',k<i);
+      el.classList.toggle('now',k===i);
+    });
+    fill.style.width=(i/(STEPS.length-1)*100)+'%';
+    mtext.textContent=acts[i].dataset.motion||'';
+
+    if(i===3) count(document.getElementById('wv'),48250,1600,v=>v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}));
+    if(i===5) count(document.getElementById('pcount'),24,1900,v=>Math.round(v)+' منتج');
+
+    clearTimeout(timer);
+    if(playing) timer=setTimeout(()=>go(i+1),s.t);
+  }
+  function pause(){playing=false;clearTimeout(timer);}
+  function play(){playing=true;go(i);}
+
+  addEventListener('keydown',e=>{
+    const k=e.key.toLowerCase();
+    if(e.key===' '){e.preventDefault();playing?pause():play();}
+    else if(e.key==='ArrowLeft'){e.preventDefault();pause();go(i-1);}
+    else if(e.key==='ArrowRight'){e.preventDefault();pause();go(i+1);}
+    else if(k==='r'){go(i);}
+    else if(k==='m'){mnote.classList.toggle('show');}
+  });
+
+  go(0);
+})();
+</script>
+</body>
+</html>

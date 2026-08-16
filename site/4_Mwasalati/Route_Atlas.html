@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مواصلاتي — أطلس الخطوط · Mwasalati Route Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand:#F6F1E7; --sand-deep:#EDE4D3; --card:#FFFFFF; --kraft:#E4D2B4;
+  --ink:#2E241B; --ink-soft:#6B5B4B; --ink-faint:#9A8A79;
+  --gold:#B8862F; --gold-deep:#8A6320; --gold-tint:#F5EBD6;
+  --gold-08:rgba(184,134,47,.08); --gold-15:rgba(184,134,47,.15); --gold-30:rgba(184,134,47,.30);
+  --palm:#2F6B4F; --palm-tint:#E3EFE8;
+  --nile:#7FA8B8;                     /* water — cartographic, not a brand accent */
+  --line:#DCCFBB; --hair:rgba(220,207,187,.55);
+  --r-xs:6px; --r-sm:8px; --r-md:12px; --r-lg:16px; --r-pill:999px;
+  --e1:0 1px 2px rgba(46,36,27,.05);
+  --e2:0 1px 2px rgba(46,36,27,.05),0 8px 24px rgba(46,36,27,.07);
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-in-out:cubic-bezier(.77,0,.175,1);
+  --d-press:160ms; --d-reveal:220ms;
+  --ar:'IBM Plex Sans Arabic',system-ui,sans-serif;
+  --en:'IBM Plex Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ar);background:var(--sand-deep);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+[data-lang="en"] body{font-family:var(--en)}
+[data-lang="ar"] .en-only{display:none}
+[data-lang="en"] .ar-only{display:none}
+.num{font-family:var(--en);font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono);font-size:.86em}
+svg{display:block}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+
+.topbar{position:sticky;top:0;z-index:80;background:rgba(246,241,231,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1280px;margin:0 auto;padding:12px 26px;display:flex;align-items:center;gap:18px}
+.lockup{display:flex;align-items:center;gap:12px}
+.plate{width:52px;height:34px;border-radius:var(--r-xs);background:var(--kraft);display:grid;place-items:center;flex:none}
+.plate svg{width:36px;height:20px;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.wordmark{font-size:21px;font-weight:700;letter-spacing:-.035em;line-height:1}
+.wordmark small{display:block;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-soft);margin-top:3px}
+.sp{flex:1}
+.seg{display:flex;background:var(--sand-deep);border:1px solid var(--line);border-radius:var(--r-pill);padding:3px}
+.seg button{padding:6px 16px;border-radius:var(--r-pill);font-size:13px;font-weight:600;color:var(--ink-soft);transition:color var(--d-press) var(--ease-out)}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--e1)}
+
+.hero{background:var(--sand);border-bottom:1px solid var(--line)}
+.hero-in{max-width:1280px;margin:0 auto;padding:52px 26px 42px}
+.eyebrow{font-family:var(--en);direction:ltr;font-size:10.5px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-soft)}
+.eyebrow i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin-inline-end:8px;vertical-align:1px}
+h1{font-size:clamp(29px,4.2vw,46px);font-weight:700;letter-spacing:-.035em;line-height:1.17;margin-top:14px;max-width:22ch}
+.hero-en{font-family:var(--en);direction:ltr;font-size:17px;font-weight:600;color:var(--ink-soft);margin-top:11px}
+.hero-lead{font-size:16px;color:var(--ink-soft);max-width:64ch;margin-top:18px}
+
+.wrap{max-width:1280px;margin:0 auto;padding:36px 26px 80px}
+.sec{margin-bottom:48px}
+.sec-head{margin-bottom:20px;padding-bottom:13px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.sec-head h2{font-size:24px;font-weight:700;letter-spacing:-.028em;line-height:1.3}
+.sec-head .sub{font-family:var(--en);direction:ltr;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-top:3px}
+
+/* ── rate control ─────────────────────────────────────────── */
+.calc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:18px 20px;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center}
+@media(max-width:760px){.calc{grid-template-columns:1fr}}
+.calc .cl b{display:block;font-size:14.5px;font-weight:700;letter-spacing:-.015em}
+.calc .cl p{font-size:12.5px;color:var(--ink-soft);margin-top:5px;line-height:1.6;max-width:60ch}
+.calc .cr{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.knobgrp{display:flex;flex-direction:column;gap:5px}
+.knobgrp label{font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+.knobgrp .row{display:flex;align-items:center;gap:7px}
+.knobgrp button{width:34px;height:34px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--card);font-size:17px;font-weight:600;color:var(--gold-deep);display:grid;place-items:center;transition:transform var(--d-press) var(--ease-out),background var(--d-press) var(--ease-out)}
+.knobgrp button:active{transform:scale(.93);background:var(--gold-08)}
+.knobgrp button:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.knobgrp .val{min-width:74px;text-align:center;font-family:var(--en);font-size:20px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.knobgrp .val em{font-style:normal;font-size:10px;font-weight:600;color:var(--ink-faint);display:block;letter-spacing:.06em}
+
+/* ── network map ──────────────────────────────────────────── */
+.mapcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;position:relative}
+.mapcard svg{width:100%;height:auto;display:block;background:var(--sand)}
+.mapcard .cap{position:absolute;bottom:9px;inset-inline-start:12px;font-family:var(--en);direction:ltr;font-size:9px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint);background:rgba(246,241,231,.86);border-radius:3px;padding:2px 7px}
+.water{fill:none;stroke:var(--nile);stroke-width:9;stroke-linecap:round;opacity:.42}
+.cityname{font-family:var(--ar);font-size:15px;font-weight:700;fill:var(--ink);opacity:.16;letter-spacing:-.02em}
+.rl{fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;opacity:.24;transition:opacity var(--d-reveal) var(--ease-out),stroke-width var(--d-reveal) var(--ease-out)}
+.rl.hot{opacity:1;stroke-width:4.4}
+.rl.dim{opacity:.09}
+.stp{fill:var(--card);stroke:var(--ink-faint);stroke-width:1.8;transition:stroke var(--d-reveal) var(--ease-out),r var(--d-reveal) var(--ease-out)}
+.stp.hot{stroke:var(--gold);stroke-width:2.4}
+.stp.term{stroke-width:2.6}
+.slbl{font-family:var(--ar);font-size:9.5px;fill:var(--ink-soft);font-weight:600;opacity:.55;transition:opacity var(--d-reveal) var(--ease-out)}
+.slbl.hot{opacity:1;fill:var(--ink)}
+.brg{fill:none;stroke:var(--ink);stroke-width:1.4;stroke-dasharray:3 3;opacity:.4}
+.brglbl{font-family:var(--ar);font-size:8px;fill:var(--ink-faint);font-weight:600}
+
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px}
+.lg{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft);font-weight:600}
+.lg i{width:16px;height:3.5px;border-radius:2px;display:block}
+
+/* ── route cards ──────────────────────────────────────────── */
+.routes{display:grid;gap:12px}
+.rcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;transition:border-color var(--d-press) var(--ease-out)}
+.rcard.hot{border-color:var(--gold-30)}
+.rhead{display:flex;gap:14px;align-items:center;padding:14px 16px;width:100%;text-align:start;transition:background var(--d-press) var(--ease-out)}
+.rhead:active{background:var(--gold-08)}
+.rbadge{width:44px;height:44px;border-radius:var(--r-sm);display:grid;place-items:center;flex:none;font-family:var(--en);font-size:16px;font-weight:700;color:#fff;letter-spacing:-.02em}
+.rmeta{flex:1;min-width:0}
+.rmeta b{display:block;font-size:15px;font-weight:700;letter-spacing:-.02em;line-height:1.35}
+.rmeta small{display:block;font-family:var(--en);direction:ltr;font-size:11px;color:var(--ink-soft);font-weight:500}
+.rstats{display:flex;gap:18px;flex:none;flex-wrap:wrap}
+@media(max-width:640px){.rstats{gap:12px}}
+.rst{text-align:end}
+.rst b{display:block;font-family:var(--en);font-size:15px;font-weight:700;letter-spacing:-.025em;line-height:1.25;font-variant-numeric:tabular-nums}
+.rst small{font-size:9.5px;color:var(--ink-faint);font-weight:600;letter-spacing:.05em}
+.rband{font-family:var(--en);font-size:14px;font-weight:700;letter-spacing:-.02em;white-space:nowrap}
+.rband em{font-style:normal;color:var(--ink-faint);font-weight:500;margin:0 2px}
+
+.rbody{border-top:1px solid var(--hair);padding:14px 16px 16px;display:none}
+.rcard.open .rbody{display:block}
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:0;margin-bottom:14px}
+.stop{display:flex;align-items:center;gap:7px;padding:5px 0}
+.stop i{width:9px;height:9px;border-radius:50%;background:var(--card);border:2px solid var(--gold);flex:none}
+.stop.term i{width:11px;height:11px;border-width:3px}
+.stop span{font-size:12.5px;font-weight:600}
+.stop.term span{font-weight:700}
+.conn{width:22px;height:2px;background:var(--gold-30);margin:0 7px;flex:none}
+.bridge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--ink-faint);border:1px dashed var(--line);border-radius:var(--r-pill);padding:1px 8px;margin:0 7px}
+
+.rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.rg{background:var(--sand);border:1px solid var(--hair);border-radius:var(--r-sm);padding:10px 12px}
+.rg .k{font-size:10.5px;color:var(--ink-faint);font-weight:600;letter-spacing:.04em}
+.rg .v{font-size:13.5px;font-weight:600;margin-top:2px}
+.rg .v .num{font-size:15px;font-weight:700;letter-spacing:-.02em}
+
+.tbl{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.tbl th,.tbl td{text-align:start;padding:10px 13px;font-size:12.5px;border-bottom:1px solid var(--hair);vertical-align:top}
+.tbl th{background:var(--sand);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-family:var(--en);direction:ltr}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td code{font-family:var(--mono);font-size:11px;color:var(--gold-deep);background:var(--gold-08);padding:1px 5px;border-radius:var(--r-xs)}
+.tbl td.desc{color:var(--ink-soft);line-height:1.6}
+.tbl-wrap{overflow-x:auto;border-radius:var(--r-md)}
+.tbl td.tot{background:var(--sand);font-weight:700}
+
+pre{background:var(--ink);color:#E8DFD2;border-radius:var(--r-md);padding:18px 20px;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.75;direction:ltr;text-align:left}
+pre .c{color:#8B7C6B} pre .k{color:#D9A06B} pre .s{color:#A8C3A0} pre .p{color:#C8B9A6}
+
+.flag{background:var(--card);border:1px solid var(--line);border-inline-start:3px solid var(--ink);border-radius:var(--r-md);padding:16px 19px;margin-top:16px}
+.flag h4{font-size:14.5px;font-weight:700;margin-bottom:7px}
+.flag p{font-size:13px;color:var(--ink-soft);line-height:1.7}
+.flag p+p{margin-top:9px}
+.flag b{color:var(--ink);font-weight:600}
+
+footer{background:var(--ink);color:var(--sand-deep);padding:32px 26px 38px}
+.foot-in{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:flex-end}
+.foot-in .w{font-size:19px;font-weight:700;letter-spacing:-.03em;color:var(--sand)}
+.foot-in .w small{display:block;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;opacity:.6;margin-top:3px}
+.foot-in p{font-size:12px;opacity:.66;max-width:56ch;line-height:1.75}
+
+@media (hover:hover) and (pointer:fine){ .rhead:hover{background:var(--gold-08)} }
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="topbar-in">
+  <div class="lockup">
+    <div class="plate"><svg viewBox="0 0 36 20">
+      <rect x="3" y="4" width="20" height="11" rx="2" stroke="#B8862F"/>
+      <path d="M3 10h20M9 4v6M16 4v6" stroke="#B8862F"/>
+      <circle cx="8" cy="16.5" r="1.6" stroke="#2E241B"/><circle cx="19" cy="16.5" r="1.6" stroke="#2E241B"/>
+      <path d="M26 8h7M27 11h6M28 14h4" stroke="#2E241B"/>
+    </svg></div>
+    <div class="wordmark">مواصلاتي<small>Mwasalati · Route Atlas</small></div>
+  </div>
+  <div class="sp"></div>
+  <div class="seg">
+    <button class="on" onclick="setLang('ar',this)">عربي</button>
+    <button onclick="setLang('en',this)">EN</button>
+  </div>
+</div></div>
+
+<div class="hero"><div class="hero-in">
+  <div class="eyebrow"><i></i>Five lines · 20 vehicles · 14-seat cap</div>
+  <h1>
+    <span class="ar-only">لا تحسم خمس أجرات. احسم معدّلاً واحداً.</span>
+    <span class="en-only">Don't settle five fares. Settle one rate.</span>
+  </h1>
+  <div class="hero-en">Route atlas with derived fare bands — change the rate, every band recomputes</div>
+  <p class="hero-lead">
+    <span class="ar-only">التعارض في تعرفتك ليس تعارض رقم، بل تعارض طريقة. لو ثبّتّ خمسة أرقام يدوياً، فكل تغيير في الوقود يفتح خمسة نقاشات. المعدّل لكل كيلومتر يجعلها نقاشاً واحداً — والخطوط الخمسة تتبع. حرّك المعدّل أدناه وراقب النطاقات كلها تتحرك معاً.</span>
+    <span class="en-only">Your tariff conflict isn't a disagreement about a number — it's a disagreement about method. Fix five fares by hand and every fuel move reopens five arguments. A per-kilometre rate makes it one argument, and the five lines follow. Move the rate below and watch every band recompute.</span>
+  </p>
+</div></div>
+
+<div class="wrap">
+
+  <!-- ═══ RATE CONTROL ═══ -->
+  <section class="sec">
+    <div class="sec-head">
+      <div><h2><span class="ar-only">مُشتقّ التعرفة</span><span class="en-only">Tariff derivation</span></h2>
+      <div class="sub">One rate in, ten band edges out</div></div>
+    </div>
+    <div class="calc">
+      <div class="cl">
+        <b><span class="ar-only">الأرضية = المسافة × المعدّل، مقرّبة لأقرب ٢٥٠</span><span class="en-only">floor = km × rate, rounded to nearest 250</span></b>
+        <p><span class="ar-only">السقف = الأرضية × المضاعف. المضاعف الافتراضي ١٫٤٣ مأخوذ من نطاق خطتك نفسها (٣٬٥٠٠ ← ٥٬٠٠٠). المعدّل الافتراضي ٢٥٠ ج.س/كم هو الذي يُخرج خط ١١ عند ٣٬٥٠٠ بالضبط — أي أنه المعدّل الضمني في خطتك، مستخرَجاً لا مخترَعاً.</span>
+        <span class="en-only">ceiling = floor × multiplier. The default 1.43 comes from your own plan range (3,500 → 5,000). The default 250 SDG/km is the rate that lands Line 11 on exactly 3,500 — the rate already implicit in your plan, extracted rather than invented.</span></p>
+      </div>
+      <div class="cr">
+        <div class="knobgrp">
+          <label>Rate · SDG per km</label>
+          <div class="row">
+            <button onclick="setRate(-10)" id="rMinus">−</button>
+            <div class="val"><span class="num" id="rateVal">250</span><em>SDG / KM</em></div>
+            <button onclick="setRate(10)" id="rPlus">＋</button>
+          </div>
+        </div>
+        <div class="knobgrp">
+          <label>Ceiling multiplier</label>
+          <div class="row">
+            <button onclick="setMult(-0.05)" id="mMinus">−</button>
+            <div class="val"><span class="num" id="multVal">1.43</span><em>× FLOOR</em></div>
+            <button onclick="setMult(0.05)" id="mPlus">＋</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ NETWORK MAP ═══ -->
+  <section class="sec">
+    <div class="sec-head">
+      <div><h2><span class="ar-only">الشبكة</span><span class="en-only">The network</span></h2>
+      <div class="sub">Schematic topology — relative positions, not surveyed geometry</div></div>
+    </div>
+    <div class="mapcard">
+      <svg viewBox="0 0 900 540" id="netmap" aria-label="Mwasalati network schematic">
+        <!-- rivers: White Nile from SW, Blue Nile from SE, Main Nile north -->
+        <path class="water" d="M60 505 C180 470, 300 380, 420 288"/>
+        <path class="water" d="M860 470 C740 430, 560 350, 430 288"/>
+        <path class="water" d="M425 288 C380 200, 330 120, 268 44"/>
+        <text class="cityname" x="150" y="150">أم درمان</text>
+        <text class="cityname" x="640" y="120">الخرطوم بحري</text>
+        <text class="cityname" x="470" y="470">الخرطوم</text>
+        <g id="bridges"></g>
+        <g id="routeLayer"></g>
+        <g id="stopLayer"></g>
+      </svg>
+      <span class="cap">Schematic — topology only, not a survey map</span>
+    </div>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <!-- ═══ ROUTES ═══ -->
+  <section class="sec">
+    <div class="sec-head">
+      <div><h2><span class="ar-only">الخطوط الخمسة</span><span class="en-only">The five lines</span></h2>
+      <div class="sub">Tap a line to open its stop chain and operating figures</div></div>
+    </div>
+    <div class="routes" id="routes"></div>
+  </section>
+
+  <!-- ═══ FLEET ═══ -->
+  <section class="sec">
+    <div class="sec-head">
+      <div><h2><span class="ar-only">توزيع الأسطول</span><span class="en-only">Fleet allocation</span></h2>
+      <div class="sub">20 vehicles · 14 seats each · 280 seats in circulation</div></div>
+    </div>
+    <div class="tbl-wrap"><table class="tbl" id="fleetTbl"></table></div>
+    <div class="flag">
+      <h4>كيف حُسبت الفترة بين المركبات</h4>
+      <p><b>الفترة = (زمن الدورة الكاملة ÷ عدد المركبات).</b> زمن الدورة يقدَّر بمتوسط ٢٠ كم/ساعة في الحركة الحضرية ذهاباً وإياباً، مضافاً إليه ١٠ دقائق انتظار عند كل طرف. هذا رقم تخطيطي: الفترة الحقيقية تتحدد بالازدحام الفعلي على كل ممر، لا بالمسافة وحدها.</p>
+      <p>التوزيع أعلاه يميل نحو الخطوط الأطول والأكثر عبوراً للجسور، لأن دورتها أطول فتحتاج مركبات أكثر لتحقيق نفس الفترة.</p>
+    </div>
+  </section>
+
+  <!-- ═══ SCHEMA ═══ -->
+  <section class="sec">
+    <div class="sec-head">
+      <div><h2><span class="ar-only">مخطط الخط</span><span class="en-only">Line schema</span></h2>
+      <div class="sub">What the negotiation module reads to enforce its band</div></div>
+    </div>
+    <pre><span class="c">// A Line publishes a band. The negotiation module cannot exceed it.</span>
+{
+  <span class="k">"line_id"</span>: <span class="s">"L11"</span>,
+  <span class="k">"name"</span>: { <span class="k">"ar"</span>: <span class="s">"السوق العربي — الحاج يوسف"</span>,
+             <span class="k">"en"</span>: <span class="s">"Souq Al Arabi — Al Haj Yousif"</span> },
+  <span class="k">"distance_km"</span>: <span class="p">14</span>,
+  <span class="k">"crosses"</span>: [<span class="s">"blue_nile_bridge"</span>],
+
+  <span class="c">// Derived, not hand-entered. Change tariff.rate → all lines move.</span>
+  <span class="k">"band"</span>: {
+    <span class="k">"floor"</span>:   <span class="p">3500</span>,      <span class="c">// round(km × rate, 250)</span>
+    <span class="k">"ceiling"</span>: <span class="p">5000</span>,      <span class="c">// round(floor × multiplier, 250)</span>
+    <span class="k">"derived_from"</span>: { <span class="k">"rate"</span>: <span class="p">250</span>, <span class="k">"multiplier"</span>: <span class="p">1.43</span> },
+    <span class="k">"published_at"</span>: <span class="s">"…"</span>
+  },
+
+  <span class="c">// Approved points only. No open-street pickup, by design.</span>
+  <span class="k">"points"</span>: [
+    { <span class="k">"id"</span>: <span class="s">"P-SQA"</span>, <span class="k">"ar"</span>: <span class="s">"السوق العربي"</span>, <span class="k">"terminal"</span>: <span class="p">true</span>  },
+    { <span class="k">"id"</span>: <span class="s">"P-JKS"</span>, <span class="k">"ar"</span>: <span class="s">"موقف جاكسون"</span>, <span class="k">"terminal"</span>: <span class="p">false</span> }
+  ],
+
+  <span class="k">"fleet"</span>:    { <span class="k">"vehicles"</span>: <span class="p">5</span>, <span class="k">"seats_each"</span>: <span class="p">14</span>, <span class="k">"headway_min"</span>: <span class="p">23</span> },
+  <span class="k">"service"</span>:  { <span class="k">"first"</span>: <span class="s">"06:00"</span>, <span class="k">"last"</span>: <span class="s">"20:30"</span> },
+  <span class="k">"status"</span>:   <span class="s">"proposed"</span>   <span class="c">// → "operating" only after ops sign-off</span>
+}</pre>
+  </section>
+
+  <!-- ═══ OPEN ═══ -->
+  <section class="sec">
+    <div class="sec-head">
+      <div><h2><span class="ar-only">ما يلزم قبل النشر</span><span class="en-only">Open before publication</span></h2>
+      <div class="sub">Every line here is status: proposed</div></div>
+    </div>
+    <div class="tbl-wrap"><table class="tbl">
+      <tr><th>Item</th><th>State</th><th>From</th></tr>
+      <tr><td>صلاحية الممرات والجسور</td><td class="desc">التخطيط أعلاه يفترض أن الجسور الثلاثة والمحاور الرئيسية صالحة للتشغيل. هذا افتراض لا معطى، ويجب التحقق منه ممراً ممراً قبل أي إعلان.</td><td class="desc">التشغيل — أولاً</td></tr>
+      <tr><td>المسافات</td><td class="desc">تقديرية بالطريق لا بالخط المستقيم. خطأ كيلومترين يزيح الأرضية ٥٠٠ ج.س.</td><td class="desc">قياس ميداني</td></tr>
+      <tr><td>المعدّل ٢٥٠ ج.س/كم</td><td class="desc">مستخرَج عكسياً من نطاق خطتك. يجب اشتقاقه أماماً من تكلفة تشغيل حقيقية: وقود، صيانة، تأمين، عائد السائق.</td><td class="desc">المالية</td></tr>
+      <tr><td>نقاط الركوب المعتمدة</td><td class="desc">أسماء الأحياء مقترحة كنقاط. النقطة المعتمدة تحتاج موقعاً محدداً وإذناً، لا اسم حي.</td><td class="desc">التشغيل + السلطة المحلية</td></tr>
+      <tr><td>التعرفة المنظَّمة</td><td class="desc">النقل العام قد يخضع لتعرفة معتمدة تحدّ من التفاوض أصلاً. النطاق يجعل الحجّة أسهل، لا يُغني عنها.</td><td class="desc">قانوني</td></tr>
+      <tr><td>رقم ١٬٥٠٠ في الإنفوجرافيك</td><td class="desc">يقع تحت أرضية أي خط بهذا المعدّل. إما أنه قديم، أو أنه أجرة مدعومة لشريحة — وليس أجرة خط.</td><td class="desc">قرارك</td></tr>
+    </table></div>
+  </section>
+
+</div>
+
+<footer><div class="foot-in">
+  <div class="w">مواصلاتي<small>Mwasalati · Route Atlas v1.0</small></div>
+  <p>خطوط مقترحة للتخطيط. المسافات تقديرية، والأجرات مشتقّة من معدّل قابل للتعديل، والخريطة تخطيطية لا مسحية. لا شيء هنا صالح للنشر قبل اعتماد التشغيل.</p>
+</div></footer>
+
+<script>
+/* ═══════════ geography (schematic coordinates) ═══════════ */
+const S={
+  /* Khartoum — south wedge */
+  SQA:[430,330,'السوق العربي',1], JKS:[468,362,'جاكسون',0], STN:[528,398,'الستين',0],
+  SHF:[512,452,'الصحافة',0], JBR:[452,468,'جبرة',0], KLK:[382,486,'الكلاكلة',1],
+  BUR:[598,352,'بري',0], MNS:[672,398,'المنشية',0], SOB:[760,446,'سوبا',1],
+  /* Omdurman — west wedge */
+  MRD:[336,272,'المورادة',0], OSQ:[258,238,'سوق أم درمان',1], WNB:[276,196,'ود نوباوي',0],
+  THW:[186,214,'الثورة',0], OMB:[104,186,'أمبدة',1], ABA:[218,286,'أبو عنجة',0],
+  /* Bahri — north-east wedge */
+  BSQ:[512,206,'سوق بحري',1], SHM:[452,158,'شمبات',1], DRS:[572,164,'الدروشاب',0],
+  HJY:[664,182,'الحاج يوسف',1], KDR:[606,104,'كدرو',0]
+};
+const BR={ MKN:[452,278,'جسر المك نمر'], WNB2:[372,300,'جسر النيل الأبيض'], SHMB:[392,208,'جسر شمبات'] };
+
+/* ═══════════ the five proposed lines ═══════════ */
+const LINES=[
+  {id:'L11',n:11,ar:'السوق العربي — الحاج يوسف',en:'Souq Al Arabi — Al Haj Yousif',
+   c:'#B8862F',km:14,veh:5,first:'06:00',last:'20:30',
+   stops:['SQA','JKS','BSQ','DRS','HJY'],br:{1:'المك نمر'}},
+  {id:'L4',n:4,ar:'السوق العربي — أمبدة',en:'Souq Al Arabi — Ombada',
+   c:'#8A4B2A',km:18,veh:5,first:'06:00',last:'20:00',
+   stops:['SQA','MRD','OSQ','THW','OMB'],br:{0:'النيل الأبيض'}},
+  {id:'L7',n:7,ar:'جاكسون — الكلاكلة',en:'Jackson — Kalakla',
+   c:'#5F3119',km:13,veh:4,first:'05:30',last:'21:00',
+   stops:['JKS','STN','SHF','JBR','KLK'],br:{}},
+  {id:'L2',n:2,ar:'سوق بحري — سوق أم درمان',en:'Bahri Souq — Omdurman Souq',
+   c:'#6B5B4B',km:11,veh:3,first:'06:30',last:'19:30',
+   stops:['BSQ','SHM','WNB','OSQ'],br:{1:'شمبات'}},
+  {id:'L9',n:9,ar:'السوق العربي — سوبا',en:'Souq Al Arabi — Soba',
+   c:'#2F6B4F',km:16,veh:3,first:'06:00',last:'19:00',
+   stops:['SQA','BUR','MNS','SOB'],br:{}}
+];
+
+/* ═══════════ tariff derivation ═══════════ */
+let RATE=250, MULT=1.43;
+const r250=n=>Math.round(n/250)*250;
+const floorOf=L=>r250(L.km*RATE);
+const ceilOf =L=>r250(floorOf(L)*MULT);
+/* cycle = round trip at 20 km/h + 10 min dwell each end */
+const headway=L=>Math.max(6,Math.round(((L.km*2/20)*60+20)/L.veh));
+const fmt=n=>n.toLocaleString('en-US');
+
+/* ═══════════ map ═══════════ */
+function drawMap(){
+  const rl=[],sl=[],used=new Set(),bl=[];
+  LINES.forEach(L=>{
+    const pts=L.stops.map(k=>S[k][0]+','+S[k][1]).join(' ');
+    rl.push(`<polyline class="rl" id="rl-${L.id}" points="${pts}" stroke="${L.c}"/>`);
+    L.stops.forEach(k=>used.add(k));
+  });
+  Object.entries(BR).forEach(([k,b])=>{
+    bl.push(`<circle class="brg" cx="${b[0]}" cy="${b[1]}" r="7"/>
+             <text class="brglbl" x="${b[0]-16}" y="${b[1]-11}">${b[2]}</text>`);
+  });
+  [...used].forEach(k=>{
+    const s=S[k];
+    sl.push(`<circle class="stp${s[3]?' term':''}" id="st-${k}" cx="${s[0]}" cy="${s[1]}" r="${s[3]?6:4.5}"/>
+             <text class="slbl" id="sl-${k}" x="${s[0]-8}" y="${s[1]-11}">${s[2]}</text>`);
+  });
+  document.getElementById('routeLayer').innerHTML=rl.join('');
+  document.getElementById('bridges').innerHTML=bl.join('');
+  document.getElementById('stopLayer').innerHTML=sl.join('');
+  document.getElementById('legend').innerHTML=LINES.map(L=>
+    `<span class="lg"><i style="background:${L.c}"></i>خط ${L.n} · ${L.ar}</span>`).join('');
+}
+function hot(id){
+  LINES.forEach(L=>{
+    const el=document.getElementById('rl-'+L.id);
+    el.classList.toggle('hot',L.id===id);
+    el.classList.toggle('dim',!!id&&L.id!==id);
+  });
+  const on=id?new Set(LINES.find(L=>L.id===id).stops):null;
+  Object.keys(S).forEach(k=>{
+    const c=document.getElementById('st-'+k), t=document.getElementById('sl-'+k);
+    if(!c)return;
+    c.classList.toggle('hot',!!on&&on.has(k));
+    t.classList.toggle('hot',!!on&&on.has(k));
+  });
+}
+
+/* ═══════════ route cards ═══════════ */
+function drawRoutes(){
+  document.getElementById('routes').innerHTML=LINES.map(L=>{
+    const f=floorOf(L), c=ceilOf(L), h=headway(L);
+    const chain=L.stops.map((k,i)=>{
+      const s=S[k];
+      const seg=(i?`<span class="conn"></span>`:'')+
+        (L.br[i-1]?`<span class="bridge">⇄ ${L.br[i-1]}</span><span class="conn"></span>`:'');
+      return seg+`<span class="stop${s[3]?' term':''}"><i></i><span>${s[2]}</span></span>`;
+    }).join('');
+    return `<div class="rcard" id="rc-${L.id}">
+      <button class="rhead" onclick="toggle('${L.id}')">
+        <span class="rbadge" style="background:${L.c}">${L.n}</span>
+        <span class="rmeta"><b>${L.ar}</b><small>${L.en}</small></span>
+        <span class="rstats">
+          <span class="rst"><b class="rband" id="bd-${L.id}">${fmt(f)}<em>–</em>${fmt(c)}</b><small>SDG BAND / SEAT</small></span>
+          <span class="rst"><b>${L.km}</b><small>KM</small></span>
+          <span class="rst"><b>${L.veh}</b><small>VEHICLES</small></span>
+          <span class="rst"><b id="hw-${L.id}">${h}</b><small>MIN HEADWAY</small></span>
+        </span>
+      </button>
+      <div class="rbody">
+        <div class="chain">${chain}</div>
+        <div class="rgrid">
+          <div class="rg"><div class="k">أرضية الأجرة</div><div class="v"><span class="num" id="fl-${L.id}">${fmt(f)}</span> ج.س</div></div>
+          <div class="rg"><div class="k">سقف الأجرة</div><div class="v"><span class="num" id="cl-${L.id}">${fmt(c)}</span> ج.س</div></div>
+          <div class="rg"><div class="k">مقاعد في التداول</div><div class="v"><span class="num">${L.veh*14}</span> مقعد</div></div>
+          <div class="rg"><div class="k">ساعات الخدمة</div><div class="v mono">${L.first} – ${L.last}</div></div>
+          <div class="rg"><div class="k">نقاط الركوب</div><div class="v"><span class="num">${L.stops.length}</span> معتمدة</div></div>
+          <div class="rg"><div class="k">الحالة</div><div class="v">مقترح — لم يُعتمد</div></div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function toggle(id){
+  const card=document.getElementById('rc-'+id);
+  const open=card.classList.contains('open');
+  document.querySelectorAll('.rcard').forEach(c=>{c.classList.remove('open');c.classList.remove('hot')});
+  if(open){hot(null);return}
+  card.classList.add('open'); card.classList.add('hot'); hot(id);
+}
+
+/* ═══════════ fleet table ═══════════ */
+function drawFleet(){
+  const rows=LINES.map(L=>`<tr>
+    <td><code>${L.id}</code></td>
+    <td>خط ${L.n} — ${L.ar}</td>
+    <td class="num">${L.km}</td>
+    <td class="num">${L.veh}</td>
+    <td class="num">${L.veh*14}</td>
+    <td class="num" id="ft-${L.id}">${headway(L)}</td>
+    <td class="num" id="fb-${L.id}">${fmt(floorOf(L))} – ${fmt(ceilOf(L))}</td>
+  </tr>`).join('');
+  document.getElementById('fleetTbl').innerHTML=
+    `<tr><th>ID</th><th>Line</th><th>KM</th><th>Vehicles</th><th>Seats</th><th>Headway</th><th>Band · SDG</th></tr>`+
+    rows+
+    `<tr><td class="tot">—</td><td class="tot">الإجمالي</td>
+      <td class="tot num">${LINES.reduce((s,L)=>s+L.km,0)}</td>
+      <td class="tot num">${LINES.reduce((s,L)=>s+L.veh,0)}</td>
+      <td class="tot num">${LINES.reduce((s,L)=>s+L.veh*14,0)}</td>
+      <td class="tot">—</td><td class="tot">—</td></tr>`;
+}
+
+/* ═══════════ live recompute — no animation on numbers ═══════════ */
+function repaint(){
+  document.getElementById('rateVal').textContent=RATE;
+  document.getElementById('multVal').textContent=MULT.toFixed(2);
+  document.getElementById('rMinus').disabled=RATE<=100;
+  document.getElementById('rPlus').disabled=RATE>=600;
+  document.getElementById('mMinus').disabled=MULT<=1.05;
+  document.getElementById('mPlus').disabled=MULT>=2.0;
+  LINES.forEach(L=>{
+    const f=floorOf(L),c=ceilOf(L);
+    document.getElementById('bd-'+L.id).innerHTML=`${fmt(f)}<em>–</em>${fmt(c)}`;
+    document.getElementById('fl-'+L.id).textContent=fmt(f);
+    document.getElementById('cl-'+L.id).textContent=fmt(c);
+    document.getElementById('fb-'+L.id).textContent=`${fmt(f)} – ${fmt(c)}`;
+  });
+}
+function setRate(d){RATE=Math.min(600,Math.max(100,RATE+d));repaint()}
+function setMult(d){MULT=Math.min(2.0,Math.max(1.05,+(MULT+d).toFixed(2)));repaint()}
+function setLang(l,b){document.documentElement.dataset.lang=l;b.parentNode.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on')}
+
+drawMap(); drawRoutes(); drawFleet(); repaint();
+</script>
+</body>
+</html>

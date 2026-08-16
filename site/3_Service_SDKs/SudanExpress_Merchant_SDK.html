@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>سودا إكسبرس · sudaexpress — Merchant SDK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════════
+   sudaexpress Merchant SDK v1.0
+   Palette inherits alSooq canon. Motion contract is explicit —
+   every curve and duration below is a decision, not a default.
+   ══════════════════════════════════════════════════════════════ */
+:root{
+  --sand:#F6F1E7; --sand-deep:#EDE4D3; --card:#FFFFFF; --kraft:#E4D2B4;
+  --ink:#2E241B; --ink-soft:#6B5B4B; --ink-faint:#9A8A79;
+  --clay:#8A4B2A; --clay-deep:#5F3119; --clay-tint:#F3E4DA;
+  --clay-08:rgba(138,75,42,.08); --clay-15:rgba(138,75,42,.15); --clay-30:rgba(138,75,42,.30);
+  --palm:#2F6B4F; --palm-tint:#E3EFE8;      /* settled remittance ONLY */
+  --line:#DCCFBB; --hair:rgba(220,207,187,.55);
+  --r-xs:6px; --r-sm:8px; --r-md:12px; --r-lg:16px; --r-pill:999px;
+  --e1:0 1px 2px rgba(46,36,27,.05);
+  --e2:0 1px 2px rgba(46,36,27,.05),0 8px 24px rgba(46,36,27,.07);
+  --e3:0 2px 4px rgba(46,36,27,.06),0 18px 46px rgba(46,36,27,.12);
+
+  /* ── motion contract ──────────────────────────────────────
+     Built-in easings are too weak. Every curve here is chosen. */
+  --ease-out:cubic-bezier(.23,1,.32,1);        /* enter / exit  */
+  --ease-in-out:cubic-bezier(.77,0,.175,1);    /* on-screen move */
+  --ease-drawer:cubic-bezier(.32,.72,0,1);     /* sheets        */
+  --d-press:160ms;   /* press feedback        */
+  --d-nav:180ms;     /* screen change — frequent, kept short */
+  --d-reveal:220ms;  /* quote cards, chips    */
+  --d-sheet:340ms;   /* pickup sheet          */
+  --d-hold:1200ms;   /* deliberate handover confirm */
+
+  --ar:'IBM Plex Sans Arabic',system-ui,sans-serif;
+  --en:'IBM Plex Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--ar);background:var(--sand-deep);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+[data-lang="en"] body{font-family:var(--en)}
+[data-lang="ar"] .en-only{display:none}
+[data-lang="en"] .ar-only{display:none}
+.num{font-family:var(--en);font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono);font-size:.86em}
+svg{display:block}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+
+/* ── chrome ────────────────────────────────────────────────── */
+.topbar{position:sticky;top:0;z-index:80;background:rgba(246,241,231,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1340px;margin:0 auto;padding:12px 26px;display:flex;align-items:center;gap:18px}
+.lockup{display:flex;align-items:center;gap:12px}
+.plate{width:52px;height:34px;border-radius:var(--r-xs);background:var(--kraft);display:grid;place-items:center;flex:none}
+.plate svg{width:38px;height:20px;stroke-width:2.4;stroke-linecap:round;fill:none}
+.wordmark{font-size:21px;font-weight:700;letter-spacing:-.035em;line-height:1}
+.wordmark small{display:block;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-soft);margin-top:3px}
+.sp{flex:1}
+.seg{display:flex;background:var(--sand-deep);border:1px solid var(--line);border-radius:var(--r-pill);padding:3px}
+.seg button{padding:6px 16px;border-radius:var(--r-pill);font-size:13px;font-weight:600;color:var(--ink-soft);transition:color var(--d-press) var(--ease-out)}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--e1)}
+
+.hero{background:var(--sand);border-bottom:1px solid var(--line)}
+.hero-in{max-width:1340px;margin:0 auto;padding:56px 26px 46px}
+.eyebrow{font-family:var(--en);direction:ltr;font-size:10.5px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-soft)}
+.eyebrow i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--clay);margin-inline-end:8px;vertical-align:1px}
+h1{font-size:clamp(30px,4.4vw,50px);font-weight:700;letter-spacing:-.035em;line-height:1.16;margin-top:14px;max-width:20ch}
+.hero-en{font-family:var(--en);direction:ltr;font-size:18px;font-weight:600;color:var(--ink-soft);margin-top:12px;letter-spacing:-.01em}
+.hero-lead{font-size:16.5px;color:var(--ink-soft);max-width:58ch;margin-top:20px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.meta-chip{font-family:var(--en);direction:ltr;font-size:11px;font-weight:600;letter-spacing:.03em;border:1px solid var(--line);background:var(--card);border-radius:var(--r-pill);padding:5px 13px;color:var(--ink-soft)}
+
+.stage{max-width:1340px;margin:0 auto;padding:44px 26px 90px;display:grid;grid-template-columns:392px 1fr;gap:52px;align-items:start}
+@media(max-width:1080px){.stage{grid-template-columns:1fr;gap:36px}}
+.rail{position:sticky;top:82px}
+@media(max-width:1080px){.rail{position:static}}
+.rail-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.rail-title{font-size:13px;font-weight:700;letter-spacing:-.01em}
+.rail-title span{display:block;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-top:2px}
+
+/* ── phone ─────────────────────────────────────────────────── */
+.phone{width:392px;height:800px;background:var(--ink);border-radius:44px;padding:11px;box-shadow:var(--e3);position:relative;margin-inline:auto}
+@media(max-width:430px){.phone{width:100%;height:740px;border-radius:34px;padding:8px}}
+.screen{width:100%;height:100%;background:var(--sand);border-radius:34px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.notch{position:absolute;top:11px;inset-inline:0;margin-inline:auto;width:112px;height:26px;background:var(--ink);border-radius:0 0 16px 16px;z-index:40}
+.statusbar{flex:none;height:44px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 22px 5px;font-family:var(--en);direction:ltr;font-size:11.5px;font-weight:600}
+.sig{display:flex;gap:3px;align-items:flex-end}
+.sig i{width:3px;background:var(--ink);border-radius:1px;display:block}
+.sig i:nth-child(1){height:4px}.sig i:nth-child(2){height:6px}.sig i:nth-child(3){height:8px}.sig i:nth-child(4){height:10px}
+.batt{width:22px;height:11px;border:1.4px solid var(--ink);border-radius:3px;position:relative}
+.batt::after{content:'';position:absolute;inset:1.5px;inset-inline-end:6px;background:var(--ink);border-radius:1px}
+
+.appbar{flex:none;display:flex;align-items:center;gap:10px;padding:6px 18px 12px;border-bottom:1px solid var(--hair);background:var(--sand)}
+.appbar .back{width:32px;height:32px;border-radius:var(--r-sm);display:grid;place-items:center;flex:none;transition:background var(--d-press) var(--ease-out)}
+.appbar .back:active{background:var(--clay-08)}
+.appbar .back svg{width:19px;height:19px;stroke:var(--ink);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+[dir="rtl"] .appbar .back svg{transform:scaleX(-1)}
+.appbar h3{font-size:16px;font-weight:700;letter-spacing:-.02em;flex:1;line-height:1.3}
+.appbar h3 span{display:block;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+
+.views{flex:1;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;position:relative}
+.views::-webkit-scrollbar{display:none}
+.view{display:none;padding:16px 18px 26px;animation:enter var(--d-nav) var(--ease-out) both}
+.view.on{display:block}
+@keyframes enter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* tab bar — highest-frequency target in the app, so: no motion */
+.tabbar{flex:none;display:grid;border-top:1px solid var(--line);background:var(--card);padding:7px 6px 12px}
+.tabbar button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 0;font-size:10px;font-weight:600;color:var(--ink-faint);border-radius:var(--r-sm)}
+.tabbar button svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tabbar button.on{color:var(--clay)}
+
+/* ── shipment row ──────────────────────────────────────────── */
+.statstrip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:11px 12px}
+.stat b{display:block;font-family:var(--en);font-size:20px;font-weight:700;letter-spacing:-.03em;line-height:1.2}
+.stat span{font-size:10.5px;color:var(--ink-soft);font-weight:600}
+.lbl{font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:16px 0 8px}
+.lbl:first-child{margin-top:0}
+
+.srow{
+  display:flex;gap:11px;align-items:center;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:11px;margin-bottom:8px;text-align:start;width:100%;
+  transition:transform var(--d-press) var(--ease-out),border-color var(--d-press) var(--ease-out);
+}
+.srow:active{transform:scale(.978);border-color:var(--clay-30)}
+.srow .glyph{width:44px;height:44px;border-radius:var(--r-sm);background:var(--sand-deep);display:grid;place-items:center;flex:none}
+.srow .glyph svg{width:22px;height:22px;stroke:var(--clay);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.srow .info{flex:1;min-width:0}
+.srow .info b{display:block;font-size:13px;font-weight:600;line-height:1.4}
+.srow .info small{font-family:var(--mono);direction:ltr;font-size:10px;color:var(--ink-faint);letter-spacing:.04em;display:block}
+.srow .end{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:none}
+
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;border-radius:var(--r-pill);padding:2px 9px;line-height:1.7;white-space:nowrap}
+.pill::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;flex:none}
+.pill.transit{background:var(--clay);color:var(--sand)}
+.pill.ready{background:var(--clay-tint);color:var(--clay-deep)}
+.pill.draft{background:var(--sand-deep);color:var(--ink-soft)}
+.pill.held{background:transparent;color:var(--ink-faint);border:1px dashed var(--line)}
+.pill.settled{background:var(--palm-tint);color:var(--palm)}
+
+/* ── form ──────────────────────────────────────────────────── */
+.field{margin-bottom:13px}
+.field label{display:block;font-size:11.5px;font-weight:600;color:var(--ink-soft);margin-bottom:5px}
+.field label em{font-family:var(--en);direction:ltr;font-style:normal;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-inline-start:5px}
+.field input,.field select{
+  width:100%;font:inherit;font-size:13.5px;color:var(--ink);background:var(--card);
+  border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;outline:none;
+  transition:border-color var(--d-press) var(--ease-out),box-shadow var(--d-press) var(--ease-out);
+}
+.field input:focus,.field select:focus{border-color:var(--clay);box-shadow:0 0 0 3px var(--clay-08)}
+.field .hint{font-size:10.5px;color:var(--ink-faint);margin-top:4px;line-height:1.55}
+.trio{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+
+.btn{
+  border-radius:var(--r-sm);padding:12px 18px;font-size:14px;font-weight:600;
+  border:1px solid var(--line);background:var(--card);color:var(--ink);
+  transition:transform var(--d-press) var(--ease-out),background var(--d-press) var(--ease-out),border-color var(--d-press) var(--ease-out);
+}
+.btn:active{transform:scale(.97)}
+.btn.solid{background:var(--clay);border-color:var(--clay);color:var(--sand)}
+.btn.solid:active{background:var(--clay-deep)}
+.btn.full{width:100%;text-align:center}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+/* ── rate quote cards — staggered reveal, occasional action ── */
+.quotes{margin-top:6px}
+.q{
+  display:flex;align-items:center;gap:11px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:12px;margin-bottom:8px;width:100%;text-align:start;
+  opacity:0;transform:translateY(8px);
+  transition:transform var(--d-press) var(--ease-out),border-color var(--d-press) var(--ease-out),background var(--d-press) var(--ease-out);
+}
+.quotes.in .q{animation:qIn var(--d-reveal) var(--ease-out) forwards}
+.quotes.in .q:nth-child(1){animation-delay:0ms}
+.quotes.in .q:nth-child(2){animation-delay:50ms}
+.quotes.in .q:nth-child(3){animation-delay:100ms}
+@keyframes qIn{to{opacity:1;transform:none}}
+.q:active{transform:scale(.982)}
+.q.on{border-color:var(--clay);background:var(--clay-08)}
+.q .qi{width:38px;height:38px;border-radius:var(--r-sm);background:var(--sand-deep);display:grid;place-items:center;flex:none}
+.q .qi svg{width:20px;height:20px;stroke:var(--clay);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.q .qt{flex:1;min-width:0}
+.q .qt b{display:block;font-size:13px;font-weight:600}
+.q .qt small{font-size:10.5px;color:var(--ink-soft)}
+.q .qp{font-family:var(--en);font-size:15px;font-weight:700;letter-spacing:-.02em;flex:none}
+.q .qp em{display:block;font-style:normal;font-size:9px;font-weight:600;color:var(--ink-faint);letter-spacing:.08em;text-align:end}
+
+/* ── waybill ───────────────────────────────────────────────── */
+.waybill{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.wb-top{padding:14px 15px;border-bottom:1px dashed var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.wb-top .t b{font-size:15px;font-weight:700;letter-spacing:-.02em;display:block}
+.wb-top .t small{font-family:var(--mono);direction:ltr;font-size:10.5px;color:var(--ink-soft);letter-spacing:.05em}
+.qr{width:64px;height:64px;flex:none;background:var(--ink);border-radius:var(--r-xs);padding:6px}
+.qr svg{width:100%;height:100%;fill:var(--sand)}
+.wb-body{padding:13px 15px}
+.wb-r{display:flex;justify-content:space-between;gap:12px;padding:7px 0;font-size:12.5px}
+.wb-r+.wb-r{border-top:1px solid var(--hair)}
+.wb-r .k{color:var(--ink-soft)}
+.wb-r .v{font-weight:600;text-align:end}
+.barcode{display:flex;gap:1.5px;align-items:flex-end;height:44px;padding:12px 15px 14px;border-top:1px dashed var(--line)}
+.barcode i{flex:1;background:var(--ink);border-radius:.5px}
+
+/* hold-to-confirm — deliberate press, snappy release */
+.hold{
+  position:relative;overflow:hidden;border-radius:var(--r-sm);border:1px solid var(--clay);
+  background:var(--card);color:var(--clay-deep);padding:13px 18px;font-size:14px;font-weight:600;
+  width:100%;text-align:center;margin-top:14px;isolation:isolate;
+  transition:transform var(--d-press) var(--ease-out);
+}
+.hold:active{transform:scale(.985)}
+.hold .fill{
+  position:absolute;inset:0;background:var(--clay);z-index:-1;
+  clip-path:inset(0 0 0 100%);                       /* RTL: fills right → left */
+  transition:clip-path 200ms var(--ease-out);        /* release: snappy */
+}
+.hold.pressing .fill{clip-path:inset(0 0 0 0);transition:clip-path var(--d-hold) linear} /* press: deliberate */
+.hold.pressing{color:var(--sand)}
+.hold .lbl-txt{position:relative;transition:color var(--d-hold) linear}
+.hold.done{background:var(--clay);border-color:var(--clay);color:var(--sand)}
+
+/* ── tracking tether ───────────────────────────────────────── */
+.track{position:relative;padding-inline-start:6px}
+.node{position:relative;padding-inline-start:26px;padding-bottom:20px;opacity:0;transform:translateY(6px)}
+.track.in .node{animation:qIn 260ms var(--ease-out) forwards}
+.track.in .node:nth-child(1){animation-delay:0ms}
+.track.in .node:nth-child(2){animation-delay:60ms}
+.track.in .node:nth-child(3){animation-delay:120ms}
+.track.in .node:nth-child(4){animation-delay:180ms}
+.track.in .node:nth-child(5){animation-delay:240ms}
+.node::before{
+  content:'';position:absolute;inset-inline-start:0;top:4px;width:11px;height:11px;border-radius:50%;
+  background:var(--card);border:2px solid var(--clay);
+}
+.node.pending::before{border-color:var(--line)}
+.node::after{
+  content:'';position:absolute;inset-inline-start:5px;top:15px;bottom:0;width:1.5px;
+  background:var(--clay);transform:scaleY(0);transform-origin:top;
+}
+.track.in .node::after{animation:tether 420ms var(--ease-in-out) forwards}
+.track.in .node:nth-child(1)::after{animation-delay:120ms}
+.track.in .node:nth-child(2)::after{animation-delay:180ms}
+.track.in .node:nth-child(3)::after{animation-delay:240ms}
+.track.in .node:nth-child(4)::after{animation-delay:300ms}
+@keyframes tether{to{transform:scaleY(1)}}
+.node:last-child::after{display:none}
+.node.pending::after{background:var(--line)}
+.node b{display:block;font-size:13px;font-weight:600;line-height:1.45}
+.node small{display:block;font-size:11px;color:var(--ink-soft);margin-top:2px}
+.node .ts{font-family:var(--mono);direction:ltr;font-size:10px;color:var(--ink-faint);letter-spacing:.04em;margin-top:3px}
+.node.pending b{color:var(--ink-faint)}
+
+/* ── pickup sheet — interruptible transition, not keyframes ── */
+.scrim{
+  position:absolute;inset:0;background:rgba(46,36,27,.34);z-index:50;
+  opacity:0;pointer-events:none;transition:opacity var(--d-sheet) var(--ease-drawer);
+}
+.scrim.up{opacity:1;pointer-events:auto}
+.sheet{
+  position:absolute;inset-inline:0;bottom:0;z-index:51;background:var(--card);
+  border-radius:var(--r-lg) var(--r-lg) 0 0;padding:8px 18px calc(18px + env(safe-area-inset-bottom));
+  transform:translateY(100%);                       /* % of own height — adapts to content */
+  transition:transform var(--d-sheet) var(--ease-drawer);
+  box-shadow:0 -8px 34px rgba(46,36,27,.16);
+}
+.sheet.up{transform:translateY(0)}
+.grab{width:36px;height:4px;border-radius:2px;background:var(--line);margin:6px auto 14px}
+.sheet h4{font-size:15px;font-weight:700;letter-spacing:-.02em;margin-bottom:3px}
+.sheet .sub{font-size:11.5px;color:var(--ink-soft);margin-bottom:14px}
+.wins{display:grid;gap:8px;margin-bottom:14px}
+.win{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);
+  border-radius:var(--r-sm);padding:11px 13px;background:var(--card);text-align:start;
+  transition:border-color var(--d-press) var(--ease-out),background var(--d-press) var(--ease-out),transform var(--d-press) var(--ease-out);
+}
+.win:active{transform:scale(.985)}
+.win.on{border-color:var(--clay);background:var(--clay-08)}
+.win b{font-size:13px;font-weight:600}
+.win small{display:block;font-size:10.5px;color:var(--ink-soft)}
+.win .cap{font-family:var(--en);font-size:10.5px;font-weight:600;color:var(--ink-faint)}
+.win:disabled{opacity:.45;cursor:not-allowed}
+
+.callout{border:1px solid var(--line);border-inline-start:3px solid var(--clay);background:var(--card);border-radius:var(--r-sm);padding:11px 13px;font-size:12px;color:var(--ink-soft);line-height:1.65;margin-top:14px}
+.callout b{color:var(--ink);font-weight:600}
+.callout.settled{border-inline-start-color:var(--palm);background:var(--palm-tint)}
+
+.toast{
+  position:absolute;bottom:88px;inset-inline:0;margin-inline:auto;width:max-content;max-width:82%;
+  background:var(--ink);color:var(--sand);border-radius:var(--r-sm);padding:9px 17px;font-size:12.5px;
+  opacity:0;pointer-events:none;transform:translateY(8px);
+  transition:opacity var(--d-reveal) var(--ease-out),transform var(--d-reveal) var(--ease-out);z-index:60;
+}
+.toast.show{opacity:1;transform:none}
+
+/* ── spec column ───────────────────────────────────────────── */
+.spec{min-width:0}
+.sec{margin-bottom:56px}
+.sec-head{margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.sec-head h2{font-size:26px;font-weight:700;letter-spacing:-.028em;line-height:1.3}
+.sec-head .sub{font-family:var(--en);direction:ltr;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-top:4px}
+.sec-head p{font-size:14.5px;color:var(--ink-soft);margin-top:11px;max-width:62ch}
+
+.tbl{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.tbl th,.tbl td{text-align:start;padding:10px 13px;font-size:12.5px;border-bottom:1px solid var(--hair);vertical-align:top}
+.tbl th{background:var(--sand);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-family:var(--en);direction:ltr}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td code{font-family:var(--mono);font-size:11px;color:var(--clay-deep);background:var(--clay-08);padding:1px 5px;border-radius:var(--r-xs)}
+.tbl td.desc{color:var(--ink-soft);line-height:1.6}
+.tbl-wrap{overflow-x:auto;border-radius:var(--r-md)}
+
+pre{background:var(--ink);color:#E8DFD2;border-radius:var(--r-md);padding:18px 20px;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.75;direction:ltr;text-align:left}
+pre .c{color:#8B7C6B} pre .k{color:#D9A06B} pre .s{color:#A8C3A0} pre .p{color:#C8B9A6}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:12px}
+.cc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:15px 16px}
+.cc .nm{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--clay-deep)}
+.cc .de{font-size:12.5px;color:var(--ink-soft);margin-top:7px;line-height:1.6}
+.cc .st{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.cc .st em{font-family:var(--en);direction:ltr;font-style:normal;font-size:9.5px;font-weight:600;letter-spacing:.07em;border:1px solid var(--line);border-radius:var(--r-xs);padding:2px 6px;color:var(--ink-faint)}
+
+.rules{display:grid;gap:9px}
+.rule{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:13px 15px}
+.rule .n{font-family:var(--en);font-size:11px;font-weight:700;color:var(--clay);background:var(--clay-08);width:24px;height:24px;border-radius:var(--r-xs);display:grid;place-items:center;flex:none}
+.rule .t b{display:block;font-size:13.5px;font-weight:600;line-height:1.45}
+.rule .t p{font-size:12.5px;color:var(--ink-soft);margin-top:4px;line-height:1.65}
+
+footer{background:var(--ink);color:var(--sand-deep);padding:34px 26px 40px}
+.foot-in{max-width:1340px;margin:0 auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:flex-end}
+.foot-in .w{font-size:19px;font-weight:700;letter-spacing:-.03em;color:var(--sand)}
+.foot-in .w small{display:block;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;opacity:.6;margin-top:3px}
+.foot-in p{font-size:12px;opacity:.66;max-width:52ch;line-height:1.75}
+
+/* hover motion gated — touch fires false hovers on tap */
+@media (hover:hover) and (pointer:fine){
+  .srow:hover,.q:hover,.win:hover{border-color:var(--clay-30)}
+}
+/* reduced motion: gentler, not zero — opacity stays, movement goes */
+@media (prefers-reduced-motion:reduce){
+  .view{animation:fadeOnly 150ms linear both}
+  @keyframes fadeOnly{from{opacity:0}to{opacity:1}}
+  .quotes.in .q,.track.in .node{animation:fadeOnly 150ms linear forwards;transform:none}
+  .track.in .node::after{animation:none;transform:scaleY(1)}
+  .srow:active,.q:active,.btn:active,.win:active,.hold:active{transform:none}
+  .sheet{transition:transform 150ms linear}
+  .toast{transform:none} .toast.show{transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="topbar-in">
+  <div class="lockup">
+    <div class="plate"><svg viewBox="0 0 38 20">
+      <path d="M3 14h16M6 10h13M9 6h10" stroke="#8A4B2A"/>
+      <path d="M24 15h9l3-4-2-4h-6z" stroke="#2E241B"/>
+      <circle cx="27" cy="16.5" r="1.8" stroke="#2E241B"/>
+    </svg></div>
+    <div class="wordmark">سودا إكسبرس<small>sudaexpress · Merchant SDK</small></div>
+  </div>
+  <div class="sp"></div>
+  <div class="seg">
+    <button class="on" onclick="setLang('ar',this)">عربي</button>
+    <button onclick="setLang('en',this)">EN</button>
+  </div>
+</div></div>
+
+<div class="hero"><div class="hero-in">
+  <div class="eyebrow"><i></i>Hawil ecosystem · logistics layer · v1.0</div>
+  <h1>
+    <span class="ar-only">الطرد يتبع الطلب، لا العكس.</span>
+    <span class="en-only">The parcel follows the order — never the reverse.</span>
+  </h1>
+  <div class="hero-en">Merchant shipping SDK — quote, waybill, pickup, tether, handover</div>
+  <p class="hero-lead">
+    <span class="ar-only">التاجر لا يُنشئ شحنة. يضغط «اشحن» على طلب موجود، فيتولّد رقم بوليصة مربوط برمز الطلب من لحظة الإنشاء حتى التسليم. الحبل لا ينفكّ — وكل شاشة هنا مبنية على هذا الافتراض.</span>
+    <span class="en-only">A merchant never creates a shipment. They press ship on an order that already exists, and a waybill is minted bound to the order token from creation through handover. The tether never detaches — every screen here assumes it.</span>
+  </p>
+  <div class="hero-meta">
+    <span class="meta-chip">Order-bound waybills</span>
+    <span class="meta-chip">Volumetric pack codes</span>
+    <span class="meta-chip">Hold-to-hand-over</span>
+    <span class="meta-chip">Motion contract</span>
+    <span class="meta-chip">RTL-first</span>
+  </div>
+</div></div>
+
+<div class="stage">
+
+  <!-- ═══ PHONE ═══ -->
+  <div class="rail">
+    <div class="rail-head">
+      <div class="rail-title">
+        <span class="ar-only">تطبيق التاجر</span><span class="en-only">Merchant app</span>
+        <span>Hold the handover button</span>
+      </div>
+    </div>
+
+    <div class="phone"><div class="screen">
+      <div class="notch"></div>
+      <div class="statusbar">
+        <span id="clock">9:41</span>
+        <span style="display:flex;gap:6px;align-items:center"><span class="sig"><i></i><i></i><i></i><i></i></span><span class="batt"></span></span>
+      </div>
+
+      <div class="appbar">
+        <button class="back" id="abBack" onclick="back()" style="display:none"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <h3 id="abT">الشحنات<span id="abS">Shipments</span></h3>
+      </div>
+
+      <div class="views" id="views">
+
+        <!-- LIST -->
+        <div class="view on" id="v-list">
+          <div class="statstrip">
+            <div class="stat"><b>7</b><span>في الطريق</span></div>
+            <div class="stat"><b>3</b><span>بانتظار الالتقاط</span></div>
+            <div class="stat"><b>1</b><span>محتجزة</span></div>
+          </div>
+          <div class="lbl">Active waybills</div>
+          <div id="sList"></div>
+          <button class="btn solid full" style="margin-top:14px" onclick="go('quote')">＋ شحن طلب جديد</button>
+        </div>
+
+        <!-- QUOTE -->
+        <div class="view" id="v-quote">
+          <div class="field">
+            <label>رمز الطلب <em>Order token — locked</em></label>
+            <input value="ORD-4471-KRT" dir="ltr" style="text-align:left" readonly>
+            <div class="hint">لا يُكتب يدوياً. البوليصة تُولد من طلب قائم فقط — هذا ما يبقي الحبل موصولاً.</div>
+          </div>
+          <div class="duo">
+            <div class="field"><label>الوجهة <em>To</em></label><select><option>الخرطوم — بحري</option><option>بورتسودان</option><option>ود مدني</option><option>القاهرة (عبور)</option></select></div>
+            <div class="field"><label>رمز التغليف <em>Pack</em></label><select id="packSel" onchange="dirty()"><option>A1 — 40×30×20</option><option>B3 — 60×40×30</option><option>C1 — 100×60×60</option></select></div>
+          </div>
+          <div class="trio">
+            <div class="field"><label>الوزن <em>kg</em></label><input value="18" dir="ltr" style="text-align:left" oninput="dirty()"></div>
+            <div class="field"><label>القطع <em>Qty</em></label><input value="2" dir="ltr" style="text-align:left" oninput="dirty()"></div>
+            <div class="field"><label>القيمة <em>SDG</em></label><input value="240000" dir="ltr" style="text-align:left" oninput="dirty()"></div>
+          </div>
+          <button class="btn full" id="calcBtn" onclick="quote()">احسب السعر</button>
+
+          <div class="lbl" id="qLbl" style="display:none">Quotes · volumetric</div>
+          <div class="quotes" id="quotes" style="display:none">
+            <button class="q" onclick="pickQ(0,this)"><div class="qi"><svg viewBox="0 0 24 24"><path d="M3 12h11l3-5 4 5v4h-3"/><circle cx="8" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div><div class="qt"><b>سريع</b><small>يوم واحد · الخرطوم فقط</small></div><div class="qp">14,500<em>SDG</em></div></button>
+            <button class="q on" onclick="pickQ(1,this)"><div class="qi"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="13" height="9"/><path d="M16 10h4l2 3v3h-2"/><circle cx="8" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/></svg></div><div class="qt"><b>قياسي</b><small>٢–٤ أيام · كل الولايات</small></div><div class="qp">8,200<em>SDG</em></div></button>
+            <button class="q" onclick="pickQ(2,this)"><div class="qi"><svg viewBox="0 0 24 24"><path d="M4 16V8h9v8zM13 11h5l3 3v2h-3"/><circle cx="8" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/><path d="M2 11h3M2 14h4"/></svg></div><div class="qt"><b>اقتصادي</b><small>٥–٨ أيام · تجميعي</small></div><div class="qp">4,900<em>SDG</em></div></button>
+          </div>
+
+          <div class="callout" id="volNote" style="display:none">
+            <b>الوزن الحجمي:</b> السعر يُحسب على الأكبر بين الوزن الفعلي ١٨ كجم والوزن الحجمي المشتق من رمز التغليف — لا من الوزن وحده.
+          </div>
+          <button class="btn solid full" style="margin-top:14px;display:none" id="mintBtn" onclick="go('waybill')">إصدار البوليصة</button>
+        </div>
+
+        <!-- WAYBILL -->
+        <div class="view" id="v-waybill">
+          <div class="waybill">
+            <div class="wb-top">
+              <div class="t">
+                <b>سودا إكسبرس — بوليصة</b>
+                <small>SDX-88214-KRT</small>
+                <small style="color:var(--clay);margin-top:2px">↳ ORD-4471-KRT</small>
+              </div>
+              <div class="qr"><svg viewBox="0 0 21 21" id="qrSvg"></svg></div>
+            </div>
+            <div class="wb-body">
+              <div class="wb-r"><span class="k">من</span><span class="v">ورشة النيل — أم درمان</span></div>
+              <div class="wb-r"><span class="k">إلى</span><span class="v">الخرطوم بحري — الحاج يوسف</span></div>
+              <div class="wb-r"><span class="k">الخدمة</span><span class="v">قياسي · ٢–٤ أيام</span></div>
+              <div class="wb-r"><span class="k">رمز التغليف</span><span class="v mono">B3 · 60×40×30</span></div>
+              <div class="wb-r"><span class="k">الوزن المحتسب</span><span class="v num">21.6 <span style="font-family:var(--ar)">كجم حجمي</span></span></div>
+              <div class="wb-r"><span class="k">التحصيل</span><span class="v num">240,000 <span style="font-family:var(--ar)">ج.س</span></span></div>
+            </div>
+            <div class="barcode" id="bars"></div>
+          </div>
+
+          <button class="btn full" style="margin-top:12px" onclick="openSheet()">جدولة الالتقاط</button>
+
+          <div class="lbl">Handover</div>
+          <button class="hold" id="holdBtn"><span class="fill"></span><span class="lbl-txt" id="holdTxt">استمر بالضغط لتسليم المندوب</span></button>
+          <div class="callout">
+            <b>لماذا ضغطة مستمرة؟</b> التسليم حدث لا رجعة فيه ويحدث والهاتف في يد مشغولة. الضغطة الواحدة تُخطئ؛ الضغطة المستمرة (١٫٢ ثانية) تتطلب نية. الإفلات يُلغي فوراً.
+          </div>
+        </div>
+
+        <!-- TRACK -->
+        <div class="view" id="v-track">
+          <div class="lbl">SDX-88214-KRT ↳ ORD-4471-KRT</div>
+          <div class="track" id="track">
+            <div class="node"><b>أُصدرت البوليصة</b><small>ورشة النيل — أم درمان</small><div class="ts">04 AUG · 09:12</div></div>
+            <div class="node"><b>التُقطت من التاجر</b><small>المندوب: و. عبد الرحمن</small><div class="ts">04 AUG · 14:40</div></div>
+            <div class="node"><b>في مركز الفرز — أم درمان</b><small>مسح رمز التغليف B3</small><div class="ts">04 AUG · 19:05</div></div>
+            <div class="node pending"><b>خارج للتوصيل</b><small>بانتظار الفرز الصباحي</small></div>
+            <div class="node pending"><b>سُلّمت</b><small>توقيع المستلم + صورة</small></div>
+          </div>
+          <div class="callout settled" style="margin-top:6px">
+            <b>الأخضر محجوز.</b> لا يظهر في هذه الحزمة إلا على حالة واحدة — تسوية التحصيل بعد التسليم. حالات الشحن كلها تعمل على سلّم الطين.
+            <div style="margin-top:8px"><span class="pill settled">تمت تسوية التحصيل</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- pickup sheet -->
+      <div class="scrim" id="scrim" onclick="closeSheet()"></div>
+      <div class="sheet" id="sheet">
+        <div class="grab"></div>
+        <h4>نافذة الالتقاط</h4>
+        <div class="sub">المندوب يصل داخل النافذة المختارة. السعة محدّثة لحظياً.</div>
+        <div class="wins">
+          <button class="win" onclick="pickWin(this)"><div><b>اليوم · ٤ — ٧ مساءً</b><small>أم درمان — قطاع ٣</small></div><span class="cap">2 slots</span></button>
+          <button class="win on" onclick="pickWin(this)"><div><b>غداً · ٩ — ١٢ صباحاً</b><small>أم درمان — قطاع ٣</small></div><span class="cap">6 slots</span></button>
+          <button class="win" disabled><div><b>غداً · ٢ — ٥ مساءً</b><small>أم درمان — قطاع ٣</small></div><span class="cap">ممتلئة</span></button>
+        </div>
+        <button class="btn solid full" onclick="confirmWin()">تأكيد النافذة</button>
+      </div>
+
+      <div class="toast" id="toast"></div>
+      <div class="tabbar" id="tabbar"></div>
+    </div></div>
+  </div>
+
+  <!-- ═══ SPEC ═══ -->
+  <div class="spec">
+
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">المبادئ الحاكمة</span><span class="en-only">Governing principles</span></h2>
+        <div class="sub">Five rules the logistics layer enforces structurally</div>
+      </div>
+      <div class="rules">
+        <div class="rule"><div class="n">01</div><div class="t"><b>البوليصة تُولد من طلب، لا من فراغ</b>
+          <p><span class="mono">create()</span> ترفض أي استدعاء بلا <span class="mono">order_token</span> صالح. لا يوجد مسار لإنشاء شحنة يتيمة — وبذلك يستحيل أن يوجد طرد بلا طلب يقابله.</p></div></div>
+        <div class="rule"><div class="n">02</div><div class="t"><b>السعر على الحجم لا الوزن</b>
+          <p>التسعير يأخذ الأكبر بين الوزن الفعلي والحجمي المشتق من رمز التغليف. التاجر يختار رمزاً من سلّم مغلق، فلا يقدّر الأبعاد بنفسه ولا يخطئ في الفرز.</p></div></div>
+        <div class="rule"><div class="n">03</div><div class="t"><b>الحبل لا ينفكّ</b>
+          <p>كل حدث تتبّع يحمل رقم البوليصة ورمز الطلب معاً. الشاشة تعرضهما مقترنين دائماً — لا يوجد عرض يُظهر أحدهما وحده.</p></div></div>
+        <div class="rule"><div class="n">04</div><div class="t"><b>الأحداث التي لا رجعة فيها تُقاوم اللمسة الواحدة</b>
+          <p>التسليم للمندوب يتطلب ضغطاً مستمراً ١٫٢ ثانية. الإفلات يلغي في ٢٠٠ مللي. هذا ليس زخرفة — هو حاجز نية على شاشة تُلمس بيد مشغولة.</p></div></div>
+        <div class="rule"><div class="n">05</div><div class="t"><b>الحركة عقد مكتوب لا ذوق شخصي</b>
+          <p>المنحنيات والمُدد مثبّتة كرموز أدناه. أي مكوّن جديد يستدعي من الجدول — لا يخترع قيمة.</p></div></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">عقد الحركة</span><span class="en-only">Motion contract</span></h2>
+        <div class="sub">Every curve chosen, every duration justified by frequency</div>
+        <p><span class="ar-only">المنحنيات المدمجة في المتصفح ضعيفة ولا تعطي إحساس القصد. كل قيمة هنا مأخوذة عن قرار، وكل مدة مربوطة بعدد مرات رؤية المستخدم للحركة.</span><span class="en-only">Built-in browser easings are too weak to read as intentional. Every value below is a decision, and every duration is tied to how often the user sees it.</span></p>
+      </div>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <tr><th>Token</th><th>Value</th><th>Applied to</th><th>Reason</th></tr>
+          <tr><td><code>--ease-out</code></td><td><code>.23,1,.32,1</code></td><td class="desc">دخول وخروج، ضغط، كشف</td><td class="desc">يبدأ سريعاً — اللحظة التي يراقبها المستخدم فعلاً</td></tr>
+          <tr><td><code>--ease-in-out</code></td><td><code>.77,0,.175,1</code></td><td class="desc">رسم حبل التتبّع</td><td class="desc">حركة على الشاشة لا دخول إليها</td></tr>
+          <tr><td><code>--ease-drawer</code></td><td><code>.32,.72,0,1</code></td><td class="desc">ورقة الالتقاط</td><td class="desc">منحنى الأدراج المألوف من iOS</td></tr>
+          <tr><td><code>--d-press</code></td><td>160ms</td><td class="desc">كل عنصر قابل للضغط</td><td class="desc">نطاق استجابة الضغط ١٠٠–١٦٠</td></tr>
+          <tr><td><code>--d-nav</code></td><td>180ms</td><td class="desc">تبديل الشاشات</td><td class="desc">عشرات المرات يومياً — يُقصّر عمداً</td></tr>
+          <tr><td><code>--d-reveal</code></td><td>220ms</td><td class="desc">بطاقات التسعير، التوست</td><td class="desc">إجراء عرضي — حركة قياسية مسموحة</td></tr>
+          <tr><td><code>--d-sheet</code></td><td>340ms</td><td class="desc">ورقة الالتقاط</td><td class="desc">ميزانية الأدراج ٢٠٠–٥٠٠</td></tr>
+          <tr><td><code>--d-hold</code></td><td>1200ms</td><td class="desc">ضغطة التسليم فقط</td><td class="desc">بطء متعمّد — القرار عند المستخدم لا عند النظام</td></tr>
+          <tr><td><code>stagger</code></td><td>50 / 60ms</td><td class="desc">التسعير، عُقد التتبّع</td><td class="desc">داخل نطاق ٣٠–٨٠؛ أطول من ذلك يقرأ بطيئاً</td></tr>
+          <tr><td><code>—</code></td><td>0ms</td><td class="desc">شريط التبويب</td><td class="desc">أعلى تردد في التطبيق — بلا حركة إطلاقاً</td></tr>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:14px">
+        <b>ما لا يتحرك عمداً:</b> شريط التبويب، تغيّر الأرقام في شريط الإحصاء، وقائمة الشحنات عند إعادة الترشيح. الأخيرة تُعاد بناؤها مع كل بحث — لو تدرّجت، لتدرّجت مع كل ضغطة مفتاح.
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">مخطط البيانات</span><span class="en-only">Data model</span></h2>
+        <div class="sub">Shipment is a child of Order — never a peer</div>
+      </div>
+      <pre><span class="c">// Shipment — cannot exist without a live order_token.</span>
+{
+  <span class="k">"waybill"</span>: <span class="s">"SDX-88214-KRT"</span>,
+  <span class="k">"order_token"</span>: <span class="s">"ORD-4471-KRT"</span>,   <span class="c">// immutable, required</span>
+  <span class="k">"merchant_id"</span>: <span class="s">"mch_nile_012"</span>,
+  <span class="k">"status"</span>: <span class="s">"draft" | "ready" | "picked" | "transit"
+             | "out_for_delivery" | "delivered" | "held" | "returned"</span>,
+
+  <span class="k">"route"</span>: {
+    <span class="k">"from"</span>: { <span class="k">"state"</span>: <span class="s">"omdurman"</span>, <span class="k">"sector"</span>: <span class="s">"3"</span> },
+    <span class="k">"to"</span>:   { <span class="k">"state"</span>: <span class="s">"khartoum_bahri"</span>, <span class="k">"area"</span>: <span class="s">"hajj_yousif"</span> },
+    <span class="k">"corridor"</span>: <span class="s">"domestic" | "sd_eg"</span>   <span class="c">// cross-border adds customs node</span>
+  },
+
+  <span class="c">// Pack code drives the price. Merchant picks from a closed ladder.</span>
+  <span class="k">"parcel"</span>: {
+    <span class="k">"pack_code"</span>: <span class="s">"B3"</span>,
+    <span class="k">"dims_cm"</span>: [<span class="p">60</span>, <span class="p">40</span>, <span class="p">30</span>],
+    <span class="k">"actual_kg"</span>: <span class="p">18</span>,
+    <span class="k">"volumetric_kg"</span>: <span class="p">21.6</span>,       <span class="c">// (l×w×h)/divisor</span>
+    <span class="k">"chargeable_kg"</span>: <span class="p">21.6</span>,        <span class="c">// max(actual, volumetric)</span>
+    <span class="k">"pieces"</span>: <span class="p">2</span>
+  },
+
+  <span class="k">"service"</span>: <span class="s">"express" | "standard" | "economy"</span>,
+  <span class="k">"cod"</span>: { <span class="k">"amount"</span>: <span class="p">240000</span>, <span class="k">"currency"</span>: <span class="s">"SDG"</span>,
+           <span class="k">"remittance"</span>: <span class="s">"pending" | "settled"</span> },
+
+  <span class="k">"pickup"</span>: { <span class="k">"window"</span>: [<span class="s">"2026-08-05T09:00"</span>, <span class="s">"2026-08-05T12:00"</span>],
+              <span class="k">"sector"</span>: <span class="s">"omdurman_3"</span> },
+
+  <span class="c">// Every event carries BOTH ids. The tether is in the data.</span>
+  <span class="k">"events"</span>: [
+    { <span class="k">"code"</span>: <span class="s">"minted"</span>, <span class="k">"at"</span>: <span class="s">"…"</span>, <span class="k">"waybill"</span>, <span class="k">"order_token"</span>,
+      <span class="k">"actor"</span>: <span class="s">"merchant"</span>, <span class="k">"scan"</span>: <span class="p">null</span> }
+  ],
+
+  <span class="k">"proof"</span>: { <span class="k">"signature"</span>, <span class="k">"photo"</span>, <span class="k">"recipient_name"</span> }
+}</pre>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">واجهة الحزمة</span><span class="en-only">SDK surface</span></h2>
+        <div class="sub">Merchant-scoped writes, public reads on tracking only</div>
+      </div>
+      <pre><span class="k">import</span> { Sudaexpress } <span class="k">from</span> <span class="s">'@hawil/sudaexpress-sdk'</span>
+
+<span class="k">const</span> sdx = Sudaexpress.<span class="p">init</span>({ locale: <span class="s">'ar'</span>, dir: <span class="s">'rtl'</span>, currency: <span class="s">'SDG'</span> })
+
+<span class="c">/* ── Quoting ─────────────────────────────────────────── */</span>
+sdx.rates.<span class="p">quote</span>({ order_token, to, pack_code, actual_kg, pieces })
+  <span class="c">// → [{ service, price, eta_days, coverage }]  · sorted by price</span>
+sdx.coverage.<span class="p">check</span>(state, area)   <span class="c">// → { served, sector, cutoff }</span>
+
+<span class="c">/* ── Waybill ─────────────────────────────────────────── */</span>
+sdx.shipments.<span class="p">create</span>({ order_token, service, parcel })
+  <span class="c">// throws ORDER_TOKEN_REQUIRED — there is no orphan path</span>
+sdx.shipments.<span class="p">label</span>(waybill, { format: <span class="s">'a6' | 'thermal80'</span> })
+sdx.shipments.<span class="p">cancel</span>(waybill)      <span class="c">// only while status = draft|ready</span>
+
+<span class="c">/* ── Pickup ──────────────────────────────────────────── */</span>
+sdx.pickup.<span class="p">windows</span>(sector, date)   <span class="c">// → live capacity per slot</span>
+sdx.pickup.<span class="p">book</span>(waybill, window_id)
+sdx.shipments.<span class="p">handover</span>(waybill, { courier_id, held_ms })
+  <span class="c">// held_ms &lt; 1200 is rejected — deliberate-intent gate</span>
+
+<span class="c">/* ── Tracking · public, no auth ──────────────────────── */</span>
+sdx.track.<span class="p">get</span>(waybill <span class="k">||</span> order_token)   <span class="c">// either key resolves</span>
+sdx.track.<span class="p">subscribe</span>(waybill, cb)
+
+<span class="c">/* ── UI kit ──────────────────────────────────────────── */</span>
+<span class="k">import</span> { QuoteList, WaybillCard, PickupSheet,
+         TetherTimeline, HoldToHandover, PackPicker,
+         CoverageBadge, StatusPill } <span class="k">from</span> <span class="s">'@hawil/sudaexpress-ui'</span></pre>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">المكوّنات</span><span class="en-only">Components</span></h2>
+        <div class="sub">Eight primitives — each with its motion already decided</div>
+      </div>
+      <div class="cards">
+        <div class="cc"><div class="nm">&lt;QuoteList /&gt;</div><div class="de">ثلاث خدمات مرتّبة بالسعر. كشف متدرّج ٥٠ مللي — إجراء عرضي، فتُسمح له حركة قياسية.</div><div class="st"><em>220ms</em><em>ease-out</em><em>stagger 50</em></div></div>
+        <div class="cc"><div class="nm">&lt;HoldToHandover /&gt;</div><div class="de">تعبئة <span class="mono">clip-path</span> من اليمين لليسار. ضغط ١٢٠٠ خطّي، إفلات ٢٠٠ ease-out.</div><div class="st"><em>asymmetric</em><em>clip-path</em></div></div>
+        <div class="cc"><div class="nm">&lt;TetherTimeline /&gt;</div><div class="de">العُقد تتدرّج، والحبل يُرسم بينها بـ <span class="mono">scaleY</span> لا بارتفاع — يبقى على المعالج الرسومي.</div><div class="st"><em>transform-only</em><em>stagger 60</em></div></div>
+        <div class="cc"><div class="nm">&lt;PickupSheet /&gt;</div><div class="de"><span class="mono">translateY(100%)</span> نسبةً لارتفاع الورقة نفسها. انتقال لا إطارات مفتاحية — قابل للمقاطعة.</div><div class="st"><em>340ms</em><em>ease-drawer</em></div></div>
+        <div class="cc"><div class="nm">&lt;WaybillCard /&gt;</div><div class="de">رقم البوليصة ورمز الطلب مقترنان بصرياً. لا يوجد تصميم يعرض أحدهما وحده.</div><div class="st"><em>a6</em><em>thermal80</em></div></div>
+        <div class="cc"><div class="nm">&lt;PackPicker /&gt;</div><div class="de">سلّم مغلق مرتّب بالحجم الحقيقي. لا إدخال أبعاد حراً.</div><div class="st"><em>A1–C3</em></div></div>
+        <div class="cc"><div class="nm">&lt;CoverageBadge /&gt;</div><div class="de">تغطية القطاع وموعد القطع اليومي. يمنع وعداً لا يُوفى قبل الحجز لا بعده.</div><div class="st"><em>sector</em><em>cutoff</em></div></div>
+        <div class="cc"><div class="nm">&lt;StatusPill /&gt;</div><div class="de">ثماني حالات على سلّم الطين. الأخضر متاح لقيمة واحدة: <span class="mono">settled</span>.</div><div class="st"><em>8 states</em></div></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <h2><span class="ar-only">ما يلزم قبل الربط</span><span class="en-only">Open before integration</span></h2>
+        <div class="sub">Not decided by this document</div>
+      </div>
+      <div class="tbl-wrap"><table class="tbl">
+        <tr><th>Item</th><th>State</th><th>From</th></tr>
+        <tr><td>معامل القسمة الحجمي</td><td class="desc">استُخدم ٥٠٠٠ افتراضاً في العرض. الرقم الحقيقي يغيّر كل سعر على الشاشة.</td><td class="desc">العمليات</td></tr>
+        <tr><td>سلّم رموز التغليف</td><td class="desc">A1/B3/C1 توضيحية. يلزم الجدول الكامل مرتّباً بالحجم الحقيقي لا بالاسم.</td><td class="desc">العمليات</td></tr>
+        <tr><td>خريطة القطاعات ومواعيد القطع</td><td class="desc">قطاع واحد معروض. التغطية الحقيقية تحدد أي نافذة التقاط تظهر أصلاً.</td><td class="desc">التشغيل</td></tr>
+        <tr><td>ممر السودان — مصر</td><td class="desc">عقدة الجمارك مذكورة في المخطط ولم تُصمَّم لها شاشة بعد.</td><td class="desc">الجولة القادمة</td></tr>
+        <tr><td>التسمية اللاتينية</td><td class="desc">ثُبّتت على <span class="mono">sudaexpress</span> في كل هذا الملف بناءً على كتابتك.</td><td class="desc">✓ محسوم</td></tr>
+      </table></div>
+    </section>
+
+  </div>
+</div>
+
+<footer><div class="foot-in">
+  <div class="w">سودا إكسبرس<small>sudaexpress · Merchant SDK v1.0</small></div>
+  <p>نموذج تصميم. أرقام البوالص والأسعار والأوزان والنوافذ كلها توضيحية ولا تمثل بيانات تشغيلية. لا تظهر شعارات شركاء قبل الاتفاقيات الكتابية.</p>
+</div></footer>
+
+<script>
+/* ═══════════ data ═══════════ */
+const ICO={
+  box:'<path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/>',
+  truck:'<rect x="3" y="7" width="12" height="9"/><path d="M15 10h4l2 3v3h-2"/><circle cx="7" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/>',
+  hub:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 10v10"/>',
+  flag:'<path d="M6 4v16M6 5h11l-2 3 2 3H6"/>'
+};
+const SH=[
+  {w:'SDX-88214-KRT',o:'ORD-4471-KRT',to:'الخرطوم بحري',st:'transit',lbl:'في الطريق',i:'truck'},
+  {w:'SDX-88209-PZU',o:'ORD-4465-PZU',to:'بورتسودان',st:'transit',lbl:'في الطريق',i:'truck'},
+  {w:'SDX-88231-MDN',o:'ORD-4480-MDN',to:'ود مدني',st:'ready',lbl:'بانتظار الالتقاط',i:'box'},
+  {w:'SDX-88233-KRT',o:'ORD-4482-KRT',to:'الخرطوم — الرياض',st:'ready',lbl:'بانتظار الالتقاط',i:'box'},
+  {w:'SDX-88198-CAI',o:'ORD-4451-CAI',to:'القاهرة — عبور',st:'held',lbl:'محتجزة · جمارك',i:'flag'},
+  {w:'SDX-88187-OMD',o:'ORD-4442-OMD',to:'أم درمان',st:'settled',lbl:'تمت التسوية',i:'hub'}
+];
+const TITLES={list:['الشحنات','Shipments'],quote:['شحن طلب','New shipment'],waybill:['البوليصة','Waybill'],track:['التتبّع','Tracking']};
+const TABS=[
+  {v:'list',l:'الشحنات',i:'<path d="M4 7h16M4 12h16M4 17h10"/>'},
+  {v:'quote',l:'شحن',i:'<path d="M12 5v14M5 12h14"/>'},
+  {v:'track',l:'التتبّع',i:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/>'}
+];
+let cur='list', stack=[];
+
+/* ═══════════ nav ═══════════ */
+function go(v,push=true){
+  if(push&&cur!==v)stack.push(cur);
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('on'));
+  document.getElementById('v-'+v).classList.add('on');
+  cur=v; document.getElementById('views').scrollTop=0;
+  const t=TITLES[v];
+  document.getElementById('abT').childNodes[0].nodeValue=t[0];
+  document.getElementById('abS').textContent=t[1];
+  document.getElementById('abBack').style.display=(v==='list')?'none':'grid';
+  if(v==='track')replay('track');
+  renderTabs();
+}
+function back(){go(stack.pop()||'list',false)}
+function setLang(l,b){document.documentElement.dataset.lang=l;b.parentNode.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on')}
+function renderTabs(){
+  const bar=document.getElementById('tabbar');
+  bar.style.gridTemplateColumns='repeat(3,1fr)';
+  bar.innerHTML=TABS.map(t=>`<button class="${cur===t.v?'on':''}" onclick="go('${t.v}')"><svg viewBox="0 0 24 24">${t.i}</svg>${t.l}</button>`).join('');
+}
+/* re-trigger a stagger group without leaving stale animation state */
+function replay(id){
+  const el=document.getElementById(id);
+  el.classList.remove('in'); void el.offsetWidth; el.classList.add('in');
+}
+
+/* ═══════════ list ═══════════ */
+document.getElementById('sList').innerHTML=SH.map(s=>`
+  <button class="srow" onclick="go('${s.st==='ready'?'waybill':'track'}')">
+    <div class="glyph"><svg viewBox="0 0 24 24">${ICO[s.i]}</svg></div>
+    <div class="info"><b>${s.to}</b><small>${s.w}</small><small style="color:var(--clay)">↳ ${s.o}</small></div>
+    <div class="end"><span class="pill ${s.st}">${s.lbl}</span></div>
+  </button>`).join('');
+
+/* ═══════════ quote ═══════════ */
+let quoted=false;
+function dirty(){
+  if(!quoted)return;
+  quoted=false;
+  ['qLbl','quotes','volNote','mintBtn'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('calcBtn').textContent='أعد الحساب';
+}
+function quote(){
+  quoted=true;
+  document.getElementById('qLbl').style.display='block';
+  document.getElementById('quotes').style.display='block';
+  document.getElementById('volNote').style.display='block';
+  document.getElementById('mintBtn').style.display='block';
+  document.getElementById('calcBtn').textContent='احسب السعر';
+  replay('quotes');
+}
+function pickQ(i,el){
+  el.parentNode.querySelectorAll('.q').forEach(q=>q.classList.remove('on'));
+  el.classList.add('on');
+}
+
+/* ═══════════ pickup sheet ═══════════ */
+function openSheet(){document.getElementById('scrim').classList.add('up');document.getElementById('sheet').classList.add('up')}
+function closeSheet(){document.getElementById('scrim').classList.remove('up');document.getElementById('sheet').classList.remove('up')}
+function pickWin(el){el.parentNode.querySelectorAll('.win').forEach(w=>w.classList.remove('on'));el.classList.add('on')}
+function confirmWin(){closeSheet();toast('تم حجز نافذة الالتقاط')}
+
+/* ═══════════ hold to hand over ═══════════ */
+(function(){
+  const btn=document.getElementById('holdBtn'), txt=document.getElementById('holdTxt');
+  let timer=null, done=false;
+  const HOLD=1200;
+  function start(e){
+    if(done||timer)return;              // multi-touch guard: ignore extra pointers
+    e.preventDefault();
+    btn.setPointerCapture?.(e.pointerId);   // keep the hold if the finger slides off
+    btn.classList.add('pressing');
+    timer=setTimeout(()=>{
+      done=true; timer=null;
+      btn.classList.remove('pressing'); btn.classList.add('done');
+      txt.textContent='سُلّمت للمندوب ✓';
+      toast('تم التسليم — تحدّث التتبّع');
+      setTimeout(()=>go('track'),520);
+    },HOLD);
+  }
+  function cancel(){
+    if(done||!timer)return;
+    clearTimeout(timer); timer=null;
+    btn.classList.remove('pressing');   // release snaps back in 200ms
+  }
+  btn.addEventListener('pointerdown',start);
+  ['pointerup','pointercancel','pointerleave'].forEach(ev=>btn.addEventListener(ev,cancel));
+})();
+
+/* ═══════════ decorative render ═══════════ */
+document.getElementById('bars').innerHTML=Array.from({length:52},()=>
+  `<i style="height:${[100,62,84,44,92,70][Math.floor(Math.random()*6)]}%"></i>`).join('');
+(function(){ /* deterministic pseudo-QR block, not a scannable code */
+  let s='';
+  for(let y=0;y<21;y++)for(let x=0;x<21;x++){
+    const f=(x<7&&y<7)||(x>13&&y<7)||(x<7&&y>13);
+    const on=f?((x%6===0||y%6===0)||(x>1&&x<5&&y>1&&y<5)):((x*7+y*13)%3===0);
+    if(on)s+=`<rect x="${x}" y="${y}" width="1" height="1"/>`;
+  }
+  document.getElementById('qrSvg').innerHTML=s;
+})();
+
+let tt;
+function toast(m){
+  const e=document.getElementById('toast');
+  e.textContent=m; e.classList.add('show');
+  clearTimeout(tt); tt=setTimeout(()=>e.classList.remove('show'),1800);
+}
+function clock(){const d=new Date();document.getElementById('clock').textContent=
+  String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+
+renderTabs(); clock(); setInterval(clock,30000);
+</script>
+</body>
+</html>
