@@ -1,1183 +1,634 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-lang="ar" data-view="home" data-surface="market">
+<html lang="ar" dir="rtl" data-lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>السوق — المنصّة الموحّدة · alSooq Unified App</title>
-<meta name="description" content="alSooq — one front door across the Hawil ecosystem: categories → services → jump into the Customer app, the Merchant app (Suda Express & standard merchants) or embedded Bank services.">
+<title>السوق — منصّة واحدة لكل الخدمات · alSooq</title>
+<meta name="description" content="alSooq — one souk across the Hawil ecosystem. Shop, build, travel, learn and move money; jump into the Customer app, the Merchant app (Suda Express & standard merchants) or embedded Bank services.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ════════════════════════════════════════════════════════════════
-   alSooq · Unified App — brand token layer
-   Canon: sand / ink / clay / palm / gold. Accent = clay.
-   ONE green (palm) marks settled money only. Gold = Mwasalati identity.
-   ════════════════════════════════════════════════════════════════ */
 :root{
-  --sand:#F6F1E7; --sand-2:#EFE7D8; --sand-3:#EDE4D3; --card:#FFFCF6; --white:#FFFFFF;
+  --sand:#F6F1E7; --sand-2:#EFE7D8; --sand-3:#EDE4D3; --card:#FFFCF6; --white:#fff;
   --ink:#2E241B; --ink-2:#6B5B4B; --ink-3:#93826F; --kraft:#E4D2B4;
-  --clay:#8A4B2A; --clay-deep:#5F3119; --clay-tint:#F3E4DA;
-  --clay-08:rgba(138,75,42,.08); --clay-12:rgba(138,75,42,.12); --clay-15:rgba(138,75,42,.15); --clay-30:rgba(138,75,42,.30);
-  --palm:#2F6B4F; --palm-tint:#E3EFE8; --palm-12:rgba(47,107,79,.12);
-  --gold:#B8862F; --gold-tint:rgba(184,134,47,.12);
-  --line:#DCCFBB; --line-soft:rgba(220,207,187,.6); --hair:rgba(220,207,187,.5);
-  --r:14px; --r-sm:10px; --r-xs:7px; --r-lg:20px; --r-pill:999px;
-  --ease-out:cubic-bezier(.16,1,.3,1); --ease-io:cubic-bezier(.77,0,.175,1); --snap:cubic-bezier(.2,0,0,1);
-  --d-fast:150ms; --d:240ms; --d-slow:420ms;
-  --shadow:0 1px 2px rgba(46,36,27,.05), 0 8px 24px -12px rgba(46,36,27,.18);
-  --shadow-lg:0 2px 4px rgba(46,36,27,.06), 0 30px 60px -24px rgba(46,36,27,.32);
-  --shadow-xl:0 4px 8px rgba(46,36,27,.07), 0 44px 88px -28px rgba(46,36,27,.40);
-  --ar:'IBM Plex Sans Arabic',system-ui,sans-serif;
-  --en:'IBM Plex Sans',system-ui,sans-serif;
-  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --clay:#8A4B2A; --clay-deep:#5F3119; --clay-08:rgba(138,75,42,.08); --clay-12:rgba(138,75,42,.12); --clay-30:rgba(138,75,42,.3);
+  --palm:#2F6B4F; --palm-tint:#E3EFE8; --palm-12:rgba(47,107,79,.12); --gold:#B8862F; --gold-tint:rgba(184,134,47,.12);
+  --line:#DCCFBB; --line-soft:rgba(220,207,187,.6);
+  --r:16px; --r-sm:10px; --r-lg:24px; --r-pill:999px;
+  --ease:cubic-bezier(.16,1,.3,1); --io:cubic-bezier(.77,0,.175,1);
+  --shadow:0 1px 2px rgba(46,36,27,.05),0 10px 30px -14px rgba(46,36,27,.2);
+  --shadow-lg:0 2px 6px rgba(46,36,27,.06),0 34px 64px -26px rgba(46,36,27,.34);
+  --ar:'IBM Plex Sans Arabic',system-ui,sans-serif; --en:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{
-  font-family:var(--ar); background:var(--sand); color:var(--ink);
-  font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
-  overflow-x:hidden; min-height:100vh;
-}
+html{scroll-behavior:smooth}
+body{font-family:var(--ar);background:var(--sand);color:var(--ink);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 [data-lang="en"] body{font-family:var(--en)}
-[data-lang="ar"] .en-only{display:none}
-[data-lang="en"] .ar-only{display:none}
-.num{font-family:var(--en);font-variant-numeric:tabular-nums;letter-spacing:0}
-.mono{font-family:var(--mono);font-size:.86em}
-a{color:inherit;text-decoration:none}
-button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+[data-lang="ar"] .en-only{display:none}[data-lang="en"] .ar-only{display:none}
+.num{font-family:var(--en);font-variant-numeric:tabular-nums}
+a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
 svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;width:24px;height:24px;display:block}
-.ic-sm{width:18px;height:18px}.ic-lg{width:26px;height:26px}.ic-xs{width:15px;height:15px}
+.ic-sm{width:18px;height:18px}.ic-lg{width:28px;height:28px}
 .wrap{max-width:1160px;margin-inline:auto;padding-inline:24px}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-
-/* ── ambient background ─────────────────────────────────────── */
 .bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.bg::before,.bg::after{content:"";position:absolute;border-radius:50%;filter:blur(90px);opacity:.5}
-.bg::before{width:52vw;height:52vw;top:-18vw;inset-inline-start:-12vw;background:radial-gradient(circle,rgba(138,75,42,.14),transparent 70%)}
-.bg::after{width:46vw;height:46vw;bottom:-16vw;inset-inline-end:-10vw;background:radial-gradient(circle,rgba(47,107,79,.10),transparent 70%)}
+.bg span{position:absolute;border-radius:50%;filter:blur(90px)}
+.b1{width:52vw;height:52vw;top:-16vw;inset-inline-start:-12vw;background:radial-gradient(circle,rgba(138,75,42,.16),transparent 70%)}
+.b2{width:44vw;height:44vw;top:34vh;inset-inline-end:-14vw;background:radial-gradient(circle,rgba(184,134,47,.13),transparent 70%)}
+.b3{width:48vw;height:48vw;bottom:-18vw;inset-inline-start:20vw;background:radial-gradient(circle,rgba(47,107,79,.1),transparent 70%)}
 
-/* ── header ─────────────────────────────────────────────────── */
-.hdr{position:sticky;top:0;z-index:60;background:rgba(246,241,231,.82);
-  backdrop-filter:saturate(1.5) blur(14px);border-bottom:1px solid var(--line-soft)}
-.hdr-in{display:flex;align-items:center;gap:16px;height:66px}
-.brand{display:flex;align-items:center;gap:11px;flex:none}
-.brand-mark{width:38px;height:38px;border-radius:11px;color:#fff;display:grid;place-items:center;
-  font-weight:700;font-size:21px;line-height:1;background:linear-gradient(145deg,var(--clay),var(--clay-deep));
-  box-shadow:0 4px 14px -4px rgba(138,75,42,.5)}
-.brand-txt{display:flex;flex-direction:column;line-height:1.12}
-.brand-txt b{font-size:17px;font-weight:700;letter-spacing:-.01em}
-.brand-txt .en{font-size:8.5px;letter-spacing:.16em;color:var(--ink-3);text-transform:uppercase;font-weight:600}
+/* header */
+.hdr{position:sticky;top:0;z-index:60;background:rgba(246,241,231,.78);backdrop-filter:saturate(1.5) blur(14px);border-bottom:1px solid var(--line-soft)}
+.hdr-in{display:flex;align-items:center;gap:18px;height:68px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{width:38px;height:38px;border-radius:11px;color:#fff;display:grid;place-items:center;font-weight:700;font-size:21px;background:linear-gradient(145deg,var(--clay),var(--clay-deep));box-shadow:0 4px 14px -4px rgba(138,75,42,.5)}
+.brand b{font-size:18px;font-weight:700;letter-spacing:-.01em;line-height:1}
+.brand .en{font-size:8.5px;letter-spacing:.16em;color:var(--ink-3);text-transform:uppercase;font-weight:600;display:block;margin-top:3px}
 .spacer{flex:1}
-
-/* segmented app switcher */
-.switch{position:relative;display:flex;gap:2px;background:var(--sand-2);border:1px solid var(--line);
-  border-radius:var(--r-pill);padding:4px}
-.switch button{position:relative;display:flex;align-items:center;gap:7px;border-radius:var(--r-pill);
-  padding:8px 15px;font-size:13px;font-weight:600;color:var(--ink-2);white-space:nowrap;
-  transition:color var(--d) var(--ease-out)}
-.switch button svg{width:16px;height:16px}
-.switch button[aria-current="true"]{color:#fff}
-.switch .glider{position:absolute;left:0;z-index:0;top:4px;height:calc(100% - 8px);border-radius:var(--r-pill);
-  background:var(--clay);box-shadow:0 4px 12px -3px rgba(138,75,42,.5);
-  transition:transform var(--d) var(--snap),width var(--d) var(--snap);will-change:transform,width}
-.switch button span{position:relative;z-index:1}
-.switch button svg{position:relative;z-index:1}
-
-.wallet{display:flex;flex-direction:column;align-items:flex-end;line-height:1.1;
-  padding-inline:14px;border-inline-start:1px solid var(--line);text-align:end}
-.wallet .lbl{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
-.wallet .val{font-size:18px;font-weight:700;letter-spacing:-.01em}
-.wallet .tag{font-size:8.5px;color:var(--clay);opacity:.85;font-weight:600}
-.lang{display:flex;border:1px solid var(--line);border-radius:var(--r-pill);overflow:hidden;flex:none}
-.lang button{padding:7px 12px;font-size:12px;font-weight:700;color:var(--ink-2);
-  transition:background var(--d-fast),color var(--d-fast)}
+.nav{display:flex;gap:4px}
+.nav a{font-size:13.5px;font-weight:600;color:var(--ink-2);padding:9px 13px;border-radius:var(--r-pill);transition:background .2s,color .2s}
+.nav a:hover{background:var(--clay-08);color:var(--clay)}
+.lang{display:flex;border:1px solid var(--line);border-radius:var(--r-pill);overflow:hidden}
+.lang button{padding:7px 12px;font-size:12px;font-weight:700;color:var(--ink-2);transition:.15s}
 .lang button[aria-pressed="true"]{background:var(--clay);color:#fff}
-
-/* ── view system ────────────────────────────────────────────── */
-.view{display:none}
-.view.active{display:block;animation:viewIn var(--d-slow) var(--ease-out)}
-@keyframes viewIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-
-/* ── hero ───────────────────────────────────────────────────── */
-.hero{padding-block:64px 30px;position:relative}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--clay);font-weight:700}
-.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--clay);animation:pulse 2.4s var(--ease-io) infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.6)}}
-.hero h1{margin:16px 0 0;font-size:clamp(32px,5.4vw,54px);font-weight:700;letter-spacing:-.03em;line-height:1.08;max-width:17ch}
-.hero h1 .hl{background:linear-gradient(120deg,var(--clay),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .lede{margin:20px 0 0;font-size:clamp(16px,2.3vw,20px);color:var(--ink-2);max-width:56ch}
-.hero-cta{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.btn{display:inline-flex;align-items:center;gap:9px;border-radius:var(--r-pill);padding:13px 22px;
-  font-size:14.5px;font-weight:600;transition:transform var(--d) var(--ease-out),box-shadow var(--d) var(--ease-out),background var(--d)}
-.btn svg{width:18px;height:18px}
+.btn{display:inline-flex;align-items:center;gap:9px;border-radius:var(--r-pill);padding:12px 20px;font-size:14px;font-weight:600;transition:transform .24s var(--ease),box-shadow .24s,background .24s;white-space:nowrap}
+.btn svg{width:17px;height:17px}
 .btn-primary{background:var(--clay);color:#fff;box-shadow:0 8px 22px -8px rgba(138,75,42,.55)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 30px -8px rgba(138,75,42,.6);background:var(--clay-deep)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 34px -10px rgba(138,75,42,.6);background:var(--clay-deep)}
 .btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow)}
 .btn-ghost:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--clay-30)}
+.btn-lg{padding:15px 26px;font-size:15px}
+@media(max-width:820px){.nav{display:none}.hdr .btn .txt{display:none}}
 
-.search{margin-top:30px;display:flex;align-items:center;gap:12px;background:var(--card);
-  border:1px solid var(--line);border-radius:var(--r);padding:15px 18px;box-shadow:var(--shadow);
-  max-width:600px;transition:border-color var(--d),box-shadow var(--d)}
-.search:focus-within{border-color:var(--clay-30);box-shadow:var(--shadow-lg)}
-.search .ic{color:var(--ink-3);flex:none}
-.search input{border:0;background:transparent;flex:1;font-family:inherit;font-size:15px;color:var(--ink);outline:0}
-.search input::placeholder{color:var(--ink-3)}
-.search kbd{font-family:var(--mono);font-size:11px;color:var(--ink-3);border:1px solid var(--line);
-  border-radius:6px;padding:2px 7px;background:var(--sand-2)}
+/* hero */
+.hero{position:relative;padding-block:76px 40px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);font-weight:700;background:var(--clay-08);padding:7px 14px;border-radius:var(--r-pill)}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--clay);animation:pulse 2.4s var(--io) infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.55)}}
+.hero h1{margin:22px 0 0;font-size:clamp(36px,5.6vw,60px);font-weight:700;letter-spacing:-.035em;line-height:1.05}
+.hero h1 .hl{background:linear-gradient(120deg,var(--clay),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lede{margin:22px 0 0;font-size:clamp(16px,2.3vw,20px);color:var(--ink-2);max-width:54ch}
+.hero-cta{margin-top:32px;display:flex;flex-wrap:wrap;gap:12px}
+.hero-trust{margin-top:36px;display:flex;flex-wrap:wrap;gap:14px 30px}
+.stat b{font-size:clamp(24px,3vw,32px);font-weight:700;letter-spacing:-.02em;display:block;color:var(--ink)}
+.stat span{font-size:12px;color:var(--ink-3);font-weight:600}
 
-/* ── section heads ──────────────────────────────────────────── */
-.sec{padding-block:34px 6px}
-.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:20px}
-.sec-head h2{margin:0;font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2)}
-.sec-head .en{font-size:11px;color:var(--ink-3);letter-spacing:.1em;text-transform:uppercase}
-.sec-head .rule{flex:1;height:1px;background:var(--line-soft)}
+/* hero visual — floating device + orbit chips */
+.hero-vis{position:relative;height:440px;display:grid;place-items:center}
+.orbit{position:absolute;inset:0;display:grid;place-items:center}
+.ring{position:absolute;border:1px dashed var(--line);border-radius:50%}
+.ring.r1{width:260px;height:260px;animation:spin 40s linear infinite}
+.ring.r2{width:400px;height:400px;animation:spin 60s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.chip-float{position:absolute;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-pill);padding:9px 15px;font-size:12.5px;font-weight:600;box-shadow:var(--shadow);white-space:nowrap;animation:bob 5s var(--io) infinite}
+.chip-float svg{width:16px;height:16px}
+.chip-float .m{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;color:#fff}
+.cf1{top:6%;inset-inline-end:2%;color:var(--clay);animation-delay:0s}
+.cf2{top:30%;inset-inline-start:-2%;color:var(--gold);animation-delay:.6s}
+.cf3{bottom:26%;inset-inline-end:-2%;color:var(--palm);animation-delay:1.2s}
+.cf4{bottom:4%;inset-inline-start:8%;color:var(--clay);animation-delay:1.8s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero-card{width:230px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-lg);padding:20px;position:relative;z-index:2}
+.hc-top{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.hc-top .mk{width:34px;height:34px;border-radius:10px;background:linear-gradient(145deg,var(--clay),var(--clay-deep));color:#fff;display:grid;place-items:center;font-weight:700}
+.hc-top b{font-size:14px;font-weight:700}.hc-top span{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600;display:block}
+.hc-bal{border-radius:14px;padding:15px;color:#fff;background:linear-gradient(135deg,var(--clay),var(--clay-deep));position:relative;overflow:hidden}
+.hc-bal::after{content:"";position:absolute;inset-inline-end:-16px;top:-16px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.09)}
+.hc-bal .l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;opacity:.85;font-weight:600}
+.hc-bal .v{font-size:24px;font-weight:700;margin-top:3px}
+.hc-row{display:flex;gap:8px;margin-top:14px}
+.hc-row div{flex:1;border:1px solid var(--line);border-radius:10px;padding:9px;text-align:center}
+.hc-row svg{width:18px;height:18px;margin-inline:auto;color:var(--clay)}
+.hc-row small{font-size:9px;color:var(--ink-2);font-weight:600;display:block;margin-top:4px}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-vis{height:360px;margin-top:10px}}
 
-/* ── category grid ──────────────────────────────────────────── */
+/* sections */
+.sec{padding-block:64px}
+.sec-head{text-align:center;max-width:640px;margin-inline:auto;margin-bottom:42px}
+.sec-tag{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);font-weight:700}
+.sec-head h2{font-size:clamp(26px,4vw,40px);font-weight:700;letter-spacing:-.025em;margin-top:12px;line-height:1.12}
+.sec-head p{font-size:16px;color:var(--ink-2);margin-top:14px}
+
+/* journey */
+.journey{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden}
+.jstep{padding:26px 24px;position:relative}
+.jstep:not(:last-child)::after{content:"";position:absolute;inset-inline-end:0;top:22%;height:56%;width:1px;background:var(--line-soft)}
+.jstep .jn{width:34px;height:34px;border-radius:10px;background:var(--clay-08);color:var(--clay);display:grid;place-items:center;font-weight:700;font-family:var(--mono);font-size:14px;transition:.3s}
+.jstep:hover .jn{background:var(--clay);color:#fff;transform:scale(1.08)}
+.jstep b{display:block;font-size:16px;font-weight:600;margin-top:14px}
+.jstep span{font-size:13px;color:var(--ink-2);display:block;margin-top:5px;line-height:1.5}
+@media(max-width:760px){.journey{grid-template-columns:1fr 1fr}.jstep:nth-child(2)::after{display:none}}
+
+/* categories */
 .cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-.cat{position:relative;text-align:start;width:100%;background:var(--card);border:1px solid var(--line);
-  border-radius:var(--r);padding:22px 20px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--shadow);
-  transition:transform var(--d) var(--ease-out),border-color var(--d),box-shadow var(--d);overflow:hidden}
-.cat::after{content:"";position:absolute;inset-inline-end:-30%;top:-30%;width:60%;height:60%;
-  background:radial-gradient(circle,var(--tint,var(--clay-08)),transparent 70%);opacity:0;transition:opacity var(--d)}
-.cat:hover{transform:translateY(-4px);border-color:var(--clay-30);box-shadow:var(--shadow-lg)}
-.cat:hover::after{opacity:1}
-.cat:hover .cat-arw{transform:translateX(var(--dir,4px))}
-.cat-ico{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;
-  background:var(--tint,var(--clay-08));color:var(--accent,var(--clay))}
-.cat-t{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
-.cat-t b{font-size:19px;font-weight:600;letter-spacing:-.01em;line-height:1.2}
-.cat-arw{color:var(--ink-3);flex:none;margin-top:3px;transition:transform var(--d) var(--ease-out)}
-.cat-sub{font-size:13px;color:var(--ink-2);line-height:1.5}
-.cat-count{font-size:10.5px;color:var(--ink-3);letter-spacing:.04em;text-transform:uppercase;margin-top:2px;font-weight:600}
+.cat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:var(--shadow);transition:transform .28s var(--ease),box-shadow .28s,border-color .28s;position:relative;overflow:hidden}
+.cat:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:var(--clay-30)}
+.cat-ico{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;background:var(--tint);color:var(--ac);margin-bottom:16px}
+.cat b{font-size:18px;font-weight:600;letter-spacing:-.01em}
+.cat p{font-size:12.5px;color:var(--ink-2);margin-top:6px;line-height:1.5}
+.cat .cc{font-size:10.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-top:12px;display:flex;align-items:center;gap:6px}
 
-/* ── role cards (choose your app) ───────────────────────────── */
-.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-.role{position:relative;text-align:start;width:100%;border-radius:var(--r-lg);padding:26px 24px;
-  display:flex;flex-direction:column;gap:0;overflow:hidden;box-shadow:var(--shadow);
-  transition:transform var(--d) var(--ease-out),box-shadow var(--d);border:1px solid var(--line);background:var(--card)}
-.role:hover{transform:translateY(-5px);box-shadow:var(--shadow-xl)}
-.role .role-ico{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;margin-bottom:18px;
-  background:var(--clay-12);color:var(--clay)}
-.role h3{font-size:20px;font-weight:700;letter-spacing:-.01em;margin-bottom:7px}
-.role p{font-size:13.5px;color:var(--ink-2);line-height:1.55;margin-bottom:18px;min-height:44px}
-.role .role-feat{display:flex;flex-direction:column;gap:9px;margin-bottom:20px}
-.role .role-feat span{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink-2)}
-.role .role-feat svg{width:15px;height:15px;color:var(--palm);flex:none}
-.role .role-go{margin-top:auto;display:inline-flex;align-items:center;gap:8px;font-size:13.5px;
-  font-weight:700;color:var(--clay)}
-.role:hover .role-go svg{transform:translateX(var(--dir,4px))}
-.role .role-go svg{transition:transform var(--d)}
-.role.merchant .role-ico{background:var(--gold-tint);color:var(--gold)}
-.role.merchant .role-go{color:var(--gold)}
-.role.bank .role-ico{background:var(--palm-12);color:var(--palm)}
-.role.bank .role-go{color:var(--palm)}
-.role .role-badge{position:absolute;top:20px;inset-inline-end:20px;font-size:9.5px;font-weight:700;
-  letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:var(--r-pill);
-  background:var(--clay-08);color:var(--clay)}
-.role.merchant .role-badge{background:var(--gold-tint);color:var(--gold)}
-.role.bank .role-badge{background:var(--palm-12);color:var(--palm)}
+/* apps */
+.apps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.app{border-radius:var(--r-lg);padding:28px;box-shadow:var(--shadow);border:1px solid var(--line);background:var(--card);transition:transform .28s var(--ease),box-shadow .28s;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.app:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.app .badge{position:absolute;top:22px;inset-inline-end:22px;font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:var(--r-pill);background:var(--clay-08);color:var(--clay)}
+.app .aico{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:var(--clay-12);color:var(--clay);margin-bottom:20px}
+.app h3{font-size:21px;font-weight:700;letter-spacing:-.01em}
+.app>p{font-size:14px;color:var(--ink-2);margin-top:9px;line-height:1.55}
+.app ul{list-style:none;margin:20px 0 24px;display:flex;flex-direction:column;gap:11px}
+.app li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--ink-2)}
+.app li svg{width:16px;height:16px;color:var(--palm);flex:none;margin-top:3px}
+.app .ago{margin-top:auto;display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--clay)}
+.app:hover .ago svg{transform:translateX(var(--d,4px))}.app .ago svg{width:17px;height:17px;transition:transform .24s}
+.app.gold .aico{background:var(--gold-tint);color:var(--gold)}.app.gold .badge{background:var(--gold-tint);color:var(--gold)}.app.gold .ago{color:var(--gold)}
+.app.palm .aico{background:var(--palm-12);color:var(--palm)}.app.palm .badge{background:var(--palm-12);color:var(--palm)}.app.palm .ago{color:var(--palm)}
+@media(max-width:820px){.apps{grid-template-columns:1fr}}
 
-/* ── flow strip ─────────────────────────────────────────────── */
-.flow{display:flex;align-items:stretch;gap:0;background:var(--card);border:1px solid var(--line);
-  border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;flex-wrap:wrap}
-.flow-step{flex:1;min-width:150px;padding:20px 22px;display:flex;flex-direction:column;gap:6px;position:relative}
-.flow-step:not(:last-child)::after{content:"";position:absolute;inset-inline-end:0;top:20%;height:60%;width:1px;background:var(--line-soft)}
-.flow-step .n{width:26px;height:26px;border-radius:8px;background:var(--clay-08);color:var(--clay);
-  display:grid;place-items:center;font-size:12px;font-weight:700;font-family:var(--mono)}
-.flow-step b{font-size:14.5px;font-weight:600;margin-top:4px}
-.flow-step span{font-size:12px;color:var(--ink-2);line-height:1.45}
+/* spotlight (alternating) */
+.spot{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.spot.rev .spot-media{order:2}
+.spot-copy .sec-tag{color:var(--clay)}
+.spot.g .spot-copy .sec-tag{color:var(--gold)}.spot.p .spot-copy .sec-tag{color:var(--palm)}
+.spot-copy h2{font-size:clamp(24px,3.4vw,34px);font-weight:700;letter-spacing:-.02em;margin-top:12px;line-height:1.14}
+.spot-copy>p{font-size:15.5px;color:var(--ink-2);margin-top:14px;line-height:1.6}
+.spot-feats{margin-top:22px;display:flex;flex-direction:column;gap:14px}
+.spot-feats li{list-style:none;display:flex;gap:14px;align-items:flex-start}
+.spot-feats .fi{width:42px;height:42px;border-radius:12px;flex:none;display:grid;place-items:center;background:var(--clay-08);color:var(--clay)}
+.spot.g .spot-feats .fi{background:var(--gold-tint);color:var(--gold)}.spot.p .spot-feats .fi{background:var(--palm-12);color:var(--palm)}
+.spot-feats b{display:block;font-size:15px;font-weight:600}.spot-feats span{font-size:13px;color:var(--ink-2)}
+.spot-media{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-lg);padding:24px;position:relative;overflow:hidden}
+@media(max-width:820px){.spot{grid-template-columns:1fr;gap:26px}.spot.rev .spot-media{order:0}}
 
-/* ── breadcrumb / back ──────────────────────────────────────── */
-.crumb{display:flex;align-items:center;gap:10px;padding-block:24px 4px;font-size:13px;color:var(--ink-2)}
-.crumb a,.crumb button{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--ink-2);
-  transition:color var(--d)}
-.crumb a:hover,.crumb button:hover{color:var(--clay)}
-.crumb .sep{color:var(--ink-3)}
-.crumb .cur{color:var(--ink);font-weight:700}
-.crumb svg{width:16px;height:16px}
-
-/* ── services drill-down ────────────────────────────────────── */
-.svc-hero{display:flex;align-items:center;gap:18px;margin-block:14px 8px}
-.svc-hero .big-ico{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;
-  background:var(--tint,var(--clay-08));color:var(--accent,var(--clay));flex:none}
-.svc-hero h1{font-size:clamp(26px,4vw,38px);font-weight:700;letter-spacing:-.02em;line-height:1.1}
-.svc-hero p{font-size:15px;color:var(--ink-2);margin-top:4px}
-.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:8px}
-.svc{display:flex;flex-direction:column;gap:11px;background:var(--card);border:1px solid var(--line);
-  border-radius:var(--r);padding:18px;box-shadow:var(--shadow);transition:transform var(--d) var(--ease-out),border-color var(--d),box-shadow var(--d);position:relative}
-.svc:hover{transform:translateY(-3px);border-color:var(--clay-30);box-shadow:var(--shadow-lg)}
-.svc-ico{width:40px;height:40px;border-radius:11px;background:var(--clay-08);color:var(--clay);display:grid;place-items:center}
-.svc b{font-size:15px;font-weight:600;line-height:1.25}
-.svc .desc{font-size:12.5px;color:var(--ink-2);line-height:1.5;flex:1}
-.svc .svc-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
-.pill-act{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;padding:7px 12px;
-  border-radius:var(--r-pill);border:1px solid var(--line);color:var(--ink);background:var(--sand);
-  transition:all var(--d)}
-.pill-act svg{width:14px;height:14px}
-.pill-act:hover{border-color:var(--clay-30);background:var(--clay-08);color:var(--clay)}
-.pill-act.cust:hover{border-color:var(--clay-30)}
-.pill-act.merch:hover{border-color:rgba(184,134,47,.4);background:var(--gold-tint);color:var(--gold)}
-.pill-act.bank:hover{border-color:rgba(47,107,79,.4);background:var(--palm-tint);color:var(--palm)}
-
-.chip{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;padding:3px 9px;
-  border-radius:var(--r-pill);letter-spacing:.03em;white-space:nowrap}
-.chip .d{width:6px;height:6px;border-radius:50%;background:currentColor}
-.chip-live{background:var(--palm-12);color:var(--palm)}
-.chip-plan{background:rgba(147,130,111,.14);color:var(--ink-2)}
-.chip-gold{background:var(--gold-tint);color:var(--gold)}
-.chip.abs{position:absolute;top:14px;inset-inline-end:14px}
-
-/* ════════════════════════════════════════════════════════════
-   DEVICE / APP SURFACES
-   ════════════════════════════════════════════════════════════ */
-.stage{display:grid;grid-template-columns:1fr 380px;gap:36px;align-items:start;padding-block:20px 60px}
-.stage-copy{position:sticky;top:96px}
-.stage-copy .eyebrow{margin-bottom:14px}
-.stage-copy h1{font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-.025em;line-height:1.1}
-.stage-copy .lede{font-size:16px;color:var(--ink-2);margin-top:16px;max-width:46ch}
-.feat-list{margin-top:24px;display:flex;flex-direction:column;gap:14px}
-.feat-list li{list-style:none;display:flex;gap:14px;align-items:flex-start}
-.feat-list .fi{width:40px;height:40px;border-radius:11px;flex:none;display:grid;place-items:center;
-  background:var(--clay-08);color:var(--clay)}
-.feat-list b{display:block;font-size:14.5px;font-weight:600}
-.feat-list span{font-size:13px;color:var(--ink-2);line-height:1.5}
-
-/* segmented (merchant type / phone tabs) */
-.seg{display:inline-flex;gap:3px;background:var(--sand-2);border:1px solid var(--line);border-radius:var(--r-pill);padding:4px;position:relative}
-.seg button{padding:8px 16px;font-size:12.5px;font-weight:600;color:var(--ink-2);border-radius:var(--r-pill);
-  z-index:1;transition:color var(--d);display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
-.seg button svg{width:15px;height:15px}
-.seg button[aria-selected="true"]{color:#fff}
-.seg .seg-glide{position:absolute;left:0;z-index:0;top:4px;height:calc(100% - 8px);border-radius:var(--r-pill);
-  background:var(--clay);transition:transform var(--d) var(--snap),width var(--d) var(--snap);box-shadow:0 3px 10px -2px rgba(138,75,42,.5)}
-.seg[data-accent="gold"] .seg-glide{background:var(--gold);box-shadow:0 3px 10px -2px rgba(184,134,47,.5)}
-
-/* phone frame */
-.phone{width:380px;max-width:100%;margin-inline:auto;background:#1c1712;border-radius:44px;padding:12px;
-  box-shadow:var(--shadow-xl),0 0 0 2px rgba(46,36,27,.08);position:relative}
-.phone::before{content:"";position:absolute;top:20px;left:50%;transform:translateX(-50%);width:96px;height:20px;
-  background:#1c1712;border-radius:0 0 14px 14px;z-index:5}
-.screen{background:var(--sand);border-radius:33px;overflow:hidden;height:720px;display:flex;flex-direction:column;position:relative}
-.scr-top{padding:30px 20px 10px;display:flex;align-items:center;justify-content:space-between;background:var(--card);border-bottom:1px solid var(--line-soft)}
-.scr-top .mtitle{display:flex;align-items:center;gap:10px}
-.scr-top .mtitle .mk{width:30px;height:30px;border-radius:9px;background:linear-gradient(145deg,var(--clay),var(--clay-deep));color:#fff;display:grid;place-items:center;font-weight:700;font-size:15px}
-.scr-top .mtitle b{font-size:15px;font-weight:700}
-.scr-top .mtitle span{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600;display:block}
-.scr-body{flex:1;overflow-y:auto;padding:16px;scrollbar-width:thin}
-.scr-body::-webkit-scrollbar{width:5px}.scr-body::-webkit-scrollbar-thumb{background:var(--line);border-radius:9px}
-.scr-nav{display:flex;background:var(--card);border-top:1px solid var(--line-soft);padding:8px 6px 12px}
-.scr-nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;
-  font-size:9.5px;font-weight:600;color:var(--ink-3);border-radius:10px;transition:color var(--d),background var(--d)}
-.scr-nav button svg{width:21px;height:21px}
-.scr-nav button.on{color:var(--clay)}
-.scr-nav[data-accent="gold"] button.on{color:var(--gold)}
-.scr-nav[data-accent="palm"] button.on{color:var(--palm)}
-
-/* phone content atoms */
-.pane{display:none;animation:paneIn var(--d) var(--ease-out)}
-.pane.on{display:block}
-@keyframes paneIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.p-h{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);margin:4px 2px 12px}
-.p-h:not(:first-child){margin-top:22px}
-.hcard{border-radius:var(--r);padding:18px;color:#fff;position:relative;overflow:hidden;
-  background:linear-gradient(135deg,var(--clay),var(--clay-deep))}
-.hcard.gold{background:linear-gradient(135deg,var(--gold),#8f6820)}
-.hcard.palm{background:linear-gradient(135deg,var(--palm),#1f4a37)}
-.hcard::after{content:"";position:absolute;inset-inline-end:-20px;top:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08)}
-.hcard .lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.85;font-weight:600}
-.hcard .amt{font-size:30px;font-weight:700;letter-spacing:-.02em;margin-top:4px}
-.hcard .sub{font-size:11.5px;opacity:.85;margin-top:2px}
-.hcard .hrow{display:flex;gap:8px;margin-top:16px;position:relative;z-index:1}
-.hcard .hrow button{flex:1;background:rgba(255,255,255,.16);backdrop-filter:blur(4px);color:#fff;
-  border-radius:10px;padding:9px;font-size:11px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;transition:background var(--d)}
-.hcard .hrow button:hover{background:rgba(255,255,255,.28)}
-.hcard .hrow button svg{width:17px;height:17px}
-
-.chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;margin:2px 0}
-.chips::-webkit-scrollbar{display:none}
-.mchip{flex:none;font-size:11.5px;font-weight:600;padding:7px 13px;border-radius:var(--r-pill);
-  background:var(--card);border:1px solid var(--line);color:var(--ink-2);white-space:nowrap;transition:all var(--d)}
-.mchip.on{background:var(--clay);border-color:var(--clay);color:#fff}
-
-.plist{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
-.prod{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:transform var(--d),box-shadow var(--d)}
-.prod:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
-.prod .ph{height:78px;display:grid;place-items:center;color:var(--clay);background:var(--clay-08)}
-.prod .ph svg{width:34px;height:34px;opacity:.7}
-.prod.p2 .ph{background:var(--palm-12);color:var(--palm)}
-.prod.p3 .ph{background:var(--gold-tint);color:var(--gold)}
-.prod .pb{padding:9px 11px}
-.prod .pn{font-size:12px;font-weight:600;line-height:1.25}
-.prod .pm{font-size:9.5px;color:var(--ink-3);margin-top:1px}
-.prod .pf{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
-.prod .pp{font-size:13px;font-weight:700}
-.prod .pp small{font-size:9px;color:var(--ink-3);font-weight:500}
-.prod .add{width:26px;height:26px;border-radius:8px;background:var(--clay);color:#fff;display:grid;place-items:center}
-.prod .add svg{width:15px;height:15px}
-
-.lrow{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);
-  border-radius:var(--r-sm);padding:12px;margin-bottom:9px;transition:transform var(--d),box-shadow var(--d)}
-.lrow:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
-.lrow .li{width:38px;height:38px;border-radius:10px;background:var(--clay-08);color:var(--clay);display:grid;place-items:center;flex:none}
-.lrow .li.palm{background:var(--palm-12);color:var(--palm)}
-.lrow .li.gold{background:var(--gold-tint);color:var(--gold)}
-.lrow .lt{flex:1;min-width:0}
-.lrow .lt b{font-size:13px;font-weight:600;display:block;line-height:1.3}
-.lrow .lt span{font-size:11px;color:var(--ink-2);display:block;margin-top:1px}
-.lrow .lend{text-align:end;flex:none}
-.lrow .lend b{font-size:13px;font-weight:700;display:block}
-.lrow .lend span{font-size:10px;color:var(--ink-3);display:block}
-
-/* status track (Suda Express delivery) */
-.track{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-top:4px}
-.track-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.track-top b{font-size:13px;font-weight:700}
-.tstep{display:flex;gap:12px;position:relative;padding-bottom:18px}
-.tstep:last-child{padding-bottom:0}
-.tstep .tdot{width:24px;height:24px;border-radius:50%;flex:none;display:grid;place-items:center;z-index:1;
-  background:var(--sand-2);color:var(--ink-3);border:2px solid var(--line)}
-.tstep .tdot svg{width:13px;height:13px}
-.tstep.done .tdot{background:var(--palm);border-color:var(--palm);color:#fff}
-.tstep.now .tdot{background:var(--clay);border-color:var(--clay);color:#fff;animation:ring 2s infinite}
+/* media widgets */
+.mini-track{display:flex;flex-direction:column;gap:0}
+.mt{display:flex;gap:12px;position:relative;padding-bottom:16px}
+.mt:last-child{padding-bottom:0}
+.mt .d{width:24px;height:24px;border-radius:50%;flex:none;display:grid;place-items:center;z-index:1;background:var(--sand-2);color:var(--ink-3);border:2px solid var(--line)}
+.mt.done .d{background:var(--palm);border-color:var(--palm);color:#fff}
+.mt.now .d{background:var(--clay);border-color:var(--clay);color:#fff;animation:ring 2s infinite}
 @keyframes ring{0%{box-shadow:0 0 0 0 rgba(138,75,42,.4)}70%{box-shadow:0 0 0 8px rgba(138,75,42,0)}100%{box-shadow:0 0 0 0 rgba(138,75,42,0)}}
-.tstep::before{content:"";position:absolute;inset-inline-start:11px;top:24px;bottom:0;width:2px;background:var(--line)}
-.tstep.done::before{background:var(--palm)}
-.tstep:last-child::before{display:none}
-.tstep .tc b{font-size:12.5px;font-weight:600;display:block}
-.tstep .tc span{font-size:10.5px;color:var(--ink-3)}
-
-/* KPI grid for merchant/bank */
-.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px}
-.kpi .kl{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600;display:flex;align-items:center;gap:6px}
-.kpi .kl svg{width:14px;height:14px;color:var(--clay)}
-.kpi .kv{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-top:6px}
-.kpi .kd{font-size:10.5px;font-weight:600;margin-top:2px;color:var(--palm)}
-.kpi .kd.warn{color:var(--gold)}
-
-/* mini bar chart */
-.spark{display:flex;align-items:flex-end;gap:5px;height:52px;margin-top:12px;padding:0 2px}
-.spark .b{flex:1;background:var(--clay-15);border-radius:4px 4px 0 0;transition:height var(--d-slow) var(--ease-out)}
-.spark .b.hi{background:var(--clay)}
-
-/* form-ish rows */
-.field{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 13px;margin-bottom:9px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.field .fl{font-size:11px;color:var(--ink-3);font-weight:600}
-.field .fv{font-size:13px;font-weight:600}
-.field.input{cursor:text}
-.field.input .fv{color:var(--ink-3);font-weight:400}
-.btn-block{width:100%;background:var(--clay);color:#fff;border-radius:var(--r-sm);padding:13px;font-size:14px;font-weight:600;
-  display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px;transition:background var(--d),transform var(--d)}
-.btn-block:hover{background:var(--clay-deep);transform:translateY(-1px)}
-.btn-block svg{width:17px;height:17px}
-.btn-block.gold{background:var(--gold)}.btn-block.gold:hover{background:#8f6820}
-.btn-block.palm{background:var(--palm)}.btn-block.palm:hover{background:#1f4a37}
-
-/* bank API panel */
-.api{background:#241d16;border-radius:var(--r);padding:16px;font-family:var(--mono);font-size:11.5px;color:#e8ddc9;overflow-x:auto;line-height:1.7}
+.mt::before{content:"";position:absolute;inset-inline-start:11px;top:24px;bottom:0;width:2px;background:var(--line)}.mt.done::before{background:var(--palm)}.mt:last-child::before{display:none}
+.mt b{font-size:13px;font-weight:600;display:block}.mt span{font-size:11px;color:var(--ink-3)}
+.api{background:#241d16;border-radius:14px;padding:16px;font-family:var(--mono);font-size:12px;color:#e8ddc9;line-height:1.75;overflow-x:auto}
 .api .k{color:#d9a86a}.api .s{color:#a9c8a0}.api .c{color:#8a7a68}
-.partners{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
-.partner{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-pill);padding:8px 14px;font-size:12px;font-weight:600}
-.partner .pm{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700}
+.mrow{display:flex;align-items:center;gap:12px;background:var(--sand);border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px}
+.mrow .mi{width:36px;height:36px;border-radius:10px;background:var(--palm-12);color:var(--palm);display:grid;place-items:center;flex:none}
+.mrow .mt2{flex:1}.mrow .mt2 b{font-size:13px;font-weight:600;display:block}.mrow .mt2 span{font-size:11px;color:var(--ink-2)}
+.mrow .chip{font-size:10px;font-weight:700;padding:3px 9px;border-radius:var(--r-pill);background:var(--palm-12);color:var(--palm)}
 
-/* two-col cards for surfaces */
-.cardgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
-.scard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow);
-  transition:transform var(--d) var(--ease-out),box-shadow var(--d),border-color var(--d)}
-.scard:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--clay-30)}
-.scard .sc-ico{width:44px;height:44px;border-radius:12px;background:var(--palm-12);color:var(--palm);display:grid;place-items:center;margin-bottom:14px}
-.scard h4{font-size:16px;font-weight:600;margin-bottom:6px}
-.scard p{font-size:13px;color:var(--ink-2);line-height:1.55}
-.scard .sc-meta{margin-top:12px;font-size:11px;color:var(--ink-3);font-weight:600;display:flex;align-items:center;gap:6px}
+/* dashboard teaser */
+.dash-teaser{background:linear-gradient(135deg,#2b2118,#3a2c1f);border-radius:var(--r-lg);padding:44px;color:#f4ece0;position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}
+.dash-teaser::before,.dash-teaser::after{content:"";position:absolute;border-radius:50%;filter:blur(60px)}
+.dash-teaser::before{width:300px;height:300px;background:rgba(184,134,47,.25);top:-100px;inset-inline-end:-60px}
+.dash-teaser::after{width:260px;height:260px;background:rgba(138,75,42,.3);bottom:-120px;inset-inline-start:10%}
+.dash-in{position:relative;z-index:1;display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center}
+.dash-teaser .sec-tag{color:var(--gold)}
+.dash-teaser h2{font-size:clamp(24px,3.4vw,34px);font-weight:700;letter-spacing:-.02em;margin-top:12px;color:#fff}
+.dash-teaser p{font-size:15px;color:rgba(244,236,224,.8);margin-top:12px;max-width:44ch}
+.dash-mini{display:grid;grid-template-columns:repeat(2,120px);gap:12px}
+.dm{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px;backdrop-filter:blur(4px)}
+.dm .l{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:rgba(244,236,224,.65);font-weight:600}
+.dm .v{font-size:22px;font-weight:700;color:#fff;margin-top:5px}
+.dm .g{font-size:10.5px;color:#9fd0b4;font-weight:600;margin-top:2px}
+.dm .sparkline{display:flex;align-items:flex-end;gap:3px;height:26px;margin-top:8px}
+.dm .sparkline i{flex:1;background:var(--gold);border-radius:2px 2px 0 0;opacity:.85;transition:height .8s var(--ease)}
+@media(max-width:760px){.dash-in{grid-template-columns:1fr}.dash-teaser{padding:30px}}
+
+/* cta */
+.cta{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:56px 32px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.cta h2{font-size:clamp(26px,4vw,40px);font-weight:700;letter-spacing:-.025em;line-height:1.1}
+.cta p{font-size:16px;color:var(--ink-2);margin-top:14px;max-width:50ch;margin-inline:auto}
+.cta-btns{margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
 /* footer */
-.foot{border-top:1px solid var(--line-soft);padding-block:30px 44px;margin-top:20px}
-.foot-in{display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px;justify-content:space-between}
-.foot .lockup{display:flex;align-items:center;gap:11px}
-.foot .lockup .m{width:30px;height:30px;border-radius:9px;background:var(--clay);color:#fff;display:grid;place-items:center;font-weight:700;font-size:16px}
-.foot .lockup b{font-size:14px;font-weight:700}
-.foot .lockup .en{font-size:9px;color:var(--ink-3);letter-spacing:.12em;text-transform:uppercase;display:block;font-weight:600}
-.foot .note{font-size:11.5px;color:var(--ink-3);max-width:46ch;line-height:1.5}
-.foot .note b{color:var(--clay);font-weight:600}
+.foot{border-top:1px solid var(--line-soft);padding-block:36px 48px;margin-top:20px}
+.foot-in{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between}
+.foot .lk{display:flex;align-items:center;gap:11px}
+.foot .lk .m{width:30px;height:30px;border-radius:9px;background:var(--clay);color:#fff;display:grid;place-items:center;font-weight:700;font-size:16px}
+.foot .lk b{font-size:14px;font-weight:700}.foot .lk .en{font-size:9px;color:var(--ink-3);letter-spacing:.12em;text-transform:uppercase;font-weight:600;display:block}
+.foot .note{font-size:11.5px;color:var(--ink-3);max-width:46ch;line-height:1.5}.foot .note b{color:var(--clay);font-weight:600}
 
-/* entrance motion */
-.rise{opacity:0;transform:translateY(12px);transition:opacity var(--d-slow) var(--ease-out),transform var(--d-slow) var(--ease-out)}
-.rise.in{opacity:1;transform:none}
+/* reveal motion */
+.rev{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rev.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{animation:none !important;transition-duration:1ms !important}.rev{opacity:1;transform:none}html{scroll-behavior:auto}}
 
-@media (prefers-reduced-motion:reduce){
-  *{transition-duration:1ms !important;animation-duration:1ms !important}
-  .rise{opacity:1;transform:none}html{scroll-behavior:auto}
+/* Design-engineering polish (Emil Kowalski's craft rules) */
+/* Press feedback — pressable elements scale down so the UI feels like it is
+   listening to the user. Subtle: 0.97 for buttons, 0.985 for the larger cards.
+   The existing transform transition carries it; it wins over :hover by order. */
+.btn:active{transform:scale(.97)}
+.cat:active,.app:active{transform:scale(.985)}
+/* Touch devices fire :hover on tap, so the hover lift sticks after a tap.
+   Drop the movement on non-hover pointers — the shadow/colour hover cues stay,
+   and :active above already gives touch users their press feedback. */
+@media(hover:none){
+  .btn-primary:hover,.btn-ghost:hover,.cat:hover,.app:hover,.jstep:hover .jn,.app:hover .ago svg{transform:none}
 }
-@media (max-width:900px){
-  .stage{grid-template-columns:1fr}
-  .stage-copy{position:static}
-  .switch .txt{display:none}
-  .switch button{padding:9px 12px}
-}
-@media (max-width:560px){
-  .wrap{padding-inline:16px}
-  .cats{grid-template-columns:1fr 1fr}
-  .hdr-in{gap:10px}
-  .wallet{display:none}
-  .brand-txt .en{display:none}
-  .hero{padding-block:38px 20px}
-}
+
+/* Brand identity — Sudan-flag mark, trust badges, Mowasalty, partners, contact */
+.flag{display:inline-flex;flex-direction:column;gap:2.5px;flex:none}
+.flag i{height:3.5px;border-radius:2px;display:block}
+.flag i:nth-child(1){width:22px;background:#CE1126}
+.flag i:nth-child(2){width:17px;background:#fff;box-shadow:0 0 0 1px var(--line) inset}
+.flag i:nth-child(3){width:20px;background:var(--palm)}
+.brand .flag{margin-inline-start:3px}
+.lk .flag{margin-inline-start:3px}
+
+/* trust badges */
+.trust-strip{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;padding-block:6px 2px}
+.tb{display:inline-flex;align-items:center;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-pill);padding:10px 18px;box-shadow:var(--shadow)}
+.tb svg{width:20px;height:20px;color:var(--clay);flex:none}
+.tb b{font-size:13.5px;font-weight:600;line-height:1.15;display:block}
+.tb .en{display:block;font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-top:2px}
+[data-lang="en"] .tb .en{display:none}
+
+/* Mowasalty — gold mobility identity */
+#mowasalaty .mowa{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;background:linear-gradient(135deg,var(--card),var(--gold-tint));border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:36px}
+.mowa-tag{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:700;background:var(--gold-tint);padding:7px 14px;border-radius:var(--r-pill)}
+.mowa h2{font-size:clamp(26px,4vw,38px);font-weight:700;letter-spacing:-.03em;margin-top:14px;line-height:1.05}
+.mowa h2 .en{display:block;font-size:13px;letter-spacing:.16em;color:var(--ink-3);font-weight:600;margin-top:6px;text-transform:uppercase}
+.mowa ul{list-style:none;margin-top:20px;display:grid;gap:12px}
+.mowa li{display:flex;gap:11px;font-size:15px;color:var(--ink-2);line-height:1.5}
+.mowa li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--gold);flex:none;margin-top:7px}
+.mowa-book{margin-top:24px;display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#fff;border-radius:var(--r-pill);padding:13px 22px;font-size:14px;font-weight:600;box-shadow:0 8px 22px -8px rgba(184,134,47,.55);transition:transform .24s var(--ease),box-shadow .24s}
+.mowa-book svg{width:17px;height:17px}
+.mowa-book:active{transform:scale(.97)}
+@media(hover:hover){.mowa-book:hover{transform:translateY(-2px);box-shadow:0 16px 34px -10px rgba(184,134,47,.6)}}
+.mowa-vis{display:grid;place-items:center}
+.seatpad{width:216px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-lg);padding:20px}
+.seatpad .sp-h{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600;text-align:center;margin-bottom:14px}
+.seat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.seat{aspect-ratio:1;border-radius:8px;background:var(--palm-tint);border:1px solid var(--line)}
+.seat.g{background:var(--palm);border-color:var(--palm)}
+.seat.o{background:var(--gold-tint);border-color:var(--gold)}
+.seat.free{background:var(--sand-2)}
+.seat.sel{background:var(--gold);border-color:var(--gold);display:grid;place-items:center}
+.seat.sel svg{width:14px;height:14px;color:#fff;stroke-width:2.4}
+.seatpad .sp-f{margin-top:14px;text-align:center;font-size:12px;font-weight:700;color:var(--gold)}
+@media(max-width:900px){#mowasalaty .mowa{grid-template-columns:1fr;padding:28px}.mowa-vis{margin-top:4px}}
+
+/* payment partners */
+.partners{text-align:center;padding:26px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow)}
+.partners .pt{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.partners .prow{margin-top:16px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center}
+.pchip{display:inline-flex;align-items:center;gap:11px;background:var(--sand);border:1px solid var(--line);border-radius:var(--r);padding:11px 17px}
+.pchip .pmk{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px;flex:none}
+.pchip b{font-size:14px;font-weight:700;line-height:1.1}
+.pchip small{display:block;font-size:9.5px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;font-weight:600;margin-top:1px}
+.pchip.scan{background:var(--clay-08);border-color:var(--clay-30);color:var(--clay);font-weight:600;font-size:13.5px;gap:9px}
+.pchip.scan svg{width:18px;height:18px}
+.partners .pnote{margin-top:14px;font-size:11px;color:var(--ink-3)}
+
+/* enriched footer contact/social */
+.foot-contact{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;margin:14px 0 2px}
+.foot-contact a,.foot-contact span{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);font-weight:600}
+.foot-contact svg{width:16px;height:16px;color:var(--clay);flex:none}
+.foot-contact .hash{color:var(--palm);font-weight:700}
+.foot-contact .tag{color:var(--clay);font-weight:700}
+.foot-contact .num{unicode-bidi:isolate}
+.foot-contact .tag,.foot-contact .hash{direction:ltr;unicode-bidi:isolate}
+@media(hover:hover){.foot-contact a:hover{color:var(--clay)}}
 </style>
 </head>
 <body>
-<div class="bg" aria-hidden="true"></div>
+<div class="bg" aria-hidden="true"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
 
-<!-- ═══ icon sprite ═══ -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
-  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
-  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
   <symbol id="i-shop" viewBox="0 0 24 24"><path d="M4 8h16l-1 4a3 3 0 0 1-3 2.4H8A3 3 0 0 1 5 12z"/><path d="M4 8l1.4-3.2A2 2 0 0 1 7.2 3.6h9.6A2 2 0 0 1 18.6 4.8L20 8"/><path d="M7 15v4.5A1.5 1.5 0 0 0 8.5 21h7a1.5 1.5 0 0 0 1.5-1.5V15"/></symbol>
   <symbol id="i-build" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V9l5-3 5 3v12"/><path d="M15 21V12l4 2.2V21"/><path d="M8.5 12h3M8.5 15.5h3"/></symbol>
   <symbol id="i-bus" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="13" rx="2.4"/><path d="M4 11h16"/><path d="M7 20v-1M17 20v-1"/></symbol>
   <symbol id="i-cap" viewBox="0 0 24 24"><path d="M12 4L2.5 8.5 12 13l9.5-4.5z"/><path d="M6.5 10.5V15c0 1.4 2.5 2.8 5.5 2.8s5.5-1.4 5.5-2.8v-4.5"/><path d="M21.5 8.5v5"/></symbol>
   <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v1"/><rect x="3.5" y="7.5" width="17" height="12" rx="2.4"/><path d="M20.5 12H16a2 2 0 0 0 0 4h4.5"/></symbol>
-  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.4"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.4"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.4"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.4"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></symbol>
   <symbol id="i-store" viewBox="0 0 24 24"><path d="M4 10v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9"/><path d="M3 6.5 4.5 4h15L21 6.5a2.5 2.5 0 0 1-4.5 1.5 2.5 2.5 0 0 1-4.5 0 2.5 2.5 0 0 1-4.5 0A2.5 2.5 0 0 1 3 6.5Z"/><path d="M9 20v-5h4v5"/></symbol>
   <symbol id="i-truck" viewBox="0 0 24 24"><rect x="2.5" y="7" width="11" height="9" rx="1.4"/><path d="M13.5 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17.5" cy="18" r="1.6"/></symbol>
-  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></symbol>
   <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 9 12 4l9 5"/><path d="M4 9h16"/><path d="M6 9v8M10 9v8M14 9v8M18 9v8"/><path d="M4 20h16"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
-  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
-  <symbol id="i-send" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></symbol>
-  <symbol id="i-recv" viewBox="0 0 24 24"><path d="M17 7 7 17"/><path d="M15 17H7V9"/></symbol>
-  <symbol id="i-remit" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.4 2.3 2.4 14.7 0 17M12 3.5c-2.4 2.3-2.4 14.7 0 17"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 5.5V11c0 4.4 3 7.7 7 9 4-1.3 7-4.6 7-9V5.5z"/><path d="m9 11.5 2 2 3.5-3.8"/></symbol>
-  <symbol id="i-vault" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="10" cy="12" r="3.2"/><path d="M17 9v6"/></symbol>
-  <symbol id="i-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h3v3M20 14v6M14 20h3"/></symbol>
-  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2.4"/><path d="M3 10h18"/><path d="M6.5 15h3"/></symbol>
-  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></symbol>
-  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 17h6M10 20h4"/><path d="M12 3a6 6 0 0 1 3.6 10.8c-.7.5-1.1 1.3-1.1 2.2h-5c0-.9-.4-1.7-1.1-2.2A6 6 0 0 1 12 3Z"/></symbol>
-  <symbol id="i-beam" viewBox="0 0 24 24"><path d="M4 5h16M4 5v14M20 5v14M4 19h16"/><path d="M7 9l10 6M17 9L7 15"/></symbol>
-  <symbol id="i-chair" viewBox="0 0 24 24"><path d="M6 4v7h12V4"/><path d="M5 11h14l-.8 5H5.8z"/><path d="M6.5 16v4M17.5 16v4"/></symbol>
-  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3.5 6v14L9 18l6 2 5.5-2V4L15 6 9 4z"/><path d="M9 4v14M15 6v14"/></symbol>
-  <symbol id="i-seat" viewBox="0 0 24 24"><path d="M7 4v9a2 2 0 0 0 2 2h6"/><path d="M7 15h9a2 2 0 0 1 2 2v3"/><path d="M5 20h4"/></symbol>
-  <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1 0 4 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-4 2 2 0 0 1 0-4Z"/><path d="M14 6v12"/></symbol>
-  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-2.5-1.5L13 21l-2.5-1.5L8 21l-2-1.5z"/><path d="M9 8h6M9 12h6"/></symbol>
-  <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19"/><path d="M9 7.5h6"/></symbol>
-  <symbol id="i-box" viewBox="0 0 24 24"><path d="M12 3 4 7v10l8 4 8-4V7z"/><path d="M4 7l8 4 8-4M12 11v10"/></symbol>
-  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6 7-11a7 7 0 0 0-14 0c0 5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
-  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
-  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z"/><path d="M10 19a2 2 0 0 0 4 0"/></symbol>
-  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 20v-6M12 20v-9M16 20v-4M20 20V8"/></symbol>
-  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M4 11.5V5.5A1.5 1.5 0 0 1 5.5 4h6l8 8-6 6z"/><circle cx="8.5" cy="8.5" r="1.2"/></symbol>
-  <symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M4 12h16"/></symbol>
-  <symbol id="i-handoff" viewBox="0 0 24 24"><path d="M6 11V7a2 2 0 0 1 2-2h1"/><path d="M9 5l2.5 2.5L9 10"/><path d="M18 13v4a2 2 0 0 1-2 2h-1"/><path d="M15 19l-2.5-2.5L15 14"/><path d="M4 15h6M14 9h6"/></symbol>
+  <symbol id="i-remit" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.4 2.3 2.4 14.7 0 17M12 3.5c-2.4 2.3-2.4 14.7 0 17"/></symbol>
   <symbol id="i-coins" viewBox="0 0 24 24"><ellipse cx="9" cy="7" rx="5" ry="2.6"/><path d="M4 7v4c0 1.4 2.2 2.6 5 2.6s5-1.2 5-2.6V7"/><path d="M14 12.5c2.6.2 5 1.4 5 2.5v-3"/><path d="M10 15.5c0 1.4 2.2 2.6 5 2.6s5-1.2 5-2.6"/></symbol>
-  <symbol id="i-flash" viewBox="0 0 24 24"><path d="M13 3 4 14h6l-1 7 9-11h-6z"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-2.5-1.5L13 21l-2.5-1.5L8 21l-2-1.5z"/><path d="M9 8h6M9 12h6"/></symbol>
+  <symbol id="i-handoff" viewBox="0 0 24 24"><path d="M6 11V7a2 2 0 0 1 2-2h1"/><path d="M9 5l2.5 2.5L9 10"/><path d="M18 13v4a2 2 0 0 1-2 2h-1"/><path d="M15 19l-2.5-2.5L15 14"/><path d="M4 15h6M14 9h6"/></symbol>
   <symbol id="i-code" viewBox="0 0 24 24"><path d="M9 8l-4 4 4 4M15 8l4 4-4 4"/></symbol>
-  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5z"/><path d="M3 12l9 5 9-5M3 16l9 5 9-5"/></symbol>
   <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></symbol>
-  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 4l2.3 4.8 5.2.7-3.8 3.6.9 5.1L12 15.9 7.4 18.3l.9-5.1L4.5 9.5l5.2-.7z"/></symbol>
-  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-9"/><path d="M10 20v-6h4v6"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><path d="M8 20v-6M12 20v-9M16 20v-4M20 20V8"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M4 11.5V5.5A1.5 1.5 0 0 1 5.5 4h6l8 8-6 6z"/><circle cx="8.5" cy="8.5" r="1.2"/></symbol>
+  <symbol id="i-flash" viewBox="0 0 24 24"><path d="M13 3 4 14h6l-1 7 9-11h-6z"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5z"/><path d="M3 12l9 5 9-5M3 16l9 5 9-5"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></symbol>
 </defs></svg>
 
-<!-- ═══ header ═══ -->
-<header class="hdr">
-  <div class="wrap hdr-in">
-    <a class="brand" href="#" data-go="home" aria-label="alSooq home">
-      <span class="brand-mark">س</span>
-      <span class="brand-txt"><b>السوق</b><span class="en">Hawil Ecosystem</span></span>
+<!-- header -->
+<header class="hdr"><div class="wrap hdr-in">
+  <a class="brand" href="#top"><span class="brand-mark">س</span><span><b data-ar="السوق" data-en="alSooq">السوق</b><span class="en">Hawil Ecosystem</span></span><span class="flag" aria-hidden="true"><i></i><i></i><i></i></span></a>
+  <div class="spacer"></div>
+  <nav class="nav">
+    <a href="#journey" data-ar="الرحلة" data-en="Journey">الرحلة</a>
+    <a href="#apps" data-ar="التطبيقات" data-en="Apps">التطبيقات</a>
+    <a href="catalog.html" data-ar="الكتالوج" data-en="Catalog">الكتالوج</a>
+    <a href="#express" data-ar="سودا إكسبريس" data-en="Suda Express">سودا إكسبريس</a>
+    <a href="#bank" data-ar="البنوك" data-en="Banking">البنوك</a>
+    <a href="#mowasalaty" data-ar="مواصلاتي" data-en="Mowasalty">مواصلاتي</a>
+    <a href="#dashboard" data-ar="اللوحة" data-en="Dashboard">اللوحة</a>
+  </nav>
+  <div class="lang" role="group" aria-label="Language"><button data-lang="ar" aria-pressed="true">ع</button><button data-lang="en" aria-pressed="false">EN</button></div>
+  <a class="btn btn-primary" href="app.html"><svg class="ic"><use href="#i-arrow"/></svg><span class="txt" data-ar="افتح التطبيق" data-en="Launch app">افتح التطبيق</span></a>
+</div></header>
+
+<main id="top">
+<div class="wrap">
+
+<!-- hero -->
+<section class="hero"><div class="hero-grid">
+  <div>
+    <span class="eyebrow rev"><span class="dot"></span><span data-ar="منصّة واحدة · منظومة هويل" data-en="One platform · Hawil ecosystem">منصّة واحدة · منظومة هويل</span></span>
+    <h1 class="rev" data-ar-html='السوق كامل، <span class="hl">في تطبيق واحد.</span>' data-en-html='The whole souk, <span class="hl">in one app.</span>'>السوق كامل، <span class="hl">في تطبيق واحد.</span></h1>
+    <p class="lede rev" data-ar="تسوّق، ابنِ بيتك، سافر، ادفع رسومك، وحوّل الأموال — ثم انتقل بضغطة إلى تطبيق العميل، أو تطبيق التاجر مع سودا إكسبريس، أو الخدمات المصرفية المدمجة." data-en="Shop, rebuild your home, travel, pay fees and move money — then jump in a tap to the Customer app, the Merchant app with Suda Express, or embedded Bank services.">تسوّق، ابنِ بيتك، سافر، ادفع رسومك، وحوّل الأموال — ثم انتقل بضغطة إلى تطبيق العميل، أو تطبيق التاجر مع سودا إكسبريس، أو الخدمات المصرفية المدمجة.</p>
+    <div class="hero-cta rev">
+      <a class="btn btn-primary btn-lg" href="app.html"><svg class="ic"><use href="#i-shop"/></svg><span data-ar="ابدأ الآن" data-en="Get started">ابدأ الآن</span></a>
+      <a class="btn btn-ghost btn-lg" href="#apps"><svg class="ic"><use href="#i-layers"/></svg><span data-ar="استكشف التطبيقات" data-en="Explore the apps">استكشف التطبيقات</span></a>
+    </div>
+    <div class="hero-trust rev">
+      <div class="stat"><b><span class="num" data-count="5">0</span></b><span data-ar="فئات كبرى" data-en="Major categories">فئات كبرى</span></div>
+      <div class="stat"><b><span class="num" data-count="3">0</span></b><span data-ar="تطبيقات · بنية واحدة" data-en="Apps · one core">تطبيقات · بنية واحدة</span></div>
+      <div class="stat"><b><span class="num" data-count="45">0</span><span data-ar="ث" data-en="s">ث</span></b><span data-ar="متوسط تسوية الحوالة" data-en="Avg remittance settle">متوسط تسوية الحوالة</span></div>
+    </div>
+  </div>
+  <div class="hero-vis rev">
+    <div class="orbit"><div class="ring r1"></div><div class="ring r2"></div></div>
+    <div class="chip-float cf1"><span class="m" style="background:var(--clay)"><svg class="ic ic-sm" style="width:13px;height:13px;color:#fff"><use href="#i-user"/></svg></span><span data-ar="العميل" data-en="Customer">العميل</span></div>
+    <div class="chip-float cf2"><span class="m" style="background:var(--gold)"><svg class="ic ic-sm" style="width:13px;height:13px;color:#fff"><use href="#i-truck"/></svg></span><span data-ar="سودا إكسبريس" data-en="Suda Express">سودا إكسبريس</span></div>
+    <div class="chip-float cf3"><span class="m" style="background:var(--palm)"><svg class="ic ic-sm" style="width:13px;height:13px;color:#fff"><use href="#i-bank"/></svg></span><span data-ar="البنك" data-en="Bank">البنك</span></div>
+    <div class="chip-float cf4"><span class="m" style="background:var(--clay)"><svg class="ic ic-sm" style="width:13px;height:13px;color:#fff"><use href="#i-store"/></svg></span><span data-ar="التاجر" data-en="Merchant">التاجر</span></div>
+    <div class="hero-card">
+      <div class="hc-top"><span class="mk">س</span><span><b data-ar="السوق" data-en="alSooq">السوق</b><span data-ar="محفظة موحّدة" data-en="Unified wallet">محفظة موحّدة</span></span></div>
+      <div class="hc-bal"><div class="l" data-ar="محفظة حوّل" data-en="Hawil wallet">محفظة حوّل</div><div class="v"><span class="num">248,500</span></div></div>
+      <div class="hc-row">
+        <div><svg class="ic"><use href="#i-shop"/></svg><small data-ar="تسوّق" data-en="Shop">تسوّق</small></div>
+        <div><svg class="ic"><use href="#i-truck"/></svg><small data-ar="تتبّع" data-en="Track">تتبّع</small></div>
+        <div><svg class="ic"><use href="#i-remit"/></svg><small data-ar="حوّل" data-en="Remit">حوّل</small></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- trust badges -->
+<div class="trust-strip rev">
+  <div class="tb"><svg class="ic"><use href="#i-shop"/></svg><span><b data-ar="تسوّق بأمان" data-en="Shop safely">تسوّق بأمان</b><span class="en ar-only">Shop safely</span></span></div>
+  <div class="tb"><svg class="ic"><use href="#i-shield"/></svg><span><b data-ar="دفع آمن بالمراحل" data-en="Secure staged pay">دفع آمن بالمراحل</b><span class="en ar-only">Secure staged pay</span></span></div>
+  <div class="tb"><svg class="ic"><use href="#i-truck"/></svg><span><b data-ar="توصيل سريع" data-en="Fast delivery">توصيل سريع</b><span class="en ar-only">Fast delivery</span></span></div>
+</div>
+
+<!-- journey -->
+<section class="sec" id="journey">
+  <div class="sec-head rev">
+    <span class="sec-tag" data-ar="كيف تعمل" data-en="How it works">كيف تعمل</span>
+    <h2 data-ar="رحلة واحدة، من الفئة إلى التطبيق" data-en="One journey, from category to app">رحلة واحدة، من الفئة إلى التطبيق</h2>
+    <p data-ar="أربع خطوات بسيطة تربط كل جزء من المنظومة." data-en="Four simple steps that connect every part of the ecosystem.">أربع خطوات بسيطة تربط كل جزء من المنظومة.</p>
+  </div>
+  <div class="journey rev">
+    <div class="jstep"><span class="jn num">1</span><b data-ar="الفئة" data-en="Category">الفئة</b><span data-ar="اختر من خمس بوابات: متجر، بناء، سفر، تعليم، مال." data-en="Pick from five gateways: shop, build, travel, learn, money.">اختر من خمس بوابات: متجر، بناء، سفر، تعليم، مال.</span></div>
+    <div class="jstep"><span class="jn num">2</span><b data-ar="الخدمة" data-en="Service">الخدمة</b><span data-ar="افتح خدمة محددة داخل الفئة." data-en="Open a specific service inside the category.">افتح خدمة محددة داخل الفئة.</span></div>
+    <div class="jstep"><span class="jn num">3</span><b data-ar="الدور" data-en="Role">الدور</b><span data-ar="عميل، تاجر، أم بنك؟ أنت تختار." data-en="Customer, merchant or bank? You choose.">عميل، تاجر، أم بنك؟ أنت تختار.</span></div>
+    <div class="jstep"><span class="jn num">4</span><b data-ar="التطبيق" data-en="The app">التطبيق</b><span data-ar="انتقل فوراً إلى السطح المناسب لك." data-en="Jump straight to the surface built for you.">انتقل فوراً إلى السطح المناسب لك.</span></div>
+  </div>
+</section>
+
+<!-- categories -->
+<section class="sec" id="cats">
+  <div class="sec-head rev">
+    <span class="sec-tag" data-ar="ابدأ من هنا" data-en="Start here">ابدأ من هنا</span>
+    <h2 data-ar="خمس بوابات لكل ما تحتاجه" data-en="Five gateways for everything you need">خمس بوابات لكل ما تحتاجه</h2>
+  </div>
+  <div class="cats">
+    <a class="cat rev" href="app.html" style="--tint:var(--clay-08);--ac:var(--clay)"><span class="cat-ico"><svg class="ic ic-lg"><use href="#i-shop"/></svg></span><b data-ar="المتجر" data-en="Shop">المتجر</b><p data-ar="منتجات وعروض وتجّار معتمدون." data-en="Products, offers & verified merchants.">منتجات وعروض وتجّار معتمدون.</p><span class="cc"><svg class="ic ic-sm" style="width:14px;height:14px"><use href="#i-arrow"/></svg><span data-ar="تصفّح" data-en="Browse">تصفّح</span></span></a>
+    <a class="cat rev" href="app.html" style="--tint:var(--clay-08);--ac:var(--clay)"><span class="cat-ico"><svg class="ic ic-lg"><use href="#i-build"/></svg></span><b data-ar="مواد البناء" data-en="Building">مواد البناء</b><p data-ar="إعادة الإعمار من الأساس إلى التشطيب." data-en="Reconstruction, foundation to finish.">إعادة الإعمار من الأساس إلى التشطيب.</p><span class="cc"><svg class="ic ic-sm" style="width:14px;height:14px"><use href="#i-arrow"/></svg><span data-ar="تصفّح" data-en="Browse">تصفّح</span></span></a>
+    <a class="cat rev" href="app.html" style="--tint:var(--gold-tint);--ac:var(--gold)"><span class="cat-ico"><svg class="ic ic-lg"><use href="#i-bus"/></svg></span><b data-ar="السفر" data-en="Travel">السفر</b><p data-ar="حجز مقعد بين المدن عبر مواصلاتي." data-en="Book an intercity seat via Mwasalati.">حجز مقعد بين المدن عبر مواصلاتي.</p><span class="cc"><svg class="ic ic-sm" style="width:14px;height:14px"><use href="#i-arrow"/></svg><span data-ar="تصفّح" data-en="Browse">تصفّح</span></span></a>
+    <a class="cat rev" href="app.html" style="--tint:var(--clay-08);--ac:var(--clay)"><span class="cat-ico"><svg class="ic ic-lg"><use href="#i-cap"/></svg></span><b data-ar="التعليم" data-en="Education">التعليم</b><p data-ar="تسجيل جامعي ودفع الرسوم." data-en="University registration & fees.">تسجيل جامعي ودفع الرسوم.</p><span class="cc"><svg class="ic ic-sm" style="width:14px;height:14px"><use href="#i-arrow"/></svg><span data-ar="تصفّح" data-en="Browse">تصفّح</span></span></a>
+    <a class="cat rev" href="app.html#bank" style="--tint:var(--palm-12);--ac:var(--palm)"><span class="cat-ico"><svg class="ic ic-lg"><use href="#i-wallet"/></svg></span><b data-ar="المال" data-en="Money">المال</b><p data-ar="إرسال، استلام، حوالة، ادّخار، أمانة." data-en="Send, receive, remit, save, escrow.">إرسال، استلام، حوالة، ادّخار، أمانة.</p><span class="cc"><svg class="ic ic-sm" style="width:14px;height:14px"><use href="#i-arrow"/></svg><span data-ar="تصفّح" data-en="Browse">تصفّح</span></span></a>
+  </div>
+</section>
+
+<!-- apps -->
+<section class="sec" id="apps">
+  <div class="sec-head rev">
+    <span class="sec-tag" data-ar="ثلاثة تطبيقات · بنية واحدة" data-en="Three apps · one core">ثلاثة تطبيقات · بنية واحدة</span>
+    <h2 data-ar="ادخل بالدور الذي يناسبك" data-en="Enter as whoever you are">ادخل بالدور الذي يناسبك</h2>
+    <p data-ar="نفس المحفظة، نفس السوق، ثلاثة أسطح مصمّمة لكل دور." data-en="Same wallet, same souk, three surfaces designed per role.">نفس المحفظة، نفس السوق، ثلاثة أسطح مصمّمة لكل دور.</p>
+  </div>
+  <div class="apps">
+    <a class="app rev" href="app.html#customer">
+      <span class="badge" data-ar="عميل" data-en="Customer">عميل</span>
+      <span class="aico"><svg class="ic ic-lg"><use href="#i-user"/></svg></span>
+      <h3 data-ar="تطبيق العميل" data-en="Customer app">تطبيق العميل</h3>
+      <p data-ar="تسوّق كل الفئات، ادفع من محفظة حوّل، وتتبّع طلبك حياً." data-en="Shop every category, pay from the Hawil wallet, track live.">تسوّق كل الفئات، ادفع من محفظة حوّل، وتتبّع طلبك حياً.</p>
+      <ul>
+        <li><svg class="ic"><use href="#i-check"/></svg><span data-ar="كتالوج موحّد وعروض" data-en="Unified catalog & offers">كتالوج موحّد وعروض</span></li>
+        <li><svg class="ic"><use href="#i-check"/></svg><span data-ar="تتبّع حي عبر سودا إكسبريس" data-en="Live Suda Express tracking">تتبّع حي عبر سودا إكسبريس</span></li>
+        <li><svg class="ic"><use href="#i-check"/></svg><span data-ar="محفظة وأمانة (ضمان)" data-en="Wallet & escrow">محفظة وأمانة (ضمان)</span></li>
+      </ul>
+      <span class="ago"><span data-ar="افتح تطبيق العميل" data-en="Open customer app">افتح تطبيق العميل</span><svg class="ic"><use href="#i-arrow"/></svg></span>
     </a>
-    <div class="spacer"></div>
-    <nav class="switch" id="switch" aria-label="App surface">
-      <span class="glider" aria-hidden="true"></span>
-      <button data-go="home" aria-current="true"><svg class="ic"><use href="#i-shop"/></svg><span class="txt" data-ar="السوق" data-en="Marketplace">السوق</span></button>
-      <button data-go="customer"><svg class="ic"><use href="#i-user"/></svg><span class="txt" data-ar="العميل" data-en="Customer">العميل</span></button>
-      <button data-go="merchant"><svg class="ic"><use href="#i-store"/></svg><span class="txt" data-ar="التاجر" data-en="Merchant">التاجر</span></button>
-      <button data-go="bank"><svg class="ic"><use href="#i-bank"/></svg><span class="txt" data-ar="البنك" data-en="Bank">البنك</span></button>
-    </nav>
-    <div class="wallet">
-      <span class="lbl" data-ar="المحفظة" data-en="Wallet">المحفظة</span>
-      <span class="val"><span class="num">248,500</span></span>
-      <span class="tag" data-ar="توضيحي · جنيه" data-en="illustrative · SDG">توضيحي · جنيه</span>
-    </div>
-    <div class="lang" role="group" aria-label="Language">
-      <button type="button" data-lang="ar" aria-pressed="true">ع</button>
-      <button type="button" data-lang="en" aria-pressed="false">EN</button>
-    </div>
-  </div>
-</header>
-
-<main>
-
-<!-- ══════════════════ VIEW: HOME / MARKETPLACE ══════════════════ -->
-<section class="view active" data-view="home">
-  <div class="wrap">
-    <div class="hero">
-      <p class="eyebrow rise"><span class="dot"></span><span data-ar="الواجهة الموحّدة · منظومة هويل" data-en="One unified front door · Hawil ecosystem">الواجهة الموحّدة · منظومة هويل</span></p>
-      <h1 class="rise" data-ar-html='كل ما تحتاجه، <span class="hl">في مكان واحد.</span>' data-en-html='Everything you need, <span class="hl">in one place.</span>'>كل ما تحتاجه، <span class="hl">في مكان واحد.</span></h1>
-      <p class="lede rise" data-ar="تصفّح الفئات، ادخل إلى الخدمة، ثم انتقل بضغطة واحدة إلى تطبيق العميل، أو تطبيق التاجر (سودا إكسبريس والتاجر العادي)، أو الخدمات المصرفية المدمجة." data-en="Browse the categories, open a service, then jump in one tap into the Customer app, the Merchant app (Suda Express & standard merchants), or embedded Bank services.">تصفّح الفئات، ادخل إلى الخدمة، ثم انتقل بضغطة واحدة إلى تطبيق العميل، أو تطبيق التاجر (سودا إكسبريس والتاجر العادي)، أو الخدمات المصرفية المدمجة.</p>
-      <div class="hero-cta rise">
-        <button class="btn btn-primary" data-go="customer"><svg class="ic"><use href="#i-user"/></svg><span data-ar="ادخل كعميل" data-en="Enter as customer">ادخل كعميل</span></button>
-        <button class="btn btn-ghost" data-go="merchant"><svg class="ic"><use href="#i-store"/></svg><span data-ar="بوابة التاجر" data-en="Merchant portal">بوابة التاجر</span></button>
-        <button class="btn btn-ghost" data-go="bank"><svg class="ic"><use href="#i-bank"/></svg><span data-ar="خدمات البنوك" data-en="Bank services">خدمات البنوك</span></button>
-      </div>
-      <div class="search rise" role="search">
-        <svg class="ic"><use href="#i-search"/></svg>
-        <input type="search" aria-label="Search" data-ar-ph="ابحث عن فئة أو خدمة أو تاجر…" data-en-ph="Search a category, service or merchant…" placeholder="ابحث عن فئة أو خدمة أو تاجر…">
-        <kbd>⌘K</kbd>
-      </div>
-    </div>
-
-    <!-- categories -->
-    <section class="sec">
-      <div class="sec-head">
-        <h2 data-ar="ابدأ من الفئات" data-en="Start with categories">ابدأ من الفئات</h2>
-        <span class="en" data-ar="خمس بوابات" data-en="Five gateways">خمس بوابات</span>
-        <span class="rule"></span>
-      </div>
-      <div class="cats" id="catGrid"><!-- injected --></div>
-    </section>
-
-    <!-- choose your app -->
-    <section class="sec">
-      <div class="sec-head">
-        <h2 data-ar="اختر كيف تدخل" data-en="Choose how you enter">اختر كيف تدخل</h2>
-        <span class="en" data-ar="ثلاثة تطبيقات · بنية واحدة" data-en="Three apps · one core">ثلاثة تطبيقات · بنية واحدة</span>
-        <span class="rule"></span>
-      </div>
-      <div class="roles">
-        <button class="role rise" data-go="customer">
-          <span class="role-badge" data-ar="عميل" data-en="Customer">عميل</span>
-          <span class="role-ico"><svg class="ic ic-lg"><use href="#i-user"/></svg></span>
-          <h3 data-ar="تطبيق العميل" data-en="Customer app">تطبيق العميل</h3>
-          <p data-ar="تسوّق، تتبّع طلباتك مع سودا إكسبريس، وادفع من محفظة حوّل." data-en="Shop, track Suda Express deliveries, and pay from your Hawil wallet.">تسوّق، تتبّع طلباتك مع سودا إكسبريس، وادفع من محفظة حوّل.</p>
-          <span class="role-feat">
-            <span><svg class="ic"><use href="#i-check"/></svg><span data-ar="كتالوج موحّد وعروض" data-en="Unified catalog & offers">كتالوج موحّد وعروض</span></span>
-            <span><svg class="ic"><use href="#i-check"/></svg><span data-ar="تتبّع حي للتوصيل" data-en="Live delivery tracking">تتبّع حي للتوصيل</span></span>
-            <span><svg class="ic"><use href="#i-check"/></svg><span data-ar="محفظة وأمانة (ضمان)" data-en="Wallet & escrow">محفظة وأمانة (ضمان)</span></span>
-          </span>
-          <span class="role-go"><span data-ar="افتح التطبيق" data-en="Open app">افتح التطبيق</span><svg class="ic ic-sm"><use href="#i-arrow"/></svg></span>
-        </button>
-
-        <button class="role merchant rise" data-go="merchant">
-          <span class="role-badge" data-ar="تاجر" data-en="Merchant">تاجر</span>
-          <span class="role-ico"><svg class="ic ic-lg"><use href="#i-store"/></svg></span>
-          <h3 data-ar="تطبيق التاجر" data-en="Merchant app">تطبيق التاجر</h3>
-          <p data-ar="نوعان: تاجر عادي بمتجر ومنتجات، أو سودا إكسبريس للشحن واللوجستيات." data-en="Two kinds: a standard storefront merchant, or Suda Express for shipping & logistics.">نوعان: تاجر عادي بمتجر ومنتجات، أو سودا إكسبريس للشحن واللوجستيات.</p>
-          <span class="role-feat">
-            <span><svg class="ic"><use href="#i-check"/></svg><span data-ar="لوحة طلبات ومدفوعات" data-en="Orders & payouts dashboard">لوحة طلبات ومدفوعات</span></span>
-            <span><svg class="ic"><use href="#i-check"/></svg><span data-ar="بوليصة شحن سودا إكسبريس" data-en="Suda Express waybills">بوليصة شحن سودا إكسبريس</span></span>
-            <span><svg class="ic"><use href="#i-check"/></svg><span data-ar="تسوية عبر الأمانة" data-en="Escrow-settled payouts">تسوية عبر الأمانة</span></span>
-          </span>
-          <span class="role-go"><span data-ar="افتح البوابة" data-en="Open portal">افتح البوابة</span><svg class="ic ic-sm"><use href="#i-arrow"/></svg></span>
-        </button>
-
-        <button class="role bank rise" data-go="bank">
-          <span class="role-badge" data-ar="بنك" data-en="Bank">بنك</span>
-          <span class="role-ico"><svg class="ic ic-lg"><use href="#i-bank"/></svg></span>
-          <h3 data-ar="الخدمات المصرفية المدمجة" data-en="Embedded bank services">الخدمات المصرفية المدمجة</h3>
-          <p data-ar="تربط البنوك خدماتها داخل السوق: حسابات، تحويلات، تمويل، وبطاقات عبر واجهات." data-en="Banks plug services into the souk: accounts, transfers, financing & cards via APIs.">تربط البنوك خدماتها داخل السوق: حسابات، تحويلات، تمويل، وبطاقات عبر واجهات.</p>
-          <span class="role-feat">
-            <span><svg class="ic"><use href="#i-check"/></svg><span data-ar="بنية Banking-as-a-Service" data-en="Banking-as-a-Service core">بنية Banking-as-a-Service</span></span>
-            <span><svg class="ic"><use href="#i-check"/></svg><span data-ar="ممرّات حوالات وKYC" data-en="Remittance corridors & KYC">ممرّات حوالات وKYC</span></span>
-            <span><svg class="ic"><use href="#i-check"/></svg><span data-ar="تمويل وشراء لاحق" data-en="Financing & BNPL">تمويل وشراء لاحق</span></span>
-          </span>
-          <span class="role-go"><span data-ar="افتح الكونسول" data-en="Open console">افتح الكونسول</span><svg class="ic ic-sm"><use href="#i-arrow"/></svg></span>
-        </button>
-      </div>
-    </section>
-
-    <!-- flow explainer -->
-    <section class="sec">
-      <div class="sec-head">
-        <h2 data-ar="كيف تعمل الرحلة" data-en="How the journey works">كيف تعمل الرحلة</h2>
-        <span class="rule"></span>
-      </div>
-      <div class="flow rise">
-        <div class="flow-step"><span class="n num">1</span><b data-ar="الفئة" data-en="Category">الفئة</b><span data-ar="اختر واحدة من خمس بوابات." data-en="Pick one of five gateways.">اختر واحدة من خمس بوابات.</span></div>
-        <div class="flow-step"><span class="n num">2</span><b data-ar="الخدمة" data-en="Service">الخدمة</b><span data-ar="افتح الخدمة داخل الفئة." data-en="Open a service inside it.">افتح الخدمة داخل الفئة.</span></div>
-        <div class="flow-step"><span class="n num">3</span><b data-ar="الدور" data-en="Role">الدور</b><span data-ar="عميل؟ تاجر؟ بنك؟" data-en="Customer? Merchant? Bank?">عميل؟ تاجر؟ بنك؟</span></div>
-        <div class="flow-step"><span class="n num">4</span><b data-ar="التطبيق" data-en="The app">التطبيق</b><span data-ar="انتقل إلى السطح المناسب." data-en="Jump to the right surface.">انتقل إلى السطح المناسب.</span></div>
-      </div>
-    </section>
+    <a class="app gold rev" href="app.html#merchant">
+      <span class="badge" data-ar="تاجر" data-en="Merchant">تاجر</span>
+      <span class="aico"><svg class="ic ic-lg"><use href="#i-store"/></svg></span>
+      <h3 data-ar="تطبيق التاجر" data-en="Merchant app">تطبيق التاجر</h3>
+      <p data-ar="نوعان في لوحة واحدة: تاجر عادي، وسودا إكسبريس للشحن." data-en="Two types in one console: standard merchant & Suda Express.">نوعان في لوحة واحدة: تاجر عادي، وسودا إكسبريس للشحن.</p>
+      <ul>
+        <li><svg class="ic"><use href="#i-check"/></svg><span data-ar="لوحة طلبات ومدفوعات" data-en="Orders & payouts board">لوحة طلبات ومدفوعات</span></li>
+        <li><svg class="ic"><use href="#i-check"/></svg><span data-ar="بوليصة سودا إكسبريس + QR" data-en="Suda Express waybill + QR">بوليصة سودا إكسبريس + QR</span></li>
+        <li><svg class="ic"><use href="#i-check"/></svg><span data-ar="تسوية عبر الأمانة" data-en="Escrow-settled payouts">تسوية عبر الأمانة</span></li>
+      </ul>
+      <span class="ago"><span data-ar="افتح بوابة التاجر" data-en="Open merchant portal">افتح بوابة التاجر</span><svg class="ic"><use href="#i-arrow"/></svg></span>
+    </a>
+    <a class="app palm rev" href="app.html#bank">
+      <span class="badge" data-ar="بنك" data-en="Bank">بنك</span>
+      <span class="aico"><svg class="ic ic-lg"><use href="#i-bank"/></svg></span>
+      <h3 data-ar="الخدمات المصرفية" data-en="Bank services">الخدمات المصرفية</h3>
+      <p data-ar="تربط البنوك خدماتها داخل السوق عبر واجهات مدمجة." data-en="Banks plug services into the souk via embedded APIs.">تربط البنوك خدماتها داخل السوق عبر واجهات مدمجة.</p>
+      <ul>
+        <li><svg class="ic"><use href="#i-check"/></svg><span data-ar="بنية Banking-as-a-Service" data-en="Banking-as-a-Service core">بنية Banking-as-a-Service</span></li>
+        <li><svg class="ic"><use href="#i-check"/></svg><span data-ar="ممرّات حوالات وKYC" data-en="Remittance corridors & KYC">ممرّات حوالات وKYC</span></li>
+        <li><svg class="ic"><use href="#i-check"/></svg><span data-ar="تمويل وشراء لاحق وبطاقات" data-en="Financing, BNPL & cards">تمويل وشراء لاحق وبطاقات</span></li>
+      </ul>
+      <span class="ago"><span data-ar="افتح كونسول البنك" data-en="Open bank console">افتح كونسول البنك</span><svg class="ic"><use href="#i-arrow"/></svg></span>
+    </a>
   </div>
 </section>
 
-<!-- ══════════════════ VIEW: SERVICES (drill-down) ══════════════════ -->
-<section class="view" data-view="services">
-  <div class="wrap">
-    <div class="crumb">
-      <button data-go="home"><svg class="ic"><use href="#i-back"/></svg><span data-ar="الرئيسية" data-en="Home">الرئيسية</span></button>
-      <span class="sep">/</span>
-      <span class="cur" id="svcCrumb">—</span>
+<!-- spotlight: Suda Express -->
+<section class="sec" id="express">
+  <div class="spot g rev">
+    <div class="spot-copy">
+      <span class="sec-tag" data-ar="اللوجستيات" data-en="Logistics">اللوجستيات</span>
+      <h2 data-ar="سودا إكسبريس يحرّك كل طلب" data-en="Suda Express moves every order">سودا إكسبريس يحرّك كل طلب</h2>
+      <p data-ar="شريك الشحن داخل المنظومة: يسعّر الشحنة، يصدر البوليصة، يدير السائقين، ويؤكّد التسليم بالمسح — وعندها فقط يُفرج البنك عن المبلغ المحجوز في الأمانة." data-en="The ecosystem's logistics partner: it quotes, issues the waybill, runs the riders and confirms delivery by scan — and only then does the bank release the escrow-held funds.">شريك الشحن داخل المنظومة: يسعّر الشحنة، يصدر البوليصة، يدير السائقين، ويؤكّد التسليم بالمسح — وعندها فقط يُفرج البنك عن المبلغ المحجوز في الأمانة.</p>
+      <ul class="spot-feats">
+        <li><span class="fi"><svg class="ic"><use href="#i-tag"/></svg></span><span><b data-ar="تسعير فوري" data-en="Instant quote">تسعير فوري</b><span data-ar="حسب الوزن والوجهة." data-en="By weight and destination.">حسب الوزن والوجهة.</span></span></li>
+        <li><span class="fi"><svg class="ic"><use href="#i-receipt"/></svg></span><span><b data-ar="بوليصة + رمز QR" data-en="Waybill + QR">بوليصة + رمز QR</b><span data-ar="تُمسح عند الاستلام والتسليم." data-en="Scanned at pickup and handover.">تُمسح عند الاستلام والتسليم.</span></span></li>
+        <li><span class="fi"><svg class="ic"><use href="#i-handoff"/></svg></span><span><b data-ar="تسليم يُفرج الأمانة" data-en="Handover releases escrow">تسليم يُفرج الأمانة</b><span data-ar="أمان للطرفين." data-en="Safe for both sides.">أمان للطرفين.</span></span></li>
+      </ul>
     </div>
-    <div class="svc-hero" id="svcHero"><!-- injected --></div>
-    <div class="sec">
-      <div class="sec-head">
-        <h2 data-ar="الخدمات المتاحة" data-en="Available services">الخدمات المتاحة</h2>
-        <span class="en" data-ar="اختر خدمة ثم انتقل إلى تطبيقك" data-en="Pick a service, then jump to your app">اختر خدمة ثم انتقل إلى تطبيقك</span>
-        <span class="rule"></span>
-      </div>
-      <div class="svc-grid" id="svcGrid"><!-- injected --></div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════ VIEW: CUSTOMER APP ══════════════════ -->
-<section class="view" data-view="customer">
-  <div class="wrap">
-    <div class="crumb">
-      <button data-go="home"><svg class="ic"><use href="#i-back"/></svg><span data-ar="الرئيسية" data-en="Home">الرئيسية</span></button>
-      <span class="sep">/</span><span class="cur" data-ar="تطبيق العميل" data-en="Customer app">تطبيق العميل</span>
-    </div>
-    <div class="stage">
-      <div class="stage-copy">
-        <p class="eyebrow"><span class="dot"></span><span data-ar="سطح العميل" data-en="Customer surface">سطح العميل</span></p>
-        <h1 data-ar="سوق واحد. محفظة واحدة. تتبّع واحد." data-en="One souk. One wallet. One tracker.">سوق واحد. محفظة واحدة. تتبّع واحد.</h1>
-        <p class="lede" data-ar="كل فئات السوق في تطبيق واحد — تشترى، تدفع من محفظة حوّل، ويوصلها سودا إكسبريس، مع بقاء المبلغ في الأمانة حتى تستلم." data-en="Every souk category in one app — you buy, pay from the Hawil wallet, Suda Express delivers, and the money stays in escrow until you receive it.">كل فئات السوق في تطبيق واحد — تشترى، تدفع من محفظة حوّل، ويوصلها سودا إكسبريس، مع بقاء المبلغ في الأمانة حتى تستلم.</p>
-        <ul class="feat-list">
-          <li><span class="fi"><svg class="ic"><use href="#i-grid"/></svg></span><span><b data-ar="كتالوج موحّد" data-en="Unified catalog">كتالوج موحّد</b><span data-ar="منتجات ومواد بناء وتذاكر سفر في مكان واحد." data-en="Products, building materials & travel tickets together.">منتجات ومواد بناء وتذاكر سفر في مكان واحد.</span></span></li>
-          <li><span class="fi"><svg class="ic"><use href="#i-truck"/></svg></span><span><b data-ar="تتبّع حي" data-en="Live tracking">تتبّع حي</b><span data-ar="حالة الشحنة لحظة بلحظة عبر سودا إكسبريس." data-en="Minute-by-minute delivery status via Suda Express.">حالة الشحنة لحظة بلحظة عبر سودا إكسبريس.</span></span></li>
-          <li><span class="fi"><svg class="ic"><use href="#i-shield"/></svg></span><span><b data-ar="حماية بالأمانة" data-en="Escrow protection">حماية بالأمانة</b><span data-ar="لا يُفرج عن المبلغ للتاجر إلا بعد التسليم." data-en="Funds release to the merchant only after handover.">لا يُفرج عن المبلغ للتاجر إلا بعد التسليم.</span></span></li>
-        </ul>
-      </div>
-
-      <!-- customer phone -->
-      <div class="phone">
-        <div class="screen">
-          <div class="scr-top">
-            <div class="mtitle"><span class="mk">س</span><div><b data-ar="السوق" data-en="alSooq">السوق</b><span data-ar="تطبيق العميل" data-en="Customer">تطبيق العميل</span></div></div>
-            <svg class="ic ic-sm" style="color:var(--ink-3)"><use href="#i-bell"/></svg>
-          </div>
-          <div class="scr-body">
-            <!-- SHOP pane -->
-            <div class="pane on" data-pane="shop">
-              <div class="chips">
-                <span class="mchip on" data-ar="الكل" data-en="All">الكل</span>
-                <span class="mchip" data-ar="المتجر" data-en="Shop">المتجر</span>
-                <span class="mchip" data-ar="مواد البناء" data-en="Build">مواد البناء</span>
-                <span class="mchip" data-ar="سفر" data-en="Travel">سفر</span>
-              </div>
-              <div class="p-h" data-ar="مختار لك" data-en="Picked for you">مختار لك</div>
-              <div class="plist">
-                <div class="prod"><div class="ph"><svg class="ic"><use href="#i-sun"/></svg></div><div class="pb"><div class="pn" data-ar="لوح شمسي 550و" data-en="Solar panel 550W">لوح شمسي 550و</div><div class="pm" data-ar="طاقة · معتمد" data-en="Energy · verified">طاقة · معتمد</div><div class="pf"><div class="pp"><span class="num">42,000</span> <small data-ar="ج" data-en="SDG">ج</small></div><button class="add"><svg class="ic"><use href="#i-plus"/></svg></button></div></div></div>
-                <div class="prod p2"><div class="ph"><svg class="ic"><use href="#i-beam"/></svg></div><div class="pb"><div class="pn" data-ar="حديد تسليح ١٢مم" data-en="Rebar 12mm">حديد تسليح ١٢مم</div><div class="pm" data-ar="بناء · للطن" data-en="Build · per ton">بناء · للطن</div><div class="pf"><div class="pp"><span class="num">315,000</span> <small data-ar="ج" data-en="SDG">ج</small></div><button class="add"><svg class="ic"><use href="#i-plus"/></svg></button></div></div></div>
-                <div class="prod p3"><div class="ph"><svg class="ic"><use href="#i-seat"/></svg></div><div class="pb"><div class="pn" data-ar="مقعد الخرطوم–بورتسودان" data-en="Khartoum–Port Sudan seat">مقعد الخرطوم–بورتسودان</div><div class="pm" data-ar="مواصلاتي" data-en="Mwasalati">مواصلاتي</div><div class="pf"><div class="pp"><span class="num">28,500</span> <small data-ar="ج" data-en="SDG">ج</small></div><button class="add"><svg class="ic"><use href="#i-plus"/></svg></button></div></div></div>
-                <div class="prod"><div class="ph"><svg class="ic"><use href="#i-bulb"/></svg></div><div class="pb"><div class="pn" data-ar="كشاف LED ٥٠و" data-en="LED spotlight 50W">كشاف LED ٥٠و</div><div class="pm" data-ar="إنارة" data-en="Lighting">إنارة</div><div class="pf"><div class="pp"><span class="num">9,750</span> <small data-ar="ج" data-en="SDG">ج</small></div><button class="add"><svg class="ic"><use href="#i-plus"/></svg></button></div></div></div>
-              </div>
-            </div>
-            <!-- ORDERS pane -->
-            <div class="pane" data-pane="orders">
-              <div class="p-h" data-ar="طلب نشط" data-en="Active order">طلب نشط</div>
-              <div class="track">
-                <div class="track-top"><b>#SX-4471</b><span class="chip chip-live"><span class="d"></span><span data-ar="قيد التوصيل" data-en="Out for delivery">قيد التوصيل</span></span></div>
-                <div class="tstep done"><span class="tdot"><svg class="ic"><use href="#i-check"/></svg></span><div class="tc"><b data-ar="تم الدفع (أمانة)" data-en="Paid — held in escrow">تم الدفع (أمانة)</b><span class="num">09:14</span></div></div>
-                <div class="tstep done"><span class="tdot"><svg class="ic"><use href="#i-check"/></svg></span><div class="tc"><b data-ar="جهّز التاجر الطلب" data-en="Merchant prepared">جهّز التاجر الطلب</b><span class="num">10:02</span></div></div>
-                <div class="tstep done"><span class="tdot"><svg class="ic"><use href="#i-check"/></svg></span><div class="tc"><b data-ar="استلمه سودا إكسبريس" data-en="Picked up by Suda Express">استلمه سودا إكسبريس</b><span class="num">10:48</span></div></div>
-                <div class="tstep now"><span class="tdot"><svg class="ic"><use href="#i-truck"/></svg></span><div class="tc"><b data-ar="في الطريق إليك" data-en="On the way to you">في الطريق إليك</b><span data-ar="يبعد ٣ كم · ~١٢ دقيقة" data-en="3 km away · ~12 min">يبعد ٣ كم · ~١٢ دقيقة</span></div></div>
-                <div class="tstep"><span class="tdot"><svg class="ic"><use href="#i-handoff"/></svg></span><div class="tc"><b data-ar="سلّم واستلم" data-en="Handover & release">سلّم واستلم</b><span data-ar="امسح لتأكيد الاستلام" data-en="Scan to confirm receipt">امسح لتأكيد الاستلام</span></div></div>
-              </div>
-              <div class="p-h" data-ar="سابقة" data-en="Past">سابقة</div>
-              <div class="lrow"><span class="li"><svg class="ic ic-sm"><use href="#i-box"/></svg></span><div class="lt"><b>#SX-4390</b><span data-ar="إسمنت · ٢٠ كيس" data-en="Cement · 20 bags">إسمنت · ٢٠ كيس</span></div><div class="lend"><b class="num">86,000</b><span class="chip chip-live" style="margin-top:2px"><span data-ar="سُلّم" data-en="Delivered">سُلّم</span></span></div></div>
-              <div class="lrow"><span class="li gold"><svg class="ic ic-sm"><use href="#i-ticket"/></svg></span><div class="lt"><b>#MW-118</b><span data-ar="تذكرة سفر · مؤكّدة" data-en="Travel ticket · confirmed">تذكرة سفر · مؤكّدة</span></div><div class="lend"><b class="num">28,500</b><span class="chip chip-live" style="margin-top:2px"><span data-ar="سُلّم" data-en="Delivered">سُلّم</span></span></div></div>
-            </div>
-            <!-- WALLET pane -->
-            <div class="pane" data-pane="wallet">
-              <div class="hcard">
-                <div class="lbl" data-ar="محفظة حوّل" data-en="Hawil wallet">محفظة حوّل</div>
-                <div class="amt"><span class="num">248,500</span> <span style="font-size:15px;opacity:.8" data-ar="ج" data-en="SDG">ج</span></div>
-                <div class="sub" data-ar="منها ٧١٬٠٠٠ محجوزة في الأمانة" data-en="incl. 71,000 held in escrow">منها ٧١٬٠٠٠ محجوزة في الأمانة</div>
-                <div class="hrow">
-                  <button><svg class="ic"><use href="#i-send"/></svg><span data-ar="إرسال" data-en="Send">إرسال</span></button>
-                  <button><svg class="ic"><use href="#i-recv"/></svg><span data-ar="استلام" data-en="Receive">استلام</span></button>
-                  <button><svg class="ic"><use href="#i-qr"/></svg><span data-ar="دفع QR" data-en="Pay QR">دفع QR</span></button>
-                </div>
-              </div>
-              <div class="p-h" data-ar="الحركات" data-en="Activity">الحركات</div>
-              <div class="lrow"><span class="li palm"><svg class="ic ic-sm"><use href="#i-recv"/></svg></span><div class="lt"><b data-ar="حوالة من الخارج" data-en="Diaspora remittance">حوالة من الخارج</b><span data-ar="عبر بنك شريك · KYC مؤكّد" data-en="via partner bank · KYC ok">عبر بنك شريك · KYC مؤكّد</span></div><div class="lend"><b style="color:var(--palm)">+<span class="num">120,000</span></b><span class="num">أمس</span></div></div>
-              <div class="lrow"><span class="li"><svg class="ic ic-sm"><use href="#i-shield"/></svg></span><div class="lt"><b data-ar="حجز أمانة · #SX-4471" data-en="Escrow hold · #SX-4471">حجز أمانة · #SX-4471</b><span data-ar="يُفرج عند التسليم" data-en="releases on handover">يُفرج عند التسليم</span></div><div class="lend"><b>−<span class="num">71,000</span></b><span class="num">اليوم</span></div></div>
-              <div class="lrow"><span class="li"><svg class="ic ic-sm"><use href="#i-bus"/></svg></span><div class="lt"><b data-ar="تذكرة مواصلاتي" data-en="Mwasalati ticket">تذكرة مواصلاتي</b><span>#MW-118</span></div><div class="lend"><b>−<span class="num">28,500</span></b><span class="num">أمس</span></div></div>
-            </div>
-          </div>
-          <div class="scr-nav" data-accent="clay">
-            <button class="on" data-tab="shop"><svg class="ic"><use href="#i-shop"/></svg><span data-ar="تسوّق" data-en="Shop">تسوّق</span></button>
-            <button data-tab="orders"><svg class="ic"><use href="#i-box"/></svg><span data-ar="طلباتي" data-en="Orders">طلباتي</span></button>
-            <button data-tab="wallet"><svg class="ic"><use href="#i-wallet"/></svg><span data-ar="المحفظة" data-en="Wallet">المحفظة</span></button>
-          </div>
-        </div>
+    <div class="spot-media">
+      <div class="mini-track">
+        <div class="mt done"><span class="d"><svg class="ic ic-sm" style="width:13px;height:13px"><use href="#i-check"/></svg></span><div><b data-ar="تم الدفع — محجوز في الأمانة" data-en="Paid — held in escrow">تم الدفع — محجوز في الأمانة</b><span class="num">09:14</span></div></div>
+        <div class="mt done"><span class="d"><svg class="ic ic-sm" style="width:13px;height:13px"><use href="#i-check"/></svg></span><div><b data-ar="استلمه سودا إكسبريس" data-en="Picked up by Suda Express">استلمه سودا إكسبريس</b><span class="num">10:48</span></div></div>
+        <div class="mt now"><span class="d"><svg class="ic ic-sm" style="width:13px;height:13px"><use href="#i-truck"/></svg></span><div><b data-ar="في الطريق إليك" data-en="On the way to you">في الطريق إليك</b><span data-ar="يبعد ٣ كم · ~١٢ دقيقة" data-en="3 km away · ~12 min">يبعد ٣ كم · ~١٢ دقيقة</span></div></div>
+        <div class="mt"><span class="d"><svg class="ic ic-sm" style="width:13px;height:13px"><use href="#i-handoff"/></svg></span><div><b data-ar="سلّم واستلم — يُفرج المبلغ" data-en="Handover — funds released">سلّم واستلم — يُفرج المبلغ</b><span data-ar="امسح لتأكيد الاستلام" data-en="Scan to confirm receipt">امسح لتأكيد الاستلام</span></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════ VIEW: MERCHANT APP ══════════════════ -->
-<section class="view" data-view="merchant">
-  <div class="wrap">
-    <div class="crumb">
-      <button data-go="home"><svg class="ic"><use href="#i-back"/></svg><span data-ar="الرئيسية" data-en="Home">الرئيسية</span></button>
-      <span class="sep">/</span><span class="cur" data-ar="تطبيق التاجر" data-en="Merchant app">تطبيق التاجر</span>
+<!-- spotlight: Banking -->
+<section class="sec" id="bank">
+  <div class="spot p rev" >
+    <div class="spot-media">
+      <div class="api"><span class="c"># bank issues an escrow hold on the order</span><br>POST <span class="s">/v1/escrow/holds</span><br>{ <span class="k">"order"</span>:<span class="s">"SX-4471"</span>, <span class="k">"amount"</span>:<span class="num">71000</span>,<br>&nbsp;&nbsp;<span class="k">"release_on"</span>:<span class="s">"handover.scan"</span> }<br><span class="c">→ 201 { "hold":"esc_9f2","state":"held" }</span></div>
+      <div class="mrow"><span class="mi"><svg class="ic ic-sm"><use href="#i-remit"/></svg></span><div class="mt2"><b data-ar="الإمارات ← الخرطوم" data-en="UAE → Khartoum">الإمارات ← الخرطوم</b><span data-ar="حوالة · KYC آلي" data-en="remittance · auto KYC">حوالة · KYC آلي</span></div><span class="chip" data-ar="٤٥ ثانية" data-en="45s">٤٥ ثانية</span></div>
+      <div class="mrow"><span class="mi"><svg class="ic ic-sm"><use href="#i-coins"/></svg></span><div class="mt2"><b data-ar="تمويل مواد البناء" data-en="Materials financing">تمويل مواد البناء</b><span data-ar="تقسيط · تقييم فوري" data-en="instalments · instant score">تقسيط · تقييم فوري</span></div><span class="chip" style="background:var(--gold-tint);color:var(--gold)" data-ar="تجريبي" data-en="Pilot">تجريبي</span></div>
     </div>
-    <div class="stage">
-      <div class="stage-copy">
-        <p class="eyebrow"><span class="dot"></span><span data-ar="سطح التاجر" data-en="Merchant surface">سطح التاجر</span></p>
-        <h1 data-ar="نوعان من التجّار. لوحة واحدة." data-en="Two kinds of merchant. One console.">نوعان من التجّار. لوحة واحدة.</h1>
-        <p class="lede" data-ar="بدّل بين التاجر العادي — الذي يدير متجراً ومنتجات وطلبات — وبين سودا إكسبريس، شريك الشحن الذي يسعّر ويصدر البوالص ويدير التسليم." data-en="Switch between the standard merchant — running a storefront, products and orders — and Suda Express, the logistics partner that quotes, issues waybills and runs handover.">بدّل بين التاجر العادي — الذي يدير متجراً ومنتجات وطلبات — وبين سودا إكسبريس، شريك الشحن الذي يسعّر ويصدر البوالص ويدير التسليم.</p>
-        <div class="seg" id="merchSeg" data-accent="gold" style="margin-top:22px">
-          <span class="seg-glide" aria-hidden="true"></span>
-          <button data-mtype="normal" aria-selected="true"><svg class="ic"><use href="#i-store"/></svg><span data-ar="تاجر عادي" data-en="Standard merchant">تاجر عادي</span></button>
-          <button data-mtype="express" aria-selected="false"><svg class="ic"><use href="#i-truck"/></svg><span data-ar="سودا إكسبريس" data-en="Suda Express">سودا إكسبريس</span></button>
-        </div>
-        <ul class="feat-list" id="merchFeat"><!-- injected by type --></ul>
-      </div>
+    <div class="spot-copy">
+      <span class="sec-tag" data-ar="التمويل المدمج" data-en="Embedded finance">التمويل المدمج</span>
+      <h2 data-ar="البنوك تُشغّل المال داخل السوق" data-en="Banks power the money inside the souk">البنوك تُشغّل المال داخل السوق</h2>
+      <p data-ar="عبر واجهات Banking-as-a-Service، يربط البنك الشريك حساباته وأمانته وحوالاته وتمويله وبطاقاته داخل حوّل — فيصبح كل عميل وتاجر عميلاً مصرفياً دون مغادرة السوق." data-en="Through Banking-as-a-Service APIs, a partner bank plugs its accounts, escrow, remittance, financing and cards into Hawil — making every customer and merchant a banking customer without leaving the souk.">عبر واجهات Banking-as-a-Service، يربط البنك الشريك حساباته وأمانته وحوالاته وتمويله وبطاقاته داخل حوّل — فيصبح كل عميل وتاجر عميلاً مصرفياً دون مغادرة السوق.</p>
+      <ul class="spot-feats">
+        <li><span class="fi"><svg class="ic"><use href="#i-shield"/></svg></span><span><b data-ar="أمانة كخدمة" data-en="Escrow-as-a-service">أمانة كخدمة</b><span data-ar="حجز وإفراج آلي عند التسليم." data-en="Held & auto-released on handover.">حجز وإفراج آلي عند التسليم.</span></span></li>
+        <li><span class="fi"><svg class="ic"><use href="#i-globe"/></svg></span><span><b data-ar="ممرّات حوالات مرخّصة" data-en="Licensed corridors">ممرّات حوالات مرخّصة</b><span data-ar="الشتات ← السودان بالثواني." data-en="Diaspora → Sudan in seconds.">الشتات ← السودان بالثواني.</span></span></li>
+        <li><span class="fi"><svg class="ic"><use href="#i-code"/></svg></span><span><b data-ar="واجهة BaaS" data-en="BaaS API">واجهة BaaS</b><span data-ar="حسابات، تحويلات، KYC، تمويل." data-en="Accounts, transfers, KYC, financing.">حسابات، تحويلات، KYC، تمويل.</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-      <!-- merchant phone -->
-      <div class="phone">
-        <div class="screen">
-          <div class="scr-top">
-            <div class="mtitle"><span class="mk" id="merchMark">م</span><div><b id="merchName" data-ar="متجر النيل" data-en="Nile Store">متجر النيل</b><span id="merchKind" data-ar="تاجر عادي" data-en="Standard merchant">تاجر عادي</span></div></div>
-            <span class="chip chip-live"><span class="d"></span><span data-ar="متصل" data-en="Online">متصل</span></span>
-          </div>
-          <div class="scr-body" id="merchBody"><!-- injected by type/tab --></div>
-          <div class="scr-nav" id="merchNav" data-accent="gold"><!-- injected by type --></div>
+<!-- Mowasalty — mobility sub-brand -->
+<section class="sec" id="mowasalaty">
+  <div class="mowa rev">
+    <div>
+      <span class="mowa-tag"><svg class="ic" style="width:15px;height:15px"><use href="#i-bus"/></svg><span data-ar="هوية التنقّل" data-en="Mobility identity">هوية التنقّل</span></span>
+      <h2>مواصلاتي<span class="en">Mowasalty · Mobility</span></h2>
+      <ul>
+        <li data-ar="بيع المقاعد المجدولة لرحلات الغد" data-en="Sell scheduled seats for tomorrow’s trips">بيع المقاعد المجدولة لرحلات الغد</li>
+        <li data-ar="تخطيط مسبق لرحلتك، وضمان مكانك" data-en="Plan your trip ahead, guarantee your seat">تخطيط مسبق لرحلتك، وضمان مكانك</li>
+        <li data-ar="اختر مسارك ووقتك عبر التطبيق، واحجز بسهولة" data-en="Choose your route and time in-app, book with ease">اختر مسارك ووقتك عبر التطبيق، واحجز بسهولة</li>
+      </ul>
+      <a class="mowa-book" href="app.html"><svg class="ic"><use href="#i-bus"/></svg><span data-ar="احجز مقعدك" data-en="Book your seat">احجز مقعدك</span></a>
+    </div>
+    <div class="mowa-vis">
+      <div class="seatpad">
+        <div class="sp-h" data-ar="امسح واحجز · Scan & Book" data-en="Scan &amp; Book">امسح واحجز · Scan &amp; Book</div>
+        <div class="seat-grid">
+          <div class="seat g"></div><div class="seat o"></div><div class="seat g"></div><div class="seat g"></div>
+          <div class="seat o"></div><div class="seat g"></div><div class="seat g"></div><div class="seat sel"><svg class="ic"><use href="#i-check"/></svg></div>
+          <div class="seat g"></div><div class="seat o"></div><div class="seat g"></div><div class="seat g"></div>
+          <div class="seat g"></div><div class="seat g"></div><div class="seat free"></div><div class="seat free"></div>
         </div>
+        <div class="sp-f" data-ar="مقعدك محجوز" data-en="Seat reserved">مقعدك محجوز</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════ VIEW: BANK CONSOLE ══════════════════ -->
-<section class="view" data-view="bank">
-  <div class="wrap">
-    <div class="crumb">
-      <button data-go="home"><svg class="ic"><use href="#i-back"/></svg><span data-ar="الرئيسية" data-en="Home">الرئيسية</span></button>
-      <span class="sep">/</span><span class="cur" data-ar="الخدمات المصرفية المدمجة" data-en="Embedded bank services">الخدمات المصرفية المدمجة</span>
+<!-- dashboard teaser -->
+<section class="sec" id="dashboard">
+  <div class="dash-teaser rev"><div class="dash-in">
+    <div>
+      <span class="sec-tag" data-ar="لوحة المنظومة" data-en="Ecosystem dashboard">لوحة المنظومة</span>
+      <h2 data-ar="كل نبض السوق في شاشة واحدة" data-en="Every pulse of the souk on one screen">كل نبض السوق في شاشة واحدة</h2>
+      <p data-ar="مبيعات، طلبات، توصيلات، أمانة، وممرّات حوالات — بمؤشرات حيّة ورسوم متحرّكة." data-en="Sales, orders, deliveries, escrow and corridors — with live metrics and animated charts.">مبيعات، طلبات، توصيلات، أمانة، وممرّات حوالات — بمؤشرات حيّة ورسوم متحرّكة.</p>
+      <div class="hero-cta" style="margin-top:26px"><a class="btn btn-primary btn-lg" href="dashboard.html"><svg class="ic"><use href="#i-chart"/></svg><span data-ar="افتح اللوحة" data-en="Open the dashboard">افتح اللوحة</span></a></div>
     </div>
-    <div class="stage">
-      <div class="stage-copy">
-        <p class="eyebrow"><span class="dot"></span><span data-ar="سطح البنك · Banking-as-a-Service" data-en="Bank surface · Banking-as-a-Service">سطح البنك · Banking-as-a-Service</span></p>
-        <h1 data-ar="البنوك تُشغّل المال داخل السوق." data-en="Banks power the money inside the souk.">البنوك تُشغّل المال داخل السوق.</h1>
-        <p class="lede" data-ar="يربط البنك الشريك خدماته المالية داخل حوّل عبر واجهات مدمجة — حسابات، أمانة، حوالات، تمويل وبطاقات — فيصبح كل عميل وتاجر عميلاً مصرفياً دون مغادرة السوق." data-en="A partner bank plugs its financial services into Hawil through embedded APIs — accounts, escrow, remittance, financing and cards — so every customer and merchant becomes a banking customer without leaving the souk.">يربط البنك الشريك خدماته المالية داخل حوّل عبر واجهات مدمجة — حسابات، أمانة، حوالات، تمويل وبطاقات — فيصبح كل عميل وتاجر عميلاً مصرفياً دون مغادرة السوق.</p>
-        <div class="kpis" style="margin-top:24px;max-width:420px">
-          <div class="kpi"><div class="kl"><svg class="ic"><use href="#i-globe"/></svg><span data-ar="حجم شهري" data-en="Monthly volume">حجم شهري</span></div><div class="kv"><span class="num">1.94</span><span style="font-size:13px" data-ar=" مليار ج" data-en="B SDG"> مليار ج</span></div><div class="kd">+<span class="num">18%</span></div></div>
-          <div class="kpi"><div class="kl"><svg class="ic"><use href="#i-user"/></svg><span data-ar="حسابات مفعّلة" data-en="Active accounts">حسابات مفعّلة</span></div><div class="kv"><span class="num">312</span><span style="font-size:13px" data-ar=" ألف" data-en="K"> ألف</span></div><div class="kd">+<span class="num">9.2%</span></div></div>
-        </div>
-      </div>
-
-      <!-- bank device (wider tablet-style, but reuse phone) -->
-      <div class="phone">
-        <div class="screen">
-          <div class="scr-top">
-            <div class="mtitle"><span class="mk" style="background:linear-gradient(145deg,var(--palm),#1f4a37)"><svg class="ic ic-sm"><use href="#i-bank"/></svg></span><div><b data-ar="بنك النيلين" data-en="Nileen Bank">بنك النيلين</b><span data-ar="شريك · BaaS" data-en="Partner · BaaS">شريك · BaaS</span></div></div>
-            <span class="chip" style="background:var(--palm-12);color:var(--palm)"><span data-ar="مرخّص" data-en="Licensed">مرخّص</span></span>
-          </div>
-          <div class="scr-body">
-            <!-- SERVICES pane -->
-            <div class="pane on" data-bpane="services">
-              <div class="hcard palm">
-                <div class="lbl" data-ar="تسويات اليوم عبر الأمانة" data-en="Today · escrow settled">تسويات اليوم عبر الأمانة</div>
-                <div class="amt"><span class="num">64.2</span> <span style="font-size:15px;opacity:.8" data-ar="مليون ج" data-en="M SDG">مليون ج</span></div>
-                <div class="sub" data-ar="١٬٤٠٢ تسوية · ٠ نزاع مفتوح" data-en="1,402 settlements · 0 open disputes">١٬٤٠٢ تسوية · ٠ نزاع مفتوح</div>
-              </div>
-              <div class="p-h" data-ar="الخدمات المدمجة" data-en="Embedded services">الخدمات المدمجة</div>
-              <div class="lrow"><span class="li palm"><svg class="ic ic-sm"><use href="#i-vault"/></svg></span><div class="lt"><b data-ar="حسابات ومحافظ" data-en="Accounts & wallets">حسابات ومحافظ</b><span data-ar="افتح محفظة لكل مستخدم" data-en="Wallet per user">افتح محفظة لكل مستخدم</span></div><span class="chip chip-live"><span class="d"></span><span data-ar="حي" data-en="Live">حي</span></span></div>
-              <div class="lrow"><span class="li palm"><svg class="ic ic-sm"><use href="#i-shield"/></svg></span><div class="lt"><b data-ar="الأمانة (ضمان)" data-en="Escrow">الأمانة (ضمان)</b><span data-ar="حجز وإفراج آلي عند التسليم" data-en="Hold & release on handover">حجز وإفراج آلي عند التسليم</span></div><span class="chip chip-live"><span class="d"></span><span data-ar="حي" data-en="Live">حي</span></span></div>
-              <div class="lrow"><span class="li palm"><svg class="ic ic-sm"><use href="#i-remit"/></svg></span><div class="lt"><b data-ar="ممرّات الحوالات" data-en="Remittance corridors">ممرّات الحوالات</b><span data-ar="الشتات ← السودان" data-en="Diaspora → Sudan">الشتات ← السودان</span></div><span class="chip chip-live"><span class="d"></span><span data-ar="حي" data-en="Live">حي</span></span></div>
-              <div class="lrow"><span class="li gold"><svg class="ic ic-sm"><use href="#i-coins"/></svg></span><div class="lt"><b data-ar="تمويل وشراء لاحق" data-en="Financing & BNPL">تمويل وشراء لاحق</b><span data-ar="تقسيط مواد البناء" data-en="Instalments for materials">تقسيط مواد البناء</span></div><span class="chip chip-gold"><span data-ar="تجريبي" data-en="Pilot">تجريبي</span></span></div>
-              <div class="lrow"><span class="li"><svg class="ic ic-sm"><use href="#i-card"/></svg></span><div class="lt"><b data-ar="إصدار البطاقات" data-en="Card issuing">إصدار البطاقات</b><span data-ar="بطاقات افتراضية للتجّار" data-en="Virtual merchant cards">بطاقات افتراضية للتجّار</span></div><span class="chip chip-plan"><span data-ar="قريباً" data-en="Soon">قريباً</span></span></div>
-            </div>
-            <!-- CORRIDORS pane -->
-            <div class="pane" data-bpane="corridors">
-              <div class="p-h" data-ar="ممرّات نشطة" data-en="Active corridors">ممرّات نشطة</div>
-              <div class="lrow"><span class="li"><svg class="ic ic-sm"><use href="#i-globe"/></svg></span><div class="lt"><b data-ar="الإمارات ← الخرطوم" data-en="UAE → Khartoum">الإمارات ← الخرطوم</b><span data-ar="متوسط ٤٥ ثانية" data-en="avg 45s settle">متوسط ٤٥ ثانية</span></div><div class="lend"><b class="num">742M</b><span data-ar="هذا الشهر" data-en="this month">هذا الشهر</span></div></div>
-              <div class="lrow"><span class="li"><svg class="ic ic-sm"><use href="#i-globe"/></svg></span><div class="lt"><b data-ar="السعودية ← بورتسودان" data-en="KSA → Port Sudan">السعودية ← بورتسودان</b><span data-ar="متوسط ٥١ ثانية" data-en="avg 51s settle">متوسط ٥١ ثانية</span></div><div class="lend"><b class="num">610M</b><span data-ar="هذا الشهر" data-en="this month">هذا الشهر</span></div></div>
-              <div class="lrow"><span class="li"><svg class="ic ic-sm"><use href="#i-globe"/></svg></span><div class="lt"><b data-ar="مصر ← ود مدني" data-en="Egypt → Wad Madani">مصر ← ود مدني</b><span data-ar="متوسط ٣٨ ثانية" data-en="avg 38s settle">متوسط ٣٨ ثانية</span></div><div class="lend"><b class="num">418M</b><span data-ar="هذا الشهر" data-en="this month">هذا الشهر</span></div></div>
-              <div class="p-h" data-ar="امتثال · KYC" data-en="Compliance · KYC">امتثال · KYC</div>
-              <div class="kpis">
-                <div class="kpi"><div class="kl"><svg class="ic"><use href="#i-shield"/></svg><span data-ar="توثيق آلي" data-en="Auto-verified">توثيق آلي</span></div><div class="kv"><span class="num">96.4%</span></div><div class="kd" data-ar="خلال ثوانٍ" data-en="in seconds">خلال ثوانٍ</div></div>
-                <div class="kpi"><div class="kl"><svg class="ic"><use href="#i-clock"/></svg><span data-ar="مراجعة يدوية" data-en="Manual review">مراجعة يدوية</span></div><div class="kv"><span class="num">3.6%</span></div><div class="kd warn" data-ar="~٤ ساعات" data-en="~4 hrs">~٤ ساعات</div></div>
-              </div>
-            </div>
-            <!-- API pane -->
-            <div class="pane" data-bpane="api">
-              <div class="p-h" data-ar="واجهة BaaS المدمجة" data-en="Embedded BaaS API">واجهة BaaS المدمجة</div>
-              <div class="api"><span class="c"># issue an escrow hold on an order</span><br>
-POST <span class="s">/v1/escrow/holds</span><br>
-{<br>
-&nbsp;&nbsp;<span class="k">"order"</span>: <span class="s">"SX-4471"</span>,<br>
-&nbsp;&nbsp;<span class="k">"amount"</span>: <span class="num">71000</span>,<br>
-&nbsp;&nbsp;<span class="k">"currency"</span>: <span class="s">"SDG"</span>,<br>
-&nbsp;&nbsp;<span class="k">"release_on"</span>: <span class="s">"handover.scan"</span><br>
-}<br>
-<span class="c">→ 201 { "hold":"esc_9f2", "state":"held" }</span></div>
-              <div class="p-h" data-ar="نقاط النهاية" data-en="Endpoints">نقاط النهاية</div>
-              <div class="lrow"><span class="li"><svg class="ic ic-sm"><use href="#i-code"/></svg></span><div class="lt"><b class="mono">/v1/accounts</b><span data-ar="فتح محافظ وحسابات" data-en="Open wallets & accounts">فتح محافظ وحسابات</span></div><span class="chip chip-live"><span class="d"></span>v1</span></div>
-              <div class="lrow"><span class="li"><svg class="ic ic-sm"><use href="#i-code"/></svg></span><div class="lt"><b class="mono">/v1/transfers</b><span data-ar="تحويل وحوالات فورية" data-en="Instant transfers & remittance">تحويل وحوالات فورية</span></div><span class="chip chip-live"><span class="d"></span>v1</span></div>
-              <div class="lrow"><span class="li"><svg class="ic ic-sm"><use href="#i-code"/></svg></span><div class="lt"><b class="mono">/v1/kyc/verify</b><span data-ar="توثيق الهوية" data-en="Identity verification">توثيق الهوية</span></div><span class="chip chip-live"><span class="d"></span>v1</span></div>
-              <div class="lrow"><span class="li gold"><svg class="ic ic-sm"><use href="#i-code"/></svg></span><div class="lt"><b class="mono">/v1/financing</b><span data-ar="تمويل وتقسيط" data-en="Financing & instalments">تمويل وتقسيط</span></div><span class="chip chip-gold">beta</span></div>
-            </div>
-          </div>
-          <div class="scr-nav" data-accent="palm" id="bankNav">
-            <button class="on" data-btab="services"><svg class="ic"><use href="#i-layers"/></svg><span data-ar="الخدمات" data-en="Services">الخدمات</span></button>
-            <button data-btab="corridors"><svg class="ic"><use href="#i-globe"/></svg><span data-ar="الممرّات" data-en="Corridors">الممرّات</span></button>
-            <button data-btab="api"><svg class="ic"><use href="#i-code"/></svg><span data-ar="الواجهة" data-en="API">الواجهة</span></button>
-          </div>
-        </div>
-      </div>
+    <div class="dash-mini">
+      <div class="dm"><div class="l" data-ar="حجم اليوم" data-en="Today’s GMV">حجم اليوم</div><div class="v"><span class="num" data-count="64" data-suffix="M">0</span></div><div class="g">+<span class="num" data-count="18">0</span>%</div></div>
+      <div class="dm"><div class="l" data-ar="طلبات" data-en="Orders">طلبات</div><div class="v"><span class="num" data-count="8420">0</span></div><div class="g">+<span class="num" data-count="12">0</span>%</div></div>
+      <div class="dm" style="grid-column:1/-1"><div class="l" data-ar="التوصيلات أسبوعياً" data-en="Weekly deliveries">التوصيلات أسبوعياً</div><div class="sparkline" data-spark="40,60,52,74,66,88,96"></div></div>
     </div>
+  </div></div>
+</section>
 
-    <!-- partners + service cards -->
-    <div class="wrap" style="padding:0">
-      <section class="sec">
-        <div class="sec-head"><h2 data-ar="بنوك شريكة" data-en="Partner banks">بنوك شريكة</h2><span class="en" data-ar="توضيحي — تُضاف بعد الاتفاقات" data-en="illustrative — added after agreements">توضيحي</span><span class="rule"></span></div>
-        <div class="partners">
-          <span class="partner"><span class="pm" style="background:var(--palm)">ن</span><span data-ar="بنك النيلين" data-en="Nileen Bank">بنك النيلين</span></span>
-          <span class="partner"><span class="pm" style="background:var(--clay)">خ</span><span data-ar="بنك الخرطوم" data-en="Khartoum Bank">بنك الخرطوم</span></span>
-          <span class="partner"><span class="pm" style="background:var(--gold)">ف</span><span data-ar="بنك فيصل" data-en="Faisal Bank">بنك فيصل</span></span>
-          <span class="partner"><span class="pm" style="background:var(--ink-2)">أ</span><span data-ar="بنك أمدرمان" data-en="Omdurman Bank">بنك أمدرمان</span></span>
-        </div>
-      </section>
-      <section class="sec" style="padding-bottom:30px">
-        <div class="cardgrid">
-          <div class="scard"><span class="sc-ico"><svg class="ic"><use href="#i-shield"/></svg></span><h4 data-ar="أمانة كخدمة" data-en="Escrow-as-a-service">أمانة كخدمة</h4><p data-ar="يحتفظ البنك بأموال الطلب حتى يؤكّد سودا إكسبريس التسليم، فيُفرج آلياً." data-en="The bank holds order funds until Suda Express confirms handover, then releases automatically.">يحتفظ البنك بأموال الطلب حتى يؤكّد سودا إكسبريس التسليم، فيُفرج آلياً.</p><div class="sc-meta"><svg class="ic ic-xs"><use href="#i-flash"/></svg><span data-ar="إفراج فوري عند المسح" data-en="Instant release on scan">إفراج فوري عند المسح</span></div></div>
-          <div class="scard"><span class="sc-ico"><svg class="ic"><use href="#i-remit"/></svg></span><h4 data-ar="حوالات الشتات" data-en="Diaspora remittance">حوالات الشتات</h4><p data-ar="ممرّات مرخّصة تُغذّي محفظة العميل مباشرة، بتوثيق KYC آلي." data-en="Licensed corridors that fund the customer wallet directly, with automated KYC.">ممرّات مرخّصة تُغذّي محفظة العميل مباشرة، بتوثيق KYC آلي.</p><div class="sc-meta"><svg class="ic ic-xs"><use href="#i-globe"/></svg><span data-ar="٣ دول · تسوية بالثواني" data-en="3 countries · seconds to settle">٣ دول · تسوية بالثواني</span></div></div>
-          <div class="scard"><span class="sc-ico"><svg class="ic"><use href="#i-coins"/></svg></span><h4 data-ar="تمويل وإعادة إعمار" data-en="Financing & rebuild">تمويل وإعادة إعمار</h4><p data-ar="تقسيط مواد البناء والطاقة الشمسية، مع تقييم مخاطر مبني على سجل السوق." data-en="Instalments for building materials & solar, with risk scored on souk history.">تقسيط مواد البناء والطاقة الشمسية، مع تقييم مخاطر مبني على سجل السوق.</p><div class="sc-meta"><svg class="ic ic-xs"><use href="#i-chart"/></svg><span data-ar="تقييم فوري" data-en="Instant scoring">تقييم فوري</span></div></div>
-        </div>
-      </section>
+<!-- cta -->
+<section class="sec">
+  <div class="cta rev">
+    <h2 data-ar="السوق كامل بانتظارك" data-en="The whole souk is waiting">السوق كامل بانتظارك</h2>
+    <p data-ar="افتح التطبيق الموحّد وابدأ رحلتك من الفئة إلى التطبيق في ثوانٍ." data-en="Open the unified app and go from category to app in seconds.">افتح التطبيق الموحّد وابدأ رحلتك من الفئة إلى التطبيق في ثوانٍ.</p>
+    <div class="cta-btns">
+      <a class="btn btn-primary btn-lg" href="app.html"><svg class="ic"><use href="#i-shop"/></svg><span data-ar="افتح التطبيق" data-en="Launch the app">افتح التطبيق</span></a>
+      <a class="btn btn-ghost btn-lg" href="dashboard.html"><svg class="ic"><use href="#i-chart"/></svg><span data-ar="شاهد اللوحة" data-en="See the dashboard">شاهد اللوحة</span></a>
     </div>
   </div>
 </section>
 
+<!-- payment partners (proposed) -->
+<div class="partners rev">
+  <div class="pt" data-ar="شركاء دفع مقترحون" data-en="Proposed payment partners">شركاء دفع مقترحون</div>
+  <div class="prow">
+    <div class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#12a150,#0c7a3c)">Sa7</span><span><b>Sa7</b><small data-ar="سودان موني" data-en="Sudan Money">سودان موني</small></span></div>
+    <div class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#ffcc00,#e0a500);color:#1a1a1a">MTN</span><span><b>MTN</b><small data-ar="موبايل موني" data-en="Mobile Money">موبايل موني</small></span></div>
+    <div class="pchip scan"><svg class="ic"><use href="#i-wallet"/></svg><span data-ar="امسح وادفع" data-en="Scan &amp; Pay">امسح وادفع</span></div>
+  </div>
+  <div class="pnote" data-ar="أسماء الشركاء توضيحية ومقترحة — تُعتمد شعاراتهم بعد الاتفاقات." data-en="Partner names are illustrative and proposed — their logos are confirmed only after agreements.">أسماء الشركاء توضيحية ومقترحة — تُعتمد شعاراتهم بعد الاتفاقات.</div>
+</div>
+
+</div>
 </main>
 
-<footer class="foot">
-  <div class="wrap foot-in">
-    <div class="lockup"><span class="m">س</span><span><b data-ar="السوق · منظومة هويل" data-en="alSooq · Hawil ecosystem">السوق · منظومة هويل</b><span class="en">Unified App · Prototype</span></span></div>
-    <p class="note" data-ar="واجهة أوّلية للعرض. كل الأرقام والأرصدة والأجرات توضيحية، وشعارات الشركاء والبنوك " data-en="Prototype surface for review. All balances, figures and fares are illustrative; partner and bank logos are ">واجهة أوّلية للعرض. كل الأرقام والأرصدة والأجرات توضيحية، وشعارات الشركاء والبنوك <b data-ar="تُضاف بعد الاتفاقات." data-en="added only after agreements.">تُضاف بعد الاتفاقات.</b></p>
+<footer class="foot"><div class="wrap foot-in">
+  <div>
+    <div class="lk"><span class="m">س</span><span><b data-ar="السوق · منظومة هويل" data-en="alSooq · Hawil ecosystem">السوق · منظومة هويل</b><span class="en">Rebuild Sudan · Prototype</span></span><span class="flag" aria-hidden="true"><i></i><i></i><i></i></span></div>
+    <div class="foot-contact">
+      <a href="https://wa.me/249912345678"><span data-ar="واتساب" data-en="WhatsApp">واتساب</span> <span class="num">0912 345 678</span></a>
+      <span class="tag">@AlSouqSD</span>
+      <a href="https://www.alsooq.sd"><svg class="ic"><use href="#i-globe"/></svg><span class="num">www.alsooq.sd</span></a>
+      <span class="hash">#RebuildSudan</span>
+    </div>
   </div>
-</footer>
+  <p class="note" data-ar="واجهة أوّلية للعرض. كل الأرقام وبيانات التواصل توضيحية، وشعارات الشركاء والبنوك " data-en="Prototype surface for review. All figures and contact details are illustrative; partner and bank logos are ">واجهة أوّلية للعرض. كل الأرقام وبيانات التواصل توضيحية، وشعارات الشركاء والبنوك <b data-ar="تُضاف بعد الاتفاقات." data-en="added only after agreements.">تُضاف بعد الاتفاقات.</b></p>
+</div></footer>
 
 <script>
 (function(){
-  var docEl=document.documentElement;
-  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-
-  /* ═══════════ DATA ═══════════ */
-  var CATS={
-    shop:{ico:'i-shop',ar:'المتجر',en:'Shop',subAr:'منتجات وعروض وتجّار معتمدون',subEn:'Products, offers & verified merchants',
-      accent:'var(--clay)',tint:'var(--clay-08)',
-      svc:[
-        {ico:'i-grid',ar:'المنتجات',en:'Products',dAr:'تصفّح الكتالوج الموحّد للسوق.',dEn:'Browse the unified souk catalog.',acts:['cust','merch']},
-        {ico:'i-store',ar:'التجّار',en:'Merchants',dAr:'بائعون وموزّعون معتمدون.',dEn:'Verified sellers & resellers.',acts:['cust','merch']},
-        {ico:'i-truck',ar:'تتبّع الطلب',en:'Track order',dAr:'حالة الشحنة عبر سودا إكسبريس.',dEn:'Shipment status via Suda Express.',acts:['cust','express']},
-        {ico:'i-tag',ar:'العروض',en:'Offers',dAr:'خصومات وحزم من التجّار.',dEn:'Merchant deals & bundles.',acts:['cust']}
-      ]},
-    build:{ico:'i-build',ar:'مواد البناء',en:'Building materials',subAr:'إعادة الإعمار: من الأساس إلى التشطيب',subEn:'Reconstruction: foundation to finish',
-      accent:'var(--clay)',tint:'var(--clay-08)',
-      svc:[
-        {ico:'i-sun',ar:'طاقة شمسية',en:'Solar',dAr:'ألواح وأنظمة كاملة.',dEn:'Panels & complete systems.',acts:['cust','merch','bank']},
-        {ico:'i-beam',ar:'حديد وإسمنت',en:'Steel & cement',dAr:'بالجملة أو بالكيس، بأسعار حية.',dEn:'Bulk or bagged, live pricing.',acts:['cust','merch']},
-        {ico:'i-bulb',ar:'إنارة وتشطيب',en:'Lighting & finish',dAr:'كشافات، دهانات ولمسات أخيرة.',dEn:'Spotlights, paint & finishing.',acts:['cust','merch']},
-        {ico:'i-chair',ar:'أثاث',en:'Furniture',dAr:'للمنزل والمكتب.',dEn:'Home & office.',acts:['cust','merch']},
-        {ico:'i-coins',ar:'تمويل الإعمار',en:'Rebuild financing',dAr:'قسّط موادك عبر بنك شريك.',dEn:'Instalments via a partner bank.',acts:['bank','cust']}
-      ]},
-    travel:{ico:'i-bus',ar:'السفر والتذاكر',en:'Travel & tickets',subAr:'حجز مقعد بين المدن عبر مواصلاتي',subEn:'Book an intercity seat via Mwasalati',
-      accent:'var(--gold)',tint:'var(--gold-tint)',
-      svc:[
-        {ico:'i-map',ar:'أطلس الخطوط',en:'Route atlas',dAr:'الخطوط والأسعار بين المدن.',dEn:'Intercity lines & rates.',acts:['cust']},
-        {ico:'i-seat',ar:'اطلب مقعداً',en:'Request a seat',dAr:'تفاوض على السعر داخل التطبيق.',dEn:'Negotiate the fare in-band.',acts:['cust','merch']},
-        {ico:'i-ticket',ar:'التذاكر',en:'Tickets',dAr:'إصدار ومسح عند الصعود.',dEn:'Issue & scan at boarding.',acts:['cust','express']}
-      ]},
-    edu:{ico:'i-cap',ar:'التعليم',en:'Education',subAr:'تسجيل جامعي ودفع الرسوم',subEn:'University registration & fees',
-      accent:'var(--clay)',tint:'var(--clay-08)',
-      svc:[
-        {ico:'i-columns',ar:'تسجيل جامعي',en:'University registration',dAr:'قدّم وسجّل إلكترونياً.',dEn:'Apply & enrol online.',acts:['cust']},
-        {ico:'i-receipt',ar:'دفع الرسوم',en:'Pay tuition',dAr:'من المحفظة أو تمويل.',dEn:'From wallet or financing.',acts:['cust','bank']},
-        {ico:'i-book',ar:'دورات وتدريب',en:'Courses',dAr:'شهادات مهنية قصيرة.',dEn:'Short professional tracks.',acts:['cust','merch']}
-      ]},
-    money:{ico:'i-wallet',ar:'المال',en:'Money',subAr:'إرسال، استلام، حوالة، ادّخار، أمانة',subEn:'Send, receive, remit, save, escrow',
-      accent:'var(--palm)',tint:'var(--palm-12)',
-      svc:[
-        {ico:'i-send',ar:'إرسال واستلام',en:'Send & receive',dAr:'تحويل فوري بين المحافظ.',dEn:'Instant wallet transfers.',acts:['cust','bank']},
-        {ico:'i-remit',ar:'حوالة الشتات',en:'Diaspora remittance',dAr:'ممرّات مرخّصة إلى السودان.',dEn:'Licensed corridors to Sudan.',acts:['bank','cust']},
-        {ico:'i-shield',ar:'أمانة (ضمان)',en:'Escrow',dAr:'يُحتجز حتى يتم التسليم.',dEn:'Held until delivery.',acts:['bank','merch','cust']},
-        {ico:'i-vault',ar:'ادّخار',en:'Savings',dAr:'أوعية ادّخار عبر البنك.',dEn:'Savings pockets via the bank.',acts:['bank']},
-        {ico:'i-qr',ar:'دفع QR',en:'Pay by QR',dAr:'رمز موحّد عند التاجر.',dEn:'Unified code at the merchant.',acts:['cust','merch']}
-      ]}
-  };
-  var ACT={
-    cust:{go:'customer',cls:'cust',ar:'كعميل',en:'As customer',ico:'i-user'},
-    merch:{go:'merchant',cls:'merch',ar:'كتاجر',en:'As merchant',ico:'i-store'},
-    express:{go:'merchant',cls:'merch',ar:'سودا إكسبريس',en:'Suda Express',ico:'i-truck',mtype:'express'},
-    bank:{go:'bank',cls:'bank',ar:'كبنك',en:'As bank',ico:'i-bank'}
-  };
-
-  /* ═══════════ i18n ═══════════ */
-  function setLang(lang){
-    var ar=lang==='ar';
-    docEl.lang=lang; docEl.dir=ar?'rtl':'ltr'; docEl.setAttribute('data-lang',lang);
-    document.querySelectorAll('[data-ar]').forEach(function(el){
-      var v=ar?el.getAttribute('data-ar'):el.getAttribute('data-en'); if(v!=null) el.textContent=v;
-    });
-    document.querySelectorAll('[data-ar-html]').forEach(function(el){
-      var v=ar?el.getAttribute('data-ar-html'):el.getAttribute('data-en-html'); if(v!=null) el.innerHTML=v;
-    });
-    document.querySelectorAll('[data-ar-ph]').forEach(function(el){
-      el.placeholder=ar?el.getAttribute('data-ar-ph'):el.getAttribute('data-en-ph');
-    });
-    document.querySelectorAll('.lang [data-lang]').forEach(function(b){
-      b.setAttribute('aria-pressed',b.getAttribute('data-lang')===lang?'true':'false');
-    });
-    positionGliders();
+  var docEl=document.documentElement, reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  /* i18n */
+  function setLang(l){
+    var ar=l==='ar'; docEl.lang=l; docEl.dir=ar?'rtl':'ltr'; docEl.setAttribute('data-lang',l);
+    document.querySelectorAll('[data-ar]').forEach(function(e){var v=ar?e.getAttribute('data-ar'):e.getAttribute('data-en');if(v!=null)e.textContent=v;});
+    document.querySelectorAll('[data-ar-html]').forEach(function(e){var v=ar?e.getAttribute('data-ar-html'):e.getAttribute('data-en-html');if(v!=null)e.innerHTML=v;});
+    document.querySelectorAll('.lang [data-lang]').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-lang')===l?'true':'false');});
   }
-  var L=function(o,ka,ke){return docEl.getAttribute('data-lang')==='ar'?o[ka]:o[ke];};
-  document.querySelectorAll('.lang [data-lang]').forEach(function(b){
-    b.addEventListener('click',function(){setLang(b.getAttribute('data-lang'));});
-  });
-
-  /* ═══════════ router ═══════════ */
-  function go(view){
-    document.querySelectorAll('.view').forEach(function(v){
-      v.classList.toggle('active',v.getAttribute('data-view')===view);
-    });
-    docEl.setAttribute('data-view',view);
-    // switch highlight (services maps to home)
-    var surf=(view==='services')?'home':view;
-    document.querySelectorAll('#switch button').forEach(function(b){
-      b.setAttribute('aria-current',b.getAttribute('data-go')===surf?'true':'false');
-    });
-    positionGliders();
-    if(!reduce) window.scrollTo({top:0,behavior:'smooth'}); else window.scrollTo(0,0);
-    runRise();
-    if(view==='merchant') renderMerchant();
-  }
-  document.addEventListener('click',function(e){
-    var t=e.target.closest('[data-go]'); if(!t) return;
-    e.preventDefault();
-    var v=t.getAttribute('data-go');
-    if(t.getAttribute('data-mtype')) MTYPE=t.getAttribute('data-mtype');
-    go(v);
-  });
-
-  /* ═══════════ category grid ═══════════ */
-  var cg=document.getElementById('catGrid');
-  Object.keys(CATS).forEach(function(key){
-    var c=CATS[key];
-    var b=document.createElement('button');
-    b.className='cat rise'; b.style.setProperty('--accent',c.accent); b.style.setProperty('--tint',c.tint);
-    b.innerHTML=
-      '<span class="cat-ico"><svg class="ic ic-lg"><use href="#'+c.ico+'"/></svg></span>'+
-      '<div class="cat-t"><b data-ar="'+c.ar+'" data-en="'+c.en+'">'+c.ar+'</b><svg class="ic ic-sm cat-arw"><use href="#i-arrow"/></svg></div>'+
-      '<div><div class="cat-sub" data-ar="'+c.subAr+'" data-en="'+c.subEn+'">'+c.subAr+'</div>'+
-      '<div class="cat-count"><span class="num">'+c.svc.length+'</span> <span data-ar="خدمات" data-en="services">خدمات</span></div></div>';
-    b.addEventListener('click',function(){openServices(key);});
-    cg.appendChild(b);
-  });
-
-  /* ═══════════ services view ═══════════ */
-  function openServices(key){
-    var c=CATS[key];
-    document.getElementById('svcCrumb').textContent=L(c,'ar','en');
-    var hero=document.getElementById('svcHero');
-    hero.style.setProperty('--accent',c.accent); hero.style.setProperty('--tint',c.tint);
-    hero.innerHTML='<span class="big-ico"><svg class="ic" style="width:32px;height:32px"><use href="#'+c.ico+'"/></svg></span>'+
-      '<div><h1 data-ar="'+c.ar+'" data-en="'+c.en+'">'+L(c,'ar','en')+'</h1>'+
-      '<p data-ar="'+c.subAr+'" data-en="'+c.subEn+'">'+L(c,'subAr','subEn')+'</p></div>';
-    var grid=document.getElementById('svcGrid'); grid.innerHTML='';
-    c.svc.forEach(function(s){
-      var acts=s.acts.map(function(a){
-        var A=ACT[a];
-        return '<button class="pill-act '+A.cls+'" data-go="'+A.go+'"'+(A.mtype?' data-mtype="'+A.mtype+'"':'')+'>'+
-          '<svg class="ic"><use href="#'+A.ico+'"/></svg><span data-ar="'+A.ar+'" data-en="'+A.en+'">'+L(A,'ar','en')+'</span></button>';
-      }).join('');
-      var el=document.createElement('div');
-      el.className='svc rise';
-      el.innerHTML='<span class="svc-ico"><svg class="ic ic-sm"><use href="#'+s.ico+'"/></svg></span>'+
-        '<b data-ar="'+s.ar+'" data-en="'+s.en+'">'+L(s,'ar','en')+'</b>'+
-        '<span class="desc" data-ar="'+s.dAr+'" data-en="'+s.dEn+'">'+L(s,'dAr','dEn')+'</span>'+
-        '<div class="svc-actions">'+acts+'</div>';
-      grid.appendChild(el);
-    });
-    go('services');
-  }
-
-  /* ═══════════ merchant surface (two types) ═══════════ */
-  var MTYPE='normal', MTAB='home';
-  var MDATA={
-    normal:{mark:'م',nameAr:'متجر النيل',nameEn:'Nile Store',kindAr:'تاجر عادي',kindEn:'Standard merchant',accent:'gold',
-      featAr:[['i-store','متجر ومنتجات','أضف منتجاتك وأسعارك وصورك.'],['i-box','طلبات واردة','اقبل، جهّز، وسلّم لسودا إكسبريس.'],['i-coins','مدفوعات وتسوية','يُفرج البنك عن المبلغ عند التسليم.']],
-      featEn:[['i-store','Storefront & products','Add products, prices and photos.'],['i-box','Incoming orders','Accept, prepare, hand to Suda Express.'],['i-coins','Payouts & settlement','The bank releases funds on handover.']],
-      nav:[['home','لوحة','Board','i-chart'],['orders','طلبات','Orders','i-box'],['products','منتجات','Products','i-grid'],['payouts','تسوية','Payouts','i-coins']]},
-    express:{mark:'سإ',nameAr:'سودا إكسبريس',nameEn:'Suda Express',kindAr:'شريك الشحن',kindEn:'Logistics partner',accent:'clay',
-      featAr:[['i-tag','تسعير فوري','سعّر الشحنة حسب الوزن والوجهة.'],['i-receipt','بوليصة شحن','أصدر بوليصة وامسحها عند الاستلام.'],['i-handoff','تسليم بالمسح','امسح لتؤكّد التسليم ويُفرج المبلغ.']],
-      featEn:[['i-tag','Instant quote','Price by weight and destination.'],['i-receipt','Waybill','Issue a waybill and scan on pickup.'],['i-handoff','Scan-to-handover','Scan to confirm delivery & release funds.']],
-      nav:[['home','لوحة','Board','i-chart'],['jobs','مهام','Jobs','i-truck'],['waybill','بوليصة','Waybill','i-receipt'],['earn','أرباح','Earnings','i-coins']]}
-  };
-  function renderFeat(){
-    var d=MDATA[MTYPE], ul=document.getElementById('merchFeat'), feats=L(d,'featAr','featEn');
-    ul.innerHTML=feats.map(function(f){
-      return '<li><span class="fi"><svg class="ic"><use href="#'+f[0]+'"/></svg></span><span><b>'+f[1]+'</b><span>'+f[2]+'</span></span></li>';
-    }).join('');
-  }
-  function renderMerchNav(){
-    var d=MDATA[MTYPE], nav=document.getElementById('merchNav');
-    nav.setAttribute('data-accent',d.accent);
-    nav.innerHTML=d.nav.map(function(n){
-      return '<button class="'+(n[0]===MTAB?'on':'')+'" data-mtab="'+n[0]+'"><svg class="ic"><use href="#'+n[3]+'"/></svg><span>'+L({a:n[1],e:n[2]},'a','e')+'</span></button>';
-    }).join('');
-    nav.querySelectorAll('[data-mtab]').forEach(function(b){
-      b.addEventListener('click',function(){MTAB=b.getAttribute('data-mtab');renderMerchBody();
-        nav.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);});});
-    });
-  }
-  function money(n){return '<span class="num">'+n+'</span>';}
-  function renderMerchBody(){
-    var ar=docEl.getAttribute('data-lang')==='ar', body=document.getElementById('merchBody'), h='';
-    var chip=function(k){return ar?k[0]:k[1];};
-    if(MTYPE==='normal'){
-      if(MTAB==='home'){
-        h='<div class="hcard gold"><div class="lbl">'+(ar?'مبيعات اليوم':'Today’s sales')+'</div><div class="amt">'+money('1,284,000')+' <span style="font-size:15px;opacity:.8">'+(ar?'ج':'SDG')+'</span></div><div class="sub">'+(ar?'٣٧ طلباً · ٤ بانتظار التجهيز':'37 orders · 4 awaiting prep')+'</div></div>'+
-          '<div class="p-h">'+(ar?'هذا الأسبوع':'This week')+'</div>'+spark([40,55,48,70,62,88,95])+
-          '<div class="kpis" style="margin-top:14px"><div class="kpi"><div class="kl"><svg class="ic"><use href="#i-box"/></svg><span>'+(ar?'طلبات':'Orders')+'</span></div><div class="kv">'+money('37')+'</div><div class="kd">+'+money('12%')+'</div></div>'+
-          '<div class="kpi"><div class="kl"><svg class="ic"><use href="#i-star"/></svg><span>'+(ar?'تقييم':'Rating')+'</span></div><div class="kv">'+money('4.8')+'</div><div class="kd">'+(ar?'٢١٤ مراجعة':'214 reviews')+'</div></div></div>';
-      } else if(MTAB==='orders'){
-        h='<div class="p-h">'+(ar?'بانتظار التجهيز':'Awaiting prep')+'</div>'+
-          orow('i-box','#SX-4471',ar?'لوح شمسي ٥٥٠و':'Solar panel 550W','42,000',['قيد التجهيز','Preparing'],'clay')+
-          orow('i-box','#SX-4468',ar?'كشاف LED ×٤':'LED spotlight ×4','39,000',['جديد','New'],'gold')+
-          '<div class="p-h">'+(ar?'مع سودا إكسبريس':'With Suda Express')+'</div>'+
-          orow('i-truck','#SX-4461',ar?'إسمنت ×٢٠':'Cement ×20','86,000',['قيد التوصيل','Out for delivery'],'palm')+
-          orow('i-handoff','#SX-4455',ar?'حديد ×١ طن':'Rebar ×1 ton','315,000',['سُلّم','Delivered'],'palm');
-      } else if(MTAB==='products'){
-        h='<button class="btn-block gold" style="margin-bottom:12px"><svg class="ic"><use href="#i-plus"/></svg>'+(ar?'أضف منتجاً':'Add a product')+'</button>'+
-          prow('i-sun',ar?'لوح شمسي ٥٥٠و':'Solar panel 550W','42,000',ar?'١٢ متوفّر':'12 in stock')+
-          prow('i-beam',ar?'حديد تسليح ١٢مم':'Rebar 12mm','315,000',ar?'للطن':'per ton')+
-          prow('i-bulb',ar?'كشاف LED ٥٠و':'LED spotlight 50W','9,750',ar?'٤٠ متوفّر':'40 in stock')+
-          prow('i-chair',ar?'كرسي مكتب':'Office chair','54,000',ar?'٧ متوفّر':'7 in stock');
-      } else {
-        h='<div class="hcard palm"><div class="lbl">'+(ar?'رصيد قابل للسحب':'Available to withdraw')+'</div><div class="amt">'+money('918,400')+' <span style="font-size:15px;opacity:.8">'+(ar?'ج':'SDG')+'</span></div><div class="sub">'+(ar?'بعد رسوم المنصّة ٢٪':'after 2% platform fee')+'</div><div class="hrow"><button><svg class="ic"><use href="#i-send"/></svg><span>'+(ar?'اسحب':'Withdraw')+'</span></button><button><svg class="ic"><use href="#i-bank"/></svg><span>'+(ar?'إلى البنك':'To bank')+'</span></button></div></div>'+
-          '<div class="p-h">'+(ar?'تسويات الأمانة':'Escrow settlements')+'</div>'+
-          orow('i-shield','#SX-4461',ar?'أُفرج عند التسليم':'Released on handover','86,000',['+ مُسوّى','+ settled'],'palm')+
-          orow('i-shield','#SX-4455',ar?'أُفرج عند التسليم':'Released on handover','315,000',['+ مُسوّى','+ settled'],'palm')+
-          orow('i-clock','#SX-4471',ar?'محجوز في الأمانة':'Held in escrow','42,000',['بانتظار التسليم','Awaiting handover'],'gold');
-      }
-    } else { /* express */
-      if(MTAB==='home'){
-        h='<div class="hcard"><div class="lbl">'+(ar?'شحنات اليوم':'Today’s shipments')+'</div><div class="amt">'+money('142')+' <span style="font-size:15px;opacity:.8">'+(ar?'طرد':'parcels')+'</span></div><div class="sub">'+(ar?'٨ سائقين نشطين · ٩٦٪ في الوقت':'8 active riders · 96% on-time')+'</div></div>'+
-          '<div class="p-h">'+(ar?'الحمولة أسبوعياً':'Weekly load')+'</div>'+spark([50,66,60,82,74,90,120],'clay')+
-          '<div class="kpis" style="margin-top:14px"><div class="kpi"><div class="kl"><svg class="ic"><use href="#i-truck"/></svg><span>'+(ar?'في الطريق':'En route')+'</span></div><div class="kv">'+money('23')+'</div><div class="kd">'+(ar?'الآن':'now')+'</div></div>'+
-          '<div class="kpi"><div class="kl"><svg class="ic"><use href="#i-clock"/></svg><span>'+(ar?'متوسط':'Avg time')+'</span></div><div class="kv">'+money('34')+'<span style="font-size:12px"> '+(ar?'د':'min')+'</span></div><div class="kd">-'+money('6%')+'</div></div></div>';
-      } else if(MTAB==='jobs'){
-        h='<div class="p-h">'+(ar?'مهام نشطة':'Active jobs')+'</div>'+
-          jrow('#SX-4471',ar?'الرياض ← العمارات':'Riyadh → Amarat',['في الطريق','En route'],'now',ar?'~١٢ دقيقة':'~12 min')+
-          jrow('#SX-4468',ar?'بحري ← الخرطوم ٢':'Bahri → Khartoum 2',['بانتظار الاستلام','Awaiting pickup'],'wait',ar?'جاهز':'Ready')+
-          jrow('#SX-4459',ar?'أمدرمان ← الموردة':'Omdurman → Mourada',['في الطريق','En route'],'now',ar?'~٢٥ دقيقة':'~25 min')+
-          '<div class="p-h">'+(ar?'اكتملت اليوم':'Completed today')+'</div>'+
-          jrow('#SX-4461',ar?'سُلّم · مُسح':'Delivered · scanned',['تم','Done'],'done','09:48');
-      } else if(MTAB==='waybill'){
-        h='<div class="p-h">'+(ar?'بوليصة شحن جديدة':'New waybill')+'</div>'+
-          fld(ar?'من':'From',ar?'متجر النيل · الخرطوم':'Nile Store · Khartoum')+
-          fld(ar?'إلى':'To',ar?'حي الرياض · مربع ٥':'Riyadh dist. · block 5')+
-          fld(ar?'الوزن':'Weight','18 kg')+
-          fld(ar?'القيمة (أمانة)':'Value (escrow)','42,000 SDG')+
-          '<div class="field"><span class="fl">'+(ar?'السعر المقترح':'Quoted price')+'</span><span class="fv" style="color:var(--clay)">'+money('4,800')+' '+(ar?'ج':'SDG')+'</span></div>'+
-          '<button class="btn-block"><svg class="ic"><use href="#i-receipt"/></svg>'+(ar?'أصدر البوليصة':'Issue waybill')+'</button>'+
-          '<div style="text-align:center;margin-top:16px"><div style="width:110px;height:110px;margin-inline:auto;border-radius:14px;background:var(--clay-08);display:grid;place-items:center;color:var(--clay)"><svg class="ic" style="width:64px;height:64px"><use href="#i-qr"/></svg></div><div class="pm" style="margin-top:8px;color:var(--ink-3);font-size:11px">'+(ar?'امسح عند الاستلام والتسليم':'Scan at pickup & handover')+'</div></div>';
-      } else {
-        h='<div class="hcard"><div class="lbl">'+(ar?'أرباح الأسبوع':'Weekly earnings')+'</div><div class="amt">'+money('486,200')+' <span style="font-size:15px;opacity:.8">'+(ar?'ج':'SDG')+'</span></div><div class="sub">'+(ar?'٦٤٠ توصيلة · متوسط ٧٦٠ ج':'640 deliveries · avg 760 SDG')+'</div><div class="hrow"><button><svg class="ic"><use href="#i-send"/></svg><span>'+(ar?'اسحب':'Cash out')+'</span></button><button><svg class="ic"><use href="#i-chart"/></svg><span>'+(ar?'تقرير':'Report')+'</span></button></div></div>'+
-          '<div class="p-h">'+(ar?'دفعات أخيرة':'Recent payouts')+'</div>'+
-          orow('i-coins',ar?'تحويل أسبوعي':'Weekly transfer',ar?'إلى بنك النيلين':'To Nileen Bank','486,200',['+ مُسوّى','+ settled'],'palm')+
-          orow('i-truck',ar?'حافز الأداء':'Performance bonus',ar?'٩٦٪ في الوقت':'96% on-time','42,000',['+ حافز','+ bonus'],'gold');
-      }
-    }
-    body.innerHTML='<div class="pane on">'+h+'</div>';
-    if(!reduce) animateSparks();
-  }
-  /* merchant body helpers */
-  function spark(vals,ac){var m=Math.max.apply(null,vals);return '<div class="spark">'+vals.map(function(v,i){return '<span class="b'+(i===vals.length-1?' hi':'')+'" data-h="'+Math.round(v/m*100)+'"></span>';}).join('')+'</div>';}
-  function animateSparks(){document.querySelectorAll('#merchBody .spark .b').forEach(function(b){b.style.height='6px';requestAnimationFrame(function(){b.style.height=b.getAttribute('data-h')+'%';});});}
-  function orow(ic,id,sub,amt,st,li){return '<div class="lrow"><span class="li '+(li||'')+'"><svg class="ic ic-sm"><use href="#'+ic+'"/></svg></span><div class="lt"><b>'+id+'</b><span>'+sub+'</span></div><div class="lend"><b class="num">'+amt+'</b><span class="chip '+(li==='palm'?'chip-live':li==='gold'?'chip-gold':'chip-plan')+'" style="margin-top:3px">'+(docEl.getAttribute('data-lang')==='ar'?st[0]:st[1])+'</span></div></div>';}
-  function prow(ic,n,p,m){return '<div class="lrow"><span class="li gold"><svg class="ic ic-sm"><use href="#'+ic+'"/></svg></span><div class="lt"><b>'+n+'</b><span>'+m+'</span></div><div class="lend"><b class="num">'+p+'</b><span style="font-size:9px;color:var(--ink-3)">'+(docEl.getAttribute('data-lang')==='ar'?'ج':'SDG')+'</span></div></div>';}
-  function jrow(id,route,st,state,eta){var li=state==='done'?'palm':state==='now'?'clay':'gold';var cc=state==='done'?'chip-live':state==='now'?'chip-live':'chip-gold';return '<div class="lrow"><span class="li '+li+'"><svg class="ic ic-sm"><use href="#i-pin"/></svg></span><div class="lt"><b>'+id+'</b><span>'+route+'</span></div><div class="lend"><span class="chip '+cc+'">'+(docEl.getAttribute('data-lang')==='ar'?st[0]:st[1])+'</span><span class="num" style="display:block;margin-top:3px;font-size:10px;color:var(--ink-3)">'+eta+'</span></div></div>';}
-  function fld(l,v){return '<div class="field"><span class="fl">'+l+'</span><span class="fv">'+v+'</span></div>';}
-
-  function renderMerchant(){
-    var d=MDATA[MTYPE], ar=docEl.getAttribute('data-lang')==='ar';
-    document.getElementById('merchMark').textContent=d.mark;
-    var nm=document.getElementById('merchName'); nm.textContent=ar?d.nameAr:d.nameEn;
-    var kd=document.getElementById('merchKind'); kd.textContent=ar?d.kindAr:d.kindEn;
-    document.getElementById('merchMark').style.background=MTYPE==='express'?'linear-gradient(145deg,var(--clay),var(--clay-deep))':'linear-gradient(145deg,var(--gold),#8f6820)';
-    // seg selection
-    document.querySelectorAll('#merchSeg [data-mtype]').forEach(function(b){b.setAttribute('aria-selected',b.getAttribute('data-mtype')===MTYPE?'true':'false');});
-    document.getElementById('merchSeg').setAttribute('data-accent',MTYPE==='express'?'clay':'gold');
-    renderFeat(); renderMerchNav(); renderMerchBody(); positionSeg();
-  }
-  document.querySelectorAll('#merchSeg [data-mtype]').forEach(function(b){
-    b.addEventListener('click',function(){MTYPE=b.getAttribute('data-mtype');MTAB='home';renderMerchant();});
-  });
-
-  /* customer phone tabs */
-  document.querySelectorAll('[data-view="customer"] .scr-nav [data-tab]').forEach(function(b){
-    b.addEventListener('click',function(){
-      var tab=b.getAttribute('data-tab');
-      document.querySelectorAll('[data-view="customer"] .pane').forEach(function(p){p.classList.toggle('on',p.getAttribute('data-pane')===tab);});
-      document.querySelectorAll('[data-view="customer"] .scr-nav button').forEach(function(x){x.classList.toggle('on',x===b);});
-    });
-  });
-  /* bank tabs */
-  document.querySelectorAll('#bankNav [data-btab]').forEach(function(b){
-    b.addEventListener('click',function(){
-      var tab=b.getAttribute('data-btab');
-      document.querySelectorAll('[data-view="bank"] [data-bpane]').forEach(function(p){p.classList.toggle('on',p.getAttribute('data-bpane')===tab);});
-      document.querySelectorAll('#bankNav button').forEach(function(x){x.classList.toggle('on',x===b);});
-    });
-  });
-
-  /* ═══════════ gliders ═══════════ */
-  function positionGliders(){positionSwitch();positionSeg();}
-  function positionSwitch(){
-    var sw=document.getElementById('switch'), g=sw.querySelector('.glider'),
-        act=sw.querySelector('[aria-current="true"]'); if(!act) return;
-    g.style.width=act.offsetWidth+'px';
-    g.style.transform='translateX('+(act.offsetLeft-4)+'px)';
-  }
-  function positionSeg(){
-    var sg=document.getElementById('merchSeg'); if(!sg) return;
-    var g=sg.querySelector('.seg-glide'), act=sg.querySelector('[aria-selected="true"]'); if(!act) return;
-    g.style.width=act.offsetWidth+'px';
-    g.style.transform='translateX('+(act.offsetLeft-4)+'px)';
-  }
-  window.addEventListener('resize',positionGliders);
-
-  /* ═══════════ rise motion ═══════════ */
-  function runRise(){
-    var rises=[].slice.call(document.querySelector('.view.active').querySelectorAll('.rise'));
-    if(reduce){rises.forEach(function(el){el.classList.add('in');});return;}
-    rises.forEach(function(el){el.classList.remove('in');});
-    requestAnimationFrame(function(){
-      rises.forEach(function(el,i){el.style.transitionDelay=Math.min(i*55,520)+'ms';requestAnimationFrame(function(){el.classList.add('in');});});
-    });
-  }
-
-  /* ═══════════ deep-link (hash) ═══════════ */
-  // #customer · #bank · #services · #merchant · #merchant:express (or #express)
-  function fromHash(){
-    var h=(location.hash||'').replace('#','').toLowerCase(); if(!h) return;
-    var mt=null; if(h.indexOf(':')>-1){var p=h.split(':');h=p[0];mt=p[1];}
-    if(h==='express'){MTYPE='express';go('merchant');return;}
-    if(h==='merchant'){if(mt==='express'||mt==='normal')MTYPE=mt;go('merchant');return;}
-    if(['home','customer','bank','services'].indexOf(h)>-1)go(h==='services'?'home':h);
-  }
-  window.addEventListener('hashchange',fromHash);
-
-  /* ═══════════ boot ═══════════ */
+  document.querySelectorAll('.lang [data-lang]').forEach(function(b){b.addEventListener('click',function(){setLang(b.getAttribute('data-lang'));});});
   setLang('ar');
-  renderMerchant();
-  runRise();
-  positionGliders();
-  fromHash();
-  document.addEventListener('keydown',function(e){
-    if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();
-      if(docEl.getAttribute('data-view')!=='home')go('home');
-      var s=document.querySelector('[data-view="home"] input[type=search]');if(s)s.focus();}
-  });
+
+  /* reveal + counters + sparklines via IntersectionObserver */
+  function countUp(el){
+    var target=parseFloat(el.getAttribute('data-count')), suf=el.getAttribute('data-suffix')||'', dur=1100, t0=null;
+    if(reduce){el.textContent=fmt(target)+suf;return;}
+    function fmt(n){return Math.round(n).toLocaleString('en-US');}
+    function step(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=fmt(target*e)+suf;if(p<1)requestAnimationFrame(step);}
+    requestAnimationFrame(step);
+  }
+  function drawSpark(el){
+    var vals=el.getAttribute('data-spark').split(',').map(Number),m=Math.max.apply(null,vals);
+    el.innerHTML=vals.map(function(){return '<i></i>';}).join('');
+    var bars=el.querySelectorAll('i');
+    vals.forEach(function(v,i){var h=Math.round(v/m*100);setTimeout(function(){bars[i].style.height=(reduce?h:h)+'%';},reduce?0:i*80);});
+    if(reduce)bars.forEach(function(b,i){b.style.height=Math.round(vals[i]/m*100)+'%';});
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(!en.isIntersecting)return;
+      var t=en.target; t.classList.add('in');
+      t.querySelectorAll('[data-count]').forEach(countUp);
+      t.querySelectorAll('[data-spark]').forEach(drawSpark);
+      io.unobserve(t);
+    });
+  },{threshold:.18,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rev').forEach(function(e){io.observe(e);});
+  // counters/sparklines not inside a .rev (hero trust is inside .rev; dash is inside .rev) — safe.
+  if(reduce)document.querySelectorAll('.rev').forEach(function(e){e.classList.add('in');e.querySelectorAll('[data-count]').forEach(countUp);e.querySelectorAll('[data-spark]').forEach(drawSpark);});
 })();
 </script>
 </body>

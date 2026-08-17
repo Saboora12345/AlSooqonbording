@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>كتالوج السوق — امسح وادفع · alSooq Catalog</title>
+<meta name="description" content="alSooq Scan & Pay catalog — browse featured products across the souk and pay in one scan with Sa7 or MTN Mobile Money. Bilingual Arabic / English prototype.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand:#F6F1E7; --sand-2:#EFE7D8; --sand-3:#EDE4D3; --card:#FFFCF6; --white:#fff;
+  --ink:#2E241B; --ink-2:#6B5B4B; --ink-3:#93826F; --kraft:#E4D2B4;
+  --clay:#8A4B2A; --clay-deep:#5F3119; --clay-08:rgba(138,75,42,.08); --clay-12:rgba(138,75,42,.12); --clay-30:rgba(138,75,42,.3);
+  --palm:#2F6B4F; --palm-tint:#E3EFE8; --gold:#B8862F; --gold-tint:rgba(184,134,47,.12);
+  --line:#DCCFBB; --line-soft:rgba(220,207,187,.6);
+  --r:16px; --r-sm:10px; --r-lg:24px; --r-pill:999px;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --shadow:0 1px 2px rgba(46,36,27,.05),0 10px 30px -14px rgba(46,36,27,.2);
+  --shadow-lg:0 2px 6px rgba(46,36,27,.06),0 34px 64px -26px rgba(46,36,27,.34);
+  --ar:'IBM Plex Sans Arabic',system-ui,sans-serif; --en:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--ar);background:var(--sand);color:var(--ink);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+[data-lang="en"] body{font-family:var(--en)}
+[data-lang="ar"] .en-only{display:none}[data-lang="en"] .ar-only{display:none}
+.num{font-family:var(--en);font-variant-numeric:tabular-nums;unicode-bidi:isolate}
+a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;width:24px;height:24px;display:block}
+.ic-sm{width:18px;height:18px}
+.wrap{max-width:1160px;margin-inline:auto;padding-inline:24px}
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bg span{position:absolute;border-radius:50%;filter:blur(90px)}
+.b1{width:52vw;height:52vw;top:-16vw;inset-inline-start:-12vw;background:radial-gradient(circle,rgba(138,75,42,.14),transparent 70%)}
+.b2{width:44vw;height:44vw;bottom:-14vw;inset-inline-end:-14vw;background:radial-gradient(circle,rgba(184,134,47,.1),transparent 70%)}
+
+/* header */
+.hdr{position:sticky;top:0;z-index:60;background:rgba(246,241,231,.8);backdrop-filter:saturate(1.5) blur(14px);border-bottom:1px solid var(--line-soft)}
+.hdr-in{display:flex;align-items:center;gap:18px;height:68px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{width:38px;height:38px;border-radius:11px;color:#fff;display:grid;place-items:center;font-weight:700;font-size:21px;background:linear-gradient(145deg,var(--clay),var(--clay-deep));box-shadow:0 4px 14px -4px rgba(138,75,42,.5)}
+.brand b{font-size:18px;font-weight:700;letter-spacing:-.01em;line-height:1}
+.brand .en{font-size:8.5px;letter-spacing:.16em;color:var(--ink-3);text-transform:uppercase;font-weight:600;display:block;margin-top:3px}
+.flag{display:inline-flex;flex-direction:column;gap:2.5px;flex:none;margin-inline-start:3px}
+.flag i{height:3.5px;border-radius:2px;display:block}
+.flag i:nth-child(1){width:22px;background:#CE1126}.flag i:nth-child(2){width:17px;background:#fff;box-shadow:0 0 0 1px var(--line) inset}.flag i:nth-child(3){width:20px;background:var(--palm)}
+.spacer{flex:1}
+.nav{display:flex;gap:4px}
+.nav a{font-size:13.5px;font-weight:600;color:var(--ink-2);padding:9px 13px;border-radius:var(--r-pill);transition:background .2s,color .2s}
+@media(hover:hover){.nav a:hover{background:var(--clay-08);color:var(--clay)}}
+.lang{display:flex;border:1px solid var(--line);border-radius:var(--r-pill);overflow:hidden}
+.lang button{padding:7px 12px;font-size:12px;font-weight:700;color:var(--ink-2);transition:.15s}
+.lang button[aria-pressed="true"]{background:var(--clay);color:#fff}
+.btn{display:inline-flex;align-items:center;gap:9px;border-radius:var(--r-pill);padding:12px 20px;font-size:14px;font-weight:600;transition:transform .24s var(--ease),box-shadow .24s,background .24s;white-space:nowrap}
+.btn svg{width:17px;height:17px}
+.btn-primary{background:var(--clay);color:#fff;box-shadow:0 8px 22px -8px rgba(138,75,42,.55)}
+.btn-primary:active{transform:scale(.97)}
+@media(hover:hover){.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 34px -10px rgba(138,75,42,.6);background:var(--clay-deep)}}
+@media(max-width:860px){.nav{display:none}.hdr .btn .txt{display:none}}
+
+/* page head */
+.phead{padding-block:52px 8px;text-align:center;max-width:660px;margin-inline:auto}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);font-weight:700;background:var(--clay-08);padding:7px 14px;border-radius:var(--r-pill)}
+.phead h1{margin:20px 0 0;font-size:clamp(30px,5vw,48px);font-weight:700;letter-spacing:-.035em;line-height:1.08}
+.phead p{margin:16px 0 0;font-size:clamp(15px,2vw,18px);color:var(--ink-2)}
+.trust-strip{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
+.tb{display:inline-flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-pill);padding:9px 15px;box-shadow:var(--shadow)}
+.tb svg{width:18px;height:18px;color:var(--clay);flex:none}
+.tb b{font-size:13px;font-weight:600}
+
+/* catalog grid */
+.cat{padding-block:38px 20px}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:22px}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;transition:transform .28s var(--ease),box-shadow .28s}
+.pcard:active{transform:scale(.99)}
+@media(hover:hover){.pcard:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}}
+.ptile{position:relative;aspect-ratio:16/9;background:radial-gradient(120% 120% at 30% 20%,var(--sand-2),var(--kraft));display:grid;place-items:center;border-bottom:1px solid var(--line)}
+.ptile .glyph{width:96px;height:96px;color:var(--clay);opacity:.9}
+.ptile .glyph svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.ribbon{position:absolute;inset-inline-start:14px;top:14px;display:inline-flex;align-items:center;gap:6px;background:var(--clay);color:#fff;border-radius:var(--r-pill);padding:6px 12px;font-size:11.5px;font-weight:700;box-shadow:0 6px 16px -6px rgba(138,75,42,.55)}
+.ptile .wm{position:absolute;inset-inline-end:12px;bottom:10px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600;opacity:.8}
+.pbody{padding:20px 20px 6px}
+.pbody h3{font-size:18px;font-weight:700;letter-spacing:-.02em;line-height:1.25}
+.pbody h3 .en{display:block;font-size:12.5px;font-weight:600;color:var(--ink-3);letter-spacing:0;margin-top:3px}
+.pbody .desc{font-size:13.5px;color:var(--ink-2);margin-top:9px;line-height:1.5;min-height:40px}
+.price{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-top:14px}
+.price .was{font-size:14px;color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--clay-30)}
+.price .now{font-size:26px;font-weight:700;letter-spacing:-.02em;color:var(--clay);display:inline-flex;align-items:baseline;gap:6px}
+.price .now .cur{font-size:13px;font-weight:600;color:var(--ink-2)}
+.price .unit{font-size:12px;color:var(--ink-3);font-weight:600}
+.ar-num{display:block;font-size:12.5px;color:var(--ink-3);font-weight:600;margin-top:2px}
+
+/* coupon divider + pay row */
+.perf{position:relative;height:22px;margin:14px 6px 0}
+.perf::before{content:"";position:absolute;inset-inline:8px;top:50%;border-top:2px dashed var(--line)}
+.perf .notch{position:absolute;top:50%;width:22px;height:22px;border-radius:50%;background:var(--sand);border:1px solid var(--line);transform:translateY(-50%)}
+.perf .n-a{inset-inline-start:-19px}.perf .n-b{inset-inline-end:-19px}
+.pay{display:flex;align-items:center;gap:16px;padding:6px 20px 20px}
+.qrbox{flex:none;width:120px;text-align:center}
+.qr-frame{width:120px;height:120px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px;box-shadow:var(--shadow)}
+.qr{width:100%;height:100%;display:block}
+.qr .qrline{stroke-width:1}
+.qrbox .scan{margin-top:8px;font-size:11.5px;font-weight:700;color:var(--clay);display:inline-flex;align-items:center;gap:6px;justify-content:center}
+.qrbox .scan svg{width:14px;height:14px}
+.paymeta{flex:1;min-width:0}
+.paymeta .lbl{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.paychips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pchip{display:inline-flex;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--line);border-radius:var(--r-sm);padding:7px 10px}
+.pchip .pmk{width:24px;height:24px;border-radius:6px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:10px;flex:none}
+.pchip b{font-size:12px;font-weight:700}
+.paymeta .sku{margin-top:12px;font-size:10.5px;color:var(--ink-3);font-family:var(--mono)}
+
+/* partners + footer */
+.partners{margin-top:30px;text-align:center;padding:24px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow)}
+.partners .pt{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.partners .prow{margin-top:14px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center}
+.partners .pnote{margin-top:12px;font-size:11px;color:var(--ink-3)}
+.foot{border-top:1px solid var(--line-soft);padding-block:32px 46px;margin-top:26px}
+.foot-in{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between}
+.lk{display:flex;align-items:center;gap:11px}
+.lk .m{width:30px;height:30px;border-radius:9px;background:var(--clay);color:#fff;display:grid;place-items:center;font-weight:700;font-size:16px}
+.lk b{font-size:14px;font-weight:700}.lk .en{font-size:9px;color:var(--ink-3);letter-spacing:.12em;text-transform:uppercase;font-weight:600;display:block}
+.foot-contact{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;margin-top:12px}
+.foot-contact a,.foot-contact span{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);font-weight:600}
+.foot-contact svg{width:16px;height:16px;color:var(--clay);flex:none}
+.foot-contact .tag{color:var(--clay);font-weight:700;direction:ltr;unicode-bidi:isolate}
+.foot-contact .hash{color:var(--palm);font-weight:700;direction:ltr;unicode-bidi:isolate}
+.foot .note{font-size:11.5px;color:var(--ink-3);max-width:46ch;line-height:1.5}.foot .note b{color:var(--clay);font-weight:600}
+
+/* reveal */
+.rev{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.rev.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:1ms!important}.rev{opacity:1;transform:none}html{scroll-behavior:auto}}
+@media(max-width:520px){.pay{flex-direction:column;align-items:flex-start}.qrbox{width:100%;display:flex;align-items:center;gap:14px}.qr-frame{width:104px;height:104px}.qrbox .scan{margin-top:0}}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"><span class="b1"></span><span class="b2"></span></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+  <symbol id="i-shop" viewBox="0 0 24 24"><path d="M4 8h16l-1 12H5L4 8zM8 8V6a4 4 0 0 1 8 0v2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6h11v9H3zM14 9h4l3 3v3h-7zM7 18.5A1.5 1.5 0 1 0 7 15.5a1.5 1.5 0 0 0 0 3zM18 18.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M4 7h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4V7zM4 7l1-3 12 3M16 13h1"/></symbol>
+  <symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V5a1 1 0 0 1 1-1h3M20 8V5a1 1 0 0 0-1-1h-3M4 16v3a1 1 0 0 0 1 1h3M20 16v3a1 1 0 0 1-1 1h-3M4 12h16"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></symbol>
+</defs></svg>
+
+<header class="hdr"><div class="wrap hdr-in">
+  <a class="brand" href="index.html"><span class="brand-mark">س</span><span><b data-ar="السوق" data-en="alSooq">السوق</b><span class="en">Hawil Ecosystem</span></span><span class="flag" aria-hidden="true"><i></i><i></i><i></i></span></a>
+  <div class="spacer"></div>
+  <nav class="nav">
+    <a href="index.html" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+    <a href="index.html#apps" data-ar="التطبيقات" data-en="Apps">التطبيقات</a>
+    <a href="index.html#mowasalaty" data-ar="مواصلاتي" data-en="Mowasalty">مواصلاتي</a>
+    <a href="dashboard.html" data-ar="اللوحة" data-en="Dashboard">اللوحة</a>
+  </nav>
+  <div class="lang" role="group" aria-label="Language"><button data-lang="ar" aria-pressed="true">ع</button><button data-lang="en" aria-pressed="false">EN</button></div>
+  <a class="btn btn-primary" href="app.html"><svg class="ic"><use href="#i-arrow"/></svg><span class="txt" data-ar="افتح التطبيق" data-en="Launch app">افتح التطبيق</span></a>
+</div></header>
+
+<main>
+<div class="wrap">
+
+  <section class="phead">
+    <span class="eyebrow rev"><span data-ar="امسح · وادفع · واستلم" data-en="Scan · Pay · Receive">امسح · وادفع · واستلم</span></span>
+    <h1 class="rev" data-ar="كتالوج السوق" data-en="alSooq Catalog">كتالوج السوق</h1>
+    <p class="rev" data-ar="تصفّح عروض السوق، وادفع في مسحة واحدة عبر صح أو إم تي إن موبايل موني — بأمان وبالمراحل حتى الاستلام." data-en="Browse the souk’s featured deals and pay in a single scan with Sa7 or MTN Mobile Money — securely, staged until handover.">تصفّح عروض السوق، وادفع في مسحة واحدة عبر صح أو إم تي إن موبايل موني — بأمان وبالمراحل حتى الاستلام.</p>
+    <div class="trust-strip rev">
+      <div class="tb"><svg class="ic"><use href="#i-scan"/></svg><b data-ar="امسح وادفع" data-en="Scan & pay">امسح وادفع</b></div>
+      <div class="tb"><svg class="ic"><use href="#i-shield"/></svg><b data-ar="دفع آمن بالمراحل" data-en="Secure staged pay">دفع آمن بالمراحل</b></div>
+      <div class="tb"><svg class="ic"><use href="#i-truck"/></svg><b data-ar="توصيل سريع" data-en="Fast delivery">توصيل سريع</b></div>
+    </div>
+  </section>
+
+  <section class="cat">
+    <div class="cat-grid">
+
+      <!-- Sofa -->
+      <article class="pcard rev">
+        <div class="ptile">
+          <span class="ribbon"><span data-ar="خصم ٢٧٪" data-en="27% OFF">خصم ٢٧٪</span></span>
+          <span class="glyph"><svg viewBox="0 0 64 64"><path d="M10 40v-8a6 6 0 0 1 6-6h32a6 6 0 0 1 6 6v8M6 40a4 4 0 0 1 4-4h44a4 4 0 0 1 4 4v8H6v-8zM12 48v5M52 48v5M14 36v-4a3 3 0 0 1 3-3h30a3 3 0 0 1 3 3v4"/></svg></span>
+          <span class="wm">alSooq</span>
+        </div>
+        <div class="pbody">
+          <h3 data-ar="أريكة معيشة عصرية — L" data-en="Modern Living Room Sofa — L">أريكة معيشة عصرية — L<span class="en ar-only">Modern Living Room Sofa — L-Shape</span></h3>
+          <p class="desc" data-ar="راحة فاخرة بقماش ممتاز، تصميم عملي بوحدات معيارية." data-en="Luxurious comfort in premium fabric, modular sections.">راحة فاخرة بقماش ممتاز، تصميم عملي بوحدات معيارية.</p>
+          <div class="price">
+            <span class="was"><span class="num">1,350,000</span></span>
+            <span class="now"><span class="cur">SDG</span> <span><span class="num">990,000</span><span class="ar-num ar-only">٩٩٠٬٠٠٠ ج.س</span></span></span>
+          </div>
+        </div>
+        <div class="perf"><span class="notch n-a"></span><span class="notch n-b"></span></div>
+        <div class="pay">
+          <div class="qrbox"><div class="qr-frame"><svg class="qr" viewBox="0 0 39 39" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" role="img" aria-label="Scan and pay QR"><path class="qrline" stroke="#241b15" d="M3 3.5h7m7 0h1m2 0h1m1 0h2m2 0h1m2 0h7m-33 1h1m5 0h1m2 0h1m1 0h1m3 0h4m1 0h5m1 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m2 0h3m2 0h2m1 0h1m4 0h1m3 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m6 0h1m1 0h1m1 0h2m1 0h1m3 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m2 0h1m3 0h1m2 0h2m2 0h1m1 0h3m1 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h1m2 0h1m1 0h2m2 0h5m2 0h1m1 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-22 1h1m2 0h1m2 0h3m1 0h1m1 0h1m-24 1h1m2 0h1m1 0h2m1 0h4m1 0h1m1 0h2m3 0h3m1 0h2m1 0h1m-27 1h1m2 0h1m4 0h1m5 0h4m1 0h2m2 0h4m3 0h1m-32 1h2m1 0h2m1 0h1m2 0h2m5 0h4m5 0h4m1 0h1m1 0h1m-31 1h1m2 0h1m1 0h4m1 0h1m1 0h1m1 0h1m1 0h4m1 0h2m1 0h1m1 0h2m-30 1h1m2 0h1m1 0h2m1 0h2m1 0h1m3 0h1m5 0h3m1 0h2m2 0h1m2 0h1m-32 1h2m2 0h1m3 0h2m4 0h3m1 0h2m5 0h1m1 0h5m-33 1h2m1 0h2m1 0h1m2 0h2m2 0h1m4 0h1m1 0h2m1 0h1m1 0h2m2 0h3m-30 1h4m1 0h1m2 0h1m1 0h1m1 0h2m1 0h5m1 0h1m2 0h1m4 0h1m-32 1h7m2 0h1m1 0h1m1 0h2m2 0h1m1 0h6m1 0h1m1 0h1m1 0h2m-25 1h2m1 0h3m1 0h3m4 0h5m1 0h1m1 0h1m2 0h1m-33 1h2m1 0h1m1 0h3m1 0h2m1 0h1m1 0h1m5 0h1m1 0h1m2 0h1m4 0h3m-28 1h1m1 0h1m1 0h2m1 0h2m2 0h2m3 0h2m2 0h1m1 0h1m-26 1h2m2 0h1m1 0h1m7 0h2m2 0h4m1 0h1m5 0h2m-32 1h2m1 0h2m1 0h1m1 0h2m2 0h1m1 0h2m3 0h3m3 0h2m1 0h1m1 0h2m-33 1h2m2 0h4m4 0h2m1 0h1m1 0h3m1 0h1m3 0h3m1 0h2m1 0h1m-32 1h2m1 0h1m6 0h2m3 0h1m1 0h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h2m-33 1h1m2 0h1m2 0h1m1 0h1m2 0h1m1 0h1m1 0h1m1 0h1m3 0h1m1 0h8m-23 1h1m2 0h1m2 0h2m1 0h6m1 0h1m3 0h2m-30 1h7m2 0h1m1 0h2m1 0h1m5 0h1m1 0h1m1 0h1m1 0h1m1 0h4m-32 1h1m5 0h1m1 0h2m3 0h6m1 0h2m2 0h1m3 0h1m-29 1h1m1 0h3m1 0h1m2 0h2m1 0h4m2 0h1m1 0h2m2 0h6m-30 1h1m1 0h3m1 0h1m1 0h2m5 0h1m5 0h1m4 0h1m1 0h1m-29 1h1m1 0h3m1 0h1m3 0h2m1 0h1m2 0h1m3 0h1m2 0h1m4 0h1m1 0h1m1 0h1m-33 1h1m5 0h1m3 0h1m1 0h1m2 0h8m1 0h2m-26 1h7m1 0h3m1 0h1m5 0h1m2 0h4m3 0h4"/></svg></div><span class="scan"><svg class="ic"><use href="#i-scan"/></svg><span data-ar="امسح وادفع" data-en="Scan &amp; Pay">امسح وادفع</span></span></div>
+          <div class="paymeta">
+            <div class="lbl" data-ar="ادفع عبر" data-en="Pay with">ادفع عبر</div>
+            <div class="paychips">
+              <span class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#12a150,#0c7a3c)">Sa7</span><b>Sa7</b></span>
+              <span class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#ffcc00,#e0a500);color:#1a1a1a">MTN</span><b>MTN</b></span>
+            </div>
+            <div class="sku">SKU · SOFA-LSHAPE</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Agriculture -->
+      <article class="pcard rev">
+        <div class="ptile">
+          <span class="ribbon"><span data-ar="خصم ٣١٪" data-en="31% OFF">خصم ٣١٪</span></span>
+          <span class="glyph"><svg viewBox="0 0 64 64"><path d="M20 54h24l3-26H17l3 26zM17 28l4-8h22l4 8M32 20V8M32 12c-3-3-8-3-8-3s0 5 3 7M32 12c3-3 8-3 8-3s0 5-3 7M26 40v6M32 38v8M38 40v6"/></svg></span>
+          <span class="wm">alSooq</span>
+        </div>
+        <div class="pbody">
+          <h3 data-ar="مستلزمات زراعية بالجملة" data-en="Agricultural Supplies">مستلزمات زراعية بالجملة<span class="en ar-only">Professional Agricultural Supplies (Wholesale)</span></h3>
+          <p class="desc" data-ar="سماد عالي الجودة وبذور هجينة لحصاد أوفر؛ أسعار جملة." data-en="High-quality fertilizer and hybrid seeds for a richer harvest; bulk pricing.">سماد عالي الجودة وبذور هجينة لحصاد أوفر؛ أسعار جملة.</p>
+          <div class="price">
+            <span class="was"><span class="num">180,000</span></span>
+            <span class="now"><span class="cur">SDG</span> <span><span class="num">125,000</span><span class="ar-num ar-only">١٢٥٬٠٠٠ ج.س</span></span></span>
+            <span class="unit" data-ar="/ الباقة" data-en="/ bundle">/ الباقة</span>
+          </div>
+        </div>
+        <div class="perf"><span class="notch n-a"></span><span class="notch n-b"></span></div>
+        <div class="pay">
+          <div class="qrbox"><div class="qr-frame"><svg class="qr" viewBox="0 0 39 39" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" role="img" aria-label="Scan and pay QR"><path class="qrline" stroke="#241b15" d="M3 3.5h7m1 0h3m1 0h4m1 0h1m2 0h2m4 0h7m-33 1h1m5 0h1m1 0h1m1 0h1m1 0h3m4 0h1m6 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m1 0h1m3 0h3m1 0h1m2 0h1m1 0h1m1 0h1m2 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m3 0h3m1 0h1m1 0h2m1 0h1m1 0h3m2 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h1m1 0h1m2 0h1m1 0h2m2 0h1m1 0h2m1 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m2 0h4m2 0h2m3 0h1m1 0h2m2 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-24 1h2m1 0h2m1 0h2m3 0h1m1 0h1m-23 1h1m2 0h6m1 0h2m5 0h1m1 0h2m1 0h4m2 0h1m1 0h3m-33 1h1m1 0h4m1 0h2m1 0h1m2 0h2m4 0h1m2 0h2m4 0h3m1 0h1m-33 1h1m1 0h2m1 0h6m1 0h2m1 0h2m1 0h1m4 0h1m1 0h2m1 0h5m-25 1h3m1 0h2m1 0h1m1 0h2m3 0h1m4 0h1m2 0h1m-31 1h2m1 0h2m1 0h1m1 0h6m1 0h2m1 0h3m1 0h1m2 0h4m2 0h2m-33 1h1m4 0h1m2 0h3m1 0h1m1 0h1m6 0h5m1 0h1m-27 1h7m2 0h1m4 0h5m4 0h1m1 0h1m1 0h2m-28 1h1m1 0h2m1 0h2m4 0h2m1 0h1m2 0h1m2 0h1m2 0h1m1 0h2m1 0h1m1 0h1m-33 1h2m1 0h1m1 0h3m1 0h4m1 0h2m4 0h1m1 0h8m-28 1h2m3 0h1m1 0h4m1 0h1m3 0h3m5 0h1m1 0h1m1 0h2m-32 1h2m1 0h1m1 0h2m4 0h1m3 0h1m1 0h1m1 0h3m1 0h1m2 0h2m1 0h2m1 0h1m-29 1h1m5 0h1m1 0h2m5 0h2m1 0h4m2 0h4m-32 1h1m1 0h1m1 0h4m1 0h1m1 0h1m2 0h3m2 0h1m2 0h1m4 0h3m2 0h1m-33 1h3m2 0h1m1 0h2m3 0h3m1 0h2m1 0h2m2 0h1m3 0h3m-30 1h1m1 0h1m1 0h1m1 0h3m1 0h2m1 0h1m1 0h2m1 0h1m1 0h1m2 0h1m2 0h1m3 0h3m-33 1h1m1 0h2m1 0h1m5 0h5m1 0h1m5 0h1m1 0h1m1 0h2m1 0h1m1 0h1m-33 1h2m1 0h2m1 0h2m2 0h1m3 0h3m2 0h1m4 0h5m1 0h2m-24 1h2m1 0h4m1 0h1m6 0h2m3 0h1m1 0h3m-33 1h7m1 0h1m1 0h1m3 0h2m1 0h8m1 0h1m1 0h1m1 0h1m-31 1h1m5 0h1m1 0h3m1 0h3m4 0h1m2 0h3m3 0h5m-33 1h1m1 0h3m1 0h1m1 0h2m7 0h1m1 0h1m3 0h6m2 0h1m-32 1h1m1 0h3m1 0h1m1 0h2m1 0h1m1 0h1m3 0h3m3 0h3m1 0h1m1 0h4m-33 1h1m1 0h3m1 0h1m2 0h1m1 0h1m1 0h5m1 0h3m3 0h1m1 0h2m2 0h2m-33 1h1m5 0h1m4 0h1m2 0h1m1 0h1m2 0h2m4 0h8m-33 1h7m1 0h3m2 0h3m1 0h3m2 0h3m2 0h2m1 0h1"/></svg></div><span class="scan"><svg class="ic"><use href="#i-scan"/></svg><span data-ar="امسح وادفع" data-en="Scan &amp; Pay">امسح وادفع</span></span></div>
+          <div class="paymeta">
+            <div class="lbl" data-ar="ادفع عبر" data-en="Pay with">ادفع عبر</div>
+            <div class="paychips">
+              <span class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#12a150,#0c7a3c)">Sa7</span><b>Sa7</b></span>
+              <span class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#ffcc00,#e0a500);color:#1a1a1a">MTN</span><b>MTN</b></span>
+            </div>
+            <div class="sku">SKU · AGRI-NPK-SEED</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Solar -->
+      <article class="pcard rev">
+        <div class="ptile">
+          <span class="ribbon"><span data-ar="خصم ٥٠٪" data-en="50% OFF">خصم ٥٠٪</span></span>
+          <span class="glyph"><svg viewBox="0 0 64 64"><path d="M8 40l6-24h20l6 24H8zM14 24h24M12 32h28M20 16v24M28 16v24M46 34a8 8 0 1 1 0 16 8 8 0 0 1 0-16zM46 34v-4M46 54v2M56 46h2M36 46h2M53 39l1.5-1.5M38.5 53.5 40 52"/></svg></span>
+          <span class="wm">alSooq</span>
+        </div>
+        <div class="pbody">
+          <h3 data-ar="طقم مصباح شمسي" data-en="Solar Lamp Kit">طقم مصباح شمسي<span class="en ar-only">Solar Lamp Kit</span></h3>
+          <p class="desc" data-ar="إضاءة حتى ٨ ساعات، مع منفذ لشحن الهاتف." data-en="Up to 8 hours of light, with a phone-charging port.">إضاءة حتى ٨ ساعات، مع منفذ لشحن الهاتف.</p>
+          <div class="price">
+            <span class="was"><span class="num">50,000</span></span>
+            <span class="now"><span class="cur">SDG</span> <span><span class="num">25,000</span><span class="ar-num ar-only">٢٥٬٠٠٠ ج.س</span></span></span>
+          </div>
+        </div>
+        <div class="perf"><span class="notch n-a"></span><span class="notch n-b"></span></div>
+        <div class="pay">
+          <div class="qrbox"><div class="qr-frame"><svg class="qr" viewBox="0 0 39 39" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" role="img" aria-label="Scan and pay QR"><path class="qrline" stroke="#241b15" d="M3 3.5h7m2 0h2m4 0h2m2 0h1m2 0h2m2 0h7m-33 1h1m5 0h1m2 0h1m2 0h1m2 0h1m4 0h3m3 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m1 0h1m2 0h1m2 0h3m4 0h3m2 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h1m1 0h3m4 0h1m1 0h2m2 0h1m2 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m1 0h4m1 0h6m1 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h2m2 0h1m4 0h1m2 0h2m2 0h1m1 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h1m1 0h1m3 0h1m1 0h1m2 0h1m1 0h2m-23 1h1m1 0h5m2 0h1m2 0h1m1 0h1m2 0h1m2 0h1m3 0h1m1 0h5m-31 1h1m1 0h3m2 0h10m2 0h3m1 0h1m2 0h2m1 0h2m-31 1h1m2 0h5m3 0h1m1 0h6m1 0h1m5 0h1m1 0h1m1 0h2m-32 1h1m1 0h1m2 0h1m1 0h4m2 0h1m2 0h1m1 0h1m2 0h1m1 0h1m1 0h1m2 0h3m-31 1h1m1 0h7m1 0h1m1 0h1m1 0h1m2 0h2m4 0h1m1 0h1m1 0h1m1 0h1m1 0h2m-33 1h1m3 0h1m3 0h1m2 0h3m1 0h1m3 0h2m1 0h2m1 0h1m4 0h3m-33 1h1m1 0h1m2 0h2m1 0h2m2 0h4m1 0h2m3 0h1m2 0h2m1 0h4m-29 1h2m2 0h1m7 0h1m3 0h3m3 0h6m-31 1h1m3 0h1m1 0h4m1 0h3m1 0h1m1 0h1m4 0h4m1 0h2m1 0h1m1 0h1m-30 1h1m5 0h2m1 0h1m2 0h9m2 0h2m1 0h2m-31 1h1m1 0h1m1 0h6m1 0h1m1 0h1m1 0h2m4 0h2m2 0h1m1 0h2m1 0h2m-27 1h1m4 0h1m1 0h1m1 0h1m6 0h4m2 0h5m-31 1h1m2 0h1m1 0h1m1 0h2m4 0h2m8 0h1m2 0h1m1 0h1m1 0h2m-33 1h1m3 0h1m4 0h1m5 0h1m1 0h1m1 0h1m1 0h3m2 0h1m2 0h1m2 0h1m-33 1h1m2 0h2m1 0h2m2 0h1m3 0h5m10 0h3m-32 1h1m1 0h1m4 0h6m1 0h1m1 0h1m4 0h2m1 0h2m2 0h3m1 0h1m-33 1h1m1 0h7m2 0h1m1 0h1m1 0h3m2 0h1m1 0h1m1 0h7m1 0h1m-25 1h4m3 0h2m2 0h3m1 0h2m3 0h1m1 0h1m1 0h1m-33 1h7m3 0h1m1 0h1m1 0h5m1 0h2m1 0h2m1 0h1m1 0h1m1 0h1m-31 1h1m5 0h1m1 0h2m1 0h1m1 0h1m1 0h2m2 0h3m1 0h2m3 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m1 0h2m6 0h2m3 0h6m-30 1h1m1 0h3m1 0h1m1 0h1m1 0h2m3 0h2m1 0h2m1 0h2m1 0h2m2 0h1m1 0h3m-33 1h1m1 0h3m1 0h1m1 0h2m2 0h2m1 0h1m5 0h3m2 0h2m2 0h1m-31 1h1m5 0h1m3 0h1m4 0h2m4 0h1m3 0h1m2 0h1m1 0h1m-31 1h7m1 0h2m5 0h4m4 0h2m1 0h2m3 0h1"/></svg></div><span class="scan"><svg class="ic"><use href="#i-scan"/></svg><span data-ar="امسح وادفع" data-en="Scan &amp; Pay">امسح وادفع</span></span></div>
+          <div class="paymeta">
+            <div class="lbl" data-ar="ادفع عبر" data-en="Pay with">ادفع عبر</div>
+            <div class="paychips">
+              <span class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#12a150,#0c7a3c)">Sa7</span><b>Sa7</b></span>
+              <span class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#ffcc00,#e0a500);color:#1a1a1a">MTN</span><b>MTN</b></span>
+            </div>
+            <div class="sku">SKU · SOLAR-LAMP-KIT</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Welding -->
+      <article class="pcard rev">
+        <div class="ptile">
+          <span class="ribbon"><span data-ar="خصم ٢٠٪" data-en="20% OFF">خصم ٢٠٪</span></span>
+          <span class="glyph"><svg viewBox="0 0 64 64"><path d="M14 50l18-18M30 34l-6-6a8 8 0 0 1-9-11l6 6 5-5-6-6a8 8 0 0 1 11 9l14 14a5 5 0 0 1-7 7L34 34M12 48a3 3 0 1 0 4 4"/></svg></span>
+          <span class="wm">alSooq</span>
+        </div>
+        <div class="pbody">
+          <h3 data-ar="طقم لحام احترافي" data-en="Professional Welding Kit">طقم لحام احترافي<span class="en ar-only">Professional Welding Kit</span></h3>
+          <p class="desc" data-ar="يشمل عاكس لحام، قناع واقٍ، وقفازات." data-en="Includes a welding inverter, protective mask, and gloves.">يشمل عاكس لحام، قناع واقٍ، وقفازات.</p>
+          <div class="price">
+            <span class="was"><span class="num">250,000</span></span>
+            <span class="now"><span class="cur">SDG</span> <span><span class="num">199,000</span><span class="ar-num ar-only">١٩٩٬٠٠٠ ج.س</span></span></span>
+          </div>
+        </div>
+        <div class="perf"><span class="notch n-a"></span><span class="notch n-b"></span></div>
+        <div class="pay">
+          <div class="qrbox"><div class="qr-frame"><svg class="qr" viewBox="0 0 39 39" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" role="img" aria-label="Scan and pay QR"><path class="qrline" stroke="#241b15" d="M3 3.5h7m1 0h2m2 0h1m2 0h2m2 0h1m1 0h3m2 0h7m-33 1h1m5 0h1m1 0h4m2 0h1m1 0h3m4 0h2m1 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m2 0h1m1 0h1m1 0h3m2 0h2m3 0h2m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m1 0h2m4 0h1m1 0h2m2 0h1m2 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m3 0h1m2 0h1m2 0h1m1 0h2m2 0h1m3 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m3 0h1m1 0h9m1 0h1m1 0h1m1 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h3m3 0h7m1 0h3m-25 1h1m1 0h2m1 0h3m1 0h3m3 0h9m2 0h1m2 0h1m1 0h2m-33 1h2m1 0h3m1 0h3m3 0h1m1 0h2m2 0h2m2 0h1m2 0h2m1 0h2m-31 1h2m3 0h2m2 0h1m3 0h1m2 0h1m6 0h3m1 0h3m1 0h2m-33 1h1m1 0h2m3 0h1m1 0h1m2 0h1m2 0h1m3 0h1m3 0h2m1 0h2m1 0h1m-30 1h1m3 0h3m3 0h2m2 0h1m2 0h2m4 0h1m3 0h1m1 0h1m1 0h1m-31 1h1m1 0h3m2 0h2m1 0h4m2 0h3m1 0h2m4 0h1m2 0h2m-29 1h2m1 0h1m4 0h2m3 0h2m1 0h1m1 0h1m4 0h1m-26 1h2m1 0h1m2 0h1m2 0h1m2 0h1m1 0h1m3 0h3m3 0h3m1 0h2m-25 1h1m1 0h5m1 0h1m3 0h1m1 0h4m1 0h2m1 0h2m-29 1h1m1 0h1m3 0h2m1 0h1m3 0h1m2 0h1m2 0h2m1 0h4m1 0h2m1 0h1m-31 1h2m1 0h8m1 0h1m1 0h1m5 0h1m3 0h1m1 0h2m1 0h2m-30 1h1m2 0h1m1 0h2m2 0h4m1 0h3m1 0h1m1 0h1m5 0h1m2 0h1m-30 1h1m2 0h2m4 0h2m3 0h1m1 0h2m1 0h2m1 0h1m2 0h4m-31 1h6m3 0h1m1 0h1m2 0h2m1 0h1m1 0h1m1 0h3m2 0h1m2 0h2m1 0h1m-31 1h2m1 0h2m1 0h2m2 0h1m1 0h1m1 0h1m3 0h2m1 0h2m1 0h1m2 0h1m1 0h2m-32 1h2m1 0h1m3 0h1m4 0h3m2 0h2m4 0h1m3 0h1m2 0h2m-33 1h1m5 0h2m1 0h1m1 0h2m2 0h3m2 0h1m1 0h7m3 0h1m-25 1h2m6 0h4m4 0h1m3 0h2m1 0h2m-33 1h7m1 0h2m1 0h4m2 0h1m1 0h2m1 0h3m1 0h1m1 0h1m-29 1h1m5 0h1m1 0h1m1 0h3m1 0h3m2 0h3m1 0h2m3 0h4m-32 1h1m1 0h3m1 0h1m2 0h1m2 0h2m1 0h1m1 0h3m1 0h1m1 0h6m1 0h2m-32 1h1m1 0h3m1 0h1m1 0h7m12 0h1m1 0h2m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h4m3 0h1m5 0h3m2 0h2m1 0h2m-31 1h1m5 0h1m3 0h1m2 0h2m1 0h3m1 0h1m2 0h2m1 0h3m3 0h1m-33 1h7m1 0h1m1 0h2m1 0h2m2 0h1m1 0h1m1 0h3m4 0h2"/></svg></div><span class="scan"><svg class="ic"><use href="#i-scan"/></svg><span data-ar="امسح وادفع" data-en="Scan &amp; Pay">امسح وادفع</span></span></div>
+          <div class="paymeta">
+            <div class="lbl" data-ar="ادفع عبر" data-en="Pay with">ادفع عبر</div>
+            <div class="paychips">
+              <span class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#12a150,#0c7a3c)">Sa7</span><b>Sa7</b></span>
+              <span class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#ffcc00,#e0a500);color:#1a1a1a">MTN</span><b>MTN</b></span>
+            </div>
+            <div class="sku">SKU · TOOL-WELD-PRO</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Cleaning -->
+      <article class="pcard rev">
+        <div class="ptile">
+          <span class="ribbon"><span data-ar="خصم ٢٧٪" data-en="27% OFF">خصم ٢٧٪</span></span>
+          <span class="glyph"><svg viewBox="0 0 64 64"><path d="M26 24h14v6a4 4 0 0 1-4 4h-6a4 4 0 0 1-4-4v-6zM30 24v-6h6v6M33 34v6M24 40h18v14H24zM33 12l8-4M33 12v6"/></svg></span>
+          <span class="wm">alSooq</span>
+        </div>
+        <div class="pbody">
+          <h3 data-ar="طقم تنظيف منزلي متكامل" data-en="Complete Home Cleaning Kit">طقم تنظيف منزلي متكامل<span class="en ar-only">Complete Home Cleaning Kit</span></h3>
+          <p class="desc" data-ar="يشمل مكنسة، بخاخ، وأقمشة تنظيف." data-en="Includes a vacuum, spray, and cleaning cloths.">يشمل مكنسة، بخاخ، وأقمشة تنظيف.</p>
+          <div class="price">
+            <span class="was"><span class="num">95,000</span></span>
+            <span class="now"><span class="cur">SDG</span> <span><span class="num">69,000</span><span class="ar-num ar-only">٦٩٬٠٠٠ ج.س</span></span></span>
+          </div>
+        </div>
+        <div class="perf"><span class="notch n-a"></span><span class="notch n-b"></span></div>
+        <div class="pay">
+          <div class="qrbox"><div class="qr-frame"><svg class="qr" viewBox="0 0 39 39" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" role="img" aria-label="Scan and pay QR"><path class="qrline" stroke="#241b15" d="M3 3.5h7m2 0h1m1 0h1m2 0h1m4 0h3m1 0h1m2 0h7m-33 1h1m5 0h1m2 0h1m5 0h1m1 0h2m1 0h2m1 0h2m1 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m2 0h1m1 0h1m2 0h1m2 0h1m8 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m3 0h1m2 0h1m4 0h1m1 0h1m3 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m2 0h1m1 0h1m1 0h1m2 0h2m4 0h3m1 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h1m1 0h2m1 0h1m3 0h3m1 0h1m4 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-24 1h3m2 0h1m2 0h3m1 0h1m1 0h2m-25 1h1m2 0h1m1 0h2m1 0h1m2 0h3m1 0h2m3 0h6m1 0h1m-26 1h1m1 0h2m9 0h4m1 0h2m2 0h4m3 0h1m-28 1h3m1 0h3m1 0h1m3 0h4m1 0h2m2 0h1m1 0h2m1 0h1m1 0h1m-33 1h1m1 0h2m1 0h1m1 0h2m2 0h1m2 0h1m1 0h1m2 0h3m1 0h2m1 0h1m1 0h2m1 0h2m-33 1h9m3 0h1m2 0h4m1 0h4m1 0h2m1 0h2m1 0h1m-32 1h1m2 0h2m5 0h1m2 0h1m1 0h6m3 0h2m2 0h1m2 0h2m-33 1h2m3 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m2 0h1m1 0h1m1 0h3m2 0h2m-32 1h2m2 0h2m1 0h1m1 0h1m2 0h4m1 0h2m1 0h2m1 0h2m1 0h3m2 0h1m-30 1h3m1 0h2m1 0h1m7 0h1m1 0h6m1 0h1m1 0h1m1 0h2m-31 1h1m1 0h1m1 0h1m1 0h3m1 0h2m1 0h4m4 0h4m1 0h1m1 0h1m1 0h2m-33 1h1m2 0h2m1 0h1m1 0h1m1 0h1m2 0h2m1 0h1m3 0h1m1 0h1m2 0h2m3 0h3m-33 1h4m1 0h1m2 0h2m1 0h1m2 0h5m2 0h1m5 0h1m3 0h2m-32 1h1m2 0h1m1 0h3m1 0h1m1 0h1m2 0h3m3 0h4m3 0h1m-27 1h4m1 0h3m1 0h3m1 0h1m2 0h1m2 0h2m1 0h3m2 0h1m1 0h2m-33 1h4m2 0h1m2 0h1m2 0h1m3 0h6m3 0h3m1 0h2m1 0h1m-32 1h1m2 0h1m2 0h2m2 0h2m1 0h1m1 0h1m1 0h5m3 0h1m1 0h2m1 0h1m-32 1h1m1 0h2m1 0h2m1 0h4m1 0h1m2 0h2m3 0h1m2 0h5m1 0h1m-23 1h2m3 0h3m1 0h6m1 0h1m3 0h2m-30 1h7m4 0h1m1 0h2m3 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h4m-32 1h1m5 0h1m1 0h1m2 0h2m1 0h5m1 0h2m2 0h1m3 0h1m-29 1h1m1 0h3m1 0h1m3 0h1m3 0h2m5 0h1m2 0h6m-30 1h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m2 0h2m3 0h3m3 0h1m1 0h3m-31 1h1m1 0h3m1 0h1m2 0h1m6 0h1m3 0h1m2 0h1m4 0h1m3 0h1m-33 1h1m5 0h1m2 0h3m1 0h1m1 0h1m1 0h2m2 0h5m3 0h1m-30 1h7m1 0h4m1 0h2m3 0h1m2 0h2m1 0h1m1 0h1m1 0h2m1 0h1"/></svg></div><span class="scan"><svg class="ic"><use href="#i-scan"/></svg><span data-ar="امسح وادفع" data-en="Scan &amp; Pay">امسح وادفع</span></span></div>
+          <div class="paymeta">
+            <div class="lbl" data-ar="ادفع عبر" data-en="Pay with">ادفع عبر</div>
+            <div class="paychips">
+              <span class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#12a150,#0c7a3c)">Sa7</span><b>Sa7</b></span>
+              <span class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#ffcc00,#e0a500);color:#1a1a1a">MTN</span><b>MTN</b></span>
+            </div>
+            <div class="sku">SKU · HOME-CLEAN-KIT</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Textile machine -->
+      <article class="pcard rev">
+        <div class="ptile">
+          <span class="ribbon"><span data-ar="خصم ١٩٪" data-en="19% OFF">خصم ١٩٪</span></span>
+          <span class="glyph"><svg viewBox="0 0 64 64"><path d="M8 40h40v8H8zM12 40V24a4 4 0 0 1 4-4h20a4 4 0 0 1 4 4v16M18 26h16M18 32h16M48 30h6a4 4 0 0 1 4 4v6h-10zM14 48v6M42 48v6M52 48v6"/></svg></span>
+          <span class="wm">alSooq</span>
+        </div>
+        <div class="pbody">
+          <h3 data-ar="آلة نسيج صناعية" data-en="Industrial Textile Machine">آلة نسيج صناعية<span class="en ar-only">Industrial Textile Machine</span></h3>
+          <p class="desc" data-ar="تحمّل شاق وأداء متعدد الخيوط للورش." data-en="Heavy-duty, multi-thread performance for workshops.">تحمّل شاق وأداء متعدد الخيوط للورش.</p>
+          <div class="price">
+            <span class="was"><span class="num">1,800,000</span></span>
+            <span class="now"><span class="cur">SDG</span> <span><span class="num">1,450,000</span><span class="ar-num ar-only">١٬٤٥٠٬٠٠٠ ج.س</span></span></span>
+          </div>
+        </div>
+        <div class="perf"><span class="notch n-a"></span><span class="notch n-b"></span></div>
+        <div class="pay">
+          <div class="qrbox"><div class="qr-frame"><svg class="qr" viewBox="0 0 39 39" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" role="img" aria-label="Scan and pay QR"><path class="qrline" stroke="#241b15" d="M3 3.5h7m1 0h1m1 0h2m3 0h2m2 0h1m1 0h3m2 0h7m-33 1h1m5 0h1m1 0h6m2 0h2m4 0h3m1 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m4 0h1m1 0h4m2 0h1m2 0h3m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m1 0h1m3 0h1m1 0h4m2 0h1m2 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m3 0h2m1 0h2m1 0h1m2 0h2m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m2 0h2m2 0h1m2 0h4m2 0h1m1 0h1m1 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h3m3 0h1m1 0h3m1 0h1m1 0h3m-25 1h1m1 0h2m1 0h3m2 0h5m1 0h8m2 0h1m2 0h1m1 0h2m-32 1h1m10 0h1m2 0h2m2 0h2m2 0h1m2 0h2m1 0h2m1 0h1m-32 1h1m1 0h4m4 0h2m1 0h1m1 0h1m1 0h1m3 0h3m2 0h3m2 0h1m-32 1h5m7 0h1m2 0h1m2 0h1m3 0h2m2 0h1m1 0h1m-28 1h1m2 0h2m1 0h1m1 0h2m3 0h1m1 0h1m2 0h1m2 0h3m1 0h1m1 0h1m1 0h1m-32 1h1m3 0h2m1 0h2m2 0h4m1 0h2m1 0h4m1 0h1m1 0h2m2 0h2m-31 1h2m3 0h2m1 0h1m1 0h4m2 0h1m1 0h1m1 0h1m2 0h1m1 0h1m1 0h2m-30 1h1m3 0h2m1 0h2m1 0h2m2 0h1m6 0h1m2 0h3m2 0h2m-27 1h4m1 0h1m2 0h1m5 0h1m1 0h4m1 0h2m1 0h1m-28 1h3m6 0h1m9 0h1m2 0h4m1 0h2m1 0h1m-29 1h5m3 0h2m1 0h5m2 0h1m3 0h4m1 0h2m-32 1h2m1 0h1m1 0h1m3 0h5m2 0h3m1 0h1m1 0h1m3 0h1m1 0h1m-29 1h1m1 0h1m2 0h3m3 0h1m3 0h1m1 0h6m4 0h4m1 0h1m-33 1h2m1 0h3m1 0h1m1 0h2m2 0h1m1 0h3m1 0h1m1 0h3m5 0h2m1 0h1m-30 1h1m2 0h2m2 0h1m1 0h1m3 0h1m3 0h2m1 0h1m2 0h1m2 0h1m1 0h2m-32 1h1m1 0h1m1 0h1m1 0h1m3 0h1m6 0h2m3 0h2m4 0h1m-30 1h1m2 0h4m1 0h2m1 0h1m1 0h2m2 0h1m2 0h1m1 0h1m1 0h5m1 0h3m-25 1h1m3 0h2m2 0h4m4 0h1m3 0h2m2 0h1m-33 1h7m1 0h2m1 0h1m1 0h1m4 0h3m2 0h2m1 0h1m1 0h1m-29 1h1m5 0h1m1 0h1m1 0h3m1 0h3m2 0h3m1 0h2m3 0h4m-32 1h1m1 0h3m1 0h1m2 0h2m1 0h1m2 0h2m1 0h2m1 0h1m1 0h6m1 0h1m-31 1h1m1 0h3m1 0h1m1 0h1m2 0h2m2 0h2m1 0h1m8 0h1m1 0h1m2 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m1 0h2m1 0h2m4 0h4m2 0h2m1 0h2m-31 1h1m5 0h1m3 0h1m2 0h3m1 0h2m4 0h6m3 0h1m-33 1h7m1 0h3m1 0h3m2 0h1m1 0h1m1 0h2m5 0h2"/></svg></div><span class="scan"><svg class="ic"><use href="#i-scan"/></svg><span data-ar="امسح وادفع" data-en="Scan &amp; Pay">امسح وادفع</span></span></div>
+          <div class="paymeta">
+            <div class="lbl" data-ar="ادفع عبر" data-en="Pay with">ادفع عبر</div>
+            <div class="paychips">
+              <span class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#12a150,#0c7a3c)">Sa7</span><b>Sa7</b></span>
+              <span class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#ffcc00,#e0a500);color:#1a1a1a">MTN</span><b>MTN</b></span>
+            </div>
+            <div class="sku">SKU · MACHINE-TEXTILE</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="partners rev">
+      <div class="pt" data-ar="شركاء دفع مقترحون" data-en="Proposed payment partners">شركاء دفع مقترحون</div>
+      <div class="prow">
+        <span class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#12a150,#0c7a3c)">Sa7</span><b>Sa7 · <span data-ar="سودان موني" data-en="Sudan Money">سودان موني</span></b></span>
+        <span class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#ffcc00,#e0a500);color:#1a1a1a">MTN</span><b>MTN · <span data-ar="موبايل موني" data-en="Mobile Money">موبايل موني</span></b></span>
+      </div>
+      <div class="pnote" data-ar="الأسعار والأكواد توضيحية في هذا النموذج؛ أسماء الشركاء مقترحة وتُعتمد شعاراتهم بعد الاتفاقات. أكواد المسح تشير إلى alsooq.sd." data-en="Prices and codes are illustrative in this prototype; partner names are proposed and their logos are confirmed only after agreements. QR codes point to alsooq.sd.">الأسعار والأكواد توضيحية في هذا النموذج؛ أسماء الشركاء مقترحة وتُعتمد شعاراتهم بعد الاتفاقات. أكواد المسح تشير إلى alsooq.sd.</div>
+    </div>
+
+  </section>
+</div>
+</main>
+
+<footer class="foot"><div class="wrap foot-in">
+  <div>
+    <div class="lk"><span class="m">س</span><span><b data-ar="السوق · منظومة هويل" data-en="alSooq · Hawil ecosystem">السوق · منظومة هويل</b><span class="en">Rebuild Sudan · Prototype</span></span><span class="flag" aria-hidden="true"><i></i><i></i><i></i></span></div>
+    <div class="foot-contact">
+      <a href="https://wa.me/249912345678"><span data-ar="واتساب" data-en="WhatsApp">واتساب</span> <span class="num">0912 345 678</span></a>
+      <span class="tag">@AlSouqSD</span>
+      <a href="https://www.alsooq.sd"><svg class="ic"><use href="#i-globe"/></svg><span class="num">www.alsooq.sd</span></a>
+      <span class="hash">#RebuildSudan</span>
+    </div>
+  </div>
+  <p class="note" data-ar="واجهة أوّلية للعرض. كل الأسعار وبيانات التواصل توضيحية، وشعارات الشركاء والبنوك " data-en="Prototype surface for review. All prices and contact details are illustrative; partner and bank logos are ">واجهة أوّلية للعرض. كل الأسعار وبيانات التواصل توضيحية، وشعارات الشركاء والبنوك <b data-ar="تُضاف بعد الاتفاقات." data-en="added only after agreements.">تُضاف بعد الاتفاقات.</b></p>
+</div></footer>
+
+<script>
+(function(){
+  var docEl=document.documentElement, reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function setLang(l){
+    var ar=l==='ar'; docEl.lang=l; docEl.dir=ar?'rtl':'ltr'; docEl.setAttribute('data-lang',l);
+    document.querySelectorAll('[data-ar]').forEach(function(e){var v=ar?e.getAttribute('data-ar'):e.getAttribute('data-en');if(v!=null)e.textContent=v;});
+    document.querySelectorAll('.lang [data-lang]').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-lang')===l?'true':'false');});
+  }
+  document.querySelectorAll('.lang [data-lang]').forEach(function(b){b.addEventListener('click',function(){setLang(b.getAttribute('data-lang'));});});
+  setLang('ar');
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(!en.isIntersecting)return; en.target.classList.add('in'); io.unobserve(en.target); });
+  },{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.rev').forEach(function(e){io.observe(e);});
+  if(reduce)document.querySelectorAll('.rev').forEach(function(e){e.classList.add('in');});
+})();
+</script>
+</body>
+</html>
