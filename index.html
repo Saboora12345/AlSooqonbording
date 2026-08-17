@@ -214,6 +214,19 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 .rev{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .rev.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){*{animation:none !important;transition-duration:1ms !important}.rev{opacity:1;transform:none}html{scroll-behavior:auto}}
+
+/* Design-engineering polish (Emil Kowalski's craft rules) */
+/* Press feedback — pressable elements scale down so the UI feels like it is
+   listening to the user. Subtle: 0.97 for buttons, 0.985 for the larger cards.
+   The existing transform transition carries it; it wins over :hover by order. */
+.btn:active{transform:scale(.97)}
+.cat:active,.app:active{transform:scale(.985)}
+/* Touch devices fire :hover on tap, so the hover lift sticks after a tap.
+   Drop the movement on non-hover pointers — the shadow/colour hover cues stay,
+   and :active above already gives touch users their press feedback. */
+@media(hover:none){
+  .btn-primary:hover,.btn-ghost:hover,.cat:hover,.app:hover,.jstep:hover .jn,.app:hover .ago svg{transform:none}
+}
 </style>
 </head>
 <body>
