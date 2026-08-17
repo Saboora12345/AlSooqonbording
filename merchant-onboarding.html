@@ -239,11 +239,11 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 </defs></svg>
 
 <header class="hdr"><div class="hdr-in">
-  <a class="brand" href="landing.html"><span class="brand-mark">س</span><span><b data-ar="السوق" data-en="alSooq">السوق</b><span class="en">Merchant Onboarding</span></span></a>
+  <a class="brand" href="index.html"><span class="brand-mark">س</span><span><b data-ar="السوق" data-en="alSooq">السوق</b><span class="en">Merchant Onboarding</span></span></a>
   <div class="spacer"></div>
   <span class="save"><span class="d"></span><span data-ar="حُفظ تلقائياً" data-en="Saved automatically">حُفظ تلقائياً</span></span>
   <div class="lang" role="group" aria-label="Language"><button data-lang="ar" aria-pressed="true">ع</button><button data-lang="en" aria-pressed="false">EN</button></div>
-  <a class="exit" href="index.html#merchant"><svg class="ic"><use href="#i-back"/></svg><span data-ar="التطبيق" data-en="App">التطبيق</span></a>
+  <a class="exit" href="app.html#merchant"><svg class="ic"><use href="#i-back"/></svg><span data-ar="التطبيق" data-en="App">التطبيق</span></a>
 </div></header>
 
 <div class="shell">
@@ -455,7 +455,7 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
           <h2 data-ar="أهلاً بك في السوق! 🎉" data-en="Welcome to the souk! 🎉">أهلاً بك في السوق! 🎉</h2>
           <p id="doneMsg" data-ar="تم إنشاء حسابك. متجرك الآن جزء من منظومة هويل، جاهز لاستقبال الطلبات." data-en="Your account is live. Your store is now part of the Hawil ecosystem, ready to take orders.">تم إنشاء حسابك. متجرك الآن جزء من منظومة هويل، جاهز لاستقبال الطلبات.</p>
           <div class="done-cta">
-            <a class="btn btn-primary" id="doneOpen" href="index.html#merchant"><svg class="ic"><use href="#i-store"/></svg><span data-ar="افتح لوحة التاجر" data-en="Open merchant console">افتح لوحة التاجر</span></a>
+            <a class="btn btn-primary" id="doneOpen" href="app.html#merchant"><svg class="ic"><use href="#i-store"/></svg><span data-ar="افتح لوحة التاجر" data-en="Open merchant console">افتح لوحة التاجر</span></a>
             <a class="btn btn-ghost" href="dashboard.html"><svg class="ic"><use href="#i-coins"/></svg><span data-ar="شاهد اللوحة" data-en="See the dashboard">شاهد اللوحة</span></a>
           </div>
         </div>
@@ -656,7 +656,7 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
   function launch(){
     // finalize done screen
     var open=document.getElementById('doneOpen');
-    open.setAttribute('href','index.html#'+(state.type==='express'?'merchant:express':'merchant'));
+    open.setAttribute('href','app.html#'+(state.type==='express'?'merchant:express':'merchant'));
     document.getElementById('doneMsg').textContent=state.type==='express'
       ? L('تم إنشاء حساب سودا إكسبريس. أنت الآن ضمن شبكة الشحن، جاهز لاستلام المهام.','Your Suda Express account is live. You’re now on the logistics network, ready to take jobs.')
       : L((state.name||'متجرك')+' الآن جزء من منظومة هويل، جاهز لاستقبال الطلبات.',(state.name||'Your store')+' is now part of the Hawil ecosystem, ready to take orders.');

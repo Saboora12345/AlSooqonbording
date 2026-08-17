@@ -14,21 +14,33 @@ one tap — into the **Customer app**, the **Merchant app**, or the embedded
 
 | File | What it is |
 | --- | --- |
-| `landing.html` | The **final marketing landing page** — the public entry point. Hero, the journey, categories, the three apps, Suda Express & embedded-banking spotlights, a live-metrics dashboard teaser, and CTAs into the app. Motion-rich: scroll reveals, animated counters, floating orbit, self-drawing widgets. |
-| `index.html` | The **unified app** — the view-router product itself (Marketplace → Services → Customer / Merchant / Bank). Supports hash deep-links: `index.html#customer`, `#merchant`, `#merchant:express`, `#bank`. |
+| `index.html` | The **alSooq home** — the public front door served at the site root. Hero, the journey, categories, the three apps, Suda Express & embedded-banking spotlights, a live-metrics dashboard teaser, and CTAs into the app. Motion-rich: scroll reveals, animated counters, floating orbit, self-drawing widgets. |
+| `app.html` | The **unified app** — the view-router product itself (Marketplace → Services → Customer / Merchant / Bank). Supports hash deep-links: `app.html#customer`, `#merchant`, `#merchant:express`, `#bank`. |
 | `dashboard.html` | A **trendy, animated analytics dashboard** for the whole ecosystem — live KPIs with count-up + sparklines, a self-drawing GMV area chart, revenue bars, an animated escrow ring, remittance-corridor bars, Suda Express gauges, and a streaming live-activity feed. |
 | `merchant-onboarding.html` | A **6-step merchant onboarding wizard** — choose a type (standard merchant / Suda Express), enter business details, verify identity (KYC via a partner bank), set up banking & escrow-settled payouts, configure type-specific operations, then review and launch. Live profile preview, per-step validation, animated stepper/progress, and a celebratory success screen that deep-links into the merchant console. |
 
-The pages link to each other: landing → app + dashboard, dashboard → app + landing, and the app / onboarding hand off into the merchant console (`index.html#merchant` / `#merchant:express`).
+The pages link to each other: home → app + dashboard, dashboard → app + home, and the app / onboarding hand off into the merchant console (`app.html#merchant` / `#merchant:express`).
 
 ## Run it
 
-Open `landing.html` (or `index.html`) in any modern browser. No build step, no
+Open `index.html` in any modern browser. No build step, no
 dependencies — all CSS, JavaScript and icons are inlined per file. Fonts
 (IBM Plex Sans / Sans Arabic) load from Google Fonts and fall back to system
 fonts offline. Everything respects `prefers-reduced-motion`.
 
-## What's inside `index.html`
+## Deploy
+
+The whole prototype is static, so it ships to **GitHub Pages** with no build.
+A workflow at [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml)
+uploads the repository as-is and publishes it — `index.html` (the alSooq home)
+is served at the site root. A root `.nojekyll` file keeps the numbered/
+underscored `site/` folders intact.
+
+**One-time repo setting:** Settings → Pages → *Build and deployment* →
+**Source: GitHub Actions**. After that, every push to the default branch
+(or a manual *Run workflow*) redeploys.
+
+## What's inside `app.html`
 
 The app is a small view-router with five surfaces that share one brand core and
 one wallet.
