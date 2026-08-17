@@ -227,6 +227,70 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 @media(hover:none){
   .btn-primary:hover,.btn-ghost:hover,.cat:hover,.app:hover,.jstep:hover .jn,.app:hover .ago svg{transform:none}
 }
+
+/* Brand identity — Sudan-flag mark, trust badges, Mowasalty, partners, contact */
+.flag{display:inline-flex;flex-direction:column;gap:2.5px;flex:none}
+.flag i{height:3.5px;border-radius:2px;display:block}
+.flag i:nth-child(1){width:22px;background:#CE1126}
+.flag i:nth-child(2){width:17px;background:#fff;box-shadow:0 0 0 1px var(--line) inset}
+.flag i:nth-child(3){width:20px;background:var(--palm)}
+.brand .flag{margin-inline-start:3px}
+.lk .flag{margin-inline-start:3px}
+
+/* trust badges */
+.trust-strip{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;padding-block:6px 2px}
+.tb{display:inline-flex;align-items:center;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-pill);padding:10px 18px;box-shadow:var(--shadow)}
+.tb svg{width:20px;height:20px;color:var(--clay);flex:none}
+.tb b{font-size:13.5px;font-weight:600;line-height:1.15;display:block}
+.tb .en{display:block;font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-top:2px}
+[data-lang="en"] .tb .en{display:none}
+
+/* Mowasalty — gold mobility identity */
+#mowasalaty .mowa{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;background:linear-gradient(135deg,var(--card),var(--gold-tint));border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:36px}
+.mowa-tag{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:700;background:var(--gold-tint);padding:7px 14px;border-radius:var(--r-pill)}
+.mowa h2{font-size:clamp(26px,4vw,38px);font-weight:700;letter-spacing:-.03em;margin-top:14px;line-height:1.05}
+.mowa h2 .en{display:block;font-size:13px;letter-spacing:.16em;color:var(--ink-3);font-weight:600;margin-top:6px;text-transform:uppercase}
+.mowa ul{list-style:none;margin-top:20px;display:grid;gap:12px}
+.mowa li{display:flex;gap:11px;font-size:15px;color:var(--ink-2);line-height:1.5}
+.mowa li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--gold);flex:none;margin-top:7px}
+.mowa-book{margin-top:24px;display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#fff;border-radius:var(--r-pill);padding:13px 22px;font-size:14px;font-weight:600;box-shadow:0 8px 22px -8px rgba(184,134,47,.55);transition:transform .24s var(--ease),box-shadow .24s}
+.mowa-book svg{width:17px;height:17px}
+.mowa-book:active{transform:scale(.97)}
+@media(hover:hover){.mowa-book:hover{transform:translateY(-2px);box-shadow:0 16px 34px -10px rgba(184,134,47,.6)}}
+.mowa-vis{display:grid;place-items:center}
+.seatpad{width:216px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-lg);padding:20px}
+.seatpad .sp-h{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600;text-align:center;margin-bottom:14px}
+.seat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.seat{aspect-ratio:1;border-radius:8px;background:var(--palm-tint);border:1px solid var(--line)}
+.seat.g{background:var(--palm);border-color:var(--palm)}
+.seat.o{background:var(--gold-tint);border-color:var(--gold)}
+.seat.free{background:var(--sand-2)}
+.seat.sel{background:var(--gold);border-color:var(--gold);display:grid;place-items:center}
+.seat.sel svg{width:14px;height:14px;color:#fff;stroke-width:2.4}
+.seatpad .sp-f{margin-top:14px;text-align:center;font-size:12px;font-weight:700;color:var(--gold)}
+@media(max-width:900px){#mowasalaty .mowa{grid-template-columns:1fr;padding:28px}.mowa-vis{margin-top:4px}}
+
+/* payment partners */
+.partners{text-align:center;padding:26px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow)}
+.partners .pt{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.partners .prow{margin-top:16px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center}
+.pchip{display:inline-flex;align-items:center;gap:11px;background:var(--sand);border:1px solid var(--line);border-radius:var(--r);padding:11px 17px}
+.pchip .pmk{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px;flex:none}
+.pchip b{font-size:14px;font-weight:700;line-height:1.1}
+.pchip small{display:block;font-size:9.5px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;font-weight:600;margin-top:1px}
+.pchip.scan{background:var(--clay-08);border-color:var(--clay-30);color:var(--clay);font-weight:600;font-size:13.5px;gap:9px}
+.pchip.scan svg{width:18px;height:18px}
+.partners .pnote{margin-top:14px;font-size:11px;color:var(--ink-3)}
+
+/* enriched footer contact/social */
+.foot-contact{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;margin:14px 0 2px}
+.foot-contact a,.foot-contact span{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);font-weight:600}
+.foot-contact svg{width:16px;height:16px;color:var(--clay);flex:none}
+.foot-contact .hash{color:var(--palm);font-weight:700}
+.foot-contact .tag{color:var(--clay);font-weight:700}
+.foot-contact .num{unicode-bidi:isolate}
+.foot-contact .tag,.foot-contact .hash{direction:ltr;unicode-bidi:isolate}
+@media(hover:hover){.foot-contact a:hover{color:var(--clay)}}
 </style>
 </head>
 <body>
@@ -260,13 +324,14 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 
 <!-- header -->
 <header class="hdr"><div class="wrap hdr-in">
-  <a class="brand" href="#top"><span class="brand-mark">س</span><span><b data-ar="السوق" data-en="alSooq">السوق</b><span class="en">Hawil Ecosystem</span></span></a>
+  <a class="brand" href="#top"><span class="brand-mark">س</span><span><b data-ar="السوق" data-en="alSooq">السوق</b><span class="en">Hawil Ecosystem</span></span><span class="flag" aria-hidden="true"><i></i><i></i><i></i></span></a>
   <div class="spacer"></div>
   <nav class="nav">
     <a href="#journey" data-ar="الرحلة" data-en="Journey">الرحلة</a>
     <a href="#apps" data-ar="التطبيقات" data-en="Apps">التطبيقات</a>
     <a href="#express" data-ar="سودا إكسبريس" data-en="Suda Express">سودا إكسبريس</a>
     <a href="#bank" data-ar="البنوك" data-en="Banking">البنوك</a>
+    <a href="#mowasalaty" data-ar="مواصلاتي" data-en="Mowasalty">مواصلاتي</a>
     <a href="#dashboard" data-ar="اللوحة" data-en="Dashboard">اللوحة</a>
   </nav>
   <div class="lang" role="group" aria-label="Language"><button data-lang="ar" aria-pressed="true">ع</button><button data-lang="en" aria-pressed="false">EN</button></div>
@@ -309,6 +374,13 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
     </div>
   </div>
 </div></section>
+
+<!-- trust badges -->
+<div class="trust-strip rev">
+  <div class="tb"><svg class="ic"><use href="#i-shop"/></svg><span><b data-ar="تسوّق بأمان" data-en="Shop safely">تسوّق بأمان</b><span class="en ar-only">Shop safely</span></span></div>
+  <div class="tb"><svg class="ic"><use href="#i-shield"/></svg><span><b data-ar="دفع آمن بالمراحل" data-en="Secure staged pay">دفع آمن بالمراحل</b><span class="en ar-only">Secure staged pay</span></span></div>
+  <div class="tb"><svg class="ic"><use href="#i-truck"/></svg><span><b data-ar="توصيل سريع" data-en="Fast delivery">توصيل سريع</b><span class="en ar-only">Fast delivery</span></span></div>
+</div>
 
 <!-- journey -->
 <section class="sec" id="journey">
@@ -432,6 +504,34 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
   </div>
 </section>
 
+<!-- Mowasalty — mobility sub-brand -->
+<section class="sec" id="mowasalaty">
+  <div class="mowa rev">
+    <div>
+      <span class="mowa-tag"><svg class="ic" style="width:15px;height:15px"><use href="#i-bus"/></svg><span data-ar="هوية التنقّل" data-en="Mobility identity">هوية التنقّل</span></span>
+      <h2>مواصلاتي<span class="en">Mowasalty · Mobility</span></h2>
+      <ul>
+        <li data-ar="بيع المقاعد المجدولة لرحلات الغد" data-en="Sell scheduled seats for tomorrow’s trips">بيع المقاعد المجدولة لرحلات الغد</li>
+        <li data-ar="تخطيط مسبق لرحلتك، وضمان مكانك" data-en="Plan your trip ahead, guarantee your seat">تخطيط مسبق لرحلتك، وضمان مكانك</li>
+        <li data-ar="اختر مسارك ووقتك عبر التطبيق، واحجز بسهولة" data-en="Choose your route and time in-app, book with ease">اختر مسارك ووقتك عبر التطبيق، واحجز بسهولة</li>
+      </ul>
+      <a class="mowa-book" href="app.html"><svg class="ic"><use href="#i-bus"/></svg><span data-ar="احجز مقعدك" data-en="Book your seat">احجز مقعدك</span></a>
+    </div>
+    <div class="mowa-vis">
+      <div class="seatpad">
+        <div class="sp-h" data-ar="امسح واحجز · Scan & Book" data-en="Scan &amp; Book">امسح واحجز · Scan &amp; Book</div>
+        <div class="seat-grid">
+          <div class="seat g"></div><div class="seat o"></div><div class="seat g"></div><div class="seat g"></div>
+          <div class="seat o"></div><div class="seat g"></div><div class="seat g"></div><div class="seat sel"><svg class="ic"><use href="#i-check"/></svg></div>
+          <div class="seat g"></div><div class="seat o"></div><div class="seat g"></div><div class="seat g"></div>
+          <div class="seat g"></div><div class="seat g"></div><div class="seat free"></div><div class="seat free"></div>
+        </div>
+        <div class="sp-f" data-ar="مقعدك محجوز" data-en="Seat reserved">مقعدك محجوز</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- dashboard teaser -->
 <section class="sec" id="dashboard">
   <div class="dash-teaser rev"><div class="dash-in">
@@ -461,12 +561,31 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
   </div>
 </section>
 
+<!-- payment partners (proposed) -->
+<div class="partners rev">
+  <div class="pt" data-ar="شركاء دفع مقترحون" data-en="Proposed payment partners">شركاء دفع مقترحون</div>
+  <div class="prow">
+    <div class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#12a150,#0c7a3c)">Sa7</span><span><b>Sa7</b><small data-ar="سودان موني" data-en="Sudan Money">سودان موني</small></span></div>
+    <div class="pchip"><span class="pmk" style="background:linear-gradient(145deg,#ffcc00,#e0a500);color:#1a1a1a">MTN</span><span><b>MTN</b><small data-ar="موبايل موني" data-en="Mobile Money">موبايل موني</small></span></div>
+    <div class="pchip scan"><svg class="ic"><use href="#i-wallet"/></svg><span data-ar="امسح وادفع" data-en="Scan &amp; Pay">امسح وادفع</span></div>
+  </div>
+  <div class="pnote" data-ar="أسماء الشركاء توضيحية ومقترحة — تُعتمد شعاراتهم بعد الاتفاقات." data-en="Partner names are illustrative and proposed — their logos are confirmed only after agreements.">أسماء الشركاء توضيحية ومقترحة — تُعتمد شعاراتهم بعد الاتفاقات.</div>
+</div>
+
 </div>
 </main>
 
 <footer class="foot"><div class="wrap foot-in">
-  <div class="lk"><span class="m">س</span><span><b data-ar="السوق · منظومة هويل" data-en="alSooq · Hawil ecosystem">السوق · منظومة هويل</b><span class="en">Landing · Prototype</span></span></div>
-  <p class="note" data-ar="واجهة أوّلية للعرض. كل الأرقام والأرصدة توضيحية، وشعارات الشركاء والبنوك " data-en="Prototype surface for review. All balances and figures are illustrative; partner and bank logos are ">واجهة أوّلية للعرض. كل الأرقام والأرصدة توضيحية، وشعارات الشركاء والبنوك <b data-ar="تُضاف بعد الاتفاقات." data-en="added only after agreements.">تُضاف بعد الاتفاقات.</b></p>
+  <div>
+    <div class="lk"><span class="m">س</span><span><b data-ar="السوق · منظومة هويل" data-en="alSooq · Hawil ecosystem">السوق · منظومة هويل</b><span class="en">Rebuild Sudan · Prototype</span></span><span class="flag" aria-hidden="true"><i></i><i></i><i></i></span></div>
+    <div class="foot-contact">
+      <a href="https://wa.me/249912345678"><span data-ar="واتساب" data-en="WhatsApp">واتساب</span> <span class="num">0912 345 678</span></a>
+      <span class="tag">@AlSouqSD</span>
+      <a href="https://www.alsooq.sd"><svg class="ic"><use href="#i-globe"/></svg><span class="num">www.alsooq.sd</span></a>
+      <span class="hash">#RebuildSudan</span>
+    </div>
+  </div>
+  <p class="note" data-ar="واجهة أوّلية للعرض. كل الأرقام وبيانات التواصل توضيحية، وشعارات الشركاء والبنوك " data-en="Prototype surface for review. All figures and contact details are illustrative; partner and bank logos are ">واجهة أوّلية للعرض. كل الأرقام وبيانات التواصل توضيحية، وشعارات الشركاء والبنوك <b data-ar="تُضاف بعد الاتفاقات." data-en="added only after agreements.">تُضاف بعد الاتفاقات.</b></p>
 </div></footer>
 
 <script>
