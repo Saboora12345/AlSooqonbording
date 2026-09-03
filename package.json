@@ -1,0 +1,16 @@
+{
+  "name": "alsooq-unified-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Unified bilingual (Arabic RTL / English LTR) prototype for the Hawil / alSooq ecosystem.",
+  "scripts": {
+    "format": "prettier --write \"*.html\" \"site/**/*.html\"",
+    "format:check": "prettier --check \"*.html\" \"site/**/*.html\"",
+    "lint": "html-validate \"*.html\" \"site/**/*.html\"",
+    "test": "npm run lint && npm run format:check"
+  },
+  "devDependencies": {
+    "html-validate": "^8.24.1",
+    "prettier": "^3.3.3"
+  }
+}
