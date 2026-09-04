@@ -174,7 +174,9 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 
 .rev{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .rev.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){*{animation:none !important;transition-duration:1ms !important}.rev{opacity:1;transform:none}}
+.hbtn:active,.kpi:active,.range button:active,.lang button:active{transform:scale(.97)}
+@media(hover:none){.hbtn:hover,.kpi:hover{transform:none;box-shadow:var(--shadow)}}
+@media(prefers-reduced-motion:reduce){*{animation:none !important;transition-property:opacity,color,background-color,border-color,fill,stroke !important}.rev{opacity:1;transform:none}}
 </style>
 </head>
 <body>

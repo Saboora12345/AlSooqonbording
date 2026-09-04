@@ -211,7 +211,9 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 .confetti i{position:absolute;width:9px;height:14px;border-radius:2px;opacity:0;animation:fall 2.4s var(--ease) forwards}
 @keyframes fall{0%{opacity:1;transform:translateY(-10vh) rotate(0)}100%{opacity:0;transform:translateY(100vh) rotate(540deg)}}
 
-@media(prefers-reduced-motion:reduce){*{animation:none !important;transition-duration:1ms !important}.done .p,.done .ring{stroke-dashoffset:0}}
+.btn:active,.type-card:active,.chip:active,.opt:active,.btn-block:active,.lang button:active{transform:scale(.97)}
+@media(hover:none){.type-card:hover,.btn-primary:hover{transform:none;box-shadow:var(--shadow)}}
+@media(prefers-reduced-motion:reduce){*{animation:none !important;transition-property:opacity,color,background-color,border-color,fill,stroke !important}.done .p,.done .ring{stroke-dashoffset:0}}
 </style>
 </head>
 <body>
