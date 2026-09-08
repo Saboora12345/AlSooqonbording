@@ -10,11 +10,25 @@ Browse the five categories, open a service, choose how you enter, and jump — i
 one tap — into the **Customer app**, the **Merchant app**, or the embedded
 **Bank** console.
 
+## Pages
+
+| File | What it is |
+| --- | --- |
+| `landing.html` | The **final marketing landing page** — the public entry point. Hero, the journey, categories, the three apps, Suda Express & embedded-banking spotlights, a live-metrics dashboard teaser, and CTAs into the app. Motion-rich: scroll reveals, animated counters, floating orbit, self-drawing widgets. |
+| `index.html` | The **unified app** — the view-router product itself (Marketplace → Services → Customer / Merchant / Bank). Supports hash deep-links: `index.html#customer`, `#merchant`, `#merchant:express`, `#bank`. |
+| `dashboard.html` | A **trendy, animated analytics dashboard** for the whole ecosystem — live KPIs with count-up + sparklines, a self-drawing GMV area chart, revenue bars, an animated escrow ring, remittance-corridor bars, Suda Express gauges, and a streaming live-activity feed. |
+| `merchant-onboarding.html` | A **6-step merchant onboarding wizard** — choose a type (standard merchant / Suda Express), enter business details, verify identity (KYC via a partner bank), set up banking & escrow-settled payouts, configure type-specific operations, then review and launch. Live profile preview, per-step validation, animated stepper/progress, and a celebratory success screen that deep-links into the merchant console. |
+| `mowasalaty.html` | The **Mowasalaty mobility console** — the transport module of the ecosystem (🚍 مواصلاتي). A tabbed, bilingual app: a **Dashboard** (trips overview, ticket-sales bars, fleet-status donut, top routes), a **Booking** flow (From / To / Date / Time → live trip search with fares & seats, booked through alSooq), **Tracking** (an animated live route map with a moving coach, stop markers, ETA and a status timeline), and **Fleet management** (vehicles table + maintenance schedule). Includes the public storefront **iframe** embed, **alSooq catalog sync**, and cross-traffic (an alSooq promo strip + market links). Uses the Mowasalaty blue/cyan brand on IBM Plex. *The AlSooq API Bearer token is never placed in client code — booking is documented to call `api.alsooq.com/mowasalaty/trips` through a server-side proxy.* |
+| `merchant-workspace.html` | The **merchant's daily operating console** — the workspace an onboarded merchant lives in. Built around the ecosystem transaction flow **Request → Offer → Settlement → Trust**: an animated four-stage flow ribbon, a **live transaction board** where orders move through the stages, KPI tiles (sales, open orders, escrow-held, trust score), a **Hawil wallet** (balance, escrow, credit line, transfers), **usage-linked financing** offers scored on souk history, a **transparency & trust** panel (identity assertion, verification, escrow, animated trust ring), and an **expatriate-remittance** corridor view converting remittances into direct orders. |
+
+The pages link to each other: landing → app + dashboard, dashboard → app + landing, and the app / onboarding / workspace hand off into the merchant console (`index.html#merchant` / `#merchant:express`).
+
 ## Run it
 
-Open `index.html` in any modern browser. No build step, no dependencies — all
-CSS, JavaScript and icons are inlined in the single file. Fonts (IBM Plex Sans /
-Sans Arabic) load from Google Fonts and fall back to system fonts offline.
+Open `landing.html` (or `index.html`) in any modern browser. No build step, no
+dependencies — all CSS, JavaScript and icons are inlined per file. Fonts
+(IBM Plex Sans / Sans Arabic) load from Google Fonts and fall back to system
+fonts offline. Everything respects `prefers-reduced-motion`.
 
 ## What's inside `index.html`
 

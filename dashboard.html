@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>السوق — لوحة المنظومة · alSooq Dashboard</title>
+<meta name="description" content="alSooq ecosystem dashboard — live GMV, orders, Suda Express deliveries, escrow and remittance corridors with animated charts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand:#F6F1E7; --sand-2:#EFE7D8; --card:#FFFCF6; --white:#fff;
+  --ink:#2E241B; --ink-2:#6B5B4B; --ink-3:#93826F;
+  --clay:#8A4B2A; --clay-deep:#5F3119; --clay-08:rgba(138,75,42,.08); --clay-12:rgba(138,75,42,.12); --clay-30:rgba(138,75,42,.3);
+  --palm:#2F6B4F; --palm-tint:#E3EFE8; --palm-12:rgba(47,107,79,.12); --gold:#B8862F; --gold-tint:rgba(184,134,47,.12);
+  --line:#DCCFBB; --line-soft:rgba(220,207,187,.6);
+  --r:16px; --r-sm:10px; --r-lg:22px; --r-pill:999px;
+  --ease:cubic-bezier(.16,1,.3,1); --io:cubic-bezier(.77,0,.175,1);
+  --shadow:0 1px 2px rgba(46,36,27,.05),0 10px 30px -16px rgba(46,36,27,.2);
+  --shadow-lg:0 2px 6px rgba(46,36,27,.06),0 30px 60px -28px rgba(46,36,27,.32);
+  --ar:'IBM Plex Sans Arabic',system-ui,sans-serif; --en:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ar);background:var(--sand);color:var(--ink);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+[data-lang="en"] body{font-family:var(--en)}
+[data-lang="ar"] .en-only{display:none}[data-lang="en"] .ar-only{display:none}
+.num{font-family:var(--en);font-variant-numeric:tabular-nums}.mono{font-family:var(--mono)}
+a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+:focus-visible{outline:2.5px solid var(--clay);outline-offset:2px;border-radius:5px}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2.5px solid var(--clay);outline-offset:3px}
+svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;width:22px;height:22px;display:block}
+.ic-sm{width:17px;height:17px}
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bg span{position:absolute;border-radius:50%;filter:blur(90px)}
+.b1{width:46vw;height:46vw;top:-16vw;inset-inline-start:-12vw;background:radial-gradient(circle,rgba(138,75,42,.13),transparent 70%)}
+.b2{width:42vw;height:42vw;bottom:-16vw;inset-inline-end:-12vw;background:radial-gradient(circle,rgba(47,107,79,.1),transparent 70%)}
+
+/* header */
+.hdr{position:sticky;top:0;z-index:60;background:rgba(246,241,231,.8);backdrop-filter:saturate(1.5) blur(14px);border-bottom:1px solid var(--line-soft)}
+.hdr-in{max-width:1280px;margin-inline:auto;padding:0 24px;display:flex;align-items:center;gap:16px;height:66px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{width:36px;height:36px;border-radius:10px;color:#fff;display:grid;place-items:center;font-weight:700;font-size:20px;background:linear-gradient(145deg,var(--clay),var(--clay-deep));box-shadow:0 4px 14px -4px rgba(138,75,42,.5)}
+.brand b{font-size:16px;font-weight:700;line-height:1}
+.brand .en{font-size:8px;letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase;font-weight:600;display:block;margin-top:3px}
+.live{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;color:var(--palm);background:var(--palm-12);padding:6px 12px;border-radius:var(--r-pill)}
+.live .d{width:7px;height:7px;border-radius:50%;background:var(--palm);animation:blink 1.6s var(--io) infinite}
+@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(47,107,79,.4)}50%{opacity:.4;box-shadow:0 0 0 5px rgba(47,107,79,0)}}
+.spacer{flex:1}
+.range{display:flex;gap:2px;background:var(--sand-2);border:1px solid var(--line);border-radius:var(--r-pill);padding:4px;position:relative}
+.range button{padding:7px 14px;font-size:12.5px;font-weight:600;color:var(--ink-2);border-radius:var(--r-pill);z-index:1;transition:color .24s}
+.range button[aria-pressed="true"]{color:#fff}
+.range .g{position:absolute;left:0;top:4px;height:calc(100% - 8px);border-radius:var(--r-pill);background:var(--clay);transition:transform .28s var(--io),width .28s var(--io);box-shadow:0 3px 10px -2px rgba(138,75,42,.5)}
+.lang{display:flex;border:1px solid var(--line);border-radius:var(--r-pill);overflow:hidden}
+.lang button{padding:7px 12px;font-size:12px;font-weight:700;color:var(--ink-2);transition:.15s}
+.lang button[aria-pressed="true"]{background:var(--clay);color:#fff}
+.hbtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--card);border-radius:var(--r-pill);padding:9px 15px;font-size:13px;font-weight:600;box-shadow:var(--shadow);transition:transform .24s,box-shadow .24s,border-color .24s}
+.hbtn:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--clay-30)}
+.hbtn svg{width:16px;height:16px}
+@media(max-width:720px){.range .txt-lg{display:none}.brand .en{display:none}.hbtn .txt{display:none}}
+
+/* layout */
+.main{max-width:1280px;margin-inline:auto;padding:26px 24px 60px}
+.page-h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.page-h h1{font-size:clamp(24px,3.4vw,34px);font-weight:700;letter-spacing:-.02em}
+.page-h p{font-size:13.5px;color:var(--ink-2);margin-top:4px}
+.page-h .upd{font-size:11.5px;color:var(--ink-3);font-weight:600;display:flex;align-items:center;gap:7px}
+.page-h .upd .d{width:6px;height:6px;border-radius:50%;background:var(--palm);animation:blink 1.6s infinite}
+
+/* KPI row */
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .28s var(--ease),box-shadow .28s}
+.kpi:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.kpi .kt{display:flex;align-items:center;justify-content:space-between}
+.kpi .ki{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--clay-08);color:var(--clay)}
+.kpi.g .ki{background:var(--gold-tint);color:var(--gold)}.kpi.p .ki{background:var(--palm-12);color:var(--palm)}
+.kpi .delta{font-size:11px;font-weight:700;padding:3px 8px;border-radius:var(--r-pill);background:var(--palm-12);color:var(--palm)}
+.kpi .delta.down{background:rgba(138,75,42,.1);color:var(--clay)}
+.kpi .kl{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-top:14px}
+.kpi .kv{font-size:26px;font-weight:700;letter-spacing:-.02em;margin-top:3px}
+.kpi .kv small{font-size:14px;color:var(--ink-2);font-weight:600}
+.kpi .kspark{display:flex;align-items:flex-end;gap:3px;height:30px;margin-top:12px}
+.kpi .kspark i{flex:1;border-radius:2px 2px 0 0;background:var(--clay-12);transition:height .7s var(--ease)}
+.kpi .kspark i.hi{background:var(--clay)}
+.kpi.g .kspark i.hi{background:var(--gold)}.kpi.p .kspark i.hi{background:var(--palm)}
+@media(max-width:1080px){.kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.kpis{grid-template-columns:1fr}}
+
+/* grid of panels */
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:16px}
+@media(max-width:960px){.grid{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow)}
+.panel-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:10px}
+.panel-h h3{font-size:15px;font-weight:700}
+.panel-h .sub{font-size:11.5px;color:var(--ink-3);font-weight:600}
+.legend{display:flex;gap:14px;flex-wrap:wrap}
+.legend span{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-2);font-weight:600}
+.legend i{width:9px;height:9px;border-radius:3px}
+
+/* area/line chart */
+.chart{position:relative;width:100%;height:230px}
+.chart svg{width:100%;height:100%;overflow:visible}
+.chart .grid-l{stroke:var(--line-soft);stroke-width:1;stroke-dasharray:3 4}
+.chart .axis{font-family:var(--mono);font-size:10px;fill:var(--ink-3)}
+.pathline{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.dot{opacity:0;transition:opacity .3s}
+.chart:hover .dot{opacity:1}
+
+/* bar chart */
+.bars{display:flex;align-items:flex-end;gap:14px;height:200px;padding-top:10px}
+.barcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:9px;height:100%;justify-content:flex-end}
+.barcol .bar{width:100%;max-width:46px;border-radius:8px 8px 0 0;height:0;transition:height .9s var(--ease);position:relative;background:linear-gradient(180deg,var(--clay),var(--clay-deep))}
+.barcol:nth-child(2) .bar{background:linear-gradient(180deg,#a95f39,var(--clay))}
+.barcol:nth-child(3) .bar{background:linear-gradient(180deg,var(--gold),#8f6820)}
+.barcol:nth-child(4) .bar{background:linear-gradient(180deg,#4b8368,var(--palm))}
+.barcol:nth-child(5) .bar{background:linear-gradient(180deg,#b98a4e,var(--gold))}
+.barcol .bl{font-size:11px;color:var(--ink-2);font-weight:600;text-align:center}
+.barcol .bv{font-size:11px;font-weight:700;color:var(--ink)}
+
+/* donut / ring */
+.ring-wrap{display:flex;flex-direction:column;align-items:center;gap:6px}
+.ring{position:relative;width:170px;height:170px}
+.ring svg{transform:rotate(-90deg)}
+.ring .rc{fill:none;stroke-width:16;stroke-linecap:round}
+.ring .rt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .rt b{font-size:28px;font-weight:700;letter-spacing:-.02em}
+.ring .rt span{font-size:11px;color:var(--ink-3);font-weight:600}
+.ring-legend{display:flex;flex-direction:column;gap:9px;margin-top:8px;width:100%}
+.ring-legend div{display:flex;align-items:center;justify-content:space-between;font-size:12.5px}
+.ring-legend .lft{display:flex;align-items:center;gap:8px;color:var(--ink-2);font-weight:600}
+.ring-legend i{width:10px;height:10px;border-radius:3px}
+.ring-legend b{font-weight:700}
+
+/* corridors / progress */
+.prow{margin-bottom:16px}
+.prow:last-child{margin-bottom:0}
+.prow .pt{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.prow .pt b{font-size:13px;font-weight:600}
+.prow .pt span{font-size:12px;font-weight:700}
+.ptrack{height:8px;border-radius:var(--r-pill);background:var(--sand-2);overflow:hidden}
+.pfill{height:100%;border-radius:var(--r-pill);width:0;transition:width 1s var(--ease);background:linear-gradient(90deg,var(--palm),#4b8368)}
+
+/* live feed */
+.feed{display:flex;flex-direction:column;gap:0;max-height:340px;overflow:hidden}
+.fitem{display:flex;gap:12px;align-items:center;padding:11px 2px;border-bottom:1px solid var(--line-soft)}
+.fitem:last-child{border-bottom:0}
+.fitem.new{animation:slidein .5s var(--ease)}
+@keyframes slidein{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+.fitem .fi{width:34px;height:34px;border-radius:10px;flex:none;display:grid;place-items:center;background:var(--clay-08);color:var(--clay)}
+.fitem .fi.palm{background:var(--palm-12);color:var(--palm)}.fitem .fi.gold{background:var(--gold-tint);color:var(--gold)}
+.fitem .fx{flex:1;min-width:0}
+.fitem .fx b{font-size:12.5px;font-weight:600;display:block;line-height:1.3}
+.fitem .fx span{font-size:11px;color:var(--ink-3)}
+.fitem .fa{font-size:12px;font-weight:700;white-space:nowrap}
+.fitem .fa.pos{color:var(--palm)}
+
+/* gauges (suda express) */
+.gauges{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.gauge{text-align:center}
+.gauge .gr{position:relative;width:110px;height:110px;margin-inline:auto}
+.gauge svg{transform:rotate(-90deg)}
+.gauge .gc{fill:none;stroke-width:11;stroke-linecap:round}
+.gauge .gt{position:absolute;inset:0;display:grid;place-items:center;font-size:20px;font-weight:700}
+.gauge .gl{font-size:12px;color:var(--ink-2);font-weight:600;margin-top:8px}
+
+/* top list */
+.tlist .trow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line-soft)}
+.tlist .trow:last-child{border-bottom:0}
+.tlist .rank{width:24px;height:24px;border-radius:8px;background:var(--sand-2);color:var(--ink-2);display:grid;place-items:center;font-size:11px;font-weight:700;font-family:var(--mono);flex:none}
+.tlist .trow:nth-child(1) .rank{background:var(--gold);color:#fff}
+.tlist .tn{flex:1}.tlist .tn b{font-size:13px;font-weight:600;display:block}.tlist .tn span{font-size:11px;color:var(--ink-3)}
+.tlist .tv{font-size:13px;font-weight:700}
+
+.rev{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rev.in{opacity:1;transform:none}
+.hbtn:active,.kpi:active,.range button:active,.lang button:active{transform:scale(.97)}
+@media(hover:none){.hbtn:hover,.kpi:hover{transform:none;box-shadow:var(--shadow)}}
+@media(prefers-reduced-motion:reduce){*{animation:none !important;transition-property:opacity,color,background-color,border-color,fill,stroke !important}.rev{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"><span class="b1"></span><span class="b2"></span></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-shop" viewBox="0 0 24 24"><path d="M4 8h16l-1 4a3 3 0 0 1-3 2.4H8A3 3 0 0 1 5 12z"/><path d="M4 8l1.4-3.2A2 2 0 0 1 7.2 3.6h9.6A2 2 0 0 1 18.6 4.8L20 8"/><path d="M7 15v4.5A1.5 1.5 0 0 0 8.5 21h7a1.5 1.5 0 0 0 1.5-1.5V15"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M12 3 4 7v10l8 4 8-4V7z"/><path d="M4 7l8 4 8-4M12 11v10"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><rect x="2.5" y="7" width="11" height="9" rx="1.4"/><path d="M13.5 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17.5" cy="18" r="1.6"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 5.5V11c0 4.4 3 7.7 7 9 4-1.3 7-4.6 7-9V5.5z"/><path d="m9 11.5 2 2 3.5-3.8"/></symbol>
+  <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 9 12 4l9 5"/><path d="M4 9h16"/><path d="M6 9v8M10 9v8M14 9v8M18 9v8"/><path d="M4 20h16"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><path d="M8 20v-6M12 20v-9M16 20v-4M20 20V8"/></symbol>
+  <symbol id="i-remit" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.4 2.3 2.4 14.7 0 17M12 3.5c-2.4 2.3-2.4 14.7 0 17"/></symbol>
+  <symbol id="i-coins" viewBox="0 0 24 24"><ellipse cx="9" cy="7" rx="5" ry="2.6"/><path d="M4 7v4c0 1.4 2.2 2.6 5 2.6s5-1.2 5-2.6V7"/><path d="M14 12.5c2.6.2 5 1.4 5 2.5v-3"/><path d="M10 15.5c0 1.4 2.2 2.6 5 2.6s5-1.2 5-2.6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></symbol>
+  <symbol id="i-flash" viewBox="0 0 24 24"><path d="M13 3 4 14h6l-1 7 9-11h-6z"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><path d="M4 10v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9"/><path d="M3 6.5 4.5 4h15L21 6.5a2.5 2.5 0 0 1-4.5 1.5 2.5 2.5 0 0 1-4.5 0 2.5 2.5 0 0 1-4.5 0A2.5 2.5 0 0 1 3 6.5Z"/><path d="M9 20v-5h4v5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-9"/><path d="M10 20v-6h4v6"/></symbol>
+</defs></svg>
+
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="landing.html"><span class="brand-mark">س</span><span><b data-ar="السوق" data-en="alSooq">السوق</b><span class="en">Ecosystem Dashboard</span></span></a>
+  <span class="live"><span class="d"></span><span data-ar="مباشر" data-en="Live">مباشر</span></span>
+  <div class="spacer"></div>
+  <div class="range" id="range" role="group" aria-label="Range">
+    <span class="g" aria-hidden="true"></span>
+    <button data-range="day" aria-pressed="true"><span data-ar="اليوم" data-en="Day">اليوم</span></button>
+    <button data-range="week" aria-pressed="false"><span data-ar="الأسبوع" data-en="Week">الأسبوع</span></button>
+    <button data-range="month" aria-pressed="false"><span data-ar="الشهر" data-en="Month">الشهر</span></button>
+  </div>
+  <div class="lang" role="group" aria-label="Language"><button data-lang="ar" aria-pressed="true">ع</button><button data-lang="en" aria-pressed="false">EN</button></div>
+  <a class="hbtn" href="index.html"><svg class="ic"><use href="#i-shop"/></svg><span class="txt" data-ar="التطبيق" data-en="App">التطبيق</span></a>
+</div></header>
+
+<main class="main">
+  <div class="page-h rev">
+    <div>
+      <h1 data-ar="لوحة المنظومة" data-en="Ecosystem overview">لوحة المنظومة</h1>
+      <p data-ar="نبض السوق عبر العميل والتاجر وسودا إكسبريس والبنوك الشريكة." data-en="The pulse of the souk across customers, merchants, Suda Express and partner banks.">نبض السوق عبر العميل والتاجر وسودا إكسبريس والبنوك الشريكة.</p>
+    </div>
+    <div class="upd"><span class="d"></span><span data-ar="آخر تحديث الآن · توضيحي" data-en="Updated just now · illustrative">آخر تحديث الآن · توضيحي</span></div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpis rev">
+    <div class="kpi">
+      <div class="kt"><span class="ki"><svg class="ic ic-sm"><use href="#i-coins"/></svg></span><span class="delta">+<span class="num" data-count="18">0</span>%</span></div>
+      <div class="kl" data-ar="حجم التداول (GMV)" data-en="GMV">حجم التداول (GMV)</div>
+      <div class="kv"><span class="num" data-count="64.2" data-dec="1">0</span><small data-ar=" مليون ج" data-en="M SDG"> مليون ج</small></div>
+      <div class="kspark" data-spark="42,55,48,62,58,74,80"></div>
+    </div>
+    <div class="kpi g">
+      <div class="kt"><span class="ki"><svg class="ic ic-sm"><use href="#i-box"/></svg></span><span class="delta">+<span class="num" data-count="12">0</span>%</span></div>
+      <div class="kl" data-ar="الطلبات" data-en="Orders">الطلبات</div>
+      <div class="kv"><span class="num" data-count="8420">0</span></div>
+      <div class="kspark" data-spark="50,58,55,66,70,78,84"></div>
+    </div>
+    <div class="kpi">
+      <div class="kt"><span class="ki"><svg class="ic ic-sm"><use href="#i-truck"/></svg></span><span class="delta">+<span class="num" data-count="4">0</span>%</span></div>
+      <div class="kl" data-ar="توصيل في الوقت" data-en="On-time delivery">توصيل في الوقت</div>
+      <div class="kv"><span class="num" data-count="96.4" data-dec="1">0</span><small>%</small></div>
+      <div class="kspark" data-spark="88,90,89,92,94,95,96"></div>
+    </div>
+    <div class="kpi p">
+      <div class="kt"><span class="ki"><svg class="ic ic-sm"><use href="#i-shield"/></svg></span><span class="delta">+<span class="num" data-count="9">0</span>%</span></div>
+      <div class="kl" data-ar="محجوز في الأمانة" data-en="Held in escrow">محجوز في الأمانة</div>
+      <div class="kv"><span class="num" data-count="21.7" data-dec="1">0</span><small data-ar=" مليون ج" data-en="M SDG"> مليون ج</small></div>
+      <div class="kspark" data-spark="30,36,40,44,48,54,60"></div>
+    </div>
+    <div class="kpi p">
+      <div class="kt"><span class="ki"><svg class="ic ic-sm"><use href="#i-bank"/></svg></span><span class="delta">+<span class="num" data-count="9.2" data-dec="1">0</span>%</span></div>
+      <div class="kl" data-ar="حسابات مصرفية" data-en="Bank accounts">حسابات مصرفية</div>
+      <div class="kv"><span class="num" data-count="312">0</span><small data-ar=" ألف" data-en="K"> ألف</small></div>
+      <div class="kspark" data-spark="40,46,52,60,68,80,92"></div>
+    </div>
+  </div>
+
+  <!-- main grid: line chart + live feed -->
+  <div class="grid">
+    <div class="panel rev">
+      <div class="panel-h">
+        <div><h3 data-ar="حجم التداول عبر الوقت" data-en="GMV over time">حجم التداول عبر الوقت</h3><div class="sub" data-ar="مليون جنيه · توضيحي" data-en="M SDG · illustrative">مليون جنيه · توضيحي</div></div>
+        <div class="legend">
+          <span><i style="background:var(--clay)"></i><span data-ar="السوق" data-en="Marketplace">السوق</span></span>
+          <span><i style="background:var(--palm)"></i><span data-ar="حوّل" data-en="Hawil Pay">حوّل</span></span>
+        </div>
+      </div>
+      <div class="chart" id="lineChart"></div>
+    </div>
+
+    <div class="panel rev">
+      <div class="panel-h"><h3 data-ar="نشاط مباشر" data-en="Live activity">نشاط مباشر</h3><span class="live"><span class="d"></span><span data-ar="مباشر" data-en="Live">مباشر</span></span></div>
+      <div class="feed" id="feed"></div>
+    </div>
+  </div>
+
+  <!-- second grid: bars + ring + corridors -->
+  <div class="grid2">
+    <div class="panel rev">
+      <div class="panel-h"><div><h3 data-ar="الإيراد حسب الفئة" data-en="Revenue by category">الإيراد حسب الفئة</h3><div class="sub" data-ar="هذا الأسبوع" data-en="This week">هذا الأسبوع</div></div></div>
+      <div class="bars" id="bars">
+        <div class="barcol"><div class="bar" data-h="92"></div><div class="bv"><span class="num">28.4</span></div><div class="bl" data-ar="المتجر" data-en="Shop">المتجر</div></div>
+        <div class="barcol"><div class="bar" data-h="74"></div><div class="bv"><span class="num">22.1</span></div><div class="bl" data-ar="البناء" data-en="Build">البناء</div></div>
+        <div class="barcol"><div class="bar" data-h="48"></div><div class="bv"><span class="num">13.6</span></div><div class="bl" data-ar="السفر" data-en="Travel">السفر</div></div>
+        <div class="barcol"><div class="bar" data-h="36"></div><div class="bv"><span class="num">9.2</span></div><div class="bl" data-ar="التعليم" data-en="Learn">التعليم</div></div>
+        <div class="barcol"><div class="bar" data-h="60"></div><div class="bv"><span class="num">17.8</span></div><div class="bl" data-ar="المال" data-en="Money">المال</div></div>
+      </div>
+    </div>
+
+    <div class="panel rev">
+      <div class="panel-h"><h3 data-ar="الأمانة (ضمان)" data-en="Escrow flow">الأمانة (ضمان)</h3></div>
+      <div class="ring-wrap">
+        <div class="ring" id="ring">
+          <svg viewBox="0 0 170 170">
+            <circle class="rc" cx="85" cy="85" r="70" stroke="var(--sand-2)"></circle>
+            <circle class="rc" id="ringA" cx="85" cy="85" r="70" stroke="var(--palm)"></circle>
+            <circle class="rc" id="ringB" cx="85" cy="85" r="70" stroke="var(--gold)"></circle>
+          </svg>
+          <div class="rt"><b><span class="num" data-count="1402">0</span></b><span data-ar="عملية اليوم" data-en="ops today">عملية اليوم</span></div>
+        </div>
+        <div class="ring-legend">
+          <div><span class="lft"><i style="background:var(--palm)"></i><span data-ar="أُفرج عند التسليم" data-en="Released on handover">أُفرج عند التسليم</span></span><b>78%</b></div>
+          <div><span class="lft"><i style="background:var(--gold)"></i><span data-ar="محجوز حالياً" data-en="Currently held">محجوز حالياً</span></span><b>22%</b></div>
+          <div><span class="lft"><i style="background:var(--sand-2)"></i><span data-ar="نزاعات مفتوحة" data-en="Open disputes">نزاعات مفتوحة</span></span><b>0</b></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel rev">
+      <div class="panel-h"><div><h3 data-ar="ممرّات الحوالات" data-en="Remittance corridors">ممرّات الحوالات</h3><div class="sub" data-ar="نصيب الحجم" data-en="Volume share">نصيب الحجم</div></div></div>
+      <div class="prow"><div class="pt"><b data-ar="الإمارات ← الخرطوم" data-en="UAE → Khartoum">الإمارات ← الخرطوم</b><span>742M</span></div><div class="ptrack"><div class="pfill" data-w="88"></div></div></div>
+      <div class="prow"><div class="pt"><b data-ar="السعودية ← بورتسودان" data-en="KSA → Port Sudan">السعودية ← بورتسودان</b><span>610M</span></div><div class="ptrack"><div class="pfill" data-w="72"></div></div></div>
+      <div class="prow"><div class="pt"><b data-ar="مصر ← ود مدني" data-en="Egypt → Wad Madani">مصر ← ود مدني</b><span>418M</span></div><div class="ptrack"><div class="pfill" data-w="50"></div></div></div>
+      <div class="prow"><div class="pt"><b data-ar="قطر ← كسلا" data-en="Qatar → Kassala">قطر ← كسلا</b><span>206M</span></div><div class="ptrack"><div class="pfill" data-w="26"></div></div></div>
+    </div>
+  </div>
+
+  <!-- third grid: Suda Express gauges + top merchants -->
+  <div class="grid2" style="grid-template-columns:1.2fr 1fr 1fr">
+    <div class="panel rev">
+      <div class="panel-h"><div><h3 data-ar="أداء سودا إكسبريس" data-en="Suda Express performance">أداء سودا إكسبريس</h3><div class="sub" data-ar="اليوم" data-en="Today">اليوم</div></div><svg class="ic ic-sm" style="color:var(--gold)"><use href="#i-truck"/></svg></div>
+      <div class="gauges">
+        <div class="gauge"><div class="gr"><svg viewBox="0 0 110 110"><circle class="gc" cx="55" cy="55" r="46" stroke="var(--sand-2)"></circle><circle class="gc gauge-a" cx="55" cy="55" r="46" stroke="var(--gold)" data-pct="96"></circle></svg><div class="gt"><span class="num" data-count="96">0</span>%</div></div><div class="gl" data-ar="في الوقت" data-en="On-time">في الوقت</div></div>
+        <div class="gauge"><div class="gr"><svg viewBox="0 0 110 110"><circle class="gc" cx="55" cy="55" r="46" stroke="var(--sand-2)"></circle><circle class="gc gauge-a" cx="55" cy="55" r="46" stroke="var(--clay)" data-pct="82"></circle></svg><div class="gt"><span class="num" data-count="82">0</span>%</div></div><div class="gl" data-ar="استغلال الأسطول" data-en="Fleet utilization">استغلال الأسطول</div></div>
+      </div>
+    </div>
+    <div class="panel rev">
+      <div class="panel-h"><h3 data-ar="أعلى التجّار" data-en="Top merchants">أعلى التجّار</h3></div>
+      <div class="tlist">
+        <div class="trow"><span class="rank num">1</span><div class="tn"><b data-ar="متجر النيل" data-en="Nile Store">متجر النيل</b><span data-ar="طاقة وبناء" data-en="Energy & build">طاقة وبناء</span></div><span class="tv"><span class="num">9.4M</span></span></div>
+        <div class="trow"><span class="rank num">2</span><div class="tn"><b data-ar="دار الإعمار" data-en="Rebuild House">دار الإعمار</b><span data-ar="مواد بناء" data-en="Materials">مواد بناء</span></div><span class="tv"><span class="num">7.1M</span></span></div>
+        <div class="trow"><span class="rank num">3</span><div class="tn"><b data-ar="نور للإنارة" data-en="Noor Lighting">نور للإنارة</b><span data-ar="إنارة" data-en="Lighting">إنارة</span></div><span class="tv"><span class="num">5.8M</span></span></div>
+        <div class="trow"><span class="rank num">4</span><div class="tn"><b data-ar="مواصلاتي بورتسودان" data-en="Mwasalati Port Sudan">مواصلاتي بورتسودان</b><span data-ar="سفر" data-en="Travel">سفر</span></div><span class="tv"><span class="num">4.2M</span></span></div>
+      </div>
+    </div>
+    <div class="panel rev">
+      <div class="panel-h"><h3 data-ar="حالة الشبكة" data-en="Network status">حالة الشبكة</h3></div>
+      <div class="tlist">
+        <div class="trow"><span class="fi" style="width:34px;height:34px;border-radius:10px;background:var(--palm-12);color:var(--palm);display:grid;place-items:center"><svg class="ic ic-sm"><use href="#i-shield"/></svg></span><div class="tn" style="margin-inline-start:2px"><b data-ar="بوابة الأمانة" data-en="Escrow gateway">بوابة الأمانة</b><span data-ar="زمن الاستجابة ٤٥ مللي" data-en="45ms latency">زمن الاستجابة ٤٥ مللي</span></div><span class="tv" style="color:var(--palm)" data-ar="سليم" data-en="Healthy">سليم</span></div>
+        <div class="trow"><span class="fi" style="width:34px;height:34px;border-radius:10px;background:var(--palm-12);color:var(--palm);display:grid;place-items:center"><svg class="ic ic-sm"><use href="#i-remit"/></svg></span><div class="tn" style="margin-inline-start:2px"><b data-ar="ممرّات الحوالات" data-en="Remittance API">ممرّات الحوالات</b><span data-ar="٣ ممرّات نشطة" data-en="3 corridors live">٣ ممرّات نشطة</span></div><span class="tv" style="color:var(--palm)" data-ar="سليم" data-en="Healthy">سليم</span></div>
+        <div class="trow"><span class="fi" style="width:34px;height:34px;border-radius:10px;background:var(--gold-tint);color:var(--gold);display:grid;place-items:center"><svg class="ic ic-sm"><use href="#i-coins"/></svg></span><div class="tn" style="margin-inline-start:2px"><b data-ar="محرّك التمويل" data-en="Financing engine">محرّك التمويل</b><span data-ar="وضع تجريبي" data-en="Pilot mode">وضع تجريبي</span></div><span class="tv" style="color:var(--gold)" data-ar="تجريبي" data-en="Pilot">تجريبي</span></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+  var docEl=document.documentElement, reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* i18n */
+  function setLang(l){
+    var ar=l==='ar'; docEl.lang=l; docEl.dir=ar?'rtl':'ltr'; docEl.setAttribute('data-lang',l);
+    document.querySelectorAll('[data-ar]').forEach(function(e){var v=ar?e.getAttribute('data-ar'):e.getAttribute('data-en');if(v!=null)e.textContent=v;});
+    document.querySelectorAll('.lang [data-lang]').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-lang')===l?'true':'false');});
+  }
+  document.querySelectorAll('.lang [data-lang]').forEach(function(b){b.addEventListener('click',function(){setLang(b.getAttribute('data-lang'));});});
+
+  /* range glider */
+  var range=document.getElementById('range');
+  function posRange(){var a=range.querySelector('[aria-pressed="true"]'),g=range.querySelector('.g');g.style.width=a.offsetWidth+'px';g.style.transform='translateX('+(a.offsetLeft-4)+'px)';}
+  range.querySelectorAll('[data-range]').forEach(function(b){b.addEventListener('click',function(){
+    range.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    posRange(); rerollCharts();
+  });});
+
+  /* counters */
+  function countUp(el){
+    var target=parseFloat(el.getAttribute('data-count')),dec=+(el.getAttribute('data-dec')||0),dur=1200,t0=null;
+    function fmt(n){return dec?n.toFixed(dec):Math.round(n).toLocaleString('en-US');}
+    if(reduce){el.textContent=fmt(target);return;}
+    function step(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=fmt(target*e);if(p<1)requestAnimationFrame(step);}
+    requestAnimationFrame(step);
+  }
+  function sparks(root){root.querySelectorAll('[data-spark]').forEach(function(el){
+    var vals=el.getAttribute('data-spark').split(',').map(Number),m=Math.max.apply(null,vals);
+    el.innerHTML=vals.map(function(){return '<i></i>';}).join('');
+    var bars=el.querySelectorAll('i');
+    vals.forEach(function(v,i){var h=Math.round(v/m*100),last=i===vals.length-1;if(last)bars[i].classList.add('hi');
+      setTimeout(function(){bars[i].style.height=h+'%';},reduce?0:i*70);});
+  });}
+
+  /* line chart (two series) as SVG with animated draw */
+  var W=560,H=230,PADX=8,PADY=18;
+  var S1=[26,32,28,38,35,44,40,52,48,60,58,64], S2=[10,13,12,16,15,19,18,22,20,25,24,28];
+  function jitter(a,amt){return a.map(function(v){return Math.max(2,v+(Math.random()-.5)*amt);});}
+  function buildLine(){
+    var el=document.getElementById('lineChart');
+    var allmax=Math.max.apply(null,S1.concat(S2))*1.12;
+    function pts(arr){var n=arr.length;return arr.map(function(v,i){
+      var x=PADX+(i/(n-1))*(W-PADX*2);var y=H-PADY-(v/allmax)*(H-PADY*2);return [x,y];});}
+    function path(p){return p.map(function(c,i){return (i?'L':'M')+c[0].toFixed(1)+' '+c[1].toFixed(1);}).join(' ');}
+    function area(p){return path(p)+' L'+p[p.length-1][0].toFixed(1)+' '+(H-PADY)+' L'+p[0][0].toFixed(1)+' '+(H-PADY)+' Z';}
+    var p1=pts(S1),p2=pts(S2);
+    var grid='';for(var g=0;g<4;g++){var gy=PADY+g*((H-PADY*2)/3);grid+='<line class="grid-l" x1="'+PADX+'" y1="'+gy.toFixed(1)+'" x2="'+(W-PADX)+'" y2="'+gy.toFixed(1)+'"/>';}
+    el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none">'+
+      '<defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(138,75,42,.22)"/><stop offset="1" stop-color="rgba(138,75,42,0)"/></linearGradient>'+
+      '<linearGradient id="gb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(47,107,79,.20)"/><stop offset="1" stop-color="rgba(47,107,79,0)"/></linearGradient></defs>'+
+      grid+
+      '<path d="'+area(p1)+'" fill="url(#ga)" opacity="0" class="areaA"/>'+
+      '<path d="'+area(p2)+'" fill="url(#gb)" opacity="0" class="areaB"/>'+
+      '<path class="pathline" d="'+path(p1)+'" stroke="var(--clay)"/>'+
+      '<path class="pathline" d="'+path(p2)+'" stroke="var(--palm)"/>'+
+      p1.map(function(c){return '<circle class="dot" cx="'+c[0].toFixed(1)+'" cy="'+c[1].toFixed(1)+'" r="3" fill="var(--clay)"/>';}).join('')+
+      '</svg>';
+    // animate draw
+    el.querySelectorAll('.pathline').forEach(function(pl){
+      var len=pl.getTotalLength();pl.style.strokeDasharray=len;pl.style.strokeDashoffset=reduce?0:len;
+      if(!reduce){requestAnimationFrame(function(){pl.style.transition='stroke-dashoffset 1.3s var(--ease)';pl.style.strokeDashoffset=0;});}
+    });
+    setTimeout(function(){el.querySelector('.areaA').style.transition='opacity .6s';el.querySelector('.areaA').style.opacity=1;
+      el.querySelector('.areaB').style.transition='opacity .6s';el.querySelector('.areaB').style.opacity=1;},reduce?0:700);
+  }
+
+  /* bars */
+  function bars(){document.querySelectorAll('#bars .bar').forEach(function(b,i){var h=+b.getAttribute('data-h');setTimeout(function(){b.style.height=h+'%';},reduce?0:120+i*90);});}
+
+  /* escrow ring: two arcs (released 78%, held 22%) */
+  function ring(){
+    var r=70,C=2*Math.PI*r, relPct=.78, heldPct=.22;
+    var a=document.getElementById('ringA'),b=document.getElementById('ringB');
+    a.style.strokeDasharray=C;b.style.strokeDasharray=C;
+    a.style.strokeDashoffset=C;b.style.strokeDashoffset=C;
+    // B (held) sits after A (released)
+    b.style.transform='rotate('+(relPct*360)+'deg)';b.style.transformOrigin='85px 85px';
+    if(reduce){a.style.strokeDashoffset=C*(1-relPct);b.style.strokeDashoffset=C*(1-heldPct);return;}
+    requestAnimationFrame(function(){
+      a.style.transition='stroke-dashoffset 1.1s var(--ease)';a.style.strokeDashoffset=C*(1-relPct);
+      b.style.transition='stroke-dashoffset 1.1s var(--ease) .3s';b.style.strokeDashoffset=C*(1-heldPct);
+    });
+  }
+  /* gauges */
+  function gauges(){document.querySelectorAll('.gauge-a').forEach(function(g){
+    var r=46,C=2*Math.PI*r,pct=+g.getAttribute('data-pct')/100;
+    g.style.strokeDasharray=C;g.style.strokeDashoffset=reduce?C*(1-pct):C;
+    if(!reduce)requestAnimationFrame(function(){g.style.transition='stroke-dashoffset 1.2s var(--ease)';g.style.strokeDashoffset=C*(1-pct);});
+  });}
+  /* corridors */
+  function corridors(){document.querySelectorAll('.pfill').forEach(function(f,i){setTimeout(function(){f.style.width=f.getAttribute('data-w')+'%';},reduce?0:150+i*120);});}
+
+  function rerollCharts(){
+    // vary series a touch on range change for a live feel
+    S1=jitter([26,32,28,38,35,44,40,52,48,60,58,64],10);
+    S2=jitter([10,13,12,16,15,19,18,22,20,25,24,28],5);
+    buildLine();
+  }
+
+  /* live feed */
+  var feedEl=document.getElementById('feed');
+  var EV=[
+    {ic:'i-shop',cls:'',ar:['طلب جديد · #SX-','لوح شمسي ٥٥٠و'],en:['New order · #SX-','Solar panel 550W'],amt:'+42,000'},
+    {ic:'i-truck',cls:'gold',ar:['سلّم سودا إكسبريس · #SX-','حي الرياض'],en:['Suda Express delivered · #SX-','Riyadh dist.'],amt:'✓'},
+    {ic:'i-shield',cls:'palm',ar:['أُفرج من الأمانة · #SX-','بعد التسليم'],en:['Escrow released · #SX-','after handover'],amt:'+86,000'},
+    {ic:'i-remit',cls:'palm',ar:['حوالة · الإمارات ← الخرطوم','KYC آلي'],en:['Remittance · UAE → Khartoum','auto KYC'],amt:'+120,000'},
+    {ic:'i-store',cls:'gold',ar:['تسوية تاجر · متجر النيل','تحويل بنكي'],en:['Merchant payout · Nile Store','bank transfer'],amt:'−918,400'},
+    {ic:'i-bank',cls:'palm',ar:['فتح حساب · بنك النيلين','عميل جديد'],en:['Account opened · Nileen Bank','new customer'],amt:'✓'},
+    {ic:'i-coins',cls:'gold',ar:['تمويل بناء · تقسيط','تقييم فوري'],en:['Build financing · instalment','instant score'],amt:'+315,000'}
+  ];
+  function addFeed(first){
+    var ar=docEl.getAttribute('data-lang')==='ar';
+    var e=EV[Math.floor(Math.random()*EV.length)], id=4400+Math.floor(Math.random()*99);
+    var t=ar?e.ar:e.en, pos=(e.amt[0]==='+'||e.amt==='✓');
+    var node=document.createElement('div');
+    node.className='fitem'+(first?'':' new');
+    node.innerHTML='<span class="fi '+e.cls+'"><svg class="ic ic-sm"><use href="#'+e.ic+'"/></svg></span>'+
+      '<div class="fx"><b>'+t[0]+(e.ar[0].indexOf('#')>-1?id:'')+'</b><span>'+t[1]+'</span></div>'+
+      '<span class="fa'+(pos?' pos':'')+'"><span class="num">'+e.amt+'</span></span>';
+    feedEl.insertBefore(node,feedEl.firstChild);
+    while(feedEl.children.length>6)feedEl.removeChild(feedEl.lastChild);
+  }
+
+  /* reveal */
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(!en.isIntersecting)return;var t=en.target;t.classList.add('in');
+    t.querySelectorAll('[data-count]').forEach(countUp);sparks(t);io.unobserve(t);});},{threshold:.15});
+  document.querySelectorAll('.rev').forEach(function(e){io.observe(e);});
+
+  /* boot */
+  setLang('ar'); posRange();
+  buildLine(); bars(); ring(); gauges(); corridors();
+  for(var i=0;i<5;i++)addFeed(true);
+  if(!reduce)setInterval(addFeed,2600);
+  window.addEventListener('resize',posRange);
+})();
+</script>
+</body>
+</html>
