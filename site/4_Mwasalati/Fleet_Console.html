@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مواصلاتي · وحدة الأسطول والتاجر · Mwasalati Fleet &amp; Merchant Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════════
+   Mwasalati Fleet & Merchant Console
+   Canonical Mwasalati brand system — sand / ink / gold.
+   Accent = GOLD, used sparingly as identity + the one live control.
+   Semantics ONLY: palm = active / connected, clay = maintenance,
+   ink-faint = offline / disconnected. No gradients, no third accent.
+   ══════════════════════════════════════════════════════════════ */
+:root{
+  --sand:#F6F1E7; --sand-deep:#EDE4D3; --card:#FFFFFF; --kraft:#E4D2B4;
+  --ink:#2E241B; --ink-soft:#6B5B4B; --ink-faint:#9A8A79;
+  --gold:#B8862F; --gold-deep:#8A6320; --gold-tint:#F5EBD6;
+  --gold-08:rgba(184,134,47,.08); --gold-15:rgba(184,134,47,.15); --gold-30:rgba(184,134,47,.30);
+  --palm:#2F6B4F; --palm-deep:#215037; --palm-tint:#E3EFE8;
+  --clay:#8A4B2A; --clay-deep:#5F3119; --clay-tint:#F3E4DA; --clay-15:rgba(138,75,42,.15);
+  --line:#DCCFBB; --hair:rgba(220,207,187,.55);
+  --r-xs:6px; --r-sm:8px; --r-md:12px; --r-lg:16px; --r-pill:999px;
+  --e1:0 1px 2px rgba(46,36,27,.05);
+  --e2:0 1px 2px rgba(46,36,27,.05),0 8px 24px rgba(46,36,27,.07);
+  --e3:0 2px 4px rgba(46,36,27,.06),0 18px 46px rgba(46,36,27,.12);
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-in-out:cubic-bezier(.77,0,.175,1);
+  --d-press:160ms; --d-reveal:260ms; --d-view:360ms;
+  --ar:'IBM Plex Sans Arabic',system-ui,sans-serif;
+  --en:'IBM Plex Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--ar);background:var(--sand-deep);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+[data-lang="en"] body{font-family:var(--en)}
+[data-lang="ar"] .en-only{display:none}
+[data-lang="en"] .ar-only{display:none}
+.num{font-family:var(--en);font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono);font-size:.86em;letter-spacing:-.01em}
+svg{display:block}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+input,select{font:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:var(--r-xs)}
+
+/* ── topbar ───────────────────────────────────────────────── */
+.topbar{position:sticky;top:0;z-index:80;background:rgba(246,241,231,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1280px;margin:0 auto;padding:12px 26px;display:flex;align-items:center;gap:18px}
+.lockup{display:flex;align-items:center;gap:12px}
+.plate{width:52px;height:34px;border-radius:var(--r-xs);background:var(--kraft);display:grid;place-items:center;flex:none}
+.plate svg{width:36px;height:20px;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.wordmark{font-size:21px;font-weight:700;letter-spacing:-.035em;line-height:1}
+.wordmark small{display:block;font-family:var(--en);direction:ltr;font-size:9.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-soft);margin-top:3px}
+.sp{flex:1}
+.seg{display:flex;background:var(--sand-deep);border:1px solid var(--line);border-radius:var(--r-pill);padding:3px}
+.seg button{padding:6px 16px;border-radius:var(--r-pill);font-size:13px;font-weight:600;color:var(--ink-soft);transition:color var(--d-press) var(--ease-out)}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--e1)}
+
+/* ── hero ─────────────────────────────────────────────────── */
+.hero{background:var(--sand);border-bottom:1px solid var(--line)}
+.hero-in{max-width:1280px;margin:0 auto;padding:48px 26px 38px}
+.eyebrow{font-family:var(--en);direction:ltr;font-size:10.5px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-soft)}
+.eyebrow i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin-inline-end:8px;vertical-align:1px}
+h1{font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-.035em;line-height:1.16;margin-top:14px;max-width:20ch}
+.hero-en{font-family:var(--en);direction:ltr;font-size:16px;font-weight:600;color:var(--ink-soft);margin-top:10px}
+.hero-lead{font-size:16px;color:var(--ink-soft);max-width:62ch;margin-top:16px}
+[data-lang="en"] h1,[data-lang="en"] .hero-lead{direction:ltr;text-align:left}
+.en-only,.ar-only{unicode-bidi:isolate}
+
+/* ── view switch ──────────────────────────────────────────── */
+.wrap{max-width:1280px;margin:0 auto;padding:30px 26px 90px}
+.viewswitch{display:flex;gap:8px;background:var(--sand);border:1px solid var(--line);border-radius:var(--r-pill);padding:4px;width:max-content;margin-bottom:34px}
+.viewswitch button{display:flex;align-items:center;gap:9px;padding:9px 20px;border-radius:var(--r-pill);font-size:14.5px;font-weight:600;color:var(--ink-soft);transition:color var(--d-press) var(--ease-out)}
+.viewswitch button svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.viewswitch button.on{background:var(--card);color:var(--ink);box-shadow:var(--e1)}
+.viewswitch button small{font-family:var(--en);direction:ltr;font-size:10.5px;font-weight:600;color:var(--ink-faint);letter-spacing:.02em}
+.viewswitch button.on small{color:var(--ink-soft)}
+
+.view{display:none}
+.view.on{display:block}
+@media (prefers-reduced-motion:no-preference){
+  .view.on > *{opacity:0;animation:rise var(--d-view) var(--ease-out) forwards}
+  .view.on > *:nth-child(1){animation-delay:0ms}
+  .view.on > *:nth-child(2){animation-delay:60ms}
+  .view.on > *:nth-child(3){animation-delay:120ms}
+  .view.on > *:nth-child(4){animation-delay:180ms}
+  .view.on > *:nth-child(5){animation-delay:240ms}
+}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ── section scaffold ─────────────────────────────────────── */
+.sec{margin-bottom:44px}
+.sec-head{margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.sec-head h2{font-size:23px;font-weight:700;letter-spacing:-.028em;line-height:1.3}
+.sec-head .sub{font-family:var(--en);direction:ltr;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-top:3px}
+
+/* ── stat tiles ───────────────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stats.three{grid-template-columns:repeat(3,1fr)}
+@media(max-width:720px){.stats,.stats.three{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:18px 20px;box-shadow:var(--e1)}
+.stat .fig{font-family:var(--en);font-size:34px;font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.stat .lbl{font-size:13.5px;font-weight:600;color:var(--ink-soft);margin-top:9px}
+.stat .lbl-en{font-family:var(--en);direction:ltr;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:2px}
+.stat.is-palm .fig{color:var(--palm)} .stat.is-clay .fig{color:var(--clay)} .stat.is-gold .fig{color:var(--gold-deep)}
+
+/* ── actions bar ──────────────────────────────────────────── */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;box-shadow:var(--e1);flex-wrap:wrap}
+.bar-l{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.search{position:relative;display:flex;align-items:center}
+.search svg{position:absolute;inset-inline-start:12px;width:16px;height:16px;fill:none;stroke:var(--ink-faint);stroke-width:1.9;pointer-events:none}
+.search input{padding:9px 14px 9px 38px;padding-inline-start:38px;padding-inline-end:14px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--sand);min-width:210px;color:var(--ink);transition:border-color var(--d-press) var(--ease-out),background var(--d-press) var(--ease-out)}
+.search input::placeholder{color:var(--ink-faint)}
+.search input:focus{border-color:var(--gold-30);background:var(--card);outline:none}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:var(--r-sm);font-size:13.5px;font-weight:600;transition:transform var(--d-press) var(--ease-out),background var(--d-press) var(--ease-out),border-color var(--d-press) var(--ease-out)}
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.btn:active{transform:scale(.97)}
+.btn-ghost{background:var(--sand);border:1px solid var(--line);color:var(--ink-soft)}
+.btn-ghost:hover{background:var(--sand-deep);color:var(--ink)}
+.btn-gold{background:var(--gold);color:#fff;border:1px solid var(--gold-deep);box-shadow:var(--e1)}
+.btn-gold:hover{background:var(--gold-deep)}
+.btn-en{font-family:var(--en);font-size:11px;font-weight:600;opacity:.72}
+
+/* ── card grid ────────────────────────────────────────────── */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+@media(max-width:960px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:20px;box-shadow:var(--e1);transition:box-shadow var(--d-reveal) var(--ease-out),transform var(--d-reveal) var(--ease-out)}
+@media(hover:hover){.card:hover{box-shadow:var(--e2);transform:translateY(-2px)}}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.card-id{display:flex;align-items:center;gap:12px;min-width:0}
+.ic{width:42px;height:42px;border-radius:var(--r-sm);background:var(--gold-08);display:grid;place-items:center;flex:none}
+.ic svg{width:21px;height:21px;fill:none;stroke:var(--gold-deep);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card-id h4{font-size:16.5px;font-weight:700;letter-spacing:-.02em;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card-id .meta{font-family:var(--en);direction:ltr;font-size:12px;font-weight:500;color:var(--ink-soft);margin-top:2px;text-align:start}
+[data-lang="ar"] .card-id h4.latin{font-family:var(--en);letter-spacing:-.01em}
+
+/* ── pills ────────────────────────────────────────────────── */
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;border-radius:var(--r-pill);padding:3px 10px;line-height:1.7;white-space:nowrap;flex:none}
+.pill::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+.pill.active{background:var(--palm-tint);color:var(--palm)}
+.pill.maint{background:var(--clay-tint);color:var(--clay)}
+.pill.off{background:var(--sand-deep);color:var(--ink-faint)}
+.pill.conn{background:var(--palm-tint);color:var(--palm)}
+.pill.disc{background:var(--sand-deep);color:var(--ink-faint)}
+
+/* ── card body rows ───────────────────────────────────────── */
+.rows{margin-top:16px;display:flex;flex-direction:column;gap:9px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13.5px}
+.row .k{color:var(--ink-faint);font-weight:500}
+.row .v{color:var(--ink);font-weight:600;text-align:end}
+.row .v.small{font-size:12.5px;font-weight:500;color:var(--ink-soft)}
+.card-foot{margin-top:16px;padding-top:14px;border-top:1px solid var(--hair);display:flex;gap:8px}
+.card-foot .btn{flex:1;justify-content:center}
+.iconbtn{width:38px;flex:none;display:grid;place-items:center;padding:0;height:38px;border-radius:var(--r-sm);background:var(--sand);border:1px solid var(--line);color:var(--ink-faint);transition:color var(--d-press) var(--ease-out),background var(--d-press) var(--ease-out)}
+.iconbtn:hover{background:var(--clay-tint);color:var(--clay);border-color:var(--clay-15)}
+.iconbtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── toggle switch ────────────────────────────────────────── */
+.tgl{position:relative;width:40px;height:23px;flex:none;border-radius:var(--r-pill);background:var(--sand-deep);border:1px solid var(--line);transition:background var(--d-press) var(--ease-out),border-color var(--d-press) var(--ease-out)}
+.tgl::after{content:'';position:absolute;top:2px;inset-inline-start:2px;width:17px;height:17px;border-radius:50%;background:var(--card);box-shadow:var(--e1);transition:transform var(--d-press) var(--ease-out)}
+.tgl[aria-checked="true"]{background:var(--palm);border-color:var(--palm-deep)}
+.tgl[aria-checked="true"]::after{transform:translateX(-17px)}
+[dir="ltr"] .tgl[aria-checked="true"]::after{transform:translateX(17px)}
+
+/* ── maintenance table ────────────────────────────────────── */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--e1);overflow:hidden}
+.panel-head{padding:18px 22px;border-bottom:1px solid var(--hair)}
+.panel-head h3{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.panel-head .sub{font-family:var(--en);direction:ltr;font-size:11.5px;font-weight:600;color:var(--ink-soft);margin-top:2px}
+.tbl-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:560px}
+thead th{font-family:var(--en);direction:ltr;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);text-align:start;padding:12px 22px;background:var(--sand);border-bottom:1px solid var(--line)}
+[data-lang="ar"] thead th{text-align:end}
+tbody td{padding:14px 22px;border-bottom:1px solid var(--hair);font-size:13.5px;color:var(--ink)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr{transition:background var(--d-press) var(--ease-out)}
+tbody tr:hover{background:var(--sand)}
+td.plate-c{font-family:var(--en);font-weight:700;letter-spacing:-.01em}
+td .when{display:inline-flex;align-items:center;gap:7px;font-family:var(--en);font-variant-numeric:tabular-nums}
+td .when svg{width:14px;height:14px;fill:none;stroke:var(--ink-faint);stroke-width:1.8}
+.due{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:var(--clay)}
+.due svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.due.ok{color:var(--palm)}
+.linkbtn{font-size:12.5px;font-weight:600;color:var(--gold-deep);border-bottom:1px solid var(--gold-30);padding-bottom:1px;transition:border-color var(--d-press) var(--ease-out)}
+.linkbtn:hover{border-color:var(--gold-deep)}
+
+/* ── integration strip ────────────────────────────────────── */
+.integ{background:var(--sand);border:1px solid var(--line);border-inline-start:3px solid var(--gold);border-radius:var(--r-md);padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap}
+.integ h3{font-size:18px;font-weight:700;letter-spacing:-.02em}
+.integ h3 b{color:var(--gold-deep)}
+.integ p{font-size:14px;color:var(--ink-soft);margin-top:6px;max-width:56ch}
+.integ .p-en{font-family:var(--en);direction:ltr;font-size:12px;color:var(--ink-faint);margin-top:3px}
+
+/* ── cross-traffic + storefront ───────────────────────────── */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.duo{grid-template-columns:1fr}}
+.mini{border:1px solid var(--line);border-radius:var(--r-md);padding:20px;background:var(--card)}
+.mini h4{font-size:15.5px;font-weight:700;letter-spacing:-.02em}
+.mini h4 b{color:var(--gold-deep)}
+.mini p{font-size:13px;color:var(--ink-soft);margin-top:8px;margin-bottom:16px;line-height:1.6}
+.storefront{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--sand)}
+.sf-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--card)}
+.sf-head .url{font-family:var(--mono);font-size:12px;color:var(--ink-soft);display:flex;align-items:center;gap:8px}
+.sf-head .url svg{width:13px;height:13px;fill:none;stroke:var(--ink-faint);stroke-width:1.8}
+.sf-body{height:300px;display:grid;place-items:center;text-align:center;padding:26px}
+.sf-body .ph{font-family:var(--en);direction:ltr;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);border:1px dashed var(--line);border-radius:var(--r-pill);padding:5px 14px}
+.sf-body p{font-size:13.5px;color:var(--ink-soft);margin-top:14px;max-width:42ch}
+
+/* ── modal ────────────────────────────────────────────────── */
+.scrim{position:fixed;inset:0;background:rgba(46,36,27,.42);backdrop-filter:blur(3px);display:none;place-items:center;padding:20px;z-index:120}
+.scrim.on{display:grid}
+@media (prefers-reduced-motion:no-preference){
+  .scrim.on{animation:fade var(--d-press) var(--ease-out)}
+  .scrim.on .modal{animation:rise var(--d-reveal) var(--ease-out)}
+}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal{background:var(--card);border-radius:var(--r-lg);box-shadow:var(--e3);width:100%;max-width:520px;overflow:hidden}
+.modal-head{padding:22px 26px 0}
+.modal-head h3{font-size:21px;font-weight:700;letter-spacing:-.028em}
+.modal-head .sub{font-family:var(--en);direction:ltr;font-size:12px;font-weight:600;color:var(--ink-faint);margin-top:3px}
+.modal-body{padding:22px 26px;display:flex;flex-direction:column;gap:16px}
+.field label{display:block;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-bottom:7px}
+.field label .en{font-family:var(--en);direction:ltr;color:var(--ink-faint);font-weight:500}
+.field input,.field select{width:100%;padding:10px 13px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--sand);color:var(--ink);transition:border-color var(--d-press) var(--ease-out),background var(--d-press) var(--ease-out)}
+.field input:focus,.field select:focus{border-color:var(--gold-30);background:var(--card);outline:none}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.modal-foot{padding:0 26px 24px;display:flex;gap:12px}
+.modal-foot .btn{flex:1;justify-content:center;padding:12px}
+
+.foot{max-width:1280px;margin:0 auto;padding:0 26px 40px;color:var(--ink-faint);font-size:12.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.foot .en{font-family:var(--en);direction:ltr}
+.foot i{width:4px;height:4px;border-radius:50%;background:var(--line);display:inline-block}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="topbar-in">
+  <div class="lockup">
+    <div class="plate"><svg viewBox="0 0 36 20">
+      <rect x="3" y="4" width="20" height="11" rx="2" stroke="#B8862F"/>
+      <path d="M3 10h20M9 4v6M16 4v6" stroke="#B8862F"/>
+      <circle cx="8" cy="16.5" r="1.6" stroke="#2E241B"/><circle cx="19" cy="16.5" r="1.6" stroke="#2E241B"/>
+      <path d="M26 8h7M27 11h6M28 14h4" stroke="#2E241B"/>
+    </svg></div>
+    <div class="wordmark">مواصلاتي<small>Mwasalati · Fleet &amp; Merchant</small></div>
+  </div>
+  <div class="sp"></div>
+  <div class="seg">
+    <button class="on" onclick="setLang('ar',this)">عربي</button>
+    <button onclick="setLang('en',this)">EN</button>
+  </div>
+</div></div>
+
+<div class="hero"><div class="hero-in">
+  <div class="eyebrow"><i></i><span class="ar-only">الأسطول والتاجر · لوحة واحدة</span><span class="en-only">Fleet &amp; merchant · one console</span></div>
+  <h1>
+    <span class="ar-only">أسطولك وخدماتك في لوحة واحدة.</span>
+    <span class="en-only">Your fleet and your services, one console.</span>
+  </h1>
+  <div class="hero-en">Vehicles, maintenance, and the alSooq catalog — governed from a single surface</div>
+  <p class="hero-lead">
+    <span class="ar-only">مركبة في الصيانة وخدمة غير متزامنة مشكلتان مختلفتان، لكنهما تُداران من المكان نفسه. تُبقي هذه اللوحة حالة كل مركبة وكل خدمة مرئية — الحالة، السائق، موعد الصيانة القادم، والاتصال بكتالوج السوق — دون التنقل بين شاشات.</span>
+    <span class="en-only">A vehicle in maintenance and an unsynced service are different problems, run from the same place. This console keeps the state of every vehicle and every service visible — status, driver, next service due, and the link to the alSooq catalog — without hopping between screens.</span>
+  </p>
+</div></div>
+
+<div class="wrap">
+
+  <div class="viewswitch" role="tablist">
+    <button id="tab-fleet" class="on" role="tab" aria-selected="true" onclick="setView('fleet',this)">
+      <svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17.5" cy="18" r="1.8"/></svg>
+      <span><span class="ar-only">الأسطول</span><span class="en-only">Fleet</span></span>
+      <small>Fleet</small>
+    </button>
+    <button id="tab-merchant" role="tab" aria-selected="false" onclick="setView('merchant',this)">
+      <svg viewBox="0 0 24 24"><path d="M4 8h16l-1 4a3 3 0 0 1-3 2.4H8A3 3 0 0 1 5 12zM4 8l1.4-3.2h13.2L20 8M8 20h8"/></svg>
+      <span><span class="ar-only">التاجر</span><span class="en-only">Merchant</span></span>
+      <small>Merchant</small>
+    </button>
+  </div>
+
+  <!-- ══════════════════════ FLEET ══════════════════════ -->
+  <section id="view-fleet" class="view on" role="tabpanel">
+
+    <div class="sec">
+      <div class="stats" id="fleet-stats"></div>
+    </div>
+
+    <div class="sec">
+      <div class="bar">
+        <div class="bar-l">
+          <div class="search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            <input id="fleet-search" type="text" oninput="filterFleet(this.value)" placeholder="بحث عن مركبة…">
+          </div>
+        </div>
+        <button class="btn btn-gold" onclick="openModal('vehicle')">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          <span class="ar-only">إضافة مركبة</span><span class="en-only">Add vehicle</span>
+        </button>
+      </div>
+      <div class="grid" id="fleet-grid"></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head">
+        <div>
+          <h2><span class="ar-only">جدول الصيانة</span><span class="en-only">Maintenance schedule</span></h2>
+          <div class="sub">Next service due, sorted by urgency</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="tbl-scroll">
+          <table>
+            <thead><tr>
+              <th><span class="ar-only">المركبة</span><span class="en-only">Vehicle</span></th>
+              <th><span class="ar-only">الموديل</span><span class="en-only">Model</span></th>
+              <th><span class="ar-only">الصيانة القادمة</span><span class="en-only">Next service</span></th>
+              <th><span class="ar-only">الحالة</span><span class="en-only">Window</span></th>
+              <th></th>
+            </tr></thead>
+            <tbody id="maint-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════ MERCHANT ══════════════════════ -->
+  <section id="view-merchant" class="view" role="tabpanel">
+
+    <div class="sec">
+      <div class="integ">
+        <div>
+          <h3><span class="ar-only">متكامل مع</span> <b>alSooq</b> <span class="en-only">Marketplace</span><span class="ar-only"> السوق</span></h3>
+          <p>
+            <span class="ar-only">أضف خدمات النقل وأزلها، وازامنها مع كتالوج السوق. كل خدمة متصلة تظهر في المتجر العام للسوق.</span>
+            <span class="en-only">Add and remove transport services and sync them with the alSooq catalog. Every connected service appears in the public marketplace.</span>
+          </p>
+        </div>
+        <a class="btn btn-ghost" href="Route_Atlas.html">
+          <svg viewBox="0 0 24 24"><path d="M14 5h5v5M19 5l-7 7M12 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
+          <span class="ar-only">أطلس المسارات</span><span class="en-only">Route atlas</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="stats three" id="svc-stats"></div>
+    </div>
+
+    <div class="sec">
+      <div class="bar">
+        <div class="bar-l">
+          <div class="search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            <input id="svc-search" type="text" oninput="filterSvc(this.value)" placeholder="بحث عن خدمة…">
+          </div>
+          <button class="btn btn-ghost" onclick="syncAll()">
+            <svg viewBox="0 0 24 24"><path d="M4 9a8 8 0 0 1 13-3l3 3M20 15a8 8 0 0 1-13 3l-3-3M17 3v6h-6M7 21v-6h6"/></svg>
+            <span class="ar-only">مزامنة الكل</span><span class="en-only">Sync all</span>
+          </button>
+        </div>
+        <button class="btn btn-gold" onclick="openModal('service')">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          <span class="ar-only">إضافة خدمة</span><span class="en-only">Add service</span>
+        </button>
+      </div>
+      <div class="grid" id="svc-grid"></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head">
+        <div>
+          <h2><span class="ar-only">توجيه الزوّار</span><span class="en-only">Cross-traffic</span></h2>
+          <div class="sub">Between Mwasalati and the alSooq marketplace</div>
+        </div>
+      </div>
+      <div class="duo">
+        <div class="mini">
+          <h4><span class="ar-only">توجيه إلى</span> <b>alSooq</b></h4>
+          <p><span class="ar-only">أعد توجيه المستخدمين من مواصلاتي إلى منصة السوق عند إتمام الرحلة.</span><span class="en-only">Route users from Mwasalati into the marketplace once a trip completes.</span></p>
+          <button class="btn btn-ghost" onclick="toast('outbound')"><span class="ar-only">تفعيل التوجيه</span><span class="en-only">Enable routing</span></button>
+        </div>
+        <div class="mini">
+          <h4><span class="ar-only">عروض السوق</span><span class="en-only">Marketplace offers</span></h4>
+          <p><span class="ar-only">اعرض عروض السوق الترويجية داخل لوحة تحكم مواصلاتي.</span><span class="en-only">Surface alSooq promotions inside the Mwasalati dashboard.</span></p>
+          <button class="btn btn-ghost" onclick="toast('offers')"><span class="ar-only">عرض العروض</span><span class="en-only">Show offers</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head">
+        <div>
+          <h2><span class="ar-only">المتجر المدمج</span><span class="en-only">Embedded storefront</span></h2>
+          <div class="sub">Public component · sandboxed iframe</div>
+        </div>
+      </div>
+      <div class="storefront">
+        <div class="sf-head">
+          <span class="url"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg>mowasalaty.alsooq.com</span>
+          <span class="pill disc"><span class="ar-only">معاينة</span><span class="en-only">Preview</span></span>
+        </div>
+        <div class="sf-body">
+          <div>
+            <span class="ph">Placeholder · not a live embed</span>
+            <p><span class="ar-only">يُدرَج المتجر العام هنا داخل إطار معزول عند النشر. هذه معاينة تصميمية، وليست موقعاً حقيقياً.</span><span class="en-only">The public storefront mounts here inside a sandboxed frame on publish. This is a design preview, not a live site.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</div>
+
+<div class="foot">
+  <span class="ar-only">مواصلاتي — وحدة الأسطول والتاجر</span><span class="en-only">Mwasalati — Fleet &amp; Merchant Console</span>
+  <i></i><span class="en">Part of the alSooq platform</span>
+  <i></i><span class="en">Sample data · design prototype</span>
+</div>
+
+<!-- ── modal ── -->
+<div class="scrim" id="scrim" onclick="if(event.target===this)closeModal()">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <h3 id="m-title"></h3>
+      <div class="sub" id="m-sub"></div>
+    </div>
+    <div class="modal-body" id="m-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal()"><span class="ar-only">إلغاء</span><span class="en-only">Cancel</span></button>
+      <button class="btn btn-gold" onclick="commitAdd()"><span class="ar-only">إضافة</span><span class="en-only">Add</span></button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── language + view ─────────────────────────────────────── */
+function setLang(l,b){
+  const r=document.documentElement;
+  r.dataset.lang=l;r.lang=(l==='ar'?'ar':'en');r.dir=(l==='ar'?'rtl':'ltr');
+  b.parentNode.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  renderAll();applyPlaceholders();
+}
+function applyPlaceholders(){
+  document.getElementById('fleet-search').placeholder=L(['بحث عن مركبة…','Search vehicle…']);
+  document.getElementById('svc-search').placeholder=L(['بحث عن خدمة…','Search service…']);
+}
+function renderAll(){renderFleetStats();renderFleet();renderSvcStats();renderSvc();}
+function setView(v,b){
+  document.querySelectorAll('.viewswitch button').forEach(x=>{x.classList.remove('on');x.setAttribute('aria-selected','false')});
+  b.classList.add('on');b.setAttribute('aria-selected','true');
+  document.querySelectorAll('.view').forEach(s=>s.classList.remove('on'));
+  const el=document.getElementById('view-'+v);
+  // re-trigger stagger animation
+  el.classList.remove('on');void el.offsetWidth;el.classList.add('on');
+}
+
+/* ── data ────────────────────────────────────────────────── */
+const AR_DIGITS=['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+const T={
+  status:{active:['نشط','Active'],maintenance:['صيانة','Maintenance'],offline:['غير متصل','Offline']},
+  svctype:{transport:['نقل','Transport'],logistics:['لوجستي','Logistics'],other:['أخرى','Other']}
+};
+let vehicles=[
+  {id:'v-001',plate:'ABC-123',model:'Mercedes Sprinter 2023',capacity:25,status:'active',next:'2026-09-16',driver:'أحمد محمد · Ahmed Mohamed'},
+  {id:'v-002',plate:'XYZ-789',model:'Toyota Coaster 2022',capacity:30,status:'maintenance',next:'2026-10-28',driver:'محمد علي · Mohamed Ali'},
+  {id:'v-003',plate:'DEF-456',model:'Hyundai County 2024',capacity:35,status:'active',next:'2026-12-05',driver:null},
+  {id:'v-004',plate:'GHJ-204',model:'Mercedes Sprinter 2021',capacity:22,status:'offline',next:'2026-09-22',driver:'سالم عمر · Salim Omar'},
+];
+let services=[
+  {id:'svc-001',ar:'نقل القاهرة — الإسكندرية',en:'Cairo — Alexandria Transport',type:'transport',active:true,synced:true,lastSync:Date.now()-3*3600e3},
+  {id:'svc-002',ar:'نقل القاهرة — الجيزة',en:'Cairo — Giza Transport',type:'transport',active:true,synced:true,lastSync:Date.now()-26*3600e3},
+  {id:'svc-003',ar:'خدمة لوجستية خاصة',en:'Private Logistics Service',type:'logistics',active:false,synced:false,lastSync:null},
+];
+
+/* ── helpers ─────────────────────────────────────────────── */
+const isAR=()=>document.documentElement.dataset.lang==='ar';
+function L(pair){return isAR()?pair[0]:pair[1]}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function dueClass(dateStr){
+  const soon=new Date(dateStr) < new Date(Date.now()+21*864e5);
+  return soon?'':'ok';
+}
+function relSync(ts){
+  if(!ts)return null;
+  const h=Math.round((Date.now()-ts)/3600e3);
+  if(h<1)return['الآن','just now'];
+  if(h<24)return['قبل '+h+' س',h+'h ago'];
+  const d=Math.round(h/24);return['قبل '+d+' يوم',d+'d ago'];
+}
+
+/* ── fleet render ────────────────────────────────────────── */
+let fleetQ='';
+function renderFleetStats(){
+  const s={total:vehicles.length,active:0,maintenance:0,offline:0};
+  vehicles.forEach(v=>s[v.status]++);
+  document.getElementById('fleet-stats').innerHTML=[
+    ['',s.total,'إجمالي المركبات','Total vehicles'],
+    ['is-palm',s.active,'نشطة','Active'],
+    ['is-clay',s.maintenance,'في الصيانة','Maintenance'],
+    ['',s.offline,'غير متصلة','Offline'],
+  ].map(([c,n,ar,en])=>statTile(c,n,ar,en)).join('');
+}
+function statTile(c,n,ar,en){
+  return `<div class="stat ${c}"><div class="fig">${n}</div><div class="lbl"><span class="ar-only">${ar}</span><span class="en-only">${en}</span></div><div class="lbl-en ar-only">${en}</div></div>`;
+}
+function renderFleet(){
+  const q=fleetQ.trim().toLowerCase();
+  const list=vehicles.filter(v=>!q||(v.plate+v.model+(v.driver||'')).toLowerCase().includes(q));
+  document.getElementById('fleet-grid').innerHTML=list.map(v=>`
+    <div class="card">
+      <div class="card-top">
+        <div class="card-id">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17.5" cy="18" r="1.8"/></svg></div>
+          <div style="min-width:0">
+            <h4 class="latin">${esc(v.plate)}</h4>
+            <div class="meta">${esc(v.model)}</div>
+          </div>
+        </div>
+        <span class="pill ${v.status==='active'?'active':v.status==='maintenance'?'maint':'off'}">${L(T.status[v.status])}</span>
+      </div>
+      <div class="rows">
+        <div class="row"><span class="k">${L(['السعة','Capacity'])}</span><span class="v"><span class="num">${v.capacity}</span> ${L(['راكب','seats'])}</span></div>
+        <div class="row"><span class="k">${L(['السائق','Driver'])}</span><span class="v small">${v.driver?esc(v.driver):L(['غير مُعيَّن','Unassigned'])}</span></div>
+        <div class="row"><span class="k">${L(['الصيانة القادمة','Next service'])}</span><span class="v"><span class="num">${v.next}</span></span></div>
+      </div>
+      <div class="card-foot">
+        <button class="btn btn-ghost" onclick="toast('edit')"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg><span class="ar-only">تعديل</span><span class="en-only">Edit</span></button>
+        <button class="iconbtn" aria-label="${L(['حذف','Delete'])}" onclick="delVehicle('${v.id}')"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/></svg></button>
+      </div>
+    </div>`).join('') || emptyState();
+  renderMaint();
+}
+function renderMaint(){
+  const rows=[...vehicles].sort((a,b)=>new Date(a.next)-new Date(b.next));
+  document.getElementById('maint-body').innerHTML=rows.map(v=>{
+    const dc=dueClass(v.next);
+    return `<tr>
+      <td class="plate-c">${esc(v.plate)}</td>
+      <td>${esc(v.model)}</td>
+      <td><span class="when"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>${v.next}</span></td>
+      <td><span class="due ${dc}">${dc==='ok'
+        ? `<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>${L(['ضمن الجدول','On schedule'])}`
+        : `<svg viewBox="0 0 24 24"><path d="M12 8v5M12 16v.5M12 3l9 16H3z"/></svg>${L(['قريب','Due soon'])}`}</span></td>
+      <td><button class="linkbtn" onclick="toast('detail')">${L(['التفاصيل','Details'])}</button></td>
+    </tr>`;
+  }).join('');
+}
+function emptyState(){return `<div style="grid-column:1/-1;padding:44px;text-align:center;color:var(--ink-faint);border:1px dashed var(--line);border-radius:var(--r-md)">${L(['لا نتائج مطابقة','No matching results'])}</div>`}
+function filterFleet(q){fleetQ=q;renderFleet()}
+function delVehicle(id){
+  if(!confirm(L(['حذف هذه المركبة؟','Delete this vehicle?'])))return;
+  vehicles=vehicles.filter(v=>v.id!==id);renderFleetStats();renderFleet();
+}
+
+/* ── merchant render ─────────────────────────────────────── */
+let svcQ='';
+function renderSvcStats(){
+  const s={total:services.length,active:services.filter(x=>x.active).length,synced:services.filter(x=>x.synced).length};
+  document.getElementById('svc-stats').innerHTML=[
+    ['',s.total,'إجمالي الخدمات','Total services'],
+    ['is-palm',s.active,'نشطة','Active'],
+    ['is-gold',s.synced,'متزامنة','Synced'],
+  ].map(([c,n,ar,en])=>statTile(c,n,ar,en)).join('');
+}
+function renderSvc(){
+  const q=svcQ.trim().toLowerCase();
+  const list=services.filter(s=>!q||(s.ar+s.en).toLowerCase().includes(q));
+  document.getElementById('svc-grid').innerHTML=list.map(s=>{
+    const rel=relSync(s.lastSync);
+    return `<div class="card">
+      <div class="card-top">
+        <div class="card-id">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 8h16l-1 4a3 3 0 0 1-3 2.4H8A3 3 0 0 1 5 12zM4 8l1.4-3.2h13.2L20 8"/></svg></div>
+          <div style="min-width:0">
+            <h4>${L([esc(s.ar),esc(s.en)])}</h4>
+            <div class="meta">${L([esc(s.en),esc(s.ar)])}</div>
+          </div>
+        </div>
+        <span class="tgl" role="switch" tabindex="0" aria-checked="${s.active}" aria-label="${L(['نشط','Active'])}" onclick="toggleActive('${s.id}')" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleActive('${s.id}')}"></span>
+      </div>
+      <div class="rows">
+        <div class="row"><span class="k">${L(['النوع','Type'])}</span><span class="v">${L(T.svctype[s.type])}</span></div>
+        <div class="row"><span class="k">${L(['المزامنة','Sync'])}</span>
+          <span class="pill ${s.synced?'conn':'disc'}">${s.synced?L(['متصل','Connected']):L(['غير متصل','Disconnected'])}</span></div>
+        <div class="row"><span class="k">${L(['آخر مزامنة','Last sync'])}</span><span class="v small">${rel?(isAR()?rel[0]:rel[1]):'—'}</span></div>
+      </div>
+      <div class="card-foot">
+        <button class="btn ${s.synced?'btn-ghost':'btn-gold'}" onclick="toggleSync('${s.id}')">
+          ${s.synced
+            ? `<svg viewBox="0 0 24 24"><path d="M18.4 5.6a9 9 0 0 0-12.8 0M5.6 18.4a9 9 0 0 0 12.8 0M3 3l18 18"/></svg><span class="ar-only">فصل</span><span class="en-only">Disconnect</span>`
+            : `<svg viewBox="0 0 24 24"><path d="M9 12h6M10 8H7a4 4 0 0 0 0 8h3M14 8h3a4 4 0 0 1 0 8h-3"/></svg><span class="ar-only">ربط</span><span class="en-only">Connect</span>`}
+        </button>
+        <button class="iconbtn" aria-label="${L(['حذف','Delete'])}" onclick="delSvc('${s.id}')"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/></svg></button>
+      </div>
+    </div>`;
+  }).join('') || emptyState();
+}
+function filterSvc(q){svcQ=q;renderSvc()}
+function toggleActive(id){const s=services.find(x=>x.id===id);s.active=!s.active;renderSvcStats();renderSvc()}
+function toggleSync(id){const s=services.find(x=>x.id===id);s.synced=!s.synced;s.lastSync=s.synced?Date.now():s.lastSync;renderSvcStats();renderSvc()}
+function syncAll(){services.forEach(s=>{s.synced=true;s.lastSync=Date.now()});renderSvcStats();renderSvc();toast('synced')}
+function delSvc(id){if(!confirm(L(['حذف هذه الخدمة؟','Delete this service?'])))return;services=services.filter(s=>s.id!==id);renderSvcStats();renderSvc()}
+
+/* ── modal ───────────────────────────────────────────────── */
+let modalKind=null;
+function openModal(kind){
+  modalKind=kind;
+  const t=document.getElementById('m-title'),sub=document.getElementById('m-sub'),body=document.getElementById('m-body');
+  if(kind==='vehicle'){
+    t.innerHTML=`<span class="ar-only">إضافة مركبة</span><span class="en-only">Add vehicle</span>`;sub.textContent='New fleet vehicle';
+    body.innerHTML=`
+      <div class="two">
+        <div class="field"><label>${L(['رقم اللوحة','Plate number'])}</label><input id="f-plate" placeholder="ABC-123"></div>
+        <div class="field"><label>${L(['السعة','Capacity'])}</label><input id="f-cap" type="number" placeholder="25"></div>
+      </div>
+      <div class="field"><label>${L(['الموديل','Model'])}</label><input id="f-model" placeholder="Mercedes Sprinter 2024"></div>
+      <div class="field"><label>${L(['الحالة','Status'])}</label>
+        <select id="f-status"><option value="active">${L(['نشط','Active'])}</option><option value="maintenance">${L(['صيانة','Maintenance'])}</option><option value="offline">${L(['غير متصل','Offline'])}</option></select></div>
+      <div class="field"><label>${L(['الصيانة القادمة','Next service'])}</label><input id="f-next" type="date" value="2026-12-01"></div>`;
+  }else{
+    t.innerHTML=`<span class="ar-only">إضافة خدمة</span><span class="en-only">Add service</span>`;sub.textContent='New transport service';
+    body.innerHTML=`
+      <div class="field"><label>${L(['اسم الخدمة (عربي)','Service name (Arabic)'])}</label><input id="s-ar" placeholder="نقل القاهرة — الإسكندرية"></div>
+      <div class="field"><label>${L(['اسم الخدمة (إنجليزي)','Service name (English)'])}</label><input id="s-en" placeholder="Cairo — Alexandria Transport"></div>
+      <div class="field"><label>${L(['النوع','Type'])}</label>
+        <select id="s-type"><option value="transport">${L(['نقل','Transport'])}</option><option value="logistics">${L(['لوجستي','Logistics'])}</option><option value="other">${L(['أخرى','Other'])}</option></select></div>`;
+  }
+  document.getElementById('scrim').classList.add('on');
+}
+function closeModal(){document.getElementById('scrim').classList.remove('on');modalKind=null}
+function commitAdd(){
+  if(modalKind==='vehicle'){
+    const plate=(document.getElementById('f-plate').value||'NEW-000').trim();
+    vehicles.push({id:'v-'+Date.now(),plate,model:document.getElementById('f-model').value||'—',
+      capacity:+document.getElementById('f-cap').value||0,status:document.getElementById('f-status').value,
+      next:document.getElementById('f-next').value||'2026-12-01',driver:null});
+    renderFleetStats();renderFleet();
+  }else if(modalKind==='service'){
+    const ar=document.getElementById('s-ar').value||'خدمة جديدة';
+    services.push({id:'svc-'+Date.now(),ar,en:document.getElementById('s-en').value||'New service',
+      type:document.getElementById('s-type').value,active:true,synced:false,lastSync:null});
+    renderSvcStats();renderSvc();
+  }
+  closeModal();
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+/* ── tiny toast ──────────────────────────────────────────── */
+let toastEl;
+function toast(){
+  const msg=L(['تم — بيانات نموذجية','Done — sample data']);
+  if(!toastEl){toastEl=document.createElement('div');
+    toastEl.style.cssText='position:fixed;inset-block-end:24px;inset-inline-start:50%;transform:translateX(-50%) translateY(12px);background:var(--ink);color:var(--sand);padding:10px 18px;border-radius:var(--r-pill);font-size:13px;font-weight:600;box-shadow:var(--e3);opacity:0;transition:opacity .22s var(--ease-out),transform .22s var(--ease-out);z-index:200;pointer-events:none';
+    document.body.appendChild(toastEl);}
+  toastEl.textContent=msg;requestAnimationFrame(()=>{toastEl.style.opacity='1';toastEl.style.transform='translateX(-50%) translateY(0)'});
+  clearTimeout(toastEl._t);toastEl._t=setTimeout(()=>{toastEl.style.opacity='0';toastEl.style.transform='translateX(-50%) translateY(12px)'},1600);
+}
+
+/* ── init ────────────────────────────────────────────────── */
+renderFleetStats();renderFleet();renderSvcStats();renderSvc();
+</script>
+</body>
+</html>
