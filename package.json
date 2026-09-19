@@ -4,6 +4,9 @@
   "private": true,
   "description": "Unified bilingual (Arabic RTL / English LTR) prototype for the Hawil / alSooq ecosystem.",
   "scripts": {
+    "dev": "node scripts/dev-server.mjs",
+    "start": "node scripts/dev-server.mjs",
+    "build": "node scripts/build.mjs",
     "format": "prettier --write \"*.html\" \"site/**/*.html\"",
     "format:check": "prettier --check \"*.html\" \"site/**/*.html\"",
     "lint": "html-validate \"*.html\" \"site/**/*.html\"",

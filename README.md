@@ -25,10 +25,44 @@ The pages link to each other: landing → app + dashboard, dashboard → app + l
 
 ## Run it
 
-Open `landing.html` (or `index.html`) in any modern browser. No build step, no
-dependencies — all CSS, JavaScript and icons are inlined per file. Fonts
-(IBM Plex Sans / Sans Arabic) load from Google Fonts and fall back to system
-fonts offline. Everything respects `prefers-reduced-motion`.
+The pages are self-contained — all CSS, JavaScript and icons are inlined per
+file — so the quickest path is to just open `landing.html` (or `index.html`) in
+any modern browser. Fonts (IBM Plex Sans / Sans Arabic) load from Google Fonts
+and fall back to system fonts offline. Everything respects
+`prefers-reduced-motion`.
+
+For a local server (nicer for hash deep-links and cross-page navigation), use
+the bundled zero-dependency dev server:
+
+```bash
+# 1. Clone
+git clone https://github.com/Saboora12345/AlSooqonbording.git
+cd AlSooqonbording
+
+# 2. Install dev tooling (Prettier + html-validate only)
+npm install
+
+# 3. Serve on http://localhost:3000  (override with PORT=8080 npm run dev)
+npm run dev
+
+# 4. Produce a deployable static bundle in ./dist
+npm run build
+```
+
+`npm run dev` (alias `npm start`) serves the repo root — `/` maps to
+`landing.html`, and everything under `site/` is reachable. `npm run build` copies
+the HTML pages, the `site/` prototypes and the pitch-deck PDF into `dist/` (with
+a `build-manifest.json`), ready to drop on any static host. Neither the server
+nor the build pulls in a runtime dependency.
+
+### Checks
+
+```bash
+npm run lint          # html-validate over *.html and site/**/*.html
+npm run format        # Prettier --write
+npm run format:check  # Prettier --check
+npm test              # lint + format:check
+```
 
 ## What's inside `index.html`
 
