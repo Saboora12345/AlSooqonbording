@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Financial Inclusion Sudan — Executive Deck</title>
+<meta name="description" content="Gentle Care · Mwasalati · AlSooq · Sudani Express — bilingual executive deck for the Central Bank of Sudan.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--sand:#E7DFCD;--sand2:#F1EADB;--paper:#FBF8F1;--ink:#151A2B;--espresso:#3A2412;--coffee:#6A3E1E;--gold:#B4822C;--line:#D9CEB7;--muted:#6E5E45;--muted2:#8C7B61;}
+*{box-sizing:border-box;}
+html,body{margin:0;height:100%;}
+body{background:#1a1712;font-family:'IBM Plex Sans',system-ui,sans-serif;overflow:hidden;}
+h1,p{margin:0;}
+.ar{font-family:'IBM Plex Sans Arabic',sans-serif;}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;}
+
+#deck{position:fixed;inset:0;display:flex;flex-direction:column;}
+.viewport{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:20px;min-height:0;}
+.stage{position:relative;width:1280px;height:720px;flex-shrink:0;transform-origin:center center;border-radius:12px;overflow:hidden;box-shadow:0 40px 90px -40px rgba(0,0,0,.7);}
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .5s cubic-bezier(.2,0,0,1);}
+.slide.active{opacity:1;visibility:visible;}
+
+/* entrance animations, scoped so they replay each time a slide activates */
+.slide .rise,.slide .sheet{opacity:0;}
+.slide.active .rise{animation:rise .6s cubic-bezier(.2,0,0,1) both;}
+.slide.active .sheet{animation:sheet .7s cubic-bezier(.2,0,0,1) both;}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes sheet{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+.bar{flex-shrink:0;height:54px;display:flex;align-items:center;justify-content:center;gap:14px;background:#100e0a;border-top:1px solid rgba(217,206,183,.14);padding:0 16px;}
+.bar button{border:1px solid rgba(217,206,183,.22);background:transparent;color:#E7DFCD;width:38px;height:38px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s;}
+.bar button:hover{background:rgba(217,206,183,.12);border-color:rgba(217,206,183,.4);}
+.bar button:disabled{opacity:.35;cursor:default;}
+.counter{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:#C7B99C;min-width:66px;text-align:center;}
+.dots{display:flex;gap:7px;margin:0 4px;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(217,206,183,.28);border:none;padding:0;cursor:pointer;transition:background .2s,transform .2s;}
+.dot.on{background:var(--gold);transform:scale(1.25);}
+.brandtag{position:absolute;left:16px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8C7B61;}
+@media (max-width:640px){.brandtag{display:none;}}
+</style>
+</head>
+<body>
+<div id="deck">
+  <div class="viewport">
+    <div class="stage" id="stage">
+
+      <section class="slide"><div style="width:1280px;height:720px;box-sizing:border-box;position:relative;overflow:hidden;background:var(--sand);color:var(--espresso);padding:46px 64px;display:flex;flex-direction:column;">
+  <svg style="position:absolute;left:0;right:0;bottom:0;width:100%;height:150px;opacity:.10;" viewBox="0 0 1280 150" fill="none" stroke="var(--coffee)" stroke-width="2" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+    <line x1="0" y1="147" x2="1280" y2="147"/><rect x="60" y="96" width="52" height="51"/><rect x="126" y="72" width="38" height="75"/><path d="M300 147V110a26 26 0 0 1 52 0v37"/><ellipse cx="520" cy="80" rx="34" ry="62"/><rect x="486" y="118" width="68" height="29"/><rect x="660" y="90" width="40" height="57"/><rect x="720" y="70" width="34" height="77"/><path d="M840 147V112a24 24 0 0 1 48 0v35"/><rect x="960" y="84" width="44" height="63"/><rect x="1060" y="100" width="52" height="47"/><rect x="1140" y="78" width="40" height="69"/>
+  </svg>
+  <div class="rise" style="position:relative;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;">
+    <div>
+      <div class="eyebrow">Central Bank of Sudan</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted2);margin-top:4px;letter-spacing:.1em;">PAGE 01 / 06</div>
+    </div>
+    <div style="text-align:right;">
+      <div class="eyebrow">Opening Vision</div>
+      <div class="ar" style="font-size:13px;color:var(--muted2);margin-top:4px;">الرؤية الافتتاحية</div>
+    </div>
+  </div>
+  <div style="position:relative;z-index:1;height:1px;background:var(--line);margin-top:14px;"></div>
+  <div style="position:relative;z-index:1;flex-grow:1;display:flex;align-items:center;gap:44px;">
+    <div style="width:452px;flex-shrink:0;position:relative;display:flex;align-items:center;justify-content:center;">
+      <div style="position:absolute;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(106,62,30,.09),rgba(106,62,30,0) 70%);"></div>
+      <div class="rise" style="animation-delay:.14s;position:relative;width:246px;height:516px;border-radius:42px;background:#14110C;padding:9px;box-shadow:0 32px 60px -28px rgba(58,36,18,.55);">
+        <div style="width:100%;height:100%;background:var(--paper);border-radius:33px;overflow:hidden;display:flex;flex-direction:column;position:relative;">
+          <div style="position:relative;height:34px;flex-shrink:0;">
+            <div style="position:absolute;left:50%;top:9px;transform:translateX(-50%);width:52px;height:15px;background:#14110C;border-radius:9px;"></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;height:34px;padding:0 18px;">
+              <span style="font-size:11px;font-weight:600;color:var(--espresso);">9:41</span>
+              <svg width="34" height="12" viewBox="0 0 34 12" fill="var(--espresso)" aria-hidden="true"><rect x="0" y="4" width="3" height="6" rx="1"/><rect x="5" y="2" width="3" height="8" rx="1"/><rect x="10" y="0" width="3" height="10" rx="1"/><rect x="20" y="1" width="11" height="7" rx="2" fill="none" stroke="var(--espresso)"/><rect x="21.5" y="2.5" width="7" height="4" rx="1"/></svg>
+            </div>
+          </div>
+          <div dir="rtl" style="padding:6px 16px 0;display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="width:34px;height:34px;border-radius:9px;background:#FFFFFF;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;"><img src="assets/gentle-care.jpg" alt="Gentle Care" style="width:100%;height:100%;object-fit:contain;"></span>
+              <div><div class="ar" style="font-size:13px;font-weight:700;color:var(--espresso);">العناية اللطيفة</div><div style="font-size:9px;letter-spacing:.08em;color:var(--muted2);">GENTLE CARE</div></div>
+            </div>
+          </div>
+          <div dir="rtl" style="padding:14px 16px 8px;">
+            <div class="ar" style="font-size:17px;font-weight:600;color:var(--espresso);">مساءً طيّب،</div>
+            <div class="ar" style="font-size:13px;color:var(--muted);margin-top:2px;">إلى أين اليوم؟</div>
+          </div>
+          <div dir="rtl" style="padding:0 16px;display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;gap:11px;background:var(--sand2);border:1px solid var(--line);border-radius:14px;padding:11px 13px;">
+              <span style="width:34px;height:34px;border-radius:10px;background:rgba(106,62,30,.10);color:var(--coffee);display:flex;align-items:center;justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="11" rx="2"/><path d="M4 11h16M7 19v-2M17 19v-2"/><circle cx="8" cy="15.5" r="1"/><circle cx="16" cy="15.5" r="1"/></svg></span>
+              <div style="flex-grow:1;"><div class="ar" style="font-size:14px;font-weight:600;color:var(--espresso);">مواصلاتي</div><div class="ar" style="font-size:11px;color:var(--muted2);">تذاكر النقل</div></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"/></svg>
+            </div>
+            <div style="display:flex;align-items:center;gap:11px;background:var(--sand2);border:1px solid var(--line);border-radius:14px;padding:11px 13px;">
+              <span style="width:34px;height:34px;border-radius:10px;background:rgba(180,130,44,.14);color:var(--gold);display:flex;align-items:center;justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16"/><path d="M5 9l1.3-4h11.4L19 9"/><path d="M5 9v10h14V9"/><path d="M9 19v-5h6v5"/></svg></span>
+              <div style="flex-grow:1;"><div class="ar" style="font-size:14px;font-weight:600;color:var(--espresso);">السوق</div><div class="ar" style="font-size:11px;color:var(--muted2);">تسوّق وبيع</div></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"/></svg>
+            </div>
+            <div style="display:flex;align-items:center;gap:11px;background:var(--sand2);border:1px solid var(--line);border-radius:14px;padding:11px 13px;">
+              <span style="width:34px;height:34px;border-radius:10px;background:rgba(21,26,43,.10);color:var(--ink);display:flex;align-items:center;justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="11" rx="1"/><path d="M7 7v11M11 7v11M15 7v11"/></svg></span>
+              <div style="flex-grow:1;"><div class="ar" style="font-size:14px;font-weight:600;color:var(--espresso);">سوداني إكسبريس</div><div class="ar" style="font-size:11px;color:var(--muted2);">شحن وتوصيل</div></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"/></svg>
+            </div>
+          </div>
+          <div style="flex-grow:1;"></div>
+          <div dir="rtl" style="padding:0 16px 12px;">
+            <button type="button" style="width:100%;border:none;cursor:pointer;background:var(--coffee);color:#FBF8F1;font-family:'IBM Plex Sans Arabic',sans-serif;font-weight:600;font-size:14px;padding:13px;border-radius:13px;">ابدأ رحلتك</button>
+          </div>
+          <div dir="rtl" style="height:52px;flex-shrink:0;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;padding:0 6px;">
+            <span style="display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--coffee);"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6 8 6"/><path d="M6 10v9h12v-9"/></svg><span class="ar" style="font-size:9px;font-weight:600;">الرئيسية</span></span>
+            <span style="display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted2);"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h7l9 9-7 7-9-9V4z"/><circle cx="8" cy="8" r="1.2"/></svg><span class="ar" style="font-size:9px;">العروض</span></span>
+            <span style="display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted2);"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/></svg><span class="ar" style="font-size:9px;">تذكرتي</span></span>
+            <span style="display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted2);"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19a6.5 6.5 0 0 1 13 0"/></svg><span class="ar" style="font-size:9px;">حسابي</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div dir="rtl" style="flex:1;text-align:right;">
+      <h1 class="ar rise" style="animation-delay:.06s;font-size:44px;line-height:1.42;font-weight:600;color:var(--espresso);">قيادة الشمول المالي عبر التنقّل والتجارة واللوجستيات.</h1>
+      <p class="rise" dir="ltr" style="animation-delay:.14s;font-size:18px;line-height:1.55;color:var(--muted);margin-top:16px;text-align:right;">Driving financial inclusion through mobility, trade, and logistics.</p>
+      <div class="rise" style="animation-delay:.22s;display:flex;gap:10px;justify-content:flex-start;margin-top:26px;">
+        <span style="display:inline-flex;align-items:center;gap:7px;background:var(--sand2);border:1px solid var(--line);border-radius:999px;padding:8px 14px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--coffee)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="11" rx="2"/><path d="M4 11h16"/></svg><span class="ar" style="font-size:14px;font-weight:500;color:var(--espresso);">التنقّل</span></span>
+        <span style="display:inline-flex;align-items:center;gap:7px;background:var(--sand2);border:1px solid var(--line);border-radius:999px;padding:8px 14px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16"/><path d="M5 9l1.3-4h11.4L19 9"/><path d="M5 9v10h14V9"/></svg><span class="ar" style="font-size:14px;font-weight:500;color:var(--espresso);">التجارة</span></span>
+        <span style="display:inline-flex;align-items:center;gap:7px;background:var(--sand2);border:1px solid var(--line);border-radius:999px;padding:8px 14px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="11" rx="1"/><path d="M7 7v11M11 7v11M15 7v11"/></svg><span class="ar" style="font-size:14px;font-weight:500;color:var(--espresso);">اللوجستيات</span></span>
+      </div>
+    </div>
+  </div>
+  <div style="position:relative;z-index:1;display:flex;gap:30px;margin-top:8px;">
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--gold);border:1px solid rgba(180,130,44,.5);border-radius:4px;padding:2px 6px;">MOTION</span><span style="font-size:12px;color:var(--muted);">Fade-in Khartoum skyline · transport, trade &amp; logistics icons.</span></div>
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--coffee);border:1px solid rgba(106,62,30,.4);border-radius:4px;padding:2px 6px;">UX</span><span style="font-size:12px;color:var(--muted);">iPhone Pro intro wireframe — full-screen entry.</span></div>
+  </div>
+</div></section>
+
+      <section class="slide"><div style="width:1280px;height:720px;box-sizing:border-box;position:relative;overflow:hidden;background:var(--sand);color:var(--espresso);padding:46px 64px;display:flex;flex-direction:column;">
+  <div class="rise" style="display:flex;align-items:flex-start;justify-content:space-between;">
+    <div><div class="eyebrow">Central Bank of Sudan</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted2);margin-top:4px;letter-spacing:.1em;">PAGE 02 / 06</div></div>
+    <div style="text-align:right;"><div class="eyebrow">Flow 01 — Mwasalati · Mobility &amp; Access</div><div class="ar" style="font-size:13px;color:var(--muted2);margin-top:4px;">مواصلاتي — التنقّل والوصول</div></div>
+  </div>
+  <div style="height:1px;background:var(--line);margin-top:14px;"></div>
+  <div style="flex-grow:1;display:flex;align-items:center;gap:44px;">
+    <div style="width:452px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+      <div class="rise" style="animation-delay:.14s;position:relative;width:246px;height:516px;border-radius:42px;background:#14110C;padding:9px;box-shadow:0 32px 60px -28px rgba(58,36,18,.55);">
+        <div style="width:100%;height:100%;background:var(--paper);border-radius:33px;overflow:hidden;display:flex;flex-direction:column;position:relative;">
+          <div style="position:relative;height:34px;flex-shrink:0;">
+            <div style="position:absolute;left:50%;top:9px;transform:translateX(-50%);width:52px;height:15px;background:#14110C;border-radius:9px;"></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;height:34px;padding:0 18px;"><span style="font-size:11px;font-weight:600;color:var(--espresso);">9:41</span><svg width="34" height="12" viewBox="0 0 34 12" fill="var(--espresso)" aria-hidden="true"><rect x="0" y="4" width="3" height="6" rx="1"/><rect x="5" y="2" width="3" height="8" rx="1"/><rect x="10" y="0" width="3" height="10" rx="1"/><rect x="20" y="1" width="11" height="7" rx="2" fill="none" stroke="var(--espresso)"/><rect x="21.5" y="2.5" width="7" height="4" rx="1"/></svg></div>
+          </div>
+          <div dir="rtl" style="padding:4px 16px 10px;display:flex;align-items:center;justify-content:space-between;">
+            <span class="ar" style="font-size:15px;font-weight:700;color:var(--espresso);">تذكرتي</span>
+            <span class="ar" style="font-size:11px;color:var(--muted2);">١١ — الحاج يوسف ← السوق</span>
+          </div>
+          <div style="padding:0 14px;flex-grow:1;">
+            <div style="position:relative;background:var(--ink);border-radius:20px;padding:15px;height:100%;box-sizing:border-box;display:flex;flex-direction:column;">
+              <span style="position:absolute;top:10px;left:10px;width:20px;height:20px;border-left:2.5px solid var(--gold);border-top:2.5px solid var(--gold);border-radius:4px 0 0 0;"></span>
+              <span style="position:absolute;top:10px;right:10px;width:20px;height:20px;border-right:2.5px solid var(--gold);border-top:2.5px solid var(--gold);border-radius:0 4px 0 0;"></span>
+              <span style="position:absolute;bottom:10px;left:10px;width:20px;height:20px;border-left:2.5px solid var(--gold);border-bottom:2.5px solid var(--gold);border-radius:0 0 0 4px;"></span>
+              <span style="position:absolute;bottom:10px;right:10px;width:20px;height:20px;border-right:2.5px solid var(--gold);border-bottom:2.5px solid var(--gold);border-radius:0 0 4px 0;"></span>
+              <div style="display:flex;justify-content:center;margin-bottom:7px;"><span style="width:30px;height:30px;border-radius:8px;background:#FFFFFF;display:flex;align-items:center;justify-content:center;overflow:hidden;"><img src="assets/gentle-care.jpg" alt="Gentle Care" style="width:100%;height:100%;object-fit:contain;"></span></div>
+              <div dir="rtl" style="text-align:center;"><div class="ar" style="font-size:19px;font-weight:700;color:var(--gold);line-height:1.2;">امسح الرمز</div><div style="font-size:10px;letter-spacing:.16em;color:rgba(251,248,241,.7);margin-top:2px;">SCAN THE CODE</div></div>
+              <div style="flex-grow:1;display:flex;align-items:center;justify-content:center;">
+                <div style="position:relative;background:#FFFFFF;border-radius:12px;padding:12px;">
+                  <svg width="132" height="132" viewBox="0 0 132 132" aria-label="QR code" role="img">
+                    <g fill="#14110C">
+                      <path d="M8 8h34v34H8z" fill="none" stroke="#14110C" stroke-width="7"/><rect x="20" y="20" width="10" height="10"/>
+                      <path d="M90 8h34v34H90z" fill="none" stroke="#14110C" stroke-width="7"/><rect x="102" y="20" width="10" height="10"/>
+                      <path d="M8 90h34v34H8z" fill="none" stroke="#14110C" stroke-width="7"/><rect x="20" y="102" width="10" height="10"/>
+                      <rect x="52" y="10" width="7" height="7"/><rect x="66" y="10" width="7" height="7"/><rect x="80" y="18" width="7" height="7"/><rect x="52" y="24" width="7" height="7"/><rect x="72" y="30" width="7" height="7"/><rect x="86" y="52" width="7" height="7"/><rect x="100" y="52" width="7" height="7"/><rect x="114" y="60" width="7" height="7"/><rect x="86" y="66" width="7" height="7"/><rect x="100" y="74" width="7" height="7"/><rect x="114" y="88" width="7" height="7"/><rect x="86" y="102" width="7" height="7"/><rect x="100" y="102" width="7" height="7"/><rect x="72" y="114" width="7" height="7"/><rect x="86" y="116" width="7" height="7"/><rect x="52" y="100" width="7" height="7"/><rect x="52" y="114" width="7" height="7"/><rect x="10" y="52" width="7" height="7"/><rect x="24" y="52" width="7" height="7"/><rect x="10" y="66" width="7" height="7"/><rect x="30" y="72" width="7" height="7"/><rect x="10" y="80" width="7" height="7"/>
+                    </g>
+                    <circle cx="66" cy="66" r="16" fill="#FFFFFF"/>
+                    <svg x="52" y="56" width="28" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="10" rx="2" fill="#F6C560" stroke="#B4822C"/><path d="M3 11h18" stroke="#B4822C"/><circle cx="8" cy="16" r="1.4" fill="#3A2412" stroke="none"/><circle cx="16" cy="16" r="1.4" fill="#3A2412" stroke="none"/></svg>
+                  </svg>
+                </div>
+              </div>
+              <div dir="rtl" style="text-align:center;font-size:9px;letter-spacing:.1em;color:rgba(251,248,241,.75);">FOR GENTLE CARE SERVICES</div>
+            </div>
+          </div>
+          <div dir="rtl" style="padding:9px 16px 6px;display:flex;align-items:center;justify-content:space-between;">
+            <span class="ar" style="font-size:11px;color:var(--muted);">سعة المركبة</span>
+            <span style="display:flex;gap:3px;">
+              <span style="width:9px;height:9px;border-radius:2px;background:var(--gold);"></span><span style="width:9px;height:9px;border-radius:2px;background:var(--gold);"></span><span style="width:9px;height:9px;border-radius:2px;background:var(--gold);"></span><span style="width:9px;height:9px;border-radius:2px;background:var(--gold);"></span><span style="width:9px;height:9px;border-radius:2px;background:var(--gold);"></span><span style="width:9px;height:9px;border-radius:2px;background:var(--gold);"></span><span style="width:9px;height:9px;border-radius:2px;background:var(--line);"></span><span style="width:9px;height:9px;border-radius:2px;background:var(--line);"></span>
+            </span>
+            <span class="ar" style="font-size:11px;font-weight:600;color:var(--espresso);">٦ / ١٤</span>
+          </div>
+          <div dir="rtl" style="height:50px;flex-shrink:0;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;padding:0 6px;">
+            <span style="display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted2);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6 8 6"/><path d="M6 10v9h12v-9"/></svg><span class="ar" style="font-size:9px;">الرئيسية</span></span>
+            <span style="display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted2);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h7l9 9-7 7-9-9V4z"/></svg><span class="ar" style="font-size:9px;">العروض</span></span>
+            <span style="display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--coffee);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/></svg><span class="ar" style="font-size:9px;font-weight:600;">تذكرتي</span></span>
+            <span style="display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted2);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19a6.5 6.5 0 0 1 13 0"/></svg><span class="ar" style="font-size:9px;">حسابي</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div dir="rtl" style="flex:1;text-align:right;">
+      <h1 class="ar rise" style="animation-delay:.06s;font-size:42px;line-height:1.42;font-weight:600;color:var(--espresso);">التذاكر الرقمية تحوّل كل رحلة إلى بوابة مالية.</h1>
+      <p class="rise" dir="ltr" style="animation-delay:.14s;font-size:18px;line-height:1.55;color:var(--muted);margin-top:16px;text-align:right;">Digital ticketing transforms every ride into a financial gateway.</p>
+      <div class="rise" style="animation-delay:.22s;display:flex;align-items:center;gap:12px;justify-content:flex-start;margin-top:28px;">
+        <span style="display:inline-flex;align-items:center;gap:8px;background:var(--sand2);border:1px solid var(--line);border-radius:12px;padding:10px 14px;"><span style="width:22px;height:22px;border-radius:50%;background:var(--coffee);color:#FBF8F1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">١</span><span class="ar" style="font-size:14px;font-weight:500;">اسحب لأعلى</span></span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"/></svg>
+        <span style="display:inline-flex;align-items:center;gap:8px;background:var(--sand2);border:1px solid var(--line);border-radius:12px;padding:10px 14px;"><span style="width:22px;height:22px;border-radius:50%;background:var(--coffee);color:#FBF8F1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">٢</span><span class="ar" style="font-size:14px;font-weight:500;">شراء التذكرة</span></span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"/></svg>
+        <span style="display:inline-flex;align-items:center;gap:8px;background:rgba(180,130,44,.15);border:1px solid rgba(180,130,44,.5);border-radius:12px;padding:10px 14px;"><span style="width:22px;height:22px;border-radius:50%;background:var(--gold);color:#221605;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">٣</span><span class="ar" style="font-size:14px;font-weight:600;color:var(--espresso);">رمز الدخول</span></span>
+      </div>
+      <p class="ar rise" style="animation-delay:.3s;font-size:15px;line-height:1.7;color:var(--muted);margin-top:24px;max-width:520px;margin-inline-start:auto;">لا حساب بنكي مطلوب — كل رحلة تبني سجلّاً مالياً يفتح باب الائتمان والادخار عبر بنك السودان المركزي.</p>
+    </div>
+  </div>
+  <div style="display:flex;gap:30px;margin-top:8px;">
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--gold);border:1px solid rgba(180,130,44,.5);border-radius:4px;padding:2px 6px;">MOTION</span><span style="font-size:12px;color:var(--muted);">Swipe-up → ticket purchase → QR reveal.</span></div>
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--coffee);border:1px solid rgba(106,62,30,.4);border-radius:4px;padding:2px 6px;">UX</span><span style="font-size:12px;color:var(--muted);">Ticketing wireframe — 14-seat capacity, live scan target.</span></div>
+  </div>
+</div></section>
+
+      <section class="slide"><div style="width:1280px;height:720px;box-sizing:border-box;position:relative;overflow:hidden;background:var(--sand);color:var(--espresso);padding:46px 64px;display:flex;flex-direction:column;">
+  <div class="rise" style="display:flex;align-items:flex-start;justify-content:space-between;">
+    <div><div class="eyebrow">Central Bank of Sudan</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted2);margin-top:4px;letter-spacing:.1em;">PAGE 03 / 06</div></div>
+    <div style="text-align:right;"><div class="eyebrow">Flow 02 — AlSooq · Marketplace &amp; Trade</div><div class="ar" style="font-size:13px;color:var(--muted2);margin-top:4px;">السوق — التجارة والتبادل</div></div>
+  </div>
+  <div style="height:1px;background:var(--line);margin-top:14px;"></div>
+  <div style="flex-grow:1;display:flex;align-items:center;gap:44px;">
+    <div style="width:452px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+      <div class="rise" style="animation-delay:.14s;position:relative;width:246px;height:516px;border-radius:42px;background:#14110C;padding:9px;box-shadow:0 32px 60px -28px rgba(58,36,18,.55);">
+        <div style="width:100%;height:100%;background:var(--paper);border-radius:33px;overflow:hidden;display:flex;flex-direction:column;position:relative;">
+          <div style="position:relative;height:34px;flex-shrink:0;">
+            <div style="position:absolute;left:50%;top:9px;transform:translateX(-50%);width:52px;height:15px;background:#14110C;border-radius:9px;"></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;height:34px;padding:0 18px;"><span style="font-size:11px;font-weight:600;color:var(--espresso);">9:41</span><svg width="34" height="12" viewBox="0 0 34 12" fill="var(--espresso)" aria-hidden="true"><rect x="0" y="4" width="3" height="6" rx="1"/><rect x="5" y="2" width="3" height="8" rx="1"/><rect x="10" y="0" width="3" height="10" rx="1"/><rect x="20" y="1" width="11" height="7" rx="2" fill="none" stroke="var(--espresso)"/><rect x="21.5" y="2.5" width="7" height="4" rx="1"/></svg></div>
+          </div>
+          <div dir="rtl" style="padding:2px 16px 8px;display:flex;align-items:center;justify-content:space-between;">
+            <span class="ar" style="font-size:15px;font-weight:700;color:var(--espresso);">السوق</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted2)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+          </div>
+          <div dir="rtl" style="padding:0 16px;">
+            <div style="display:flex;align-items:center;gap:8px;background:var(--sand2);border:1px solid var(--line);border-radius:11px;padding:9px 11px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--muted2)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><span class="ar" style="font-size:12px;color:var(--muted2);">ابحث في السوق</span></div>
+          </div>
+          <div dir="rtl" style="padding:12px 16px 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;">
+            <div style="background:var(--sand2);border:1px solid var(--line);border-radius:12px;overflow:hidden;"><div style="height:52px;background:#E6D6B6;display:flex;align-items:center;justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--coffee)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 3 4.5 6 4.5 9a4.5 4.5 0 0 1-9 0c0-3 1.5-6 4.5-9z"/></svg></div><div style="padding:7px 9px;"><div class="ar" style="font-size:11px;font-weight:600;">تمور</div><div style="font-size:11px;font-weight:700;color:var(--coffee);">١٬٢٠٠ ج.س</div></div></div>
+            <div style="background:var(--sand2);border:1px solid var(--line);border-radius:12px;overflow:hidden;"><div style="height:52px;background:#D9E1CF;display:flex;align-items:center;justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--coffee)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16M6 6l12 12"/></svg></div><div style="padding:7px 9px;"><div class="ar" style="font-size:11px;font-weight:600;">صمغ عربي</div><div style="font-size:11px;font-weight:700;color:var(--coffee);">٣٬٤٠٠ ج.س</div></div></div>
+            <div style="background:var(--sand2);border:1px solid var(--line);border-radius:12px;overflow:hidden;"><div style="height:52px;background:#E7DDCB;display:flex;align-items:center;justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--coffee)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l8-4 8 4-8 4-8-4z"/><path d="M4 7v10l8 4 8-4V7"/></svg></div><div style="padding:7px 9px;"><div class="ar" style="font-size:11px;font-weight:600;">سمسم</div><div style="font-size:11px;font-weight:700;color:var(--coffee);">٩٠٠ ج.س</div></div></div>
+            <div style="background:var(--sand2);border:1px solid var(--line);border-radius:12px;overflow:hidden;"><div style="height:52px;background:#DED7E0;display:flex;align-items:center;justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--coffee)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8l4-4h8l4 4-3 2v10H7V10L4 8z"/></svg></div><div style="padding:7px 9px;"><div class="ar" style="font-size:11px;font-weight:600;">منسوجات</div><div style="font-size:11px;font-weight:700;color:var(--coffee);">٥٬٧٥٠ ج.س</div></div></div>
+          </div>
+          <div class="sheet" style="animation-delay:.4s;position:absolute;left:0;right:0;bottom:0;background:#FFFFFF;border-radius:22px 22px 33px 33px;box-shadow:0 -14px 30px -18px rgba(58,36,18,.4);padding:12px 16px 18px;">
+            <div style="width:38px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 12px;"></div>
+            <div dir="rtl" style="display:flex;align-items:center;justify-content:space-between;"><span class="ar" style="font-size:13px;font-weight:700;color:var(--espresso);">تمويل الشراء</span><span style="font-size:9px;letter-spacing:.1em;color:var(--muted2);">FINANCING</span></div>
+            <div dir="rtl" style="display:flex;gap:7px;margin-top:11px;">
+              <span class="ar" style="flex:1;text-align:center;font-size:12px;font-weight:600;padding:7px 0;border-radius:9px;background:var(--sand2);border:1px solid var(--line);color:var(--muted);">١</span>
+              <span class="ar" style="flex:1;text-align:center;font-size:12px;font-weight:600;padding:7px 0;border-radius:9px;background:var(--sand2);border:1px solid var(--line);color:var(--muted);">٣</span>
+              <span class="ar" style="flex:1;text-align:center;font-size:12px;font-weight:700;padding:7px 0;border-radius:9px;background:var(--gold);border:1px solid var(--gold);color:#221605;">٦</span>
+              <span class="ar" style="flex:1;text-align:center;font-size:12px;font-weight:600;padding:7px 0;border-radius:9px;background:var(--sand2);border:1px solid var(--line);color:var(--muted);">١٢</span>
+            </div>
+            <div dir="rtl" style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:13px;"><div><div class="ar" style="font-size:10px;color:var(--muted2);">قسط شهري</div><div style="font-size:22px;font-weight:700;color:var(--espresso);">٩٥٨ <span style="font-size:12px;font-weight:500;color:var(--muted);">ج.س</span></div></div><div class="ar" style="font-size:10px;color:var(--muted2);text-align:left;">٦ أشهر · بدون فوائد</div></div>
+            <button type="button" style="width:100%;margin-top:12px;border:none;cursor:pointer;background:var(--coffee);color:#FBF8F1;font-family:'IBM Plex Sans Arabic',sans-serif;font-weight:600;font-size:13px;padding:12px;border-radius:12px;">تأكيد التمويل</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div dir="rtl" style="flex:1;text-align:right;">
+      <h1 class="ar rise" style="animation-delay:.06s;font-size:42px;line-height:1.42;font-weight:600;color:var(--espresso);">سوق ثنائي اللغة يمكّن التجار والمستهلكين من التعامل بثقة.</h1>
+      <p class="rise" dir="ltr" style="animation-delay:.14s;font-size:18px;line-height:1.55;color:var(--muted);margin-top:16px;text-align:right;">A secure, bilingual marketplace enabling merchants and consumers.</p>
+      <div class="rise" style="animation-delay:.22s;display:flex;flex-direction:column;gap:12px;margin-top:26px;max-width:520px;margin-inline-start:auto;">
+        <div style="display:flex;gap:11px;justify-content:flex-start;align-items:flex-start;"><span style="width:7px;height:7px;background:var(--gold);transform:rotate(45deg);flex-shrink:0;margin-top:7px;"></span><span class="ar" style="font-size:15px;color:var(--espresso);">مدفوعات محمية بالضمان تحمي البائع والمشتري.</span></div>
+        <div style="display:flex;gap:11px;justify-content:flex-start;align-items:flex-start;"><span style="width:7px;height:7px;background:var(--gold);transform:rotate(45deg);flex-shrink:0;margin-top:7px;"></span><span class="ar" style="font-size:15px;color:var(--espresso);">تمويل بالتقسيط داخل التطبيق — دون فوائد.</span></div>
+        <div style="display:flex;gap:11px;justify-content:flex-start;align-items:flex-start;"><span style="width:7px;height:7px;background:var(--gold);transform:rotate(45deg);flex-shrink:0;margin-top:7px;"></span><span class="ar" style="font-size:15px;color:var(--espresso);">صغار التجار يصلون إلى الطلب الوطني من اليوم الأول.</span></div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:30px;margin-top:8px;">
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--gold);border:1px solid rgba(180,130,44,.5);border-radius:4px;padding:2px 6px;">MOTION</span><span style="font-size:12px;color:var(--muted);">Tap-to-expand product card → financing calculator reveal.</span></div>
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--coffee);border:1px solid rgba(106,62,30,.4);border-radius:4px;padding:2px 6px;">UX</span><span style="font-size:12px;color:var(--muted);">Bilingual product grid — escrow-backed checkout.</span></div>
+  </div>
+</div></section>
+
+      <section class="slide"><div style="width:1280px;height:720px;box-sizing:border-box;position:relative;overflow:hidden;background:var(--sand);color:var(--espresso);padding:46px 64px;display:flex;flex-direction:column;">
+  <div class="rise" style="display:flex;align-items:flex-start;justify-content:space-between;">
+    <div><div class="eyebrow">Central Bank of Sudan</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted2);margin-top:4px;letter-spacing:.1em;">PAGE 04 / 06</div></div>
+    <div style="text-align:right;"><div class="eyebrow">Flow 03 — Sudani Express · Logistics &amp; Reach</div><div class="ar" style="font-size:13px;color:var(--muted2);margin-top:4px;">سوداني إكسبريس — اللوجستيات</div></div>
+  </div>
+  <div style="height:1px;background:var(--line);margin-top:14px;"></div>
+  <div style="flex-grow:1;display:flex;align-items:center;gap:44px;">
+    <div style="width:452px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+      <div class="rise" style="animation-delay:.14s;position:relative;width:246px;height:516px;border-radius:42px;background:#14110C;padding:9px;box-shadow:0 32px 60px -28px rgba(58,36,18,.55);">
+        <div style="width:100%;height:100%;background:var(--paper);border-radius:33px;overflow:hidden;display:flex;flex-direction:column;position:relative;">
+          <div style="position:relative;height:34px;flex-shrink:0;">
+            <div style="position:absolute;left:50%;top:9px;transform:translateX(-50%);width:52px;height:15px;background:#14110C;border-radius:9px;"></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;height:34px;padding:0 18px;"><span style="font-size:11px;font-weight:600;color:var(--espresso);">9:41</span><svg width="34" height="12" viewBox="0 0 34 12" fill="var(--espresso)" aria-hidden="true"><rect x="0" y="4" width="3" height="6" rx="1"/><rect x="5" y="2" width="3" height="8" rx="1"/><rect x="10" y="0" width="3" height="10" rx="1"/><rect x="20" y="1" width="11" height="7" rx="2" fill="none" stroke="var(--espresso)"/><rect x="21.5" y="2.5" width="7" height="4" rx="1"/></svg></div>
+          </div>
+          <div dir="rtl" style="padding:2px 16px 10px;display:flex;align-items:center;justify-content:space-between;">
+            <span class="ar" style="font-size:15px;font-weight:700;color:var(--espresso);">حسابي</span>
+            <span class="ar" style="font-size:11px;color:var(--muted2);">سوداني إكسبريس</span>
+          </div>
+          <div style="padding:0 14px;">
+            <div dir="rtl" style="background:var(--ink);border-radius:18px;padding:15px 16px;color:#FBF8F1;">
+              <div class="ar" style="font-size:11px;color:rgba(251,248,241,.65);">رصيد المحفظة — متواجد</div>
+              <div style="display:flex;align-items:flex-end;gap:6px;margin-top:4px;"><span style="font-size:30px;font-weight:700;">١٢٬٤٠٠</span><span class="ar" style="font-size:13px;color:rgba(251,248,241,.8);margin-bottom:5px;">ج.س</span></div>
+              <div style="display:flex;gap:7px;margin-top:11px;"><span class="ar" style="flex:1;text-align:center;font-size:11px;font-weight:600;background:var(--gold);color:#221605;border-radius:9px;padding:7px 0;">إيداع</span><span class="ar" style="flex:1;text-align:center;font-size:11px;font-weight:600;background:rgba(251,248,241,.14);color:#FBF8F1;border-radius:9px;padding:7px 0;">تسوية</span></div>
+            </div>
+          </div>
+          <div dir="rtl" style="padding:12px 16px 0;">
+            <div style="background:var(--sand2);border:1px solid var(--line);border-radius:13px;padding:11px 13px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="ar" style="font-size:12px;font-weight:600;color:var(--espresso);">شحن جزئي — حصتك</span><span style="font-size:13px;font-weight:700;color:var(--coffee);">٢٦٪</span></div>
+              <div style="display:flex;height:9px;border-radius:5px;overflow:hidden;margin-top:9px;background:var(--line);"><span style="flex:26;background:var(--gold);"></span><span style="flex:40;background:var(--coffee);"></span><span style="flex:20;background:#3E6B62;"></span><span style="flex:14;background:var(--muted2);"></span></div>
+              <div class="ar" style="font-size:10px;color:var(--muted2);margin-top:7px;">حاوية واحدة · ٤ تجار · ادفع مقابل مساحتك فقط</div>
+            </div>
+          </div>
+          <div dir="rtl" style="padding:11px 16px 0;display:flex;flex-direction:column;gap:9px;">
+            <div style="display:flex;align-items:center;gap:10px;"><span style="width:30px;height:30px;border-radius:9px;background:rgba(62,107,98,.14);color:#2F5850;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg></span><div style="flex-grow:1;"><div class="ar" style="font-size:12px;font-weight:600;color:var(--espresso);">تسوية بالعملة المستقرة</div><div class="ar" style="font-size:10px;color:var(--muted2);">اكتملت · لحظية</div></div><span style="font-size:12px;font-weight:700;color:var(--espresso);">+٤٬١٠٠</span></div>
+            <div style="display:flex;align-items:center;gap:10px;"><span style="width:30px;height:30px;border-radius:9px;background:rgba(106,62,30,.12);color:var(--coffee);display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="11" rx="1"/><path d="M7 7v11M11 7v11M15 7v11"/></svg></span><div style="flex-grow:1;"><div class="ar" style="font-size:12px;font-weight:600;color:var(--espresso);">شحنة إلى بورتسودان</div><div class="ar" style="font-size:10px;color:var(--muted2);">قيد التتبّع</div></div><span style="font-size:12px;font-weight:700;color:var(--muted);">−١٬٦٠٠</span></div>
+          </div>
+          <div style="flex-grow:1;"></div>
+          <div dir="rtl" style="height:50px;flex-shrink:0;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;padding:0 6px;">
+            <span style="display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted2);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6 8 6"/><path d="M6 10v9h12v-9"/></svg><span class="ar" style="font-size:9px;">الرئيسية</span></span>
+            <span style="display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted2);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h7l9 9-7 7-9-9V4z"/></svg><span class="ar" style="font-size:9px;">العروض</span></span>
+            <span style="display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted2);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/></svg><span class="ar" style="font-size:9px;">تذكرتي</span></span>
+            <span style="display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--coffee);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="16.5" cy="14" r="1.2"/></svg><span class="ar" style="font-size:9px;font-weight:600;">حسابي</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div dir="rtl" style="flex:1;text-align:right;">
+      <h1 class="ar rise" style="animation-delay:.06s;font-size:40px;line-height:1.42;font-weight:600;color:var(--espresso);">الشحن الجزئي والتجارة الإلكترونية يفتحان أبواب التجارة الدولية.</h1>
+      <p class="rise" dir="ltr" style="animation-delay:.14s;font-size:18px;line-height:1.55;color:var(--muted);margin-top:16px;text-align:right;">Fractional freight forwarding and e-commerce unlock international trade.</p>
+      <div class="rise" style="animation-delay:.22s;display:flex;align-items:center;gap:12px;justify-content:flex-start;margin-top:28px;">
+        <span style="display:inline-flex;align-items:center;gap:8px;background:var(--sand2);border:1px solid var(--line);border-radius:12px;padding:11px 14px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--coffee)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="11" rx="1"/><path d="M7 7v11M11 7v11M15 7v11"/></svg><span class="ar" style="font-size:13px;font-weight:600;color:var(--espresso);">حاوية واحدة</span></span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"/></svg>
+        <span style="display:inline-flex;align-items:center;gap:8px;background:var(--sand2);border:1px solid var(--line);border-radius:12px;padding:11px 14px;"><span style="display:flex;gap:3px;"><span style="width:8px;height:14px;border-radius:2px;background:var(--gold);"></span><span style="width:8px;height:14px;border-radius:2px;background:var(--coffee);"></span><span style="width:8px;height:14px;border-radius:2px;background:#3E6B62;"></span></span><span class="ar" style="font-size:13px;font-weight:600;color:var(--espresso);">حصص التجار</span></span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"/></svg>
+        <span style="display:inline-flex;align-items:center;gap:8px;background:rgba(180,130,44,.15);border:1px solid rgba(180,130,44,.5);border-radius:12px;padding:11px 14px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg><span class="ar" style="font-size:13px;font-weight:600;color:var(--espresso);">تسوية لحظية</span></span>
+      </div>
+      <p class="ar rise" style="animation-delay:.3s;font-size:15px;line-height:1.7;color:var(--muted);margin-top:24px;max-width:520px;margin-inline-start:auto;">تتبّع كامل من بورتسودان إلى العالم، وتسوية فورية بالعملة المستقرة تضع المنتجات المحلية على الرف العالمي.</p>
+    </div>
+  </div>
+  <div style="display:flex;gap:30px;margin-top:8px;">
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--gold);border:1px solid rgba(180,130,44,.5);border-radius:4px;padding:2px 6px;">MOTION</span><span style="font-size:12px;color:var(--muted);">Stablecoin flow → fractional freight allocation.</span></div>
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--coffee);border:1px solid rgba(106,62,30,.4);border-radius:4px;padding:2px 6px;">UX</span><span style="font-size:12px;color:var(--muted);">Freight container morphs into wallet — settlement view.</span></div>
+  </div>
+</div></section>
+
+      <section class="slide"><div style="width:1280px;height:720px;box-sizing:border-box;position:relative;overflow:hidden;background:var(--sand);color:var(--espresso);padding:46px 64px;display:flex;flex-direction:column;">
+  <div class="rise" style="display:flex;align-items:flex-start;justify-content:space-between;">
+    <div><div class="eyebrow">Central Bank of Sudan</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted2);margin-top:4px;letter-spacing:.1em;">PAGE 05 / 06</div></div>
+    <div style="text-align:right;"><div class="eyebrow">Unified Impact</div><div class="ar" style="font-size:13px;color:var(--muted2);margin-top:4px;">الأثر الموحّد</div></div>
+  </div>
+  <div style="height:1px;background:var(--line);margin-top:14px;"></div>
+  <div style="flex-grow:1;display:flex;align-items:center;gap:44px;">
+    <div class="rise" style="animation-delay:.14s;width:588px;flex-shrink:0;background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:0 26px 50px -30px rgba(58,36,18,.4);overflow:hidden;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);">
+        <div style="display:flex;gap:6px;align-items:center;"><span style="width:9px;height:9px;border-radius:50%;background:#D9534F;"></span><span style="width:9px;height:9px;border-radius:50%;background:var(--gold);"></span><span style="width:9px;height:9px;border-radius:50%;background:#3E6B62;"></span></div>
+        <div style="display:flex;align-items:center;gap:8px;"><span class="ar" style="font-size:12px;font-weight:600;color:var(--espresso);">لوحة الأثر</span><span style="font-size:9px;letter-spacing:.1em;color:var(--muted2);">IMPACT DASHBOARD</span></div>
+        <span style="font-size:8px;font-weight:700;letter-spacing:.1em;color:var(--muted2);border:1px solid var(--line);border-radius:4px;padding:2px 5px;">ILLUSTRATIVE</span>
+      </div>
+      <div dir="rtl" style="padding:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
+        <div style="background:var(--sand2);border:1px solid var(--line);border-radius:13px;padding:13px;"><div class="ar" style="font-size:11px;color:var(--muted2);">استخدام الأسطول</div><div style="font-size:26px;font-weight:700;color:var(--espresso);margin-top:3px;">٧٨٪</div><div style="font-size:9px;letter-spacing:.06em;color:var(--muted2);">FLEET UTILIZATION</div></div>
+        <div style="background:var(--sand2);border:1px solid var(--line);border-radius:13px;padding:13px;"><div class="ar" style="font-size:11px;color:var(--muted2);">الركّاب / شهر</div><div style="font-size:26px;font-weight:700;color:var(--espresso);margin-top:3px;">٤٢٬٠٠٠</div><div style="font-size:9px;letter-spacing:.06em;color:var(--muted2);">MONTHLY RIDERSHIP</div></div>
+        <div style="background:var(--ink);border:1px solid var(--ink);border-radius:13px;padding:13px;color:#FBF8F1;"><div class="ar" style="font-size:11px;color:rgba(251,248,241,.7);">حجم التجارة</div><div style="font-size:26px;font-weight:700;margin-top:3px;">٨٫٦ <span style="font-size:12px;font-weight:500;">م ج.س</span></div><div style="font-size:9px;letter-spacing:.06em;color:rgba(251,248,241,.6);">TRADE VOLUME</div></div>
+      </div>
+      <div dir="rtl" style="padding:0 16px 16px;">
+        <div style="background:var(--sand2);border:1px solid var(--line);border-radius:13px;padding:14px 16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><span class="ar" style="font-size:12px;font-weight:600;color:var(--espresso);">نمو الرحلات — ٦ أشهر</span><span style="font-size:9px;letter-spacing:.08em;color:var(--muted2);">SCHEMATIC · NOT ACTUALS</span></div>
+          <div style="display:flex;align-items:flex-end;gap:16px;height:96px;">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;"><span style="width:100%;height:34px;background:var(--line);border-radius:5px 5px 0 0;"></span><span class="ar" style="font-size:9px;color:var(--muted2);">أبريل</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;"><span style="width:100%;height:44px;background:var(--line);border-radius:5px 5px 0 0;"></span><span class="ar" style="font-size:9px;color:var(--muted2);">مايو</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;"><span style="width:100%;height:52px;background:var(--line);border-radius:5px 5px 0 0;"></span><span class="ar" style="font-size:9px;color:var(--muted2);">يونيو</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;"><span style="width:100%;height:64px;background:var(--coffee);opacity:.5;border-radius:5px 5px 0 0;"></span><span class="ar" style="font-size:9px;color:var(--muted2);">يوليو</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;"><span style="width:100%;height:76px;background:var(--coffee);opacity:.7;border-radius:5px 5px 0 0;"></span><span class="ar" style="font-size:9px;color:var(--muted2);">أغسطس</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;"><span style="width:100%;height:90px;background:var(--gold);border-radius:5px 5px 0 0;"></span><span class="ar" style="font-size:9px;font-weight:600;color:var(--espresso);">سبتمبر</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div dir="rtl" style="flex:1;text-align:right;">
+      <h1 class="ar rise" style="animation-delay:.06s;font-size:36px;line-height:1.45;font-weight:600;color:var(--espresso);">معاً، توسّع هذه المنصّات الوصول، وتخلق فرص العمل، وتقوّي النظام المالي السوداني.</h1>
+      <p class="rise" dir="ltr" style="animation-delay:.14s;font-size:16px;line-height:1.55;color:var(--muted);margin-top:14px;text-align:right;">Together these platforms expand access, create jobs, and strengthen Sudan's financial ecosystem.</p>
+      <div class="rise" style="animation-delay:.22s;margin-top:22px;">
+        <svg viewBox="0 0 360 130" width="100%" height="118" fill="none" aria-hidden="true">
+          <path d="M356 24 C 240 24, 210 65, 120 65" stroke="var(--coffee)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M356 65 C 260 65, 230 65, 120 65" stroke="var(--coffee)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M356 106 C 240 106, 210 65, 120 65" stroke="var(--coffee)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M120 65 H 24" stroke="var(--gold)" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="356" cy="24" r="5" fill="var(--coffee)"/><circle cx="356" cy="65" r="5" fill="var(--coffee)"/><circle cx="356" cy="106" r="5" fill="var(--coffee)"/>
+          <circle cx="20" cy="65" r="8" fill="var(--gold)"/>
+          <text x="356" y="16" text-anchor="end" font-family="IBM Plex Sans Arabic" font-size="12" fill="#3A2412">مواصلاتي</text>
+          <text x="356" y="57" text-anchor="end" font-family="IBM Plex Sans Arabic" font-size="12" fill="#3A2412">السوق</text>
+          <text x="356" y="122" text-anchor="end" font-family="IBM Plex Sans Arabic" font-size="12" fill="#3A2412">سوداني إكسبريس</text>
+          <text x="8" y="52" text-anchor="start" font-family="IBM Plex Sans Arabic" font-size="12" font-weight="600" fill="#6A3E1E">الشمول</text>
+          <text x="8" y="88" text-anchor="start" font-family="IBM Plex Sans Arabic" font-size="12" font-weight="600" fill="#6A3E1E">المالي</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:30px;margin-top:8px;">
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--gold);border:1px solid rgba(180,130,44,.5);border-radius:4px;padding:2px 6px;">MOTION</span><span style="font-size:12px;color:var(--muted);">Three streams merge into one river of progress.</span></div>
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--coffee);border:1px solid rgba(106,62,30,.4);border-radius:4px;padding:2px 6px;">UX</span><span style="font-size:12px;color:var(--muted);">KPI dashboard — figures illustrative, not actuals.</span></div>
+  </div>
+</div></section>
+
+      <section class="slide"><div style="width:1280px;height:720px;box-sizing:border-box;position:relative;overflow:hidden;background:var(--sand);color:var(--espresso);padding:46px 64px;display:flex;flex-direction:column;">
+  <svg style="position:absolute;left:0;right:0;bottom:-10px;width:100%;height:240px;opacity:.08;" viewBox="0 0 1280 240" fill="none" stroke="var(--coffee)" stroke-width="2.5" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 60 C 300 60, 380 150, 640 150 C 900 150, 980 60, 1280 60"/>
+    <path d="M0 120 C 320 120, 400 190, 640 190 C 880 190, 960 120, 1280 120"/>
+    <path d="M0 180 C 340 180, 420 230, 640 230 C 860 230, 940 180, 1280 180"/>
+  </svg>
+  <div class="rise" style="position:relative;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;">
+    <div><div class="eyebrow">Central Bank of Sudan</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted2);margin-top:4px;letter-spacing:.1em;">PAGE 06 / 06</div></div>
+    <div style="text-align:right;"><div class="eyebrow">Closing Statement</div><div class="ar" style="font-size:13px;color:var(--muted2);margin-top:4px;">الخاتمة</div></div>
+  </div>
+  <div style="position:relative;z-index:1;flex-grow:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:22px;">
+    <span class="rise" style="animation-delay:.1s;width:44px;height:3px;border-radius:2px;background:var(--gold);"></span>
+    <h1 class="ar rise" dir="rtl" style="animation-delay:.16s;font-size:52px;line-height:1.4;font-weight:600;color:var(--espresso);max-width:960px;">الشمول المالي ليس سياسة — بل وعدٌ لكل مواطن.</h1>
+    <p class="rise" style="animation-delay:.26s;font-size:21px;line-height:1.5;color:var(--muted);max-width:720px;">Financial inclusion is not a policy — it is a promise to every citizen.</p>
+  </div>
+  <div class="rise" style="animation-delay:.36s;position:relative;z-index:1;border-top:1px solid var(--line);padding-top:20px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span style="width:38px;height:38px;border-radius:10px;background:var(--ink);color:#FBF8F1;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;">ب</span>
+      <div><div class="ar" style="font-size:15px;font-weight:700;color:var(--espresso);">بنك السودان المركزي</div><div style="font-size:10px;letter-spacing:.12em;color:var(--muted2);">CENTRAL BANK OF SUDAN</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:11px;">
+      <div style="text-align:right;"><div class="ar" style="font-size:13px;font-weight:600;color:var(--espresso);">بتقديم</div><div style="font-size:10px;letter-spacing:.12em;color:var(--muted2);">PRESENTED BY</div></div>
+      <span style="width:46px;height:46px;border-radius:11px;background:#FFFFFF;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;"><img src="assets/gentle-care.jpg" alt="Gentle Care — For Services &amp; Investment" style="width:100%;height:100%;object-fit:contain;"></span>
+    </div>
+  </div>
+</div></section>
+
+    </div>
+  </div>
+
+  <div class="bar">
+    <span class="brandtag">Financial Inclusion Sudan · Gentle Care</span>
+    <button id="prev" aria-label="Previous slide"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"/></svg></button>
+    <div class="dots" id="dots"></div>
+    <span class="counter" id="counter">01 / 06</span>
+    <button id="next" aria-label="Next slide"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"/></svg></button>
+    <button id="fs" aria-label="Fullscreen"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var stage=document.getElementById('stage');
+  var slides=[].slice.call(stage.querySelectorAll('.slide'));
+  var dotsWrap=document.getElementById('dots');
+  var counter=document.getElementById('counter');
+  var prev=document.getElementById('prev'), next=document.getElementById('next'), fs=document.getElementById('fs');
+  var i=0, n=slides.length;
+
+  function pad(x){return (x<10?'0':'')+x;}
+  slides.forEach(function(_,k){
+    var b=document.createElement('button');
+    b.className='dot'; b.setAttribute('aria-label','Slide '+(k+1));
+    b.addEventListener('click',function(){go(k);});
+    dotsWrap.appendChild(b);
+  });
+  var dots=[].slice.call(dotsWrap.children);
+
+  function go(k){
+    i=Math.max(0,Math.min(n-1,k));
+    slides.forEach(function(s,x){s.classList.toggle('active',x===i);});
+    dots.forEach(function(d,x){d.classList.toggle('on',x===i);});
+    counter.textContent=pad(i+1)+' / '+pad(n);
+    prev.disabled=(i===0); next.disabled=(i===n-1);
+  }
+
+  function fit(){
+    var vp=stage.parentElement;
+    var scale=Math.min(vp.clientWidth/1280, vp.clientHeight/720);
+    stage.style.transform='scale('+scale+')';
+  }
+  window.addEventListener('resize',fit);
+
+  prev.addEventListener('click',function(){go(i-1);});
+  next.addEventListener('click',function(){go(i+1);});
+  fs.addEventListener('click',function(){
+    if(document.fullscreenElement){document.exitFullscreen();}
+    else if(document.documentElement.requestFullscreen){document.documentElement.requestFullscreen();}
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(i+1);}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(i-1);}
+    else if(e.key==='Home'){go(0);}
+    else if(e.key==='End'){go(n-1);}
+    else if(e.key==='f'||e.key==='F'){fs.click();}
+  });
+
+  var sx=0, sy=0;
+  var vpEl=stage.parentElement;
+  vpEl.addEventListener('touchstart',function(e){sx=e.changedTouches[0].clientX;sy=e.changedTouches[0].clientY;},{passive:true});
+  vpEl.addEventListener('touchend',function(e){
+    var dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)){ go(i+(dx<0?1:-1)); }
+  },{passive:true});
+
+  fit(); go(0);
+})();
+</script>
+</body>
+</html>
