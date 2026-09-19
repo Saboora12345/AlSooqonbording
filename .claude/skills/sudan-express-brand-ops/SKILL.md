@@ -33,7 +33,11 @@ Confirm with owner, then replace across templates:
   All-Inclusive highlight. Bilingual, print A4. All numbers are bracketed placeholders.
 - **All-Inclusive price sheet** — one-price offer (pickup + customs + delivery). TODO.
 - **Receipt-aligned layout** — mirrors the paper receipt fields for reconciliation. TODO.
-- **WhatsApp / social card** — 1080×1350 or 1080×1080 promo. TODO.
+- **Animated cross-sell poster** — `cross-sell.html` at web root (built; deployed at
+  `/cross-sell.html`). 1080×1350 omni-channel poster: AlSooq ⇄ Sudan Express ⇄ Mwasalati
+  ⇄ Wallet loop with looping motion, per-channel tags (WEB/APP/WHATSAPP/SOCIAL), rotating
+  cross-sell hooks, reduced-motion safe. Contact fields are placeholders.
+- **WhatsApp / social card** — 1080×1350 or 1080×1080 single-offer promo. TODO.
 - **Consolidation doc** — combine multiple senders into one shipment; per-sender split. TODO.
 - **Finance doc** — cost/margin per shipment; settlement summary. TODO.
 
