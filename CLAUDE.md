@@ -38,4 +38,8 @@ Durable context for Claude Code sessions on this repo. Owner: Abbas (abbas_sabir
 - **Mwasalati** (مواصلاتي) — digital transport ticketing; QR ticket; every ride → financial gateway.
 - **AlSooq** (السوق) — secure bilingual marketplace; escrow payments; in-app installment financing.
 - **Sudani Express** (سوداني إكسبريس) — fractional freight forwarding + e-commerce; stablecoin settlement.
-- Audience/anchor institution: Central Bank of Sudan (بنك السودان المركزي).
+- Central Bank of Sudan references were REMOVED from the deck per owner request. The
+  running header is now "Financial Inclusion Sudan"; Gentle Care is the presenter.
+- A live interactive web deck lives at `/deck` (Vercel). Its Mwasalati slide embeds the
+  real `mowasalaty.html` app in an iframe (same-origin). Canvas format forbids iframes, so
+  that live embed exists only in the web deck, not the Design canvas.
