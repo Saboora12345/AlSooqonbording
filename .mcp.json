@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "alsooq": {
+      "command": "node",
+      "args": ["mcp/dist/index.js"],
+      "env": {}
+    }
+  }
+}
