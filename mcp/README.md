@@ -37,20 +37,27 @@ npm run inspect    # open the MCP Inspector against it
 
 ## Going live — the connector seam
 
-All data flows through one interface: **`EcosystemRepo`** (`src/lib/types.ts`).
-The default `InMemoryRepo` (`src/lib/data.ts`) is seeded with the prototype's
-illustrative figures. To attach a real backend, implement `EcosystemRepo` against
-Postgres or the alSooq REST API and pass that instance in `src/index.ts` — no tool
-code changes:
+All data flows through one async interface: **`EcosystemRepo`** (`src/lib/types.ts`).
+The server picks its adapter at startup from the environment:
 
-```ts
-// const repo = new InMemoryRepo();
-const repo = new PostgresRepo(process.env.DATABASE_URL!); // implements EcosystemRepo
+| `DATABASE_URL` | Adapter | Source |
+| --- | --- | --- |
+| unset | `InMemoryRepo` (`src/lib/data.ts`) | seeded prototype figures |
+| set | `PostgresRepo` (`src/lib/pg.ts`) | your Postgres |
+
+Attach Postgres:
+
+```bash
+psql "$DATABASE_URL" -f mcp/schema.sql   # create tables + seed
+DATABASE_URL=postgres://user:pass@host/db npm start
 ```
 
-Keep secrets (DB URL, `api.alsooq.com` bearer token) in environment variables — never
-in client code, matching the prototype's server-side-proxy rule for
-`api.alsooq.com/mowasalaty/trips`.
+To add a different backend (e.g. the alSooq REST API), implement `EcosystemRepo`
+and return it from `makeRepo()` in `src/index.ts` — no tool code changes.
+
+Keep secrets (`DATABASE_URL`, `api.alsooq.com` bearer token) in environment
+variables — never in client code, matching the prototype's server-side-proxy rule
+for `api.alsooq.com/mowasalaty/trips`.
 
 ## Notes
 

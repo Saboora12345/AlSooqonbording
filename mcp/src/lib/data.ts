@@ -56,11 +56,11 @@ export class InMemoryRepo implements EcosystemRepo {
   private escrows = new Map<string, EscrowHold>();
   private waybills = new Map<string, Waybill>();
 
-  listCategories(): CategoryId[] {
+  async listCategories(): Promise<CategoryId[]> {
     return ["shop", "build", "travel", "education", "money"];
   }
 
-  searchServices(q: { category?: CategoryId; query?: string; limit: number }): Service[] {
+  async searchServices(q: { category?: CategoryId; query?: string; limit: number }): Promise<Service[]> {
     const needle = q.query?.trim().toLowerCase();
     return SERVICES.filter((s) => {
       if (q.category && s.category !== q.category) return false;
@@ -69,48 +69,48 @@ export class InMemoryRepo implements EcosystemRepo {
     }).slice(0, q.limit);
   }
 
-  getService(id: string): Service | undefined {
+  async getService(id: string): Promise<Service | undefined> {
     return SERVICES.find((s) => s.id === id);
   }
 
-  searchTrips(q: { from?: string; to?: string; date?: string; limit: number }): Trip[] {
+  async searchTrips(q: { from?: string; to?: string; date?: string; limit: number }): Promise<Trip[]> {
     const eq = (a: string, b?: string) => !b || a.toLowerCase() === b.trim().toLowerCase();
     return TRIPS.filter(
       (t) => eq(t.from, q.from) && eq(t.to, q.to) && (!q.date || t.depart.startsWith(q.date.trim())),
     ).slice(0, q.limit);
   }
 
-  fleet(state?: VehicleState): Vehicle[] {
+  async fleet(state?: VehicleState): Promise<Vehicle[]> {
     return state ? FLEET.filter((v) => v.state === state) : FLEET;
   }
 
-  quoteShipment(weight_kg: number, destination: string): ShipmentQuote {
+  async quoteShipment(weight_kg: number, destination: string): Promise<ShipmentQuote> {
     const z = zoneFor(destination);
     const total = Math.round(z.base + z.perKg * weight_kg);
     return { weight_kg, destination, zone: z.zone, base_sdg: z.base, per_kg_sdg: z.perKg, total_sdg: total, eta_hours: z.eta };
   }
 
-  createWaybill(order: string, quote: ShipmentQuote): Waybill {
+  async createWaybill(order: string, quote: ShipmentQuote): Promise<Waybill> {
     const id = nextId("SX");
     const wb: Waybill = { id, order, quote, qr: `QR:${id}`, state: "issued", created_at: now() };
     this.waybills.set(id, wb);
     return wb;
   }
 
-  escrowHold(order: string, amount_sdg: number, release_on: string): EscrowHold {
+  async escrowHold(order: string, amount_sdg: number, release_on: string): Promise<EscrowHold> {
     const id = nextId("esc");
     const hold: EscrowHold = { id, order, amount_sdg, release_on, state: "held", created_at: now() };
     this.escrows.set(id, hold);
     return hold;
   }
 
-  escrowReleaseByOrder(order: string): EscrowHold | undefined {
+  async escrowReleaseByOrder(order: string): Promise<EscrowHold | undefined> {
     const hold = [...this.escrows.values()].find((e) => e.order === order && e.state === "held");
     if (hold) hold.state = "released";
     return hold;
   }
 
-  getEscrow(id: string): EscrowHold | undefined {
+  async getEscrow(id: string): Promise<EscrowHold | undefined> {
     return this.escrows.get(id);
   }
 }

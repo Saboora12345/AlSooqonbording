@@ -36,7 +36,7 @@ export function registerMarketplaceTools(server: McpServer, repo: EcosystemRepo)
       annotations: { readOnlyHint: true, openWorldHint: false, idempotentHint: true },
     },
     async ({ category, query, limit }) => {
-      const results = repo.searchServices({ category, query, limit });
+      const results = await repo.searchServices({ category, query, limit });
       const lines = results.map((s) => `• ${s.name_en} — ${sdg(s.price_sdg)} · ${s.merchant}${s.verified ? " ✓" : ""}`);
       return ok(
         results.length ? `Found ${results.length} result(s):\n${lines.join("\n")}` : "No matching services.",
@@ -54,7 +54,7 @@ export function registerMarketplaceTools(server: McpServer, repo: EcosystemRepo)
       annotations: { readOnlyHint: true, openWorldHint: false, idempotentHint: true },
     },
     async ({ id }) => {
-      const s = repo.getService(id);
+      const s = await repo.getService(id);
       if (!s) return fail(`No service with id "${id}". Try marketplace_search_catalog first.`);
       return ok(`${s.name_en} (${s.name_ar}) — ${sdg(s.price_sdg)} · ${s.merchant}`, { service: s });
     },

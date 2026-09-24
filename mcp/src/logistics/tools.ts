@@ -26,7 +26,7 @@ export function registerLogisticsTools(server: McpServer, repo: EcosystemRepo): 
       annotations: { readOnlyHint: true, openWorldHint: false, idempotentHint: true },
     },
     async ({ weight_kg, destination }) => {
-      const q = repo.quoteShipment(weight_kg, destination);
+      const q = await repo.quoteShipment(weight_kg, destination);
       return ok(
         `${weight_kg} kg → ${destination} [${q.zone}]: ${sdg(q.total_sdg)} (base ${sdg(q.base_sdg)} + ${sdg(q.per_kg_sdg)}/kg), ETA ~${q.eta_hours}h`,
         q as unknown as Record<string, unknown>,
@@ -49,8 +49,8 @@ export function registerLogisticsTools(server: McpServer, repo: EcosystemRepo): 
       annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
     },
     async ({ order, weight_kg, destination }) => {
-      const quote: ShipmentQuote = repo.quoteShipment(weight_kg, destination);
-      const wb = repo.createWaybill(order, quote);
+      const quote: ShipmentQuote = await repo.quoteShipment(weight_kg, destination);
+      const wb = await repo.createWaybill(order, quote);
       return ok(`Waybill ${wb.id} issued for ${order} — ${wb.qr}, ${sdg(quote.total_sdg)}.`, { waybill: wb });
     },
   );
@@ -68,7 +68,7 @@ export function registerLogisticsTools(server: McpServer, repo: EcosystemRepo): 
       annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
     },
     async ({ order, amount_sdg, release_on }) => {
-      const hold = repo.escrowHold(order, amount_sdg, release_on);
+      const hold = await repo.escrowHold(order, amount_sdg, release_on);
       return ok(`Escrow ${hold.id} holding ${sdg(amount_sdg)} for ${order} (release on ${release_on}).`, { hold });
     },
   );
@@ -82,7 +82,7 @@ export function registerLogisticsTools(server: McpServer, repo: EcosystemRepo): 
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: false },
     },
     async ({ order }) => {
-      const hold = repo.escrowReleaseByOrder(order);
+      const hold = await repo.escrowReleaseByOrder(order);
       if (!hold) return fail(`No held escrow found for order "${order}".`);
       return ok(`Escrow ${hold.id} released ${sdg(hold.amount_sdg)} for ${order}.`, { hold });
     },

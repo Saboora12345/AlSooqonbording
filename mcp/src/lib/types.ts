@@ -65,18 +65,23 @@ export interface Waybill {
 
 // Repository seam — swap the in-memory adapter for Postgres / a REST API
 // by implementing this interface. Nothing else in the server changes.
+// Methods are async so a real backend (Postgres, HTTP) drops in unchanged.
 export interface EcosystemRepo {
-  listCategories(): CategoryId[];
-  searchServices(q: { category?: CategoryId; query?: string; limit: number }): Service[];
-  getService(id: string): Service | undefined;
+  listCategories(): Promise<CategoryId[]>;
+  searchServices(q: { category?: CategoryId; query?: string; limit: number }): Promise<Service[]>;
+  getService(id: string): Promise<Service | undefined>;
 
-  searchTrips(q: { from?: string; to?: string; date?: string; limit: number }): Trip[];
-  fleet(state?: VehicleState): Vehicle[];
+  searchTrips(q: { from?: string; to?: string; date?: string; limit: number }): Promise<Trip[]>;
+  fleet(state?: VehicleState): Promise<Vehicle[]>;
 
-  quoteShipment(weight_kg: number, destination: string): ShipmentQuote;
-  createWaybill(order: string, quote: ShipmentQuote): Waybill;
+  quoteShipment(weight_kg: number, destination: string): Promise<ShipmentQuote>;
+  createWaybill(order: string, quote: ShipmentQuote): Promise<Waybill>;
 
-  escrowHold(order: string, amount_sdg: number, release_on: string): EscrowHold;
-  escrowReleaseByOrder(order: string): EscrowHold | undefined;
-  getEscrow(id: string): EscrowHold | undefined;
+  escrowHold(order: string, amount_sdg: number, release_on: string): Promise<EscrowHold>;
+  escrowReleaseByOrder(order: string): Promise<EscrowHold | undefined>;
+  getEscrow(id: string): Promise<EscrowHold | undefined>;
+
+  /** Optional lifecycle: open pools / close connections. */
+  init?(): Promise<void>;
+  close?(): Promise<void>;
 }

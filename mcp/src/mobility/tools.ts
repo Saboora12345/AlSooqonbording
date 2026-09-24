@@ -37,7 +37,7 @@ export function registerMobilityTools(server: McpServer, repo: EcosystemRepo): v
       annotations: { readOnlyHint: true, openWorldHint: false, idempotentHint: true },
     },
     async ({ from, to, date, limit }) => {
-      const trips = repo.searchTrips({ from, to, date, limit });
+      const trips = await repo.searchTrips({ from, to, date, limit });
       const lines = trips.map((t) => `• ${t.from} → ${t.to} · ${t.depart} · ${sdg(t.fare_sdg)} · ${t.seats_left} seats`);
       return ok(trips.length ? `Found ${trips.length} trip(s):\n${lines.join("\n")}` : "No trips match.", {
         count: trips.length,
@@ -59,7 +59,7 @@ export function registerMobilityTools(server: McpServer, repo: EcosystemRepo): v
       annotations: { readOnlyHint: true, openWorldHint: false, idempotentHint: true },
     },
     async ({ state }) => {
-      const vehicles = repo.fleet(state);
+      const vehicles = await repo.fleet(state);
       const lines = vehicles.map((v) => `• ${v.plate} — ${v.route} [${v.state}]`);
       return ok(`${vehicles.length} vehicle(s):\n${lines.join("\n")}`, { total: vehicles.length, vehicles });
     },
