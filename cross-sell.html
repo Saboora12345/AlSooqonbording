@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>منظومة السوق — بوستر البيع المتقاطع · AlSooq Cross-Sell</title>
+<meta name="description" content="Animated omni-channel cross-selling poster: AlSooq, Sudan Express, Mwasalati and Wallet as one ecosystem loop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--sand:#E7DFCD;--sand2:#F1EADB;--paper:#FBF8F1;--ink:#151A2B;--espresso:#3A2412;--coffee:#6A3E1E;--gold:#B4822C;--gold-soft:rgba(180,130,44,.14);--teal:#2F6E64;--line:#D9CEB7;--muted:#6E5E45;--muted2:#8C7B61;--ar:'IBM Plex Sans Arabic',system-ui,sans-serif;--en:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',monospace;}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#181510;font-family:var(--ar);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.en{font-family:var(--en)} .mono{font-family:var(--mono)}
+.viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;overflow:hidden}
+.stage{position:relative;width:1080px;height:1350px;flex-shrink:0;transform-origin:center;background:var(--sand);border-radius:22px;overflow:hidden;box-shadow:0 40px 100px -40px rgba(0,0,0,.7)}
+
+/* soft breathing ground (restrained, not a slop wash) */
+.aura{position:absolute;inset:0;z-index:0;pointer-events:none}
+.aura b{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5;animation:breathe 12s ease-in-out infinite}
+.aura .g1{width:520px;height:520px;top:-140px;inset-inline-end:-120px;background:radial-gradient(circle,var(--gold-soft),transparent 70%)}
+.aura .g2{width:560px;height:560px;bottom:-160px;inset-inline-start:-120px;background:radial-gradient(circle,rgba(47,110,100,.14),transparent 70%);animation-delay:-6s}
+
+.inner{position:relative;z-index:1;height:100%;padding:64px 64px 54px;display:flex;flex-direction:column}
+
+/* header */
+.hd{display:flex;align-items:center;justify-content:space-between}
+.hd .brand{display:flex;align-items:center;gap:13px}
+.hd .logo{width:52px;height:52px;border-radius:13px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hd .logo img{width:100%;height:100%;object-fit:contain}
+.hd .brand b{font-size:19px;font-weight:700;color:var(--espresso);line-height:1}
+.hd .brand span{font-size:11px;letter-spacing:.12em;color:var(--muted2);display:block;margin-top:4px}
+.hd .pill{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--coffee);border:1px solid var(--line);background:var(--sand2);border-radius:999px;padding:8px 14px;font-weight:600}
+
+h1{margin-top:34px;font-size:52px;line-height:1.28;font-weight:700;color:var(--espresso)}
+h1 .hl{color:var(--gold)}
+.sub{margin-top:12px;font-size:20px;color:var(--muted);font-family:var(--en);direction:ltr;text-align:right}
+
+/* loop */
+.loop{position:relative;flex-grow:1;margin-top:8px}
+.ring{position:absolute;inset:0;z-index:0}
+.hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:150px;height:150px;border-radius:50%;background:var(--paper);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 20px 40px -24px rgba(58,36,18,.4);z-index:2}
+.hub .spin{position:absolute;inset:-14px;border-radius:50%;border:2px dashed var(--gold);opacity:.55;animation:spin 18s linear infinite}
+.hub b{font-family:var(--ar);font-size:22px;font-weight:700;color:var(--espresso)}
+.hub span{font-size:10px;letter-spacing:.14em;color:var(--muted2);margin-top:2px}
+
+.node{position:absolute;width:266px;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:18px 20px;box-shadow:0 18px 40px -26px rgba(58,36,18,.42);z-index:2;animation:rise .7s cubic-bezier(.2,0,0,1) both, float 6s ease-in-out infinite}
+.node .top{display:flex;align-items:center;gap:11px}
+.node .ic{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.node .ic svg{width:24px;height:24px;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.node h3{font-size:20px;font-weight:700;color:var(--espresso);line-height:1.1}
+.node h3 small{display:block;font-family:var(--en);font-size:10px;letter-spacing:.08em;color:var(--muted2);font-weight:600;margin-top:3px}
+.node p{font-size:14px;color:var(--muted);margin-top:10px;line-height:1.5}
+.node .ch{display:flex;gap:5px;margin-top:11px;flex-wrap:wrap}
+.node .ch span{font-size:9.5px;font-weight:700;letter-spacing:.08em;color:var(--muted2);border:1px solid var(--line);border-radius:5px;padding:3px 7px}
+.node::after{content:"";position:absolute;inset:-3px;border-radius:23px;border:2px solid var(--gold);opacity:0;animation:glow 8s ease-in-out infinite}
+.n-shop{top:0;left:50%;transform:translateX(-50%)}
+.n-ship{top:50%;inset-inline-start:0;transform:translateY(-50%);animation-delay:.12s,0s}
+.n-move{bottom:0;left:50%;transform:translateX(-50%);animation-delay:.24s,0s}
+.n-pay{top:50%;inset-inline-end:0;transform:translateY(-50%);animation-delay:.36s,0s}
+.n-shop::after{animation-delay:0s} .n-ship::after{animation-delay:2s} .n-move::after{animation-delay:4s} .n-pay::after{animation-delay:6s}
+.n-shop .ic{background:var(--gold-soft);color:var(--gold)} .n-ship .ic{background:rgba(21,26,43,.09);color:var(--ink)} .n-move .ic{background:rgba(106,62,30,.10);color:var(--coffee)} .n-pay .ic{background:rgba(47,110,100,.12);color:var(--teal)}
+
+/* cross-sell rotating hooks */
+.hooks{position:relative;height:64px;margin-top:6px}
+.hooks .hk{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:11px;opacity:0;animation:cycle 12s ease-in-out infinite}
+.hooks .hk:nth-child(2){animation-delay:4s} .hooks .hk:nth-child(3){animation-delay:8s}
+.hooks .hk .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.hooks .hk b{font-size:20px;font-weight:600;color:var(--espresso);text-align:center}
+
+.cta{display:flex;align-items:center;gap:14px;margin-top:8px}
+.cta a{text-decoration:none}
+.cta .go{flex:1;background:var(--coffee);color:#FBF8F1;font-weight:700;font-size:19px;text-align:center;padding:17px;border-radius:15px}
+.cta .alt{background:var(--sand2);border:1px solid var(--line);color:var(--espresso);font-weight:600;font-size:15px;padding:17px 20px;border-radius:15px;white-space:nowrap}
+
+.omni{margin-top:18px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:16px}
+.omni .chips{display:flex;gap:8px}
+.omni .chips span{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--coffee);background:var(--gold-soft);border-radius:999px;padding:6px 13px}
+.omni .cta-c{font-size:13px;color:var(--muted)}
+.omni .cta-c b{color:var(--espresso)}
+.ph{font-family:var(--mono);font-weight:600;color:#B26B08}
+
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1}}
+.n-shop{animation-name:rise,float}.n-move{animation-name:rise,float}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -7px}}
+@keyframes glow{0%,12%{opacity:0}5%{opacity:.9}18%,100%{opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes cycle{0%,2%{opacity:0;transform:translateY(6px)}8%,28%{opacity:1;transform:none}34%,100%{opacity:0;transform:translateY(-6px)}}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.42}50%{transform:scale(1.12);opacity:.6}}
+.flow{stroke-dasharray:6 10;animation:dash 3s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-64}}
+
+@media (prefers-reduced-motion: reduce){
+  .node,.hooks .hk,.aura b,.hub .spin,.flow,.node::after{animation:none !important;opacity:1}
+  .n-shop,.n-move{transform:translateX(-50%)}
+  .hooks .hk:nth-child(2),.hooks .hk:nth-child(3){display:none}
+}
+</style>
+</head>
+<body>
+<div class="viewport">
+  <div class="stage" id="stage">
+    <div class="aura"><b class="g1"></b><b class="g2"></b></div>
+    <div class="inner">
+      <div class="hd">
+        <div class="brand">
+          <span class="logo"><img src="deck/assets/gentle-care.jpg" alt="Gentle Care"></span>
+          <div><b>منظومة السوق</b><span class="en">ALSOOQ ECOSYSTEM · GENTLE CARE</span></div>
+        </div>
+        <span class="pill">Cross-sell</span>
+      </div>
+
+      <h1>منظومة واحدة <span class="hl">تبيع لك في كل قناة.</span></h1>
+      <p class="sub">One ecosystem — cross-selling across every channel.</p>
+
+      <div class="loop">
+        <svg class="ring" viewBox="0 0 900 620" preserveAspectRatio="xMidYMid meet" fill="none" aria-hidden="true">
+          <path class="flow" d="M450 120 C 690 150, 760 250, 760 310" stroke="var(--gold)" stroke-width="3"/>
+          <path class="flow" d="M760 310 C 760 380, 690 470, 450 500" stroke="var(--gold)" stroke-width="3" style="animation-delay:-.75s"/>
+          <path class="flow" d="M450 500 C 210 470, 140 380, 140 310" stroke="var(--gold)" stroke-width="3" style="animation-delay:-1.5s"/>
+          <path class="flow" d="M140 310 C 140 250, 210 150, 450 120" stroke="var(--gold)" stroke-width="3" style="animation-delay:-2.25s"/>
+        </svg>
+
+        <div class="hub"><span class="spin"></span><b>السوق</b><span>ONE LOOP</span></div>
+
+        <div class="node n-shop">
+          <div class="top">
+            <span class="ic"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M4 9h16"/><path d="M5 9l1.4-4h11.2L19 9"/><path d="M5 9v10h14V9"/><path d="M9 19v-5h6v5"/></svg></span>
+            <h3>السوق<small>ALSOOQ · SHOP</small></h3>
+          </div>
+          <p>تسوّق كل شيء في مكان واحد — بضمان ودفع آمن.</p>
+          <div class="ch"><span>WEB</span><span>APP</span></div>
+        </div>
+
+        <div class="node n-ship">
+          <div class="top">
+            <span class="ic"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="7" width="18" height="11" rx="1"/><path d="M7 7v11M11 7v11M15 7v11"/></svg></span>
+            <h3>سودان إكسبريس<small>SUDAN EXPRESS · SHIP</small></h3>
+          </div>
+          <p>شحن مصر ← السودان بالكيلو، والكل شامل حتى الباب.</p>
+          <div class="ch"><span>WHATSAPP</span><span>APP</span></div>
+        </div>
+
+        <div class="node n-move">
+          <div class="top">
+            <span class="ic"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="5" width="16" height="11" rx="2"/><path d="M4 11h16M7 19v-2M17 19v-2"/><circle cx="8" cy="15.5" r="1"/><circle cx="16" cy="15.5" r="1"/></svg></span>
+            <h3>مواصلاتي<small>MWASALATI · MOVE</small></h3>
+          </div>
+          <p>تذاكر ونقل رقمي — كل رحلة بوابة مالية.</p>
+          <div class="ch"><span>APP</span></div>
+        </div>
+
+        <div class="node n-pay">
+          <div class="top">
+            <span class="ic"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="16.5" cy="14" r="1.2"/></svg></span>
+            <h3>المحفظة والتمويل<small>WALLET · PAY</small></h3>
+          </div>
+          <p>ادفع، قسّط، وسوِّ فوراً — بأمان عبر المنظومة.</p>
+          <div class="ch"><span>APP</span></div>
+        </div>
+      </div>
+
+      <div class="hooks">
+        <div class="hk"><span class="dot"></span><b>بعت في السوق؟ اشحنها فوراً عبر سودان إكسبريس.</b></div>
+        <div class="hk"><span class="dot"></span><b>حجزت رحلة بمواصلاتي؟ موّلها من المحفظة.</b></div>
+        <div class="hk"><span class="dot"></span><b>زبون شحن؟ اعرض عليه منتجات السوق.</b></div>
+      </div>
+
+      <div class="cta">
+        <a class="go" href="/deck" target="_blank" rel="noopener">اكتشف المنظومة · Explore</a>
+        <a class="alt" href="/mowasalaty.html" target="_blank" rel="noopener">مواصلاتي ↗</a>
+        <a class="alt" href="/sudan-express.html" target="_blank" rel="noopener">الشحن ↗</a>
+      </div>
+
+      <div class="omni">
+        <div class="chips"><span>WEB</span><span>APP</span><span>WHATSAPP</span><span>SOCIAL</span></div>
+        <div class="cta-c">واتساب <span class="mono" style="direction:ltr;unicode-bidi:embed;">+20 137259068</span> · <b>@</b><span class="ph">[handle]</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var s=document.getElementById('stage');
+  function fit(){var vp=s.parentElement;s.style.transform='scale('+Math.min(vp.clientWidth/1080,vp.clientHeight/1350)+')';}
+  window.addEventListener('resize',fit);fit();
+})();
+</script>
+</body>
+</html>
