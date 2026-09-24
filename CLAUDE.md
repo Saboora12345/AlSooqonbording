@@ -43,3 +43,15 @@ Durable context for Claude Code sessions on this repo. Owner: Abbas (abbas_sabir
 - A live interactive web deck lives at `/deck` (Vercel). Its Mwasalati slide embeds the
   real `mowasalaty.html` app in an iframe (same-origin). Canvas format forbids iframes, so
   that live embed exists only in the web deck, not the Design canvas.
+
+## Confirmed real inputs (from owner, 2026-09)
+- **Sudan Express cargo rate:** 88 EGP per kg (Cairo → Khartoum), flat for general cargo.
+  Specialty classes (electronics/fragile) and All-Inclusive price still on request.
+- **WhatsApp:** +20 137259068 (as supplied — looks one digit short of a standard Egyptian
+  mobile +20 1X XXXXXXXX; confirm with owner). Used on sudan-express.html and cross-sell.html.
+- **Mowasalati fares:** 3,000 / 8,000 / 15,000 SDG (three tiers). Replaces the earlier
+  placeholder band. Not yet wired into a specific screen — confirm placement (deck ticket,
+  mowasalaty.html, or a fare card) before applying.
+- **Gentle Care logo:** confirmed (blue box + masked figure); file at
+  `deck/assets/gentle-care.jpg`, also used on sudan-express.html header.
+- Still pending: Cairo & Khartoum office addresses, social handle, exact brand hex.
