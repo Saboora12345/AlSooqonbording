@@ -1,539 +1,1613 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl" data-lang="ar">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>السوق × سودان إكسبريس — ذهب وشحن بالحصص · alSooq × Sudan Express</title>
-<meta name="description" content="alSooq × Sudan Express prototype: fractional Sudanese gold (1 SGT = 1 gram), shared freight by the kilogram, USSD access, a cross-border stablecoin wallet and an e-commerce receivable account for merchants.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-/* alSooq brand tokens: same values as merchant-workspace.html (sand + clay, palm for status only). */
-:root{
-  --sand:#F6F1E7; --sand-2:#EFE7D8; --card:#FFFCF6; --white:#fff;
-  --ink:#2E241B; --ink-2:#6B5B4B; --ink-3:#76654F;
-  --clay:#8A4B2A; --clay-deep:#5F3119; --clay-08:rgba(138,75,42,.08); --clay-12:rgba(138,75,42,.12); --clay-30:rgba(138,75,42,.3);
-  --palm:#2F6B4F; --palm-12:rgba(47,107,79,.12);
-  --line:#DCCFBB;
-  --shadow:0 1px 2px rgba(46,36,27,.05),0 10px 30px -16px rgba(46,36,27,.2);
-  --ar:'IBM Plex Sans Arabic',system-ui,sans-serif; --en:'IBM Plex Sans',system-ui,sans-serif;
-  --ease:cubic-bezier(.16,1,.3,1);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--ar);background:var(--sand);color:var(--ink);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100dvh}
-[data-lang="en"] body{font-family:var(--en)}
-.num,.en-sub{font-family:var(--en);font-variant-numeric:tabular-nums}
-a{color:inherit}
-button,input{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--clay);outline-offset:3px;border-radius:8px}
-svg.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>السوق × سودان إكسبريس — ذهب وشحن بالحصص · alSooq × Sudan Express</title>
+    <meta
+      name="description"
+      content="alSooq × Sudan Express prototype: fractional Sudanese gold (1 SGT = 1 gram), shared freight by the kilogram, USSD access, a cross-border stablecoin wallet and an e-commerce receivable account for merchants."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* alSooq brand tokens: same values as merchant-workspace.html (sand + clay, palm for status only). */
+      :root {
+        --sand: #f6f1e7;
+        --sand-2: #efe7d8;
+        --card: #fffcf6;
+        --white: #fff;
+        --ink: #2e241b;
+        --ink-2: #6b5b4b;
+        --ink-3: #76654f;
+        --clay: #8a4b2a;
+        --clay-deep: #5f3119;
+        --clay-08: rgba(138, 75, 42, 0.08);
+        --clay-12: rgba(138, 75, 42, 0.12);
+        --clay-30: rgba(138, 75, 42, 0.3);
+        --palm: #2f6b4f;
+        --palm-12: rgba(47, 107, 79, 0.12);
+        --line: #dccfbb;
+        --shadow: 0 1px 2px rgba(46, 36, 27, 0.05), 0 10px 30px -16px rgba(46, 36, 27, 0.2);
+        --ar: "IBM Plex Sans Arabic", system-ui, sans-serif;
+        --en: "IBM Plex Sans", system-ui, sans-serif;
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: var(--ar);
+        background: var(--sand);
+        color: var(--ink);
+        font-size: 16px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100dvh;
+      }
+      [data-lang="en"] body {
+        font-family: var(--en);
+      }
+      .num,
+      .en-sub {
+        font-family: var(--en);
+        font-variant-numeric: tabular-nums;
+      }
+      a {
+        color: inherit;
+      }
+      button,
+      input {
+        font: inherit;
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 2px solid var(--clay);
+        outline-offset: 3px;
+        border-radius: 8px;
+      }
+      svg.ic {
+        width: 20px;
+        height: 20px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex: none;
+      }
 
-/* header */
-.hdr{border-bottom:1px solid var(--line)}
-.hdr-in{max-width:720px;margin-inline:auto;padding:0 16px;height:64px;display:flex;align-items:center;gap:12px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-height:44px}
-.mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(145deg,var(--clay),var(--clay-deep));color:#fff;display:grid;place-items:center}
-.mark{font-weight:700;font-size:19px}
-.brand b{font-size:15px;font-weight:700;line-height:1.1;display:block}
-.brand .en-sub{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
-.spacer{flex:1}
-.lang{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.lang button{min-width:44px;min-height:44px;background:none;border:0;cursor:pointer;font-size:13px;font-weight:700;color:var(--ink-2)}
-.lang button[aria-pressed="true"]{background:var(--clay-12);color:var(--clay)}
+      /* header */
+      .hdr {
+        border-bottom: 1px solid var(--line);
+      }
+      .hdr-in {
+        max-width: 720px;
+        margin-inline: auto;
+        padding: 0 16px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        min-height: 44px;
+      }
+      .mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: linear-gradient(145deg, var(--clay), var(--clay-deep));
+        color: #fff;
+        display: grid;
+        place-items: center;
+      }
+      .mark {
+        font-weight: 700;
+        font-size: 19px;
+      }
+      .brand b {
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 1.1;
+        display: block;
+      }
+      .brand .en-sub {
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-2);
+      }
+      .spacer {
+        flex: 1;
+      }
+      .lang {
+        display: flex;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .lang button {
+        min-width: 44px;
+        min-height: 44px;
+        background: none;
+        border: 0;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--ink-2);
+      }
+      .lang button[aria-pressed="true"] {
+        background: var(--clay-12);
+        color: var(--clay);
+      }
 
-main{max-width:720px;margin-inline:auto;padding:40px 16px 64px}
+      main {
+        max-width: 720px;
+        margin-inline: auto;
+        padding: 40px 16px 64px;
+      }
 
-/* intro */
-.intro{margin-bottom:32px}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--en);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
-.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--palm)}
-.intro h1{font-size:clamp(28px,6vw,40px);font-weight:700;line-height:1.25;letter-spacing:-.01em;margin-top:12px}
-.intro p{color:var(--ink-2);margin-top:12px;max-width:56ch}
+      /* intro */
+      .intro {
+        margin-bottom: 32px;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--en);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-2);
+      }
+      .eyebrow .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--palm);
+      }
+      .intro h1 {
+        font-size: clamp(28px, 6vw, 40px);
+        font-weight: 700;
+        line-height: 1.25;
+        letter-spacing: -0.01em;
+        margin-top: 12px;
+      }
+      .intro p {
+        color: var(--ink-2);
+        margin-top: 12px;
+        max-width: 56ch;
+      }
 
-/* segmented control */
-.seg{--i:0;--dir:1;position:relative;display:grid;grid-template-columns:repeat(4,1fr);background:var(--white);border:1px solid var(--line);border-radius:14px;padding:4px;margin-bottom:24px}
-.seg .pill{position:absolute;top:4px;bottom:4px;inset-inline-start:4px;width:calc((100% - 8px) / 4);border-radius:10px;background:var(--clay);transform:translateX(calc(var(--i) * var(--dir) * 100%));transition:transform .35s var(--ease)}
-[dir="rtl"] .seg{--dir:-1}
-@media(max-width:560px){.seg button .ic{display:none}}
-@media(max-width:400px){.seg button{font-size:12.5px}}
-.seg button{position:relative;z-index:1;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;background:none;border:0;cursor:pointer;font-weight:700;font-size:14px;color:var(--ink-2);border-radius:10px;transition:color .25s var(--ease)}
-.seg button[aria-selected="true"]{color:#fff}
+      /* segmented control */
+      .seg {
+        --i: 0;
+        --dir: 1;
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 4px;
+        margin-bottom: 24px;
+      }
+      .seg .pill {
+        position: absolute;
+        top: 4px;
+        bottom: 4px;
+        inset-inline-start: 4px;
+        width: calc((100% - 8px) / 4);
+        border-radius: 10px;
+        background: var(--clay);
+        transform: translateX(calc(var(--i) * var(--dir) * 100%));
+        transition: transform 0.35s var(--ease);
+      }
+      [dir="rtl"] .seg {
+        --dir: -1;
+      }
+      @media (max-width: 560px) {
+        .seg button .ic {
+          display: none;
+        }
+      }
+      @media (max-width: 400px) {
+        .seg button {
+          font-size: 12.5px;
+        }
+      }
+      .seg button {
+        position: relative;
+        z-index: 1;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: none;
+        border: 0;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--ink-2);
+        border-radius: 10px;
+        transition: color 0.25s var(--ease);
+      }
+      .seg button[aria-selected="true"] {
+        color: #fff;
+      }
 
-/* panel */
-.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
-.panel[hidden]{display:none}
-.panel.enter{animation:enter .4s var(--ease)}
-@keyframes enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.p-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
-.p-head h2{font-size:22px;font-weight:700;line-height:1.3}
-.p-head .en-sub{display:block;font-size:12px;color:var(--ink-2);letter-spacing:.04em;margin-top:2px}
-[dir="rtl"] .p-head .en-sub{text-align:right}
-.tag{font-size:12px;font-weight:700;color:var(--clay);background:var(--clay-08);border:1px solid var(--clay-30);padding:4px 12px;border-radius:999px;white-space:nowrap}
+      /* panel */
+      .panel {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: var(--shadow);
+      }
+      .panel[hidden] {
+        display: none;
+      }
+      .panel.enter {
+        animation: enter 0.4s var(--ease);
+      }
+      @keyframes enter {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .p-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+      }
+      .p-head h2 {
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1.3;
+      }
+      .p-head .en-sub {
+        display: block;
+        font-size: 12px;
+        color: var(--ink-2);
+        letter-spacing: 0.04em;
+        margin-top: 2px;
+      }
+      [dir="rtl"] .p-head .en-sub {
+        text-align: right;
+      }
+      .tag {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--clay);
+        background: var(--clay-08);
+        border: 1px solid var(--clay-30);
+        padding: 4px 12px;
+        border-radius: 999px;
+        white-space: nowrap;
+      }
 
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
-.stat{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:16px}
-.stat .l{font-size:13px;color:var(--ink-2)}
-.stat .v{font-family:var(--en);font-size:24px;font-weight:700;letter-spacing:-.01em;margin-top:4px;font-variant-numeric:tabular-nums}
-.stat .v small{font-size:13px;font-weight:500;color:var(--ink-2)}
-.stat .s{font-family:var(--en);font-size:12px;color:var(--ink-2);margin-top:2px}
-@media(max-width:480px){.stats{grid-template-columns:1fr}}
+      .stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .stat {
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 16px;
+      }
+      .stat .l {
+        font-size: 13px;
+        color: var(--ink-2);
+      }
+      .stat .v {
+        font-family: var(--en);
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin-top: 4px;
+        font-variant-numeric: tabular-nums;
+      }
+      .stat .v small {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ink-2);
+      }
+      .stat .s {
+        font-family: var(--en);
+        font-size: 12px;
+        color: var(--ink-2);
+        margin-top: 2px;
+      }
+      @media (max-width: 480px) {
+        .stats {
+          grid-template-columns: 1fr;
+        }
+      }
 
-.desc{color:var(--ink-2);font-size:15px;margin-bottom:24px}
+      .desc {
+        color: var(--ink-2);
+        font-size: 15px;
+        margin-bottom: 24px;
+      }
 
-/* order row */
-.order{border-top:1px solid var(--line);padding-top:20px}
-.order label{display:block;font-size:14px;font-weight:600;margin-bottom:8px}
-.stepper{display:flex;align-items:center;gap:8px}
-.stepper button{width:48px;height:48px;border-radius:10px;border:1px solid var(--line);background:var(--white);cursor:pointer;display:grid;place-items:center}
-.stepper button:hover{border-color:var(--clay-30)}
-.stepper input{flex:1;min-width:0;height:48px;border-radius:10px;border:1px solid var(--line);background:var(--white);text-align:center;font-family:var(--en);font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
-.stepper input:focus{border-color:var(--clay)}
-.total{display:flex;align-items:baseline;justify-content:space-between;margin:16px 0}
-.total span{color:var(--ink-2);font-size:14px}
-.total b{white-space:nowrap;font-family:var(--en);font-size:22px;font-weight:700;color:var(--clay);font-variant-numeric:tabular-nums}
-.cta{width:100%;min-height:52px;border:0;border-radius:12px;background:linear-gradient(145deg,var(--clay),var(--clay-deep));color:#fff;font-weight:700;font-size:16px;cursor:pointer;transition:transform .2s var(--ease),opacity .2s var(--ease)}
-.cta:hover{transform:translateY(-1px)}
-.cta:active{transform:none;opacity:.9}
-.note{font-size:13px;color:var(--ink-2);margin-top:12px;min-height:1.6em}
-.note.ok{color:var(--ink)}
+      /* order row */
+      .order {
+        border-top: 1px solid var(--line);
+        padding-top: 20px;
+      }
+      .order label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .stepper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .stepper button {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: var(--white);
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+      }
+      .stepper button:hover {
+        border-color: var(--clay-30);
+      }
+      .stepper input {
+        flex: 1;
+        min-width: 0;
+        height: 48px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: var(--white);
+        text-align: center;
+        font-family: var(--en);
+        font-size: 18px;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+      }
+      .stepper input:focus {
+        border-color: var(--clay);
+      }
+      .total {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin: 16px 0;
+      }
+      .total span {
+        color: var(--ink-2);
+        font-size: 14px;
+      }
+      .total b {
+        white-space: nowrap;
+        font-family: var(--en);
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--clay);
+        font-variant-numeric: tabular-nums;
+      }
+      .cta {
+        width: 100%;
+        min-height: 52px;
+        border: 0;
+        border-radius: 12px;
+        background: linear-gradient(145deg, var(--clay), var(--clay-deep));
+        color: #fff;
+        font-weight: 700;
+        font-size: 16px;
+        cursor: pointer;
+        transition:
+          transform 0.2s var(--ease),
+          opacity 0.2s var(--ease);
+      }
+      .cta:hover {
+        transform: translateY(-1px);
+      }
+      .cta:active {
+        transform: none;
+        opacity: 0.9;
+      }
+      .note {
+        font-size: 13px;
+        color: var(--ink-2);
+        margin-top: 12px;
+        min-height: 1.6em;
+      }
+      .note.ok {
+        color: var(--ink);
+      }
 
-.ussd{background:var(--sand);border:1px solid var(--line);border-radius:8px;padding:16px;min-height:188px;margin-bottom:12px}
-.ussd .code{display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:var(--en);font-size:12px;color:var(--ink-2);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line)}
-.ussd .code b{color:var(--clay);letter-spacing:.06em}
-.ussd pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;line-height:1.7;white-space:pre-wrap;color:var(--ink);margin:0}
-[dir="rtl"] .ussd pre{font-family:var(--ar)}
-.reply{display:flex;gap:8px;margin-bottom:12px}
-.reply input{flex:1;min-width:0;height:48px;border-radius:10px;border:1px solid var(--line);background:var(--white);padding:0 14px;font-family:var(--en);font-size:18px;font-weight:700}
-.reply input:focus{border-color:var(--clay)}
-.reply input:disabled{opacity:.45}
-.reply .send{min-width:88px;height:48px;border-radius:10px;border:1px solid var(--clay-30);background:var(--clay-08);color:var(--clay);font-weight:700;cursor:pointer}
-.reply .send:disabled{opacity:.45;cursor:default}
-.ghost{width:100%;min-height:44px;margin-top:8px;border-radius:12px;border:1px solid var(--line);background:none;color:var(--ink-2);font-weight:600;cursor:pointer}
-.ghost:hover{color:var(--ink);border-color:var(--clay-30)}
-.pay{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);margin:-4px 0 16px}
-.pay svg{width:16px;height:16px;color:var(--clay)}
+      .ussd {
+        background: var(--sand);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 16px;
+        min-height: 188px;
+        margin-bottom: 12px;
+      }
+      .ussd .code {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        font-family: var(--en);
+        font-size: 12px;
+        color: var(--ink-2);
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--line);
+      }
+      .ussd .code b {
+        color: var(--clay);
+        letter-spacing: 0.06em;
+      }
+      .ussd pre {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 14px;
+        line-height: 1.7;
+        white-space: pre-wrap;
+        color: var(--ink);
+        margin: 0;
+      }
+      [dir="rtl"] .ussd pre {
+        font-family: var(--ar);
+      }
+      .reply {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .reply input {
+        flex: 1;
+        min-width: 0;
+        height: 48px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: var(--white);
+        padding: 0 14px;
+        font-family: var(--en);
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .reply input:focus {
+        border-color: var(--clay);
+      }
+      .reply input:disabled {
+        opacity: 0.45;
+      }
+      .reply .send {
+        min-width: 88px;
+        height: 48px;
+        border-radius: 10px;
+        border: 1px solid var(--clay-30);
+        background: var(--clay-08);
+        color: var(--clay);
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .reply .send:disabled {
+        opacity: 0.45;
+        cursor: default;
+      }
+      .ghost {
+        width: 100%;
+        min-height: 44px;
+        margin-top: 8px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: none;
+        color: var(--ink-2);
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .ghost:hover {
+        color: var(--ink);
+        border-color: var(--clay-30);
+      }
+      .pay {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--ink-2);
+        margin: -4px 0 16px;
+      }
+      .pay svg {
+        width: 16px;
+        height: 16px;
+        color: var(--clay);
+      }
 
-.sub-card{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:20px;margin-bottom:16px}
-.sub-card:last-child{margin-bottom:0}
-.sub-card h3{font-size:17px;font-weight:700;line-height:1.35}
-.sub-card .en-sub{display:block;font-size:12px;color:var(--ink-2);margin-top:2px}
-[dir="rtl"] .sub-card .en-sub{text-align:right}
-.sub-card .desc{font-size:14px;margin:12px 0 16px}
-.sub-card .stats{margin-bottom:16px}
-.sub-card .stat{background:var(--card)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.chips span{font-size:12px;font-weight:600;color:var(--ink-2);border:1px solid var(--line);border-radius:999px;padding:4px 12px}
-.acct{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--card);border:1px dashed var(--clay-30);border-radius:8px;padding:12px 14px;margin-bottom:16px}
-.acct .l{font-size:12px;color:var(--ink-2)}
-.acct b{font-family:var(--en);font-size:16px;letter-spacing:.06em;display:block}
-.copy{min-width:44px;min-height:44px;border-radius:10px;border:1px solid var(--line);background:none;color:var(--clay);cursor:pointer;display:grid;place-items:center;flex:none}
-.copy:hover{border-color:var(--clay-30)}
-.rows{list-style:none;margin-bottom:16px}
-.rows li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
-.rows li:last-child{border-bottom:0}
-.rows .who{min-width:0}
-.rows .who b{font-weight:600;display:block}
-.rows .who span{font-size:12px;color:var(--ink-2)}
-.rows .amt{font-family:var(--en);font-weight:700;text-align:end;white-space:nowrap}
-.rows .st{display:block;font-family:var(--ar);font-size:12px;font-weight:600;color:var(--ink-2)}
-.rows .st.done{color:var(--palm)}
-[data-lang="en"] .rows .st{font-family:var(--en)}
+      .sub-card {
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 16px;
+      }
+      .sub-card:last-child {
+        margin-bottom: 0;
+      }
+      .sub-card h3 {
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 1.35;
+      }
+      .sub-card .en-sub {
+        display: block;
+        font-size: 12px;
+        color: var(--ink-2);
+        margin-top: 2px;
+      }
+      [dir="rtl"] .sub-card .en-sub {
+        text-align: right;
+      }
+      .sub-card .desc {
+        font-size: 14px;
+        margin: 12px 0 16px;
+      }
+      .sub-card .stats {
+        margin-bottom: 16px;
+      }
+      .sub-card .stat {
+        background: var(--card);
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .chips span {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--ink-2);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 4px 12px;
+      }
+      .acct {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        background: var(--card);
+        border: 1px dashed var(--clay-30);
+        border-radius: 8px;
+        padding: 12px 14px;
+        margin-bottom: 16px;
+      }
+      .acct .l {
+        font-size: 12px;
+        color: var(--ink-2);
+      }
+      .acct b {
+        font-family: var(--en);
+        font-size: 16px;
+        letter-spacing: 0.06em;
+        display: block;
+      }
+      .copy {
+        min-width: 44px;
+        min-height: 44px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: none;
+        color: var(--clay);
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        flex: none;
+      }
+      .copy:hover {
+        border-color: var(--clay-30);
+      }
+      .rows {
+        list-style: none;
+        margin-bottom: 16px;
+      }
+      .rows li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+        font-size: 14px;
+      }
+      .rows li:last-child {
+        border-bottom: 0;
+      }
+      .rows .who {
+        min-width: 0;
+      }
+      .rows .who b {
+        font-weight: 600;
+        display: block;
+      }
+      .rows .who span {
+        font-size: 12px;
+        color: var(--ink-2);
+      }
+      .rows .amt {
+        font-family: var(--en);
+        font-weight: 700;
+        text-align: end;
+        white-space: nowrap;
+      }
+      .rows .st {
+        display: block;
+        font-family: var(--ar);
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--ink-2);
+      }
+      .rows .st.done {
+        color: var(--palm);
+      }
+      [data-lang="en"] .rows .st {
+        font-family: var(--en);
+      }
 
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.foot{max-width:720px;margin-inline:auto;padding:24px 16px 40px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;justify-content:space-between}
-.foot nav{display:flex;flex-wrap:wrap;gap:4px 16px}
-.foot a{display:inline-flex;align-items:center;min-height:44px;font-size:14px;color:var(--ink-2);text-decoration:none}
-.foot a:hover{color:var(--clay)}
-.foot p{font-size:13px;color:var(--ink-2)}
+      .sr {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+      .foot {
+        max-width: 720px;
+        margin-inline: auto;
+        padding: 24px 16px 40px;
+        border-top: 1px solid var(--line);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 20px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .foot nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 16px;
+      }
+      .foot a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        font-size: 14px;
+        color: var(--ink-2);
+        text-decoration: none;
+      }
+      .foot a:hover {
+        color: var(--clay);
+      }
+      .foot p {
+        font-size: 13px;
+        color: var(--ink-2);
+      }
 
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:1ms!important}}
-</style>
-</head>
-<body>
-
-<header class="hdr">
-  <div class="hdr-in">
-    <a class="brand" href="landing.html">
-      <span class="mark" aria-hidden="true">س</span>
-      <span><b data-ar="السوق × سودان إكسبريس" data-en="alSooq × Sudan Express">السوق × سودان إكسبريس</b><span class="en-sub" dir="ltr">Gold · Freight · Pay</span></span>
-    </a>
-    <span class="spacer"></span>
-    <div class="lang" role="group" aria-label="Language"><button data-lang="ar" aria-pressed="true">ع</button><button data-lang="en" aria-pressed="false">EN</button></div>
-  </div>
-</header>
-
-<main>
-  <section class="intro">
-    <span class="eyebrow"><span class="dot" aria-hidden="true"></span><span data-ar="نموذج أولي · الأرقام توضيحية" data-en="Prototype · figures are illustrative">نموذج أولي · الأرقام توضيحية</span></span>
-    <h1 data-ar="امتلك الذهب بالجرام، واشحن بالكيلو" data-en="Own gold by the gram. Ship by the kilo.">امتلك الذهب بالجرام، واشحن بالكيلو</h1>
-    <p data-ar="حصص في ذهب سوداني مادي، وحجز مساحة مشتركة في شحنات مواصلاتي وسودان إكسبريس — من حساب واحد في السوق." data-en="Fractions of physical Sudanese gold, and shared space on Mowasalaty and Sudan Express shipments — from one alSooq account.">حصص في ذهب سوداني مادي، وحجز مساحة مشتركة في شحنات مواصلاتي وسودان إكسبريس — من حساب واحد في السوق.</p>
-  </section>
-
-  <div class="seg" role="tablist" aria-label="Product" data-active="gold" id="seg">
-    <span class="pill" aria-hidden="true"></span>
-    <button role="tab" id="tab-gold" aria-controls="panel-gold" aria-selected="true" data-tab="gold">
-      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h16l-2-6H6zM7 12l1.5-5h7L17 12"/></svg>
-      <span data-ar="الذهب" data-en="Gold">الذهب</span>
-    </button>
-    <button role="tab" id="tab-freight" aria-controls="panel-freight" aria-selected="false" tabindex="-1" data-tab="freight">
-      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 4h14v12H1zM15 9h4l3 3v4h-7M5.5 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM18.5 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
-      <span data-ar="الشحن" data-en="Freight">الشحن</span>
-    </button>
-    <button role="tab" id="tab-ussd" aria-controls="panel-ussd" aria-selected="false" tabindex="-1" data-tab="ussd">
-      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM10 18h4"/></svg>
-      <span data-ar="USSD" data-en="USSD">USSD</span>
-    </button>
-    <button role="tab" id="tab-accounts" aria-controls="panel-accounts" aria-selected="false" tabindex="-1" data-tab="accounts">
-      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>
-      <span data-ar="الحسابات" data-en="Accounts">الحسابات</span>
-    </button>
-  </div>
-
-  <!-- Gold: 1 SGT = 1 gram -->
-  <section class="panel" role="tabpanel" id="panel-gold" aria-labelledby="tab-gold">
-    <div class="p-head">
-      <div>
-        <h2 data-ar="خزنة الذهب السوداني" data-en="Sudan gold vault">خزنة الذهب السوداني</h2>
-        <span class="en-sub" dir="ltr">1 SGT = 1 g</span>
-      </div>
-      <span class="tag" data-ar="مغطّى بسبائك فعلية" data-en="Backed by physical bullion">مغطّى بسبائك فعلية</span>
-    </div>
-    <div class="stats">
-      <div class="stat">
-        <div class="l" data-ar="حصتك" data-en="Your holdings">حصتك</div>
-        <div class="v"><span dir="ltr"><span class="num">1.68</span> <small>SGT</small></span></div>
-        <div class="s"><span dir="ltr">≈ $129.20</span></div>
-      </div>
-      <div class="stat">
-        <div class="l" data-ar="احتياطي الخزنة" data-en="Vault reserves">احتياطي الخزنة</div>
-        <div class="v"><span dir="ltr"><span class="num">44.18</span> <small>kg</small></span></div>
-        <div class="s"><span dir="ltr">44,182 SGT</span></div>
-      </div>
-    </div>
-    <p class="desc" data-ar="كل وحدة SGT تمثّل جرامًا واحدًا من ذهب محفوظ. اشترِ أو استرد حصتك بسعر السوق الفوري." data-en="Each SGT represents one gram of stored gold. Buy or redeem your share at the live spot price.">كل وحدة SGT تمثّل جرامًا واحدًا من ذهب محفوظ. اشترِ أو استرد حصتك بسعر السوق الفوري.</p>
-    <div class="order">
-      <label for="grams" data-ar="الكمية (جرام)" data-en="Amount (grams)">الكمية (جرام)</label>
-      <div class="stepper">
-        <button type="button" data-step="-0.5" data-for="grams" aria-label="−0.5 g"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
-        <input id="grams" type="number" inputmode="decimal" min="0.5" max="100" step="0.5" value="1">
-        <button type="button" data-step="0.5" data-for="grams" aria-label="+0.5 g"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
-      </div>
-      <div class="total"><span data-ar="الإجمالي التقديري" data-en="Estimated total">الإجمالي التقديري</span><b id="goldTotal">$76.90</b></div>
-      <p class="pay"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM10 18h4"/></svg><span data-ar="الدفع من محفظة الهاتف بالجنيه السوداني" data-en="Paid from your mobile wallet in SDG">الدفع من محفظة الهاتف بالجنيه السوداني</span></p>
-      <button class="cta" type="button" id="buyGold" data-ar="شراء ذهب" data-en="Buy gold">شراء ذهب</button>
-      <p class="note" id="goldNote" aria-live="polite"></p>
-    </div>
-  </section>
-
-  <!-- Freight: per-kilogram slots -->
-  <section class="panel" role="tabpanel" id="panel-freight" aria-labelledby="tab-freight" hidden>
-    <div class="p-head">
-      <div>
-        <h2 data-ar="شحن مشترك بالكيلو" data-en="Shared freight by the kilo">شحن مشترك بالكيلو</h2>
-        <span class="en-sub" dir="ltr">Mowasalaty · Sudan Express</span>
-      </div>
-      <span class="tag" data-ar="حجز بالكيلوجرام" data-en="Per-kilogram slots">حجز بالكيلوجرام</span>
-    </div>
-    <div class="stats">
-      <div class="stat">
-        <div class="l" data-ar="المساحة المتاحة" data-en="Space available">المساحة المتاحة</div>
-        <div class="v"><span dir="ltr"><span class="num" id="kgLeft">14.2</span> <small>kg</small></span></div>
-        <div class="s" data-ar="الخرطوم ← بورتسودان" data-en="Khartoum → Port Sudan">الخرطوم ← بورتسودان</div>
-      </div>
-      <div class="stat">
-        <div class="l" data-ar="السعر لكل كيلو" data-en="Price per kilo">السعر لكل كيلو</div>
-        <div class="v"><span dir="ltr"><span class="num">$3.80</span> <small>/ kg</small></span></div>
-        <div class="s" data-ar="شامل التأمين" data-en="Insurance included">شامل التأمين</div>
-      </div>
-    </div>
-    <p class="desc" data-ar="اجمع شحنتك مع شحنات أخرى على مسارات مواصلاتي وسودان إكسبريس، وادفع مقابل الوزن الذي تحتاجه فقط بدل استئجار شاحنة كاملة." data-en="Combine your parcel with others on Mowasalaty and Sudan Express routes, and pay only for the weight you need instead of chartering a whole truck.">اجمع شحنتك مع شحنات أخرى على مسارات مواصلاتي وسودان إكسبريس، وادفع مقابل الوزن الذي تحتاجه فقط بدل استئجار شاحنة كاملة.</p>
-    <div class="order">
-      <label for="kg" data-ar="الوزن (كيلوجرام)" data-en="Weight (kg)">الوزن (كيلوجرام)</label>
-      <div class="stepper">
-        <button type="button" data-step="-1" data-for="kg" aria-label="−1 kg"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
-        <input id="kg" type="number" inputmode="decimal" min="1" max="14" step="1" value="5">
-        <button type="button" data-step="1" data-for="kg" aria-label="+1 kg"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
-      </div>
-      <div class="total"><span data-ar="تكلفة الشحن" data-en="Shipping cost">تكلفة الشحن</span><b id="freightTotal">$19.00</b></div>
-      <p class="pay"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM10 18h4"/></svg><span data-ar="الدفع من محفظة الهاتف، ويُحفظ المبلغ بالضمان حتى التسليم" data-en="Paid from your mobile wallet and held in escrow until delivery">الدفع من محفظة الهاتف، ويُحفظ المبلغ بالضمان حتى التسليم</span></p>
-      <button class="cta" type="button" id="bookFreight" data-ar="احجز المساحة" data-en="Book this space">احجز المساحة</button>
-      <p class="note" id="freightNote" aria-live="polite"></p>
-    </div>
-  </section>
-  <!-- USSD: same actions from any phone, no internet -->
-  <section class="panel" role="tabpanel" id="panel-ussd" aria-labelledby="tab-ussd" hidden>
-    <div class="p-head">
-      <div>
-        <h2 data-ar="بدون إنترنت عبر USSD" data-en="Offline over USSD">بدون إنترنت عبر USSD</h2>
-        <span class="en-sub" dir="ltr">USSD · Mobile money</span>
-      </div>
-      <span class="tag" data-ar="محاكاة" data-en="Simulation">محاكاة</span>
-    </div>
-    <p class="desc" data-ar="من أي هاتف، حتى البسيط: اطلب الرمز، اشترِ ذهبًا أو احجز شحنًا، وادفع من محفظة الهاتف. جرّب الجلسة أدناه." data-en="From any phone, even a basic one: dial the code, buy gold or book freight, and pay from your mobile wallet. Try the session below.">من أي هاتف، حتى البسيط: اطلب الرمز، اشترِ ذهبًا أو احجز شحنًا، وادفع من محفظة الهاتف. جرّب الجلسة أدناه.</p>
-    <div class="ussd">
-      <div class="code"><b dir="ltr">*888#</b><span data-ar="رمز توضيحي" data-en="Placeholder code">رمز توضيحي</span></div>
-      <pre id="ussdScreen" aria-live="polite"></pre>
-    </div>
-    <form class="reply" id="ussdForm" autocomplete="off">
-      <label for="ussdInput" class="sr" data-ar="الرد" data-en="Reply">الرد</label>
-      <input id="ussdInput" inputmode="numeric" maxlength="6" disabled>
-      <button class="send" type="submit" id="ussdSend" disabled data-ar="إرسال" data-en="Send">إرسال</button>
-    </form>
-    <button class="cta" type="button" id="ussdDial" data-ar="اطلب ⁦*888#⁩" data-en="Dial *888#">اطلب ⁦*888#⁩</button>
-    <button class="ghost" type="button" id="ussdEnd" hidden data-ar="إنهاء الجلسة" data-en="End session">إنهاء الجلسة</button>
-  </section>
-  <!-- Accounts: cross-border stablecoin wallet + e-commerce receivable account -->
-  <section class="panel" role="tabpanel" id="panel-accounts" aria-labelledby="tab-accounts" hidden>
-    <div class="p-head">
-      <div>
-        <h2 data-ar="حسابات التاجر" data-en="Merchant accounts">حسابات التاجر</h2>
-        <span class="en-sub" dir="ltr">Stablecoin · Receivables</span>
-      </div>
-      <span class="tag" data-ar="نموذج أولي" data-en="Prototype">نموذج أولي</span>
-    </div>
-
-    <div class="sub-card">
-      <h3 data-ar="محفظة العملة المستقرة عبر الحدود" data-en="Cross-border stablecoin wallet">محفظة العملة المستقرة عبر الحدود</h3>
-      <span class="en-sub" dir="ltr">USDT · 1 USDT ≈ 1 USD</span>
-      <p class="desc" data-ar="استقبل مدفوعات العملاء والتحويلات من الخارج بالدولار الرقمي، واحتفظ بها أو حوّلها إلى جنيه في محفظة الهاتف." data-en="Receive customer payments and transfers from abroad in digital dollars, then hold them or convert to SDG in your mobile wallet.">استقبل مدفوعات العملاء والتحويلات من الخارج بالدولار الرقمي، واحتفظ بها أو حوّلها إلى جنيه في محفظة الهاتف.</p>
-      <div class="chips" aria-label="Corridors"><span data-ar="السعودية ← السودان" data-en="KSA → Sudan">السعودية ← السودان</span><span data-ar="الإمارات ← السودان" data-en="UAE → Sudan">الإمارات ← السودان</span><span data-ar="مصر ← السودان" data-en="Egypt → Sudan">مصر ← السودان</span></div>
-      <div class="stats">
-        <div class="stat">
-          <div class="l" data-ar="الرصيد" data-en="Balance">الرصيد</div>
-          <div class="v"><span dir="ltr"><span class="num">1,250.00</span> <small>USDT</small></span></div>
-          <div class="s"><span dir="ltr">≈ $1,250.00</span></div>
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition-duration: 1ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hdr">
+      <div class="hdr-in">
+        <a class="brand" href="landing.html">
+          <span class="mark" aria-hidden="true">س</span>
+          <span
+            ><b data-ar="السوق × سودان إكسبريس" data-en="alSooq × Sudan Express"
+              >السوق × سودان إكسبريس</b
+            ><span class="en-sub" dir="ltr">Gold · Freight · Pay</span></span
+          >
+        </a>
+        <span class="spacer"></span>
+        <div class="lang" role="group" aria-label="Language">
+          <button type="button" data-lang="ar" aria-pressed="true">ع</button
+          ><button type="button" data-lang="en" aria-pressed="false">EN</button>
         </div>
-        <div class="stat">
-          <div class="l" data-ar="سعر التحويل" data-en="Conversion rate">سعر التحويل</div>
-          <div class="v"><span dir="ltr"><span class="num" id="rateOut">2,400</span> <small>SDG</small></span></div>
-          <div class="s" data-ar="لكل 1 USDT · رسوم 1٪" data-en="per 1 USDT · 1% fee">لكل 1 USDT · رسوم 1٪</div>
-        </div>
       </div>
-      <div class="order">
-        <label for="usdt" data-ar="المبلغ للتحويل إلى جنيه (USDT)" data-en="Amount to convert to SDG (USDT)">المبلغ للتحويل إلى جنيه (USDT)</label>
-        <div class="stepper">
-          <button type="button" data-step="-10" data-for="usdt" aria-label="−10 USDT"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
-          <input id="usdt" type="number" inputmode="decimal" min="10" max="1250" step="10" value="100">
-          <button type="button" data-step="10" data-for="usdt" aria-label="+10 USDT"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
-        </div>
-        <div class="total"><span data-ar="تستلم في المحفظة" data-en="You receive in wallet">تستلم في المحفظة</span><b id="sdgOut" dir="ltr">SDG 237,600</b></div>
-        <button class="cta" type="button" id="convert" data-ar="تحويل إلى جنيه" data-en="Convert to SDG">تحويل إلى جنيه</button>
-        <p class="note" id="convertNote" aria-live="polite"></p>
+    </header>
+
+    <main>
+      <section class="intro">
+        <span class="eyebrow"
+          ><span class="dot" aria-hidden="true"></span
+          ><span
+            data-ar="نموذج أولي · الأرقام توضيحية"
+            data-en="Prototype · figures are illustrative"
+            >نموذج أولي · الأرقام توضيحية</span
+          ></span
+        >
+        <h1
+          data-ar="امتلك الذهب بالجرام، واشحن بالكيلو"
+          data-en="Own gold by the gram. Ship by the kilo."
+        >
+          امتلك الذهب بالجرام، واشحن بالكيلو
+        </h1>
+        <p
+          data-ar="حصص في ذهب سوداني مادي، وحجز مساحة مشتركة في شحنات مواصلاتي وسودان إكسبريس — من حساب واحد في السوق."
+          data-en="Fractions of physical Sudanese gold, and shared space on Mowasalaty and Sudan Express shipments — from one alSooq account."
+        >
+          حصص في ذهب سوداني مادي، وحجز مساحة مشتركة في شحنات مواصلاتي وسودان إكسبريس — من حساب واحد
+          في السوق.
+        </p>
+      </section>
+
+      <div class="seg" role="tablist" aria-label="Product" data-active="gold" id="seg">
+        <span class="pill" aria-hidden="true"></span>
+        <button
+          type="button"
+          role="tab"
+          id="tab-gold"
+          aria-controls="panel-gold"
+          aria-selected="true"
+          data-tab="gold"
+        >
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 18h16l-2-6H6zM7 12l1.5-5h7L17 12" />
+          </svg>
+          <span data-ar="الذهب" data-en="Gold">الذهب</span>
+        </button>
+        <button
+          type="button"
+          role="tab"
+          id="tab-freight"
+          aria-controls="panel-freight"
+          aria-selected="false"
+          tabindex="-1"
+          data-tab="freight"
+        >
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M1 4h14v12H1zM15 9h4l3 3v4h-7M5.5 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM18.5 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"
+            />
+          </svg>
+          <span data-ar="الشحن" data-en="Freight">الشحن</span>
+        </button>
+        <button
+          type="button"
+          role="tab"
+          id="tab-ussd"
+          aria-controls="panel-ussd"
+          aria-selected="false"
+          tabindex="-1"
+          data-tab="ussd"
+        >
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM10 18h4"
+            />
+          </svg>
+          <span data-ar="USSD" data-en="USSD">USSD</span>
+        </button>
+        <button
+          type="button"
+          role="tab"
+          id="tab-accounts"
+          aria-controls="panel-accounts"
+          aria-selected="false"
+          tabindex="-1"
+          data-tab="accounts"
+        >
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18" />
+          </svg>
+          <span data-ar="الحسابات" data-en="Accounts">الحسابات</span>
+        </button>
       </div>
-    </div>
 
-    <div class="sub-card">
-      <h3 data-ar="حساب المستحقات للتجارة الإلكترونية" data-en="E-commerce receivable account">حساب المستحقات للتجارة الإلكترونية</h3>
-      <span class="en-sub" dir="ltr">Receivables · Escrow · Payouts</span>
-      <p class="desc" data-ar="حساب مخصص لكل تاجر يستقبل مدفوعات متجرك الإلكتروني. تُحفظ كل دفعة بالضمان حتى تأكيد التسليم، ثم تُسوّى إلى محفظتك." data-en="A dedicated account per merchant that collects your online store payments. Each payment is held in escrow until delivery is confirmed, then settled to your wallet.">حساب مخصص لكل تاجر يستقبل مدفوعات متجرك الإلكتروني. تُحفظ كل دفعة بالضمان حتى تأكيد التسليم، ثم تُسوّى إلى محفظتك.</p>
-      <div class="acct">
-        <div><span class="l" data-ar="رقم حساب المستحقات (توضيحي)" data-en="Receivable account no. (placeholder)">رقم حساب المستحقات (توضيحي)</span><b dir="ltr" id="acctNo">ALS-RCV-0042-7781</b></div>
-        <button type="button" class="copy" id="copyAcct" aria-label="Copy account number"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9h11v11H9zM5 15H4V4h11v1"/></svg></button>
-      </div>
-      <div class="stats">
-        <div class="stat">
-          <div class="l" data-ar="مستحقات بالضمان" data-en="Held in escrow">مستحقات بالضمان</div>
-          <div class="v"><span dir="ltr"><span class="num">9,320</span> <small>SDG</small></span></div>
-          <div class="s" data-ar="3 طلبات بانتظار التسليم" data-en="3 orders awaiting delivery">3 طلبات بانتظار التسليم</div>
+      <!-- Gold: 1 SGT = 1 gram -->
+      <section class="panel" role="tabpanel" id="panel-gold" aria-labelledby="tab-gold">
+        <div class="p-head">
+          <div>
+            <h2 data-ar="خزنة الذهب السوداني" data-en="Sudan gold vault">خزنة الذهب السوداني</h2>
+            <span class="en-sub" dir="ltr">1 SGT = 1 g</span>
+          </div>
+          <span class="tag" data-ar="مغطّى بسبائك فعلية" data-en="Backed by physical bullion"
+            >مغطّى بسبائك فعلية</span
+          >
         </div>
-        <div class="stat">
-          <div class="l" data-ar="التسوية القادمة" data-en="Next settlement">التسوية القادمة</div>
-          <div class="v"><span dir="ltr"><span class="num">4,150</span> <small>SDG</small></span></div>
-          <div class="s" data-ar="غدًا إلى محفظة الهاتف" data-en="Tomorrow, to mobile wallet">غدًا إلى محفظة الهاتف</div>
+        <div class="stats">
+          <div class="stat">
+            <div class="l" data-ar="حصتك" data-en="Your holdings">حصتك</div>
+            <div class="v">
+              <span dir="ltr"><span class="num">1.68</span> <small>SGT</small></span>
+            </div>
+            <div class="s"><span dir="ltr">≈ $129.20</span></div>
+          </div>
+          <div class="stat">
+            <div class="l" data-ar="احتياطي الخزنة" data-en="Vault reserves">احتياطي الخزنة</div>
+            <div class="v">
+              <span dir="ltr"><span class="num">44.18</span> <small>kg</small></span>
+            </div>
+            <div class="s"><span dir="ltr">44,182 SGT</span></div>
+          </div>
         </div>
-      </div>
-      <ul class="rows" aria-label="Recent receivables">
-        <li><div class="who"><b data-ar="طلب #2231 · بهارات مشكّلة" data-en="Order #2231 · Mixed spices">طلب #2231 · بهارات مشكّلة</b><span data-ar="عميل في الرياض · USDT" data-en="Customer in Riyadh · USDT">عميل في الرياض · USDT</span></div><div class="amt"><span dir="ltr">25.00 USDT</span><span class="st" data-ar="بالضمان" data-en="In escrow">بالضمان</span></div></li>
-        <li><div class="who"><b data-ar="طلب #2228 · كركدي" data-en="Order #2228 · Hibiscus">طلب #2228 · كركدي</b><span data-ar="عميل في الخرطوم · محفظة الهاتف" data-en="Customer in Khartoum · mobile wallet">عميل في الخرطوم · محفظة الهاتف</span></div><div class="amt"><span dir="ltr">SDG 4,150</span><span class="st done" data-ar="جاهز للتسوية" data-en="Ready to settle">جاهز للتسوية</span></div></li>
-        <li><div class="who"><b data-ar="طلب #2219 · صمغ عربي" data-en="Order #2219 · Gum arabic">طلب #2219 · صمغ عربي</b><span data-ar="عميل في دبي · USDT" data-en="Customer in Dubai · USDT">عميل في دبي · USDT</span></div><div class="amt"><span dir="ltr">60.00 USDT</span><span class="st done" data-ar="تمت التسوية" data-en="Settled">تمت التسوية</span></div></li>
-      </ul>
-      <button class="cta" type="button" id="payLink" data-ar="مشاركة رابط الدفع" data-en="Share payment link">مشاركة رابط الدفع</button>
-      <p class="note" id="payLinkNote" aria-live="polite"></p>
-    </div>
-  </section>
-</main>
+        <p
+          class="desc"
+          data-ar="كل وحدة SGT تمثّل جرامًا واحدًا من ذهب محفوظ. اشترِ أو استرد حصتك بسعر السوق الفوري."
+          data-en="Each SGT represents one gram of stored gold. Buy or redeem your share at the live spot price."
+        >
+          كل وحدة SGT تمثّل جرامًا واحدًا من ذهب محفوظ. اشترِ أو استرد حصتك بسعر السوق الفوري.
+        </p>
+        <div class="order">
+          <label for="grams" data-ar="الكمية (جرام)" data-en="Amount (grams)">الكمية (جرام)</label>
+          <div class="stepper">
+            <button type="button" data-step="-0.5" data-for="grams" aria-label="−0.5 g">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14" /></svg>
+            </button>
+            <input
+              id="grams"
+              type="number"
+              inputmode="decimal"
+              min="0.5"
+              max="100"
+              step="0.5"
+              value="1"
+            />
+            <button type="button" data-step="0.5" data-for="grams" aria-label="+0.5 g">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg>
+            </button>
+          </div>
+          <div class="total">
+            <span data-ar="الإجمالي التقديري" data-en="Estimated total">الإجمالي التقديري</span
+            ><b id="goldTotal">$76.90</b>
+          </div>
+          <p class="pay">
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM10 18h4"
+              /></svg
+            ><span
+              data-ar="الدفع من محفظة الهاتف بالجنيه السوداني"
+              data-en="Paid from your mobile wallet in SDG"
+              >الدفع من محفظة الهاتف بالجنيه السوداني</span
+            >
+          </p>
+          <button class="cta" type="button" id="buyGold" data-ar="شراء ذهب" data-en="Buy gold">
+            شراء ذهب
+          </button>
+          <p class="note" id="goldNote" aria-live="polite"></p>
+        </div>
+      </section>
 
-<footer class="foot">
-  <nav aria-label="Pages">
-    <a href="merchant-workspace.html" data-ar="مساحة عمل التاجر" data-en="Merchant workspace">مساحة عمل التاجر</a>
-    <a href="mowasalaty.html" data-ar="مواصلاتي" data-en="Mowasalaty">مواصلاتي</a>
-    <a href="landing.html" data-ar="الصفحة الرئيسية" data-en="Landing">الصفحة الرئيسية</a>
-  </nav>
-  <p data-ar="نموذج أولي للمراجعة — لا تتم أي عملية شراء أو حجز فعلية." data-en="Prototype for review — no real purchase or booking takes place.">نموذج أولي للمراجعة — لا تتم أي عملية شراء أو حجز فعلية.</p>
-</footer>
+      <!-- Freight: per-kilogram slots -->
+      <section
+        class="panel"
+        role="tabpanel"
+        id="panel-freight"
+        aria-labelledby="tab-freight"
+        hidden
+      >
+        <div class="p-head">
+          <div>
+            <h2 data-ar="شحن مشترك بالكيلو" data-en="Shared freight by the kilo">
+              شحن مشترك بالكيلو
+            </h2>
+            <span class="en-sub" dir="ltr">Mowasalaty · Sudan Express</span>
+          </div>
+          <span class="tag" data-ar="حجز بالكيلوجرام" data-en="Per-kilogram slots"
+            >حجز بالكيلوجرام</span
+          >
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <div class="l" data-ar="المساحة المتاحة" data-en="Space available">المساحة المتاحة</div>
+            <div class="v">
+              <span dir="ltr"><span class="num" id="kgLeft">14.2</span> <small>kg</small></span>
+            </div>
+            <div class="s" data-ar="الخرطوم ← بورتسودان" data-en="Khartoum → Port Sudan">
+              الخرطوم ← بورتسودان
+            </div>
+          </div>
+          <div class="stat">
+            <div class="l" data-ar="السعر لكل كيلو" data-en="Price per kilo">السعر لكل كيلو</div>
+            <div class="v">
+              <span dir="ltr"><span class="num">$3.80</span> <small>/ kg</small></span>
+            </div>
+            <div class="s" data-ar="شامل التأمين" data-en="Insurance included">شامل التأمين</div>
+          </div>
+        </div>
+        <p
+          class="desc"
+          data-ar="اجمع شحنتك مع شحنات أخرى على مسارات مواصلاتي وسودان إكسبريس، وادفع مقابل الوزن الذي تحتاجه فقط بدل استئجار شاحنة كاملة."
+          data-en="Combine your parcel with others on Mowasalaty and Sudan Express routes, and pay only for the weight you need instead of chartering a whole truck."
+        >
+          اجمع شحنتك مع شحنات أخرى على مسارات مواصلاتي وسودان إكسبريس، وادفع مقابل الوزن الذي تحتاجه
+          فقط بدل استئجار شاحنة كاملة.
+        </p>
+        <div class="order">
+          <label for="kg" data-ar="الوزن (كيلوجرام)" data-en="Weight (kg)">الوزن (كيلوجرام)</label>
+          <div class="stepper">
+            <button type="button" data-step="-1" data-for="kg" aria-label="−1 kg">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14" /></svg>
+            </button>
+            <input id="kg" type="number" inputmode="decimal" min="1" max="14" step="1" value="5" />
+            <button type="button" data-step="1" data-for="kg" aria-label="+1 kg">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg>
+            </button>
+          </div>
+          <div class="total">
+            <span data-ar="تكلفة الشحن" data-en="Shipping cost">تكلفة الشحن</span
+            ><b id="freightTotal">$19.00</b>
+          </div>
+          <p class="pay">
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM10 18h4"
+              /></svg
+            ><span
+              data-ar="الدفع من محفظة الهاتف، ويُحفظ المبلغ بالضمان حتى التسليم"
+              data-en="Paid from your mobile wallet and held in escrow until delivery"
+              >الدفع من محفظة الهاتف، ويُحفظ المبلغ بالضمان حتى التسليم</span
+            >
+          </p>
+          <button
+            class="cta"
+            type="button"
+            id="bookFreight"
+            data-ar="احجز المساحة"
+            data-en="Book this space"
+          >
+            احجز المساحة
+          </button>
+          <p class="note" id="freightNote" aria-live="polite"></p>
+        </div>
+      </section>
+      <!-- USSD: same actions from any phone, no internet -->
+      <section class="panel" role="tabpanel" id="panel-ussd" aria-labelledby="tab-ussd" hidden>
+        <div class="p-head">
+          <div>
+            <h2 data-ar="بدون إنترنت عبر USSD" data-en="Offline over USSD">بدون إنترنت عبر USSD</h2>
+            <span class="en-sub" dir="ltr">USSD · Mobile money</span>
+          </div>
+          <span class="tag" data-ar="محاكاة" data-en="Simulation">محاكاة</span>
+        </div>
+        <p
+          class="desc"
+          data-ar="من أي هاتف، حتى البسيط: اطلب الرمز، اشترِ ذهبًا أو احجز شحنًا، وادفع من محفظة الهاتف. جرّب الجلسة أدناه."
+          data-en="From any phone, even a basic one: dial the code, buy gold or book freight, and pay from your mobile wallet. Try the session below."
+        >
+          من أي هاتف، حتى البسيط: اطلب الرمز، اشترِ ذهبًا أو احجز شحنًا، وادفع من محفظة الهاتف. جرّب
+          الجلسة أدناه.
+        </p>
+        <div class="ussd">
+          <div class="code">
+            <b dir="ltr">*888#</b
+            ><span data-ar="رمز توضيحي" data-en="Placeholder code">رمز توضيحي</span>
+          </div>
+          <pre id="ussdScreen" aria-live="polite"></pre>
+        </div>
+        <form class="reply" id="ussdForm" autocomplete="off">
+          <label for="ussdInput" class="sr" data-ar="الرد" data-en="Reply">الرد</label>
+          <input id="ussdInput" type="text" inputmode="numeric" maxlength="6" disabled />
+          <button class="send" type="submit" id="ussdSend" disabled data-ar="إرسال" data-en="Send">
+            إرسال
+          </button>
+        </form>
+        <button class="cta" type="button" id="ussdDial" data-ar="اطلب ⁦*888#⁩" data-en="Dial *888#">
+          اطلب ⁦*888#⁩
+        </button>
+        <button
+          class="ghost"
+          type="button"
+          id="ussdEnd"
+          hidden
+          data-ar="إنهاء الجلسة"
+          data-en="End session"
+        >
+          إنهاء الجلسة
+        </button>
+      </section>
+      <!-- Accounts: cross-border stablecoin wallet + e-commerce receivable account -->
+      <section
+        class="panel"
+        role="tabpanel"
+        id="panel-accounts"
+        aria-labelledby="tab-accounts"
+        hidden
+      >
+        <div class="p-head">
+          <div>
+            <h2 data-ar="حسابات التاجر" data-en="Merchant accounts">حسابات التاجر</h2>
+            <span class="en-sub" dir="ltr">Stablecoin · Receivables</span>
+          </div>
+          <span class="tag" data-ar="نموذج أولي" data-en="Prototype">نموذج أولي</span>
+        </div>
 
-<script>
-(function(){
-  // Illustrative prices. In production these come from the live gold feed and the freight API.
-  var PRICE_PER_GRAM = 76.90, PRICE_PER_KG = 3.80;
-  var lang = 'ar';
-  var usd = function(n){ return '$' + n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); };
-  var t = function(ar,en){ return lang === 'ar' ? ar : en; };
+        <div class="sub-card">
+          <h3 data-ar="محفظة العملة المستقرة عبر الحدود" data-en="Cross-border stablecoin wallet">
+            محفظة العملة المستقرة عبر الحدود
+          </h3>
+          <span class="en-sub" dir="ltr">USDT · 1 USDT ≈ 1 USD</span>
+          <p
+            class="desc"
+            data-ar="استقبل مدفوعات العملاء والتحويلات من الخارج بالدولار الرقمي، واحتفظ بها أو حوّلها إلى جنيه في محفظة الهاتف."
+            data-en="Receive customer payments and transfers from abroad in digital dollars, then hold them or convert to SDG in your mobile wallet."
+          >
+            استقبل مدفوعات العملاء والتحويلات من الخارج بالدولار الرقمي، واحتفظ بها أو حوّلها إلى
+            جنيه في محفظة الهاتف.
+          </p>
+          <div class="chips" role="group" aria-label="Corridors">
+            <span data-ar="السعودية ← السودان" data-en="KSA → Sudan">السعودية ← السودان</span
+            ><span data-ar="الإمارات ← السودان" data-en="UAE → Sudan">الإمارات ← السودان</span
+            ><span data-ar="مصر ← السودان" data-en="Egypt → Sudan">مصر ← السودان</span>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <div class="l" data-ar="الرصيد" data-en="Balance">الرصيد</div>
+              <div class="v">
+                <span dir="ltr"><span class="num">1,250.00</span> <small>USDT</small></span>
+              </div>
+              <div class="s"><span dir="ltr">≈ $1,250.00</span></div>
+            </div>
+            <div class="stat">
+              <div class="l" data-ar="سعر التحويل" data-en="Conversion rate">سعر التحويل</div>
+              <div class="v">
+                <span dir="ltr"
+                  ><span class="num" id="rateOut">2,400</span> <small>SDG</small></span
+                >
+              </div>
+              <div class="s" data-ar="لكل 1 USDT · رسوم 1٪" data-en="per 1 USDT · 1% fee">
+                لكل 1 USDT · رسوم 1٪
+              </div>
+            </div>
+          </div>
+          <div class="order">
+            <label
+              for="usdt"
+              data-ar="المبلغ للتحويل إلى جنيه (USDT)"
+              data-en="Amount to convert to SDG (USDT)"
+              >المبلغ للتحويل إلى جنيه (USDT)</label
+            >
+            <div class="stepper">
+              <button type="button" data-step="-10" data-for="usdt" aria-label="−10 USDT">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14" /></svg>
+              </button>
+              <input
+                id="usdt"
+                type="number"
+                inputmode="decimal"
+                min="10"
+                max="1250"
+                step="10"
+                value="100"
+              />
+              <button type="button" data-step="10" data-for="usdt" aria-label="+10 USDT">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg>
+              </button>
+            </div>
+            <div class="total">
+              <span data-ar="تستلم في المحفظة" data-en="You receive in wallet"
+                >تستلم في المحفظة</span
+              ><b id="sdgOut" dir="ltr">SDG 237,600</b>
+            </div>
+            <button
+              class="cta"
+              type="button"
+              id="convert"
+              data-ar="تحويل إلى جنيه"
+              data-en="Convert to SDG"
+            >
+              تحويل إلى جنيه
+            </button>
+            <p class="note" id="convertNote" aria-live="polite"></p>
+          </div>
+        </div>
 
-  function setLang(l){
-    lang = l;
-    var ar = l === 'ar';
-    document.documentElement.lang = l;
-    document.documentElement.dir = ar ? 'rtl' : 'ltr';
-    document.documentElement.setAttribute('data-lang', l);
-    document.querySelectorAll('[data-ar]').forEach(function(e){ e.textContent = e.getAttribute(ar ? 'data-ar' : 'data-en'); });
-    document.querySelectorAll('.lang [data-lang]').forEach(function(b){ b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === l)); });
-    document.getElementById('goldNote').textContent = '';
-    document.getElementById('freightNote').textContent = '';
-    document.getElementById('convertNote').textContent = '';
-    document.getElementById('payLinkNote').textContent = '';
-    if (window.ussdReset) ussdReset();
-  }
-  document.querySelectorAll('.lang [data-lang]').forEach(function(b){ b.addEventListener('click', function(){ setLang(b.getAttribute('data-lang')); }); });
+        <div class="sub-card">
+          <h3 data-ar="حساب المستحقات للتجارة الإلكترونية" data-en="E-commerce receivable account">
+            حساب المستحقات للتجارة الإلكترونية
+          </h3>
+          <span class="en-sub" dir="ltr">Receivables · Escrow · Payouts</span>
+          <p
+            class="desc"
+            data-ar="حساب مخصص لكل تاجر يستقبل مدفوعات متجرك الإلكتروني. تُحفظ كل دفعة بالضمان حتى تأكيد التسليم، ثم تُسوّى إلى محفظتك."
+            data-en="A dedicated account per merchant that collects your online store payments. Each payment is held in escrow until delivery is confirmed, then settled to your wallet."
+          >
+            حساب مخصص لكل تاجر يستقبل مدفوعات متجرك الإلكتروني. تُحفظ كل دفعة بالضمان حتى تأكيد
+            التسليم، ثم تُسوّى إلى محفظتك.
+          </p>
+          <div class="acct">
+            <div>
+              <span
+                class="l"
+                data-ar="رقم حساب المستحقات (توضيحي)"
+                data-en="Receivable account no. (placeholder)"
+                >رقم حساب المستحقات (توضيحي)</span
+              ><b dir="ltr" id="acctNo">ALS-RCV-0042-7781</b>
+            </div>
+            <button type="button" class="copy" id="copyAcct" aria-label="Copy account number">
+              <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9 9h11v11H9zM5 15H4V4h11v1" />
+              </svg>
+            </button>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <div class="l" data-ar="مستحقات بالضمان" data-en="Held in escrow">
+                مستحقات بالضمان
+              </div>
+              <div class="v">
+                <span dir="ltr"><span class="num">9,320</span> <small>SDG</small></span>
+              </div>
+              <div class="s" data-ar="3 طلبات بانتظار التسليم" data-en="3 orders awaiting delivery">
+                3 طلبات بانتظار التسليم
+              </div>
+            </div>
+            <div class="stat">
+              <div class="l" data-ar="التسوية القادمة" data-en="Next settlement">
+                التسوية القادمة
+              </div>
+              <div class="v">
+                <span dir="ltr"><span class="num">4,150</span> <small>SDG</small></span>
+              </div>
+              <div class="s" data-ar="غدًا إلى محفظة الهاتف" data-en="Tomorrow, to mobile wallet">
+                غدًا إلى محفظة الهاتف
+              </div>
+            </div>
+          </div>
+          <ul class="rows">
+            <li>
+              <div class="who">
+                <b data-ar="طلب #2231 · بهارات مشكّلة" data-en="Order #2231 · Mixed spices"
+                  >طلب #2231 · بهارات مشكّلة</b
+                ><span data-ar="عميل في الرياض · USDT" data-en="Customer in Riyadh · USDT"
+                  >عميل في الرياض · USDT</span
+                >
+              </div>
+              <div class="amt">
+                <span dir="ltr">25.00 USDT</span
+                ><span class="st" data-ar="بالضمان" data-en="In escrow">بالضمان</span>
+              </div>
+            </li>
+            <li>
+              <div class="who">
+                <b data-ar="طلب #2228 · كركدي" data-en="Order #2228 · Hibiscus">طلب #2228 · كركدي</b
+                ><span
+                  data-ar="عميل في الخرطوم · محفظة الهاتف"
+                  data-en="Customer in Khartoum · mobile wallet"
+                  >عميل في الخرطوم · محفظة الهاتف</span
+                >
+              </div>
+              <div class="amt">
+                <span dir="ltr">SDG 4,150</span
+                ><span class="st done" data-ar="جاهز للتسوية" data-en="Ready to settle"
+                  >جاهز للتسوية</span
+                >
+              </div>
+            </li>
+            <li>
+              <div class="who">
+                <b data-ar="طلب #2219 · صمغ عربي" data-en="Order #2219 · Gum arabic"
+                  >طلب #2219 · صمغ عربي</b
+                ><span data-ar="عميل في دبي · USDT" data-en="Customer in Dubai · USDT"
+                  >عميل في دبي · USDT</span
+                >
+              </div>
+              <div class="amt">
+                <span dir="ltr">60.00 USDT</span
+                ><span class="st done" data-ar="تمت التسوية" data-en="Settled">تمت التسوية</span>
+              </div>
+            </li>
+          </ul>
+          <button
+            class="cta"
+            type="button"
+            id="payLink"
+            data-ar="مشاركة رابط الدفع"
+            data-en="Share payment link"
+          >
+            مشاركة رابط الدفع
+          </button>
+          <p class="note" id="payLinkNote" aria-live="polite"></p>
+        </div>
+      </section>
+    </main>
 
-  // Tabs (ARIA tabs pattern: arrow keys move between tabs, following reading direction).
-  var seg = document.getElementById('seg');
-  var tabs = [].slice.call(seg.querySelectorAll('[role="tab"]'));
-  function select(name, focus){
-    seg.setAttribute('data-active', name);
-    seg.style.setProperty('--i', tabs.findIndex(function(x){ return x.getAttribute('data-tab') === name; }));
-    tabs.forEach(function(tab){
-      var on = tab.getAttribute('data-tab') === name;
-      tab.setAttribute('aria-selected', String(on));
-      tab.tabIndex = on ? 0 : -1;
-      var panel = document.getElementById(tab.getAttribute('aria-controls'));
-      panel.hidden = !on;
-      if (on) { panel.classList.remove('enter'); void panel.offsetWidth; panel.classList.add('enter'); if (focus) tab.focus(); }
-    });
-    if (location.hash !== '#' + name) history.replaceState(null, '', '#' + name);
-  }
-  tabs.forEach(function(tab, i){
-    tab.addEventListener('click', function(){ select(tab.getAttribute('data-tab')); });
-    tab.addEventListener('keydown', function(e){
-      var rtl = document.documentElement.dir === 'rtl';
-      var next = { ArrowRight: rtl ? -1 : 1, ArrowLeft: rtl ? 1 : -1 }[e.key];
-      if (e.key === 'Home') next = -i; if (e.key === 'End') next = tabs.length - 1 - i;
-      if (next === undefined) return;
-      e.preventDefault();
-      select(tabs[(i + next + tabs.length) % tabs.length].getAttribute('data-tab'), true);
-    });
-  });
+    <footer class="foot">
+      <nav aria-label="Pages">
+        <a href="merchant-workspace.html" data-ar="مساحة عمل التاجر" data-en="Merchant workspace"
+          >مساحة عمل التاجر</a
+        >
+        <a href="mowasalaty.html" data-ar="مواصلاتي" data-en="Mowasalaty">مواصلاتي</a>
+        <a href="landing.html" data-ar="الصفحة الرئيسية" data-en="Landing">الصفحة الرئيسية</a>
+      </nav>
+      <p
+        data-ar="نموذج أولي للمراجعة — لا تتم أي عملية شراء أو حجز فعلية."
+        data-en="Prototype for review — no real purchase or booking takes place."
+      >
+        نموذج أولي للمراجعة — لا تتم أي عملية شراء أو حجز فعلية.
+      </p>
+    </footer>
 
-  // Quantity steppers and totals.
-  function clamp(input){
-    var min = +input.min, max = +input.max, v = parseFloat(input.value);
-    if (isNaN(v)) v = min;
-    v = Math.min(max, Math.max(min, Math.round(v / +input.step) * +input.step));
-    input.value = +v.toFixed(2);
-    return v;
-  }
-  var grams = document.getElementById('grams'), kg = document.getElementById('kg'), usdt = document.getElementById('usdt');
-  var SDG_PER_USDT = 2400, FX_FEE = 0.01; // illustrative rate and fee
-  var sdg = function(n){ return 'SDG ' + Math.round(n).toLocaleString('en-US'); };
-  function update(){
-    document.getElementById('goldTotal').textContent = usd((parseFloat(grams.value) || 0) * PRICE_PER_GRAM);
-    document.getElementById('freightTotal').textContent = usd((parseFloat(kg.value) || 0) * PRICE_PER_KG);
-    document.getElementById('sdgOut').textContent = sdg((parseFloat(usdt.value) || 0) * SDG_PER_USDT * (1 - FX_FEE));
-  }
-  document.querySelectorAll('[data-step]').forEach(function(b){
-    b.addEventListener('click', function(){
-      var input = document.getElementById(b.getAttribute('data-for'));
-      input.value = (parseFloat(input.value) || 0) + parseFloat(b.getAttribute('data-step'));
-      clamp(input); update();
-    });
-  });
-  [grams, kg, usdt].forEach(function(input){
-    input.addEventListener('input', update);
-    input.addEventListener('change', function(){ clamp(input); update(); });
-  });
+    <script>
+      (function () {
+        // Illustrative prices. In production these come from the live gold feed and the freight API.
+        var PRICE_PER_GRAM = 76.9,
+          PRICE_PER_KG = 3.8;
+        var lang = "ar";
+        var usd = function (n) {
+          return (
+            "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          );
+        };
+        var t = function (ar, en) {
+          return lang === "ar" ? ar : en;
+        };
 
-  document.getElementById('convert').addEventListener('click', function(){
-    var u = clamp(usdt); update();
-    var n = document.getElementById('convertNote');
-    n.className = 'note ok';
-    n.textContent = t('تحويل تجريبي: \u2066' + u + ' USDT\u2069 تصبح \u2066' + sdg(u * SDG_PER_USDT * (1 - FX_FEE)) + '\u2069 في محفظة الهاتف. لا يتم تحويل فعلي.',
-                      'Demo conversion: ' + u + ' USDT → ' + sdg(u * SDG_PER_USDT * (1 - FX_FEE)) + ' to your mobile wallet. Nothing is converted.');
-  });
-  function copyText(text, noteId, msgAr, msgEn){
-    var n = document.getElementById(noteId);
-    var ok = function(){ n.className = 'note ok'; n.textContent = t(msgAr, msgEn); };
-    if (navigator.clipboard) navigator.clipboard.writeText(text).then(ok, ok); else ok();
-  }
-  document.getElementById('copyAcct').addEventListener('click', function(){
-    copyText(document.getElementById('acctNo').textContent, 'payLinkNote', 'تم نسخ رقم الحساب.', 'Account number copied.');
-  });
-  document.getElementById('payLink').addEventListener('click', function(){
-    copyText('https://pay.alsooq.example/ALS-RCV-0042-7781', 'payLinkNote',
-      'تم نسخ رابط دفع تجريبي. يدفع العميل بمحفظة الهاتف أو USDT، ويُحفظ المبلغ بالضمان.',
-      'Demo payment link copied. Customers pay by mobile wallet or USDT; funds are held in escrow.');
-  });
-  document.getElementById('buyGold').addEventListener('click', function(){
-    var g = clamp(grams); update();
-    var n = document.getElementById('goldNote');
-    n.className = 'note ok';
-    n.textContent = t('طلب تجريبي: ' + g + ' جرام بقيمة \u2066' + usd(g * PRICE_PER_GRAM) + '\u2069. لا يتم خصم أي مبلغ في هذا النموذج.',
-                      'Demo order: ' + g + ' g for ' + usd(g * PRICE_PER_GRAM) + '. Nothing is charged in this prototype.');
-  });
-  document.getElementById('bookFreight').addEventListener('click', function(){
-    var k = clamp(kg); update();
-    var n = document.getElementById('freightNote');
-    n.className = 'note ok';
-    n.textContent = t('حجز تجريبي: ' + k + ' كجم بقيمة \u2066' + usd(k * PRICE_PER_KG) + '\u2069. لا يتم حجز فعلي في هذا النموذج.',
-                      'Demo booking: ' + k + ' kg for ' + usd(k * PRICE_PER_KG) + '. Nothing is booked in this prototype.');
-  });
-
-  // USSD session simulator. Each step returns the screen text and the handler for the next reply.
-  // Same limits and prices as the gold and freight tabs. Nothing leaves the browser.
-  var screen = document.getElementById('ussdScreen'), form = document.getElementById('ussdForm'),
-      input = document.getElementById('ussdInput'), send = document.getElementById('ussdSend'),
-      dial = document.getElementById('ussdDial'), endBtn = document.getElementById('ussdEnd');
-  var WALLET_SDG = '42,680', next = null;
-
-  function show(text, handler){
-    screen.textContent = text;
-    next = handler || null;
-    input.value = '';
-    input.disabled = send.disabled = !handler;
-    dial.hidden = !!handler; endBtn.hidden = !handler;
-    if (handler) input.focus();
-  }
-  function done(text){ show(text + '\n\n' + t('انتهت الجلسة.', 'Session ended.')); }
-  function amountStep(prompt, min, max, step, price, unit, unitEn){
-    return function(){
-      show(prompt, function(v){
-        var n = parseFloat(v);
-        if (isNaN(n) || n < min || n > max) return amountStep(t('قيمة غير صالحة. ', 'Invalid amount. ') + prompt, min, max, step, price, unit, unitEn)();
-        n = Math.round(n / step) * step;
-        show(t(n + ' ' + unit + ' = ' + usd(n * price) + '\n1. تأكيد الدفع من المحفظة\n2. إلغاء',
-               n + ' ' + unitEn + ' = ' + usd(n * price) + '\n1. Confirm, pay from wallet\n2. Cancel'),
-          function(c){
-            if (c === '1') done(t('تم (تجريبي). ستصلك رسالة SMS بالتأكيد.', 'Done (demo). An SMS confirmation will follow.'));
-            else done(t('تم الإلغاء.', 'Cancelled.'));
+        function setLang(l) {
+          lang = l;
+          var ar = l === "ar";
+          document.documentElement.lang = l;
+          document.documentElement.dir = ar ? "rtl" : "ltr";
+          document.documentElement.setAttribute("data-lang", l);
+          document.querySelectorAll("[data-ar]").forEach(function (e) {
+            e.textContent = e.getAttribute(ar ? "data-ar" : "data-en");
           });
-      });
-    };
-  }
-  function menu(){
-    show(t('السوق / سودان إكسبريس\n1. شراء ذهب (جرام)\n2. حجز شحن (كيلو)\n3. رصيد المحفظة\n4. تأكيد تسليم بالضمان\n0. خروج',
-           'alSooq / Sudan Express\n1. Buy gold (grams)\n2. Book freight (kg)\n3. Wallet balance\n4. Confirm escrow delivery\n0. Exit'),
-      function(v){
-        if (v === '1') return amountStep(t('أدخل الكمية بالجرام (0.5–100):', 'Enter grams (0.5–100):'), 0.5, 100, 0.5, PRICE_PER_GRAM, 'جم', 'g')();
-        if (v === '2') return amountStep(t('أدخل الوزن بالكيلو (1–14):', 'Enter kg (1–14):'), 1, 14, 1, PRICE_PER_KG, 'كجم', 'kg')();
-        if (v === '3') return done(t('رصيد المحفظة: ' + WALLET_SDG + ' جنيه (تجريبي)', 'Wallet balance: SDG ' + WALLET_SDG + ' (demo)'));
-        if (v === '4') return show(t('الضمان #1043: 19.00$ لسودان إكسبريس\n1. استلمت الشحنة، حرّر المبلغ\n2. لاحقًا',
-                                     'Escrow #1043: $19.00 to Sudan Express\n1. Received, release payment\n2. Later'),
-          function(c){ done(c === '1' ? t('تم تحرير المبلغ (تجريبي).', 'Payment released (demo).') : t('يبقى المبلغ بالضمان.', 'Payment stays in escrow.')); });
-        if (v === '0') return done(t('شكرًا لاستخدامك السوق.', 'Thanks for using alSooq.'));
-        menu(); screen.textContent = t('خيار غير صالح.\n', 'Invalid option.\n') + screen.textContent;
-      });
-  }
-  window.ussdReset = function(){
-    show(t('اضغط «اطلب \u2066*888#\u2069» لبدء جلسة تجريبية.', 'Press "Dial *888#" to start a demo session.'));
-  };
-  dial.addEventListener('click', function(){ screen.textContent = t('جارٍ الاتصال…', 'Connecting…'); setTimeout(menu, 500); });
-  endBtn.addEventListener('click', function(){ done(t('أنهيت الجلسة.', 'You ended the session.')); });
-  form.addEventListener('submit', function(e){ e.preventDefault(); if (next) next(input.value.trim()); });
+          document.querySelectorAll(".lang [data-lang]").forEach(function (b) {
+            b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === l));
+          });
+          document.getElementById("goldNote").textContent = "";
+          document.getElementById("freightNote").textContent = "";
+          document.getElementById("convertNote").textContent = "";
+          document.getElementById("payLinkNote").textContent = "";
+          if (window.ussdReset) ussdReset();
+        }
+        document.querySelectorAll(".lang [data-lang]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            setLang(b.getAttribute("data-lang"));
+          });
+        });
 
-  setLang('ar');
-  update();
-  select({ '#freight': 'freight', '#ussd': 'ussd', '#accounts': 'accounts' }[location.hash] || 'gold');
-})();
-</script>
-</body>
+        // Tabs (ARIA tabs pattern: arrow keys move between tabs, following reading direction).
+        var seg = document.getElementById("seg");
+        var tabs = [].slice.call(seg.querySelectorAll('[role="tab"]'));
+        function select(name, focus) {
+          seg.setAttribute("data-active", name);
+          seg.style.setProperty(
+            "--i",
+            tabs.findIndex(function (x) {
+              return x.getAttribute("data-tab") === name;
+            }),
+          );
+          tabs.forEach(function (tab) {
+            var on = tab.getAttribute("data-tab") === name;
+            tab.setAttribute("aria-selected", String(on));
+            tab.tabIndex = on ? 0 : -1;
+            var panel = document.getElementById(tab.getAttribute("aria-controls"));
+            panel.hidden = !on;
+            if (on) {
+              panel.classList.remove("enter");
+              void panel.offsetWidth;
+              panel.classList.add("enter");
+              if (focus) tab.focus();
+            }
+          });
+          if (location.hash !== "#" + name) history.replaceState(null, "", "#" + name);
+        }
+        tabs.forEach(function (tab, i) {
+          tab.addEventListener("click", function () {
+            select(tab.getAttribute("data-tab"));
+          });
+          tab.addEventListener("keydown", function (e) {
+            var rtl = document.documentElement.dir === "rtl";
+            var next = { ArrowRight: rtl ? -1 : 1, ArrowLeft: rtl ? 1 : -1 }[e.key];
+            if (e.key === "Home") next = -i;
+            if (e.key === "End") next = tabs.length - 1 - i;
+            if (next === undefined) return;
+            e.preventDefault();
+            select(tabs[(i + next + tabs.length) % tabs.length].getAttribute("data-tab"), true);
+          });
+        });
+
+        // Quantity steppers and totals.
+        function clamp(input) {
+          var min = +input.min,
+            max = +input.max,
+            v = parseFloat(input.value);
+          if (isNaN(v)) v = min;
+          v = Math.min(max, Math.max(min, Math.round(v / +input.step) * +input.step));
+          input.value = +v.toFixed(2);
+          return v;
+        }
+        var grams = document.getElementById("grams"),
+          kg = document.getElementById("kg"),
+          usdt = document.getElementById("usdt");
+        var SDG_PER_USDT = 2400,
+          FX_FEE = 0.01; // illustrative rate and fee
+        var sdg = function (n) {
+          return "SDG " + Math.round(n).toLocaleString("en-US");
+        };
+        function update() {
+          document.getElementById("goldTotal").textContent = usd(
+            (parseFloat(grams.value) || 0) * PRICE_PER_GRAM,
+          );
+          document.getElementById("freightTotal").textContent = usd(
+            (parseFloat(kg.value) || 0) * PRICE_PER_KG,
+          );
+          document.getElementById("sdgOut").textContent = sdg(
+            (parseFloat(usdt.value) || 0) * SDG_PER_USDT * (1 - FX_FEE),
+          );
+        }
+        document.querySelectorAll("[data-step]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            var input = document.getElementById(b.getAttribute("data-for"));
+            input.value = (parseFloat(input.value) || 0) + parseFloat(b.getAttribute("data-step"));
+            clamp(input);
+            update();
+          });
+        });
+        [grams, kg, usdt].forEach(function (input) {
+          input.addEventListener("input", update);
+          input.addEventListener("change", function () {
+            clamp(input);
+            update();
+          });
+        });
+
+        document.getElementById("convert").addEventListener("click", function () {
+          var u = clamp(usdt);
+          update();
+          var n = document.getElementById("convertNote");
+          n.className = "note ok";
+          n.textContent = t(
+            "تحويل تجريبي: \u2066" +
+              u +
+              " USDT\u2069 تصبح \u2066" +
+              sdg(u * SDG_PER_USDT * (1 - FX_FEE)) +
+              "\u2069 في محفظة الهاتف. لا يتم تحويل فعلي.",
+            "Demo conversion: " +
+              u +
+              " USDT → " +
+              sdg(u * SDG_PER_USDT * (1 - FX_FEE)) +
+              " to your mobile wallet. Nothing is converted.",
+          );
+        });
+        function copyText(text, noteId, msgAr, msgEn) {
+          var n = document.getElementById(noteId);
+          var ok = function () {
+            n.className = "note ok";
+            n.textContent = t(msgAr, msgEn);
+          };
+          if (navigator.clipboard) navigator.clipboard.writeText(text).then(ok, ok);
+          else ok();
+        }
+        document.getElementById("copyAcct").addEventListener("click", function () {
+          copyText(
+            document.getElementById("acctNo").textContent,
+            "payLinkNote",
+            "تم نسخ رقم الحساب.",
+            "Account number copied.",
+          );
+        });
+        document.getElementById("payLink").addEventListener("click", function () {
+          copyText(
+            "https://pay.alsooq.example/ALS-RCV-0042-7781",
+            "payLinkNote",
+            "تم نسخ رابط دفع تجريبي. يدفع العميل بمحفظة الهاتف أو USDT، ويُحفظ المبلغ بالضمان.",
+            "Demo payment link copied. Customers pay by mobile wallet or USDT; funds are held in escrow.",
+          );
+        });
+        document.getElementById("buyGold").addEventListener("click", function () {
+          var g = clamp(grams);
+          update();
+          var n = document.getElementById("goldNote");
+          n.className = "note ok";
+          n.textContent = t(
+            "طلب تجريبي: " +
+              g +
+              " جرام بقيمة \u2066" +
+              usd(g * PRICE_PER_GRAM) +
+              "\u2069. لا يتم خصم أي مبلغ في هذا النموذج.",
+            "Demo order: " +
+              g +
+              " g for " +
+              usd(g * PRICE_PER_GRAM) +
+              ". Nothing is charged in this prototype.",
+          );
+        });
+        document.getElementById("bookFreight").addEventListener("click", function () {
+          var k = clamp(kg);
+          update();
+          var n = document.getElementById("freightNote");
+          n.className = "note ok";
+          n.textContent = t(
+            "حجز تجريبي: " +
+              k +
+              " كجم بقيمة \u2066" +
+              usd(k * PRICE_PER_KG) +
+              "\u2069. لا يتم حجز فعلي في هذا النموذج.",
+            "Demo booking: " +
+              k +
+              " kg for " +
+              usd(k * PRICE_PER_KG) +
+              ". Nothing is booked in this prototype.",
+          );
+        });
+
+        // USSD session simulator. Each step returns the screen text and the handler for the next reply.
+        // Same limits and prices as the gold and freight tabs. Nothing leaves the browser.
+        var screen = document.getElementById("ussdScreen"),
+          form = document.getElementById("ussdForm"),
+          input = document.getElementById("ussdInput"),
+          send = document.getElementById("ussdSend"),
+          dial = document.getElementById("ussdDial"),
+          endBtn = document.getElementById("ussdEnd");
+        var WALLET_SDG = "42,680",
+          next = null;
+
+        function show(text, handler) {
+          screen.textContent = text;
+          next = handler || null;
+          input.value = "";
+          input.disabled = send.disabled = !handler;
+          dial.hidden = !!handler;
+          endBtn.hidden = !handler;
+          if (handler) input.focus();
+        }
+        function done(text) {
+          show(text + "\n\n" + t("انتهت الجلسة.", "Session ended."));
+        }
+        function amountStep(prompt, min, max, step, price, unit, unitEn) {
+          return function () {
+            show(prompt, function (v) {
+              var n = parseFloat(v);
+              if (isNaN(n) || n < min || n > max)
+                return amountStep(
+                  t("قيمة غير صالحة. ", "Invalid amount. ") + prompt,
+                  min,
+                  max,
+                  step,
+                  price,
+                  unit,
+                  unitEn,
+                )();
+              n = Math.round(n / step) * step;
+              show(
+                t(
+                  n + " " + unit + " = " + usd(n * price) + "\n1. تأكيد الدفع من المحفظة\n2. إلغاء",
+                  n +
+                    " " +
+                    unitEn +
+                    " = " +
+                    usd(n * price) +
+                    "\n1. Confirm, pay from wallet\n2. Cancel",
+                ),
+                function (c) {
+                  if (c === "1")
+                    done(
+                      t(
+                        "تم (تجريبي). ستصلك رسالة SMS بالتأكيد.",
+                        "Done (demo). An SMS confirmation will follow.",
+                      ),
+                    );
+                  else done(t("تم الإلغاء.", "Cancelled."));
+                },
+              );
+            });
+          };
+        }
+        function menu() {
+          show(
+            t(
+              "السوق / سودان إكسبريس\n1. شراء ذهب (جرام)\n2. حجز شحن (كيلو)\n3. رصيد المحفظة\n4. تأكيد تسليم بالضمان\n0. خروج",
+              "alSooq / Sudan Express\n1. Buy gold (grams)\n2. Book freight (kg)\n3. Wallet balance\n4. Confirm escrow delivery\n0. Exit",
+            ),
+            function (v) {
+              if (v === "1")
+                return amountStep(
+                  t("أدخل الكمية بالجرام (0.5–100):", "Enter grams (0.5–100):"),
+                  0.5,
+                  100,
+                  0.5,
+                  PRICE_PER_GRAM,
+                  "جم",
+                  "g",
+                )();
+              if (v === "2")
+                return amountStep(
+                  t("أدخل الوزن بالكيلو (1–14):", "Enter kg (1–14):"),
+                  1,
+                  14,
+                  1,
+                  PRICE_PER_KG,
+                  "كجم",
+                  "kg",
+                )();
+              if (v === "3")
+                return done(
+                  t(
+                    "رصيد المحفظة: " + WALLET_SDG + " جنيه (تجريبي)",
+                    "Wallet balance: SDG " + WALLET_SDG + " (demo)",
+                  ),
+                );
+              if (v === "4")
+                return show(
+                  t(
+                    "الضمان #1043: 19.00$ لسودان إكسبريس\n1. استلمت الشحنة، حرّر المبلغ\n2. لاحقًا",
+                    "Escrow #1043: $19.00 to Sudan Express\n1. Received, release payment\n2. Later",
+                  ),
+                  function (c) {
+                    done(
+                      c === "1"
+                        ? t("تم تحرير المبلغ (تجريبي).", "Payment released (demo).")
+                        : t("يبقى المبلغ بالضمان.", "Payment stays in escrow."),
+                    );
+                  },
+                );
+              if (v === "0") return done(t("شكرًا لاستخدامك السوق.", "Thanks for using alSooq."));
+              menu();
+              screen.textContent = t("خيار غير صالح.\n", "Invalid option.\n") + screen.textContent;
+            },
+          );
+        }
+        window.ussdReset = function () {
+          show(
+            t(
+              "اضغط «اطلب \u2066*888#\u2069» لبدء جلسة تجريبية.",
+              'Press "Dial *888#" to start a demo session.',
+            ),
+          );
+        };
+        dial.addEventListener("click", function () {
+          screen.textContent = t("جارٍ الاتصال…", "Connecting…");
+          setTimeout(menu, 500);
+        });
+        endBtn.addEventListener("click", function () {
+          done(t("أنهيت الجلسة.", "You ended the session."));
+        });
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          if (next) next(input.value.trim());
+        });
+
+        setLang("ar");
+        update();
+        select(
+          { "#freight": "freight", "#ussd": "ussd", "#accounts": "accounts" }[location.hash] ||
+            "gold",
+        );
+      })();
+    </script>
+  </body>
 </html>
