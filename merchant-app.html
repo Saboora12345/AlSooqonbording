@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>تطبيق تاجر السوق · alSooq Merchant App</title>
+    <meta
+      name="description"
+      content="alSooq merchant app: sell, get paid and settle from one phone. Customers pay by mobile wallet, USDT or USSD; payments wait in escrow until delivery."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* One saturated field (alSooq clay), black and white controls, cream type for contrast on clay. */
+      :root {
+        --field: #8a4b2a;
+        --field-deep: #5f3119;
+        --ink: #000;
+        --paper: #fff;
+        --cream: #fffcf6;
+        --cream-2: #ebd9c8;
+        --sand: #f6f1e7;
+        --app-ink: #2e241b;
+        --app-ink-2: #6b5b4b;
+        --palm: #2f6b4f;
+        --gold: #86611c;
+        --ar: "IBM Plex Sans Arabic", system-ui, sans-serif;
+        --en: "IBM Plex Sans", system-ui, sans-serif;
+        --ease: cubic-bezier(0.2, 0, 0, 1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+      }
+      body {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--ar);
+        font-size: 15px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      [data-lang="en"] body {
+        font-family: var(--en);
+      }
+      .en,
+      .num {
+        font-family: var(--en);
+        font-variant-numeric: tabular-nums;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+      }
+      h1,
+      p {
+        margin: 0;
+      }
+      :focus-visible {
+        outline: 2px solid var(--cream);
+        outline-offset: 3px;
+      }
+      svg.i {
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex: none;
+      }
+      [dir="rtl"] .arrow {
+        transform: scaleX(-1);
+      }
+
+      /* pills: two treatments only */
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 44px;
+        padding: 0 20px;
+        border-radius: 999px;
+        border: 1.5px solid transparent;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition:
+          background 0.2s var(--ease),
+          color 0.2s var(--ease),
+          border-color 0.2s var(--ease);
+      }
+      .pill .arrow-wrap {
+        display: inline-flex;
+        transition: transform 0.2s var(--ease);
+      }
+      .pill .arrow-wrap svg {
+        width: 12px;
+        height: 12px;
+        stroke-width: 2.2;
+      }
+      .pill:hover .arrow-wrap {
+        transform: translateX(3px);
+      }
+      [dir="rtl"] .pill:hover .arrow-wrap {
+        transform: translateX(-3px);
+      }
+      .pill-white {
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .pill-white:hover {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .pill-black {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .pill-black:hover {
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .pill-white:focus-visible,
+      .pill-black:focus-visible {
+        outline-color: var(--paper);
+      }
+
+      /* hero */
+      .hero {
+        position: relative;
+        background: var(--field);
+        color: var(--cream);
+        min-height: min(100svh, 960px);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        padding-inline: clamp(16px, 4vw, 56px);
+      }
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding-top: calc(20px + env(safe-area-inset-top, 0px));
+        position: relative;
+        z-index: 3;
+      }
+      .logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: var(--ink);
+        color: var(--cream);
+        display: grid;
+        place-items: center;
+        font-family: var(--ar);
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 1;
+      }
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .burger {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 0;
+        background: var(--ink);
+        color: var(--paper);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        transition:
+          background 0.2s var(--ease),
+          color 0.2s var(--ease);
+      }
+      .burger:hover {
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .stage {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1.5fr minmax(260px, 340px) 0.75fr;
+        gap: clamp(24px, 4vw, 64px);
+        align-items: center;
+        padding-top: 40px;
+      }
+      .headline h1 {
+        font-size: clamp(40px, 4.6vw, 76px);
+        line-height: 1.12;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        text-wrap: balance;
+      }
+      [data-lang="en"] .headline h1 {
+        line-height: 1.04;
+        letter-spacing: -0.03em;
+      }
+      .copy {
+        max-width: 30ch;
+        justify-self: end;
+        display: grid;
+        gap: 22px;
+        justify-items: start;
+      }
+      .copy p {
+        color: var(--cream-2);
+        font-size: 15px;
+      }
+      .copy .aside {
+        font-size: 14px;
+        color: var(--cream);
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        text-decoration-color: rgba(255, 252, 246, 0.45);
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+      }
+      .copy .aside:hover {
+        text-decoration-color: var(--cream);
+      }
+      .device-col {
+        align-self: end;
+        height: 100%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+      }
+
+      /* phone mockup: cropped by the hero's bottom edge */
+      .phone {
+        width: 100%;
+        max-width: 340px;
+        aspect-ratio: 0.48;
+        margin-bottom: -26%;
+        border-radius: 48px;
+        background: #111;
+        padding: 12px;
+        box-shadow: 0 40px 90px -30px rgba(40, 15, 0, 0.7);
+        transition: transform 0.6s var(--ease);
+        will-change: transform;
+      }
+      .screen {
+        height: 100%;
+        border-radius: 38px;
+        overflow: hidden;
+        background: var(--sand);
+        color: var(--app-ink);
+        display: flex;
+        flex-direction: column;
+        font-size: 12px;
+      }
+      .app-top {
+        background: rgba(20, 12, 7, 0.92);
+        color: #fff;
+        padding: 12px 18px 18px;
+      }
+      .status {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: var(--en);
+        font-weight: 600;
+        font-size: 12px;
+        direction: ltr;
+      }
+      .status .sig {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+      .status .sig i {
+        display: block;
+        background: #fff;
+        border-radius: 1px;
+      }
+      .app-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 16px;
+      }
+      .app-bar b {
+        flex: 1;
+        font-size: 15px;
+        font-weight: 700;
+      }
+      .app-bar .srch {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        display: grid;
+        place-items: center;
+      }
+      .app-bar .srch svg {
+        width: 15px;
+        height: 15px;
+      }
+      .app-bar .av {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: linear-gradient(145deg, #2f6b4f, #234f3a);
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 13px;
+      }
+      .app-body {
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .bal-card {
+        background: #fff;
+        border-radius: 22px;
+        padding: 18px;
+      }
+      .bal-card .acct {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        white-space: nowrap;
+        color: var(--app-ink-2);
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .bal-card .acct > span:first-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .bal-card .acct .en {
+        letter-spacing: 0.08em;
+      }
+      .bal-card .big {
+        font-family: var(--en);
+        font-weight: 700;
+        font-size: clamp(34px, 4vw, 48px);
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        margin-top: 10px;
+        direction: ltr;
+        text-align: start;
+      }
+      [dir="rtl"] .bal-card .big {
+        text-align: right;
+      }
+      .bal-card .big small {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--app-ink-2);
+        letter-spacing: 0;
+      }
+      .bal-card .held {
+        margin-top: 4px;
+        color: var(--app-ink-2);
+        font-size: 11px;
+      }
+      .acts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 14px;
+      }
+      .acts span {
+        display: grid;
+        place-items: center;
+        height: 36px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .acts span:first-child {
+        background: var(--app-ink);
+        color: #fff;
+      }
+      .acts span:last-child {
+        background: var(--sand);
+        color: var(--app-ink);
+      }
+      .rows {
+        background: #fff;
+        border-radius: 22px;
+        padding: 6px 14px;
+      }
+      .rows h2 {
+        margin: 8px 0 2px;
+        font-size: 12px;
+        color: var(--app-ink-2);
+        font-weight: 600;
+      }
+      .r {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0;
+        border-top: 1px solid #eee4d6;
+      }
+      .rows h2 + .r {
+        border-top: 0;
+      }
+      .r .ic {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        flex: none;
+        background: rgba(138, 75, 42, 0.1);
+        color: #8a4b2a;
+      }
+      .r .ic svg {
+        width: 15px;
+        height: 15px;
+      }
+      .r .ic.p {
+        background: rgba(47, 107, 79, 0.12);
+        color: var(--palm);
+      }
+      .r .ic.g {
+        background: rgba(184, 134, 47, 0.14);
+        color: var(--gold);
+      }
+      .r .lb {
+        flex: 1;
+        min-width: 0;
+      }
+      .r .lb b {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .r .lb span {
+        font-size: 11px;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: var(--app-ink-2);
+      }
+      .r .pr {
+        font-family: var(--en);
+        font-weight: 700;
+        font-size: 12px;
+        white-space: nowrap;
+        direction: ltr;
+      }
+
+      /* menu */
+      .menu {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        background: var(--ink);
+        color: var(--paper);
+        padding: calc(20px + env(safe-area-inset-top, 0px)) clamp(16px, 4vw, 56px) 40px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+      }
+      .menu[hidden] {
+        display: none;
+      }
+      .menu-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .menu-top .logo {
+        background: var(--field);
+      }
+      .menu-top .burger {
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .menu nav {
+        margin-top: clamp(32px, 8vh, 80px);
+      }
+      .menu ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .menu li a {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 0;
+        border-bottom: 1px solid #222;
+        font-size: clamp(24px, 3.4vw, 40px);
+        font-weight: 700;
+        line-height: 1.2;
+      }
+      .menu li a span {
+        font-size: 14px;
+        font-weight: 500;
+        color: #9a938c;
+      }
+      .menu li a:hover {
+        color: var(--cream-2);
+      }
+      .lang {
+        display: flex;
+        gap: 8px;
+        margin-top: 32px;
+      }
+      .lang button {
+        min-width: 56px;
+        border-color: #333;
+      }
+      .lang button[aria-pressed="true"] {
+        background: var(--paper);
+        color: var(--ink);
+      }
+
+      .foot {
+        padding: 28px clamp(16px, 4vw, 56px) calc(28px + env(safe-area-inset-bottom, 0px));
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 24px;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 13px;
+        color: #57504a;
+      }
+      .foot nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 20px;
+      }
+      .foot a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        color: var(--ink);
+      }
+      .foot a:hover {
+        text-decoration: underline;
+      }
+
+      /* layout at smaller widths */
+      @media (max-width: 1020px) {
+        .stage {
+          grid-template-columns: 1fr 1fr;
+          grid-template-areas:
+            "head copy"
+            "dev dev";
+          align-items: end;
+          row-gap: 40px;
+        }
+        .headline {
+          grid-area: head;
+        }
+        .copy {
+          grid-area: copy;
+          justify-self: stretch;
+        }
+        .device-col {
+          grid-area: dev;
+        }
+        .phone {
+          max-width: 320px;
+          margin-bottom: -40%;
+        }
+      }
+      @media (max-width: 640px) {
+        .stage {
+          grid-template-columns: 1fr;
+          grid-template-areas: "head" "copy" "dev";
+          row-gap: 28px;
+          padding-top: 28px;
+        }
+        .top .pill-black {
+          display: none;
+        }
+        .phone {
+          max-width: 290px;
+          margin-bottom: -48%;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition-duration: 1ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="top">
+        <a class="logo" href="landing.html" aria-label="alSooq">س</a>
+        <div class="controls">
+          <a class="pill pill-white" href="merchant-onboarding.html"
+            ><span data-ar="سجّل متجرك" data-en="Sign up">سجّل متجرك</span
+            ><span class="arrow-wrap"
+              ><svg class="i arrow" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" /></svg></span
+          ></a>
+          <a class="pill pill-black" href="merchant-workspace.html" data-ar="دخول" data-en="Log in"
+            >دخول</a
+          >
+          <button
+            type="button"
+            class="burger"
+            id="menuOpen"
+            aria-expanded="false"
+            aria-controls="menu"
+            aria-label="Menu"
+          >
+            <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16" /></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="headline">
+          <h1 data-ar="بِع واستلم من هاتف واحد." data-en="Sell and get paid by phone.">
+            بِع واستلم من هاتف واحد.
+          </h1>
+        </div>
+
+        <div class="device-col">
+          <div
+            class="phone"
+            id="phone"
+            role="img"
+            aria-label="alSooq merchant app: store balance and recent payments"
+          >
+            <div class="screen" aria-hidden="true">
+              <div class="app-top">
+                <div class="status">
+                  <span>9:41</span>
+                  <span class="sig"
+                    ><i style="width: 3px; height: 5px"></i><i style="width: 3px; height: 8px"></i
+                    ><i style="width: 3px; height: 11px"></i
+                    ><i style="width: 20px; height: 10px; border-radius: 3px"></i
+                  ></span>
+                </div>
+                <div class="app-bar">
+                  <b data-ar="متجر ذهبنا للتوابل" data-en="Dhahabna Spice Store"
+                    >متجر ذهبنا للتوابل</b
+                  >
+                  <span class="srch"
+                    ><svg class="i" viewBox="0 0 24 24">
+                      <circle cx="11" cy="11" r="6" />
+                      <path d="M20 20l-4-4" /></svg
+                  ></span>
+                  <span class="av">ذ</span>
+                </div>
+              </div>
+              <div class="app-body">
+                <div class="bal-card">
+                  <div class="acct">
+                    <span data-ar="حساب المستحقات" data-en="Receivable account">حساب المستحقات</span
+                    ><span class="en" dir="ltr">ALS-RCV •••• 7781</span>
+                  </div>
+                  <div class="big">42,680 <small>SDG</small></div>
+                  <div class="held">
+                    <span data-ar="بالضمان:" data-en="In escrow:">بالضمان:</span>
+                    <span class="num">9,320 SDG</span>
+                  </div>
+                  <div class="acts">
+                    <span data-ar="طلب دفعة" data-en="Request">طلب دفعة</span
+                    ><span data-ar="تحويل" data-en="Transfer">تحويل</span>
+                  </div>
+                </div>
+                <div class="rows">
+                  <h2 data-ar="آخر المدفوعات" data-en="Recent payments">آخر المدفوعات</h2>
+                  <div class="r">
+                    <span class="ic g"
+                      ><svg class="i" viewBox="0 0 24 24">
+                        <path d="M12 3v18M17 7H9.5a2.5 2.5 0 0 0 0 5h5a2.5 2.5 0 0 1 0 5H7" /></svg
+                    ></span>
+                    <span class="lb"
+                      ><b data-ar="#2231 · بهارات مشكّلة" data-en="#2231 · Mixed spices"
+                        >#2231 · بهارات مشكّلة</b
+                      ><span data-ar="الرياض · بالضمان" data-en="Riyadh · in escrow"
+                        >الرياض · بالضمان</span
+                      ></span
+                    >
+                    <span class="pr">25.00 USDT</span>
+                  </div>
+                  <div class="r">
+                    <span class="ic p"
+                      ><svg class="i" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" /></svg
+                    ></span>
+                    <span class="lb"
+                      ><b data-ar="#2228 · كركدي" data-en="#2228 · Hibiscus">#2228 · كركدي</b
+                      ><span data-ar="الخرطوم · جاهز للتسوية" data-en="Khartoum · ready to settle"
+                        >الخرطوم · جاهز للتسوية</span
+                      ></span
+                    >
+                    <span class="pr">SDG 4,150</span>
+                  </div>
+                  <div class="r">
+                    <span class="ic"
+                      ><svg class="i" viewBox="0 0 24 24">
+                        <rect x="7" y="3" width="10" height="18" rx="2" />
+                        <path d="M11 18h2" /></svg
+                    ></span>
+                    <span class="lb"
+                      ><b data-ar="#2224 · صمغ عربي" data-en="#2224 · Gum arabic"
+                        >#2224 · صمغ عربي</b
+                      ><span data-ar="كسلا · عبر USSD" data-en="Kassala · via USSD"
+                        >كسلا · عبر USSD</span
+                      ></span
+                    >
+                    <span class="pr">SDG 2,600</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="copy">
+          <p
+            data-ar="يدفع عملاؤك بمحفظة الهاتف أو USDT أو عبر USSD. يبقى المبلغ بالضمان حتى التسليم، ثم يُسوّى إلى محفظتك في اليوم التالي."
+            data-en="Customers pay by mobile wallet, USDT or USSD. Money waits in escrow until delivery, then settles to your wallet the next day."
+          >
+            يدفع عملاؤك بمحفظة الهاتف أو USDT أو عبر USSD. يبقى المبلغ بالضمان حتى التسليم، ثم
+            يُسوّى إلى محفظتك في اليوم التالي.
+          </p>
+          <a class="pill pill-white" href="merchant-onboarding.html"
+            ><span data-ar="افتح حساب تاجر" data-en="Open a merchant account">افتح حساب تاجر</span
+            ><span class="arrow-wrap"
+              ><svg class="i arrow" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" /></svg></span
+          ></a>
+          <a
+            class="aside"
+            href="accounts.html"
+            data-ar="تتسوّق كعميل؟ شاهد حسابات السوق"
+            data-en="Shopping as a customer? See alSooq accounts"
+            >تتسوّق كعميل؟ شاهد حسابات السوق</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+      <div class="menu-top">
+        <a class="logo" href="landing.html" aria-label="alSooq">س</a>
+        <button type="button" class="burger" id="menuClose" aria-label="Close menu">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+      </div>
+      <nav aria-label="Main">
+        <ul>
+          <li>
+            <a href="merchant-workspace.html"
+              ><b data-ar="مساحة عمل التاجر" data-en="Merchant workspace">مساحة عمل التاجر</b
+              ><span data-ar="للتجار" data-en="Merchants">للتجار</span></a
+            >
+          </li>
+          <li>
+            <a href="merchant-onboarding.html"
+              ><b data-ar="تسجيل متجر جديد" data-en="Register a store">تسجيل متجر جديد</b
+              ><span data-ar="للتجار" data-en="Merchants">للتجار</span></a
+            >
+          </li>
+          <li>
+            <a href="accounts.html"
+              ><b data-ar="حسابات السوق" data-en="alSooq accounts">حسابات السوق</b
+              ><span data-ar="للعملاء" data-en="Customers">للعملاء</span></a
+            >
+          </li>
+          <li>
+            <a href="fractional.html"
+              ><b data-ar="الذهب والشحن والدفع" data-en="Gold, freight and pay"
+                >الذهب والشحن والدفع</b
+              ><span data-ar="للجميع" data-en="Everyone">للجميع</span></a
+            >
+          </li>
+          <li>
+            <a href="mowasalaty.html"
+              ><b data-ar="مواصلاتي" data-en="Mowasalaty">مواصلاتي</b
+              ><span data-ar="النقل" data-en="Transport">النقل</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" class="pill pill-black" data-lang="ar" aria-pressed="true">
+          عربي
+        </button>
+        <button type="button" class="pill pill-black" data-lang="en" aria-pressed="false">
+          English
+        </button>
+      </div>
+    </div>
+
+    <footer class="foot">
+      <nav aria-label="Footer">
+        <a href="landing.html" data-ar="الصفحة الرئيسية" data-en="Home">الصفحة الرئيسية</a>
+        <a href="accounts.html" data-ar="حسابات السوق" data-en="alSooq accounts">حسابات السوق</a>
+        <a href="dashboard.html" data-ar="لوحة المنظومة" data-en="Ecosystem dashboard"
+          >لوحة المنظومة</a
+        >
+      </nav>
+      <p
+        data-ar="نموذج أولي للمراجعة — الأرقام في التطبيق توضيحية."
+        data-en="Prototype for review — figures in the app are illustrative."
+      >
+        نموذج أولي للمراجعة — الأرقام في التطبيق توضيحية.
+      </p>
+    </footer>
+
+    <script>
+      (function () {
+        var menu = document.getElementById("menu"),
+          openBtn = document.getElementById("menuOpen"),
+          closeBtn = document.getElementById("menuClose");
+
+        function setLang(l) {
+          var ar = l === "ar";
+          document.documentElement.lang = l;
+          document.documentElement.dir = ar ? "rtl" : "ltr";
+          document.documentElement.setAttribute("data-lang", l);
+          document.querySelectorAll("[data-ar]").forEach(function (e) {
+            e.textContent = e.getAttribute(ar ? "data-ar" : "data-en");
+          });
+          document.querySelectorAll(".lang [data-lang]").forEach(function (b) {
+            b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === l));
+          });
+        }
+        document.querySelectorAll(".lang [data-lang]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            setLang(b.getAttribute("data-lang"));
+          });
+        });
+
+        function openMenu() {
+          menu.hidden = false;
+          openBtn.setAttribute("aria-expanded", "true");
+          document.body.style.overflow = "hidden";
+          closeBtn.focus();
+        }
+        function closeMenu() {
+          menu.hidden = true;
+          openBtn.setAttribute("aria-expanded", "false");
+          document.body.style.overflow = "";
+          openBtn.focus();
+        }
+        openBtn.addEventListener("click", openMenu);
+        closeBtn.addEventListener("click", closeMenu);
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && !menu.hidden) closeMenu();
+        });
+
+        // The device rises a little as the page scrolls (skipped for reduced motion).
+        var phone = document.getElementById("phone");
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          var ticking = false;
+          window.addEventListener(
+            "scroll",
+            function () {
+              if (ticking) return;
+              ticking = true;
+              requestAnimationFrame(function () {
+                var y = Math.min(window.scrollY, 400);
+                phone.style.transform = "translateY(" + -y * 0.12 + "px)";
+                ticking = false;
+              });
+            },
+            { passive: true },
+          );
+        }
+
+        setLang("ar");
+      })();
+    </script>
+  </body>
+</html>
