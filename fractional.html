@@ -49,10 +49,13 @@ main{max-width:720px;margin-inline:auto;padding:40px 16px 64px}
 .intro p{color:var(--tx2);margin-top:12px;max-width:56ch}
 
 /* segmented control */
-.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:4px;margin-bottom:24px}
-.seg .pill{position:absolute;top:4px;bottom:4px;inset-inline-start:4px;width:calc(50% - 4px);border-radius:10px;background:var(--gold);transition:transform .35s var(--ease)}
+.seg{position:relative;display:grid;grid-template-columns:repeat(3,1fr);background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:4px;margin-bottom:24px}
+.seg .pill{position:absolute;top:4px;bottom:4px;inset-inline-start:4px;width:calc((100% - 8px) / 3);border-radius:10px;background:var(--gold);transition:transform .35s var(--ease)}
 [dir="rtl"] .seg[data-active="freight"] .pill{transform:translateX(-100%)}
+[dir="rtl"] .seg[data-active="ussd"] .pill{transform:translateX(-200%)}
 [dir="ltr"] .seg[data-active="freight"] .pill{transform:translateX(100%)}
+[dir="ltr"] .seg[data-active="ussd"] .pill{transform:translateX(200%)}
+@media(max-width:440px){.seg button .ic{display:none}.seg button{font-size:13px}}
 .seg button{position:relative;z-index:1;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;background:none;border:0;cursor:pointer;font-weight:700;font-size:14px;color:var(--tx2);border-radius:10px;transition:color .25s var(--ease)}
 .seg button[aria-selected="true"]{color:var(--bg)}
 
@@ -94,6 +97,23 @@ main{max-width:720px;margin-inline:auto;padding:40px 16px 64px}
 .note{font-size:13px;color:var(--tx2);margin-top:12px;min-height:1.6em}
 .note.ok{color:var(--tx)}
 
+.ussd{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:16px;min-height:188px;margin-bottom:12px}
+.ussd .code{display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:var(--en);font-size:12px;color:var(--tx2);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--bd)}
+.ussd .code b{color:var(--gold);letter-spacing:.06em}
+.ussd pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;line-height:1.7;white-space:pre-wrap;color:var(--tx);margin:0}
+[dir="rtl"] .ussd pre{font-family:var(--ar)}
+.reply{display:flex;gap:8px;margin-bottom:12px}
+.reply input{flex:1;min-width:0;height:48px;border-radius:10px;border:1px solid var(--bd);background:var(--bg2);padding:0 14px;font-family:var(--en);font-size:18px;font-weight:700}
+.reply input:focus{border-color:var(--gold)}
+.reply input:disabled{opacity:.45}
+.reply .send{min-width:88px;height:48px;border-radius:10px;border:1px solid var(--gold-30);background:var(--gold-08);color:var(--gold);font-weight:700;cursor:pointer}
+.reply .send:disabled{opacity:.45;cursor:default}
+.ghost{width:100%;min-height:44px;margin-top:8px;border-radius:12px;border:1px solid var(--bd);background:none;color:var(--tx2);font-weight:600;cursor:pointer}
+.ghost:hover{color:var(--tx);border-color:var(--gold-30)}
+.pay{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--tx2);margin:-4px 0 16px}
+.pay svg{width:16px;height:16px;color:var(--gold)}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .foot{max-width:720px;margin-inline:auto;padding:24px 16px 40px;border-top:1px solid var(--bd);display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;justify-content:space-between}
 .foot nav{display:flex;flex-wrap:wrap;gap:4px 16px}
 .foot a{display:inline-flex;align-items:center;min-height:44px;font-size:14px;color:var(--tx2);text-decoration:none}
@@ -133,6 +153,10 @@ main{max-width:720px;margin-inline:auto;padding:40px 16px 64px}
       <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 4h14v12H1zM15 9h4l3 3v4h-7M5.5 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM18.5 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
       <span data-ar="شحن بالحصص" data-en="Shared freight">شحن بالحصص</span>
     </button>
+    <button role="tab" id="tab-ussd" aria-controls="panel-ussd" aria-selected="false" tabindex="-1" data-tab="ussd">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM10 18h4"/></svg>
+      <span data-ar="USSD والدفع" data-en="USSD &amp; Pay">USSD والدفع</span>
+    </button>
   </div>
 
   <!-- Gold: 1 SGT = 1 gram -->
@@ -165,6 +189,7 @@ main{max-width:720px;margin-inline:auto;padding:40px 16px 64px}
         <button type="button" data-step="0.5" data-for="grams" aria-label="+0.5 g"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
       </div>
       <div class="total"><span data-ar="الإجمالي التقديري" data-en="Estimated total">الإجمالي التقديري</span><b id="goldTotal">$76.90</b></div>
+      <p class="pay"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM10 18h4"/></svg><span data-ar="الدفع من محفظة الهاتف بالجنيه السوداني" data-en="Paid from your mobile wallet in SDG">الدفع من محفظة الهاتف بالجنيه السوداني</span></p>
       <button class="cta" type="button" id="buyGold" data-ar="شراء ذهب" data-en="Buy gold">شراء ذهب</button>
       <p class="note" id="goldNote" aria-live="polite"></p>
     </div>
@@ -200,9 +225,32 @@ main{max-width:720px;margin-inline:auto;padding:40px 16px 64px}
         <button type="button" data-step="1" data-for="kg" aria-label="+1 kg"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
       </div>
       <div class="total"><span data-ar="تكلفة الشحن" data-en="Shipping cost">تكلفة الشحن</span><b id="freightTotal">$19.00</b></div>
+      <p class="pay"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM10 18h4"/></svg><span data-ar="الدفع من محفظة الهاتف، ويُحفظ المبلغ بالضمان حتى التسليم" data-en="Paid from your mobile wallet and held in escrow until delivery">الدفع من محفظة الهاتف، ويُحفظ المبلغ بالضمان حتى التسليم</span></p>
       <button class="cta" type="button" id="bookFreight" data-ar="احجز المساحة" data-en="Book this space">احجز المساحة</button>
       <p class="note" id="freightNote" aria-live="polite"></p>
     </div>
+  </section>
+  <!-- USSD: same actions from any phone, no internet -->
+  <section class="panel" role="tabpanel" id="panel-ussd" aria-labelledby="tab-ussd" hidden>
+    <div class="p-head">
+      <div>
+        <h2 data-ar="بدون إنترنت عبر USSD" data-en="Offline over USSD">بدون إنترنت عبر USSD</h2>
+        <span class="en-sub" dir="ltr">USSD · Mobile money</span>
+      </div>
+      <span class="tag" data-ar="محاكاة" data-en="Simulation">محاكاة</span>
+    </div>
+    <p class="desc" data-ar="من أي هاتف، حتى البسيط: اطلب الرمز، اشترِ ذهبًا أو احجز شحنًا، وادفع من محفظة الهاتف. جرّب الجلسة أدناه." data-en="From any phone, even a basic one: dial the code, buy gold or book freight, and pay from your mobile wallet. Try the session below.">من أي هاتف، حتى البسيط: اطلب الرمز، اشترِ ذهبًا أو احجز شحنًا، وادفع من محفظة الهاتف. جرّب الجلسة أدناه.</p>
+    <div class="ussd">
+      <div class="code"><b dir="ltr">*888#</b><span data-ar="رمز توضيحي" data-en="Placeholder code">رمز توضيحي</span></div>
+      <pre id="ussdScreen" aria-live="polite"></pre>
+    </div>
+    <form class="reply" id="ussdForm" autocomplete="off">
+      <label for="ussdInput" class="sr" data-ar="الرد" data-en="Reply">الرد</label>
+      <input id="ussdInput" inputmode="numeric" maxlength="6" disabled>
+      <button class="send" type="submit" id="ussdSend" disabled data-ar="إرسال" data-en="Send">إرسال</button>
+    </form>
+    <button class="cta" type="button" id="ussdDial" data-ar="اطلب ⁦*888#⁩" data-en="Dial *888#">اطلب ⁦*888#⁩</button>
+    <button class="ghost" type="button" id="ussdEnd" hidden data-ar="إنهاء الجلسة" data-en="End session">إنهاء الجلسة</button>
   </section>
 </main>
 
@@ -233,6 +281,7 @@ main{max-width:720px;margin-inline:auto;padding:40px 16px 64px}
     document.querySelectorAll('.lang [data-lang]').forEach(function(b){ b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === l)); });
     document.getElementById('goldNote').textContent = '';
     document.getElementById('freightNote').textContent = '';
+    if (window.ussdReset) ussdReset();
   }
   document.querySelectorAll('.lang [data-lang]').forEach(function(b){ b.addEventListener('click', function(){ setLang(b.getAttribute('data-lang')); }); });
 
@@ -303,9 +352,61 @@ main{max-width:720px;margin-inline:auto;padding:40px 16px 64px}
                       'Demo booking: ' + k + ' kg for ' + usd(k * PRICE_PER_KG) + '. Nothing is booked in this prototype.');
   });
 
+  // USSD session simulator. Each step returns the screen text and the handler for the next reply.
+  // Same limits and prices as the gold and freight tabs. Nothing leaves the browser.
+  var screen = document.getElementById('ussdScreen'), form = document.getElementById('ussdForm'),
+      input = document.getElementById('ussdInput'), send = document.getElementById('ussdSend'),
+      dial = document.getElementById('ussdDial'), endBtn = document.getElementById('ussdEnd');
+  var WALLET_SDG = '42,680', next = null;
+
+  function show(text, handler){
+    screen.textContent = text;
+    next = handler || null;
+    input.value = '';
+    input.disabled = send.disabled = !handler;
+    dial.hidden = !!handler; endBtn.hidden = !handler;
+    if (handler) input.focus();
+  }
+  function done(text){ show(text + '\n\n' + t('انتهت الجلسة.', 'Session ended.')); }
+  function amountStep(prompt, min, max, step, price, unit, unitEn){
+    return function(){
+      show(prompt, function(v){
+        var n = parseFloat(v);
+        if (isNaN(n) || n < min || n > max) return amountStep(t('قيمة غير صالحة. ', 'Invalid amount. ') + prompt, min, max, step, price, unit, unitEn)();
+        n = Math.round(n / step) * step;
+        show(t(n + ' ' + unit + ' = ' + usd(n * price) + '\n1. تأكيد الدفع من المحفظة\n2. إلغاء',
+               n + ' ' + unitEn + ' = ' + usd(n * price) + '\n1. Confirm, pay from wallet\n2. Cancel'),
+          function(c){
+            if (c === '1') done(t('تم (تجريبي). ستصلك رسالة SMS بالتأكيد.', 'Done (demo). An SMS confirmation will follow.'));
+            else done(t('تم الإلغاء.', 'Cancelled.'));
+          });
+      });
+    };
+  }
+  function menu(){
+    show(t('السوق / سودان إكسبريس\n1. شراء ذهب (جرام)\n2. حجز شحن (كيلو)\n3. رصيد المحفظة\n4. تأكيد تسليم بالضمان\n0. خروج',
+           'alSooq / Sudan Express\n1. Buy gold (grams)\n2. Book freight (kg)\n3. Wallet balance\n4. Confirm escrow delivery\n0. Exit'),
+      function(v){
+        if (v === '1') return amountStep(t('أدخل الكمية بالجرام (0.5–100):', 'Enter grams (0.5–100):'), 0.5, 100, 0.5, PRICE_PER_GRAM, 'جم', 'g')();
+        if (v === '2') return amountStep(t('أدخل الوزن بالكيلو (1–14):', 'Enter kg (1–14):'), 1, 14, 1, PRICE_PER_KG, 'كجم', 'kg')();
+        if (v === '3') return done(t('رصيد المحفظة: ' + WALLET_SDG + ' جنيه (تجريبي)', 'Wallet balance: SDG ' + WALLET_SDG + ' (demo)'));
+        if (v === '4') return show(t('الضمان #1043: 19.00$ لسودان إكسبريس\n1. استلمت الشحنة، حرّر المبلغ\n2. لاحقًا',
+                                     'Escrow #1043: $19.00 to Sudan Express\n1. Received, release payment\n2. Later'),
+          function(c){ done(c === '1' ? t('تم تحرير المبلغ (تجريبي).', 'Payment released (demo).') : t('يبقى المبلغ بالضمان.', 'Payment stays in escrow.')); });
+        if (v === '0') return done(t('شكرًا لاستخدامك السوق.', 'Thanks for using alSooq.'));
+        menu(); screen.textContent = t('خيار غير صالح.\n', 'Invalid option.\n') + screen.textContent;
+      });
+  }
+  window.ussdReset = function(){
+    show(t('اضغط «اطلب \u2066*888#\u2069» لبدء جلسة تجريبية.', 'Press "Dial *888#" to start a demo session.'));
+  };
+  dial.addEventListener('click', function(){ screen.textContent = t('جارٍ الاتصال…', 'Connecting…'); setTimeout(menu, 500); });
+  endBtn.addEventListener('click', function(){ done(t('أنهيت الجلسة.', 'You ended the session.')); });
+  form.addEventListener('submit', function(e){ e.preventDefault(); if (next) next(input.value.trim()); });
+
   setLang('ar');
   update();
-  select(location.hash === '#freight' ? 'freight' : 'gold');
+  select({ '#freight': 'freight', '#ussd': 'ussd' }[location.hash] || 'gold');
 })();
 </script>
 </body>
