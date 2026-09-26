@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>السوق × سودان إكسبريس — ذهب وشحن بالحصص · alSooq × Sudan Express</title>
+<meta name="description" content="alSooq × Sudan Express prototype: own fractions of Sudanese gold (1 SGT = 1 gram) and book shared freight by the kilogram across Mowasalaty and Sudan Express routes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Dhabna brand tokens (dark + gold, one accent). */
+:root{
+  --bg:#0C0E14; --bg2:#13151E; --bg3:#1A1C26; --bg4:#22242E;
+  --gold:#C8A951; --gold-15:rgba(200,169,81,.15); --gold-08:rgba(200,169,81,.08); --gold-30:rgba(200,169,81,.3);
+  --tx:#F0EAD8; --tx2:#A89D8A; --bd:#2A2C36; --grn:#4CAF50;
+  --ar:'Cairo',system-ui,sans-serif; --en:'DM Sans',system-ui,sans-serif;
+  --ease:cubic-bezier(.2,0,0,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ar);background:var(--bg);color:var(--tx);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100dvh}
+[data-lang="en"] body{font-family:var(--en)}
+.num,.en-sub{font-family:var(--en);font-variant-numeric:tabular-nums}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:8px}
+svg.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* header */
+.hdr{border-bottom:1px solid var(--bd)}
+.hdr-in{max-width:720px;margin-inline:auto;padding:0 16px;height:64px;display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-height:44px}
+.mark{width:34px;height:34px;border-radius:10px;background:var(--gold);color:var(--bg);display:grid;place-items:center}
+.mark svg{width:18px;height:18px;fill:currentColor;stroke:none}
+.brand b{font-size:15px;font-weight:700;line-height:1.1;display:block}
+.brand .en-sub{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx2)}
+.spacer{flex:1}
+.lang{display:flex;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.lang button{min-width:44px;min-height:44px;background:none;border:0;cursor:pointer;font-size:13px;font-weight:700;color:var(--tx2)}
+.lang button[aria-pressed="true"]{background:var(--gold-15);color:var(--gold)}
+
+main{max-width:720px;margin-inline:auto;padding:40px 16px 64px}
+
+/* intro */
+.intro{margin-bottom:32px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--en);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--tx2)}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--grn)}
+.intro h1{font-size:clamp(28px,6vw,40px);font-weight:700;line-height:1.25;letter-spacing:-.01em;margin-top:12px}
+.intro p{color:var(--tx2);margin-top:12px;max-width:56ch}
+
+/* segmented control */
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:4px;margin-bottom:24px}
+.seg .pill{position:absolute;top:4px;bottom:4px;inset-inline-start:4px;width:calc(50% - 4px);border-radius:10px;background:var(--gold);transition:transform .35s var(--ease)}
+[dir="rtl"] .seg[data-active="freight"] .pill{transform:translateX(-100%)}
+[dir="ltr"] .seg[data-active="freight"] .pill{transform:translateX(100%)}
+.seg button{position:relative;z-index:1;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;background:none;border:0;cursor:pointer;font-weight:700;font-size:14px;color:var(--tx2);border-radius:10px;transition:color .25s var(--ease)}
+.seg button[aria-selected="true"]{color:var(--bg)}
+
+/* panel */
+.panel{background:var(--bg3);border:1px solid var(--bd);border-radius:10px;padding:24px}
+.panel[hidden]{display:none}
+.panel.enter{animation:enter .4s var(--ease)}
+@keyframes enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.p-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.p-head h2{font-size:22px;font-weight:700;line-height:1.3}
+.p-head .en-sub{display:block;font-size:12px;color:var(--tx2);letter-spacing:.04em;margin-top:2px}
+[dir="rtl"] .p-head .en-sub{text-align:right}
+.tag{font-size:12px;font-weight:700;color:var(--gold);background:var(--gold-08);border:1px solid var(--gold-30);padding:4px 12px;border-radius:999px;white-space:nowrap}
+
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.stat{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:16px}
+.stat .l{font-size:13px;color:var(--tx2)}
+.stat .v{font-family:var(--en);font-size:24px;font-weight:700;letter-spacing:-.01em;margin-top:4px;font-variant-numeric:tabular-nums}
+.stat .v small{font-size:13px;font-weight:500;color:var(--tx2)}
+.stat .s{font-family:var(--en);font-size:12px;color:var(--tx2);margin-top:2px}
+@media(max-width:480px){.stats{grid-template-columns:1fr}}
+
+.desc{color:var(--tx2);font-size:15px;margin-bottom:24px}
+
+/* order row */
+.order{border-top:1px solid var(--bd);padding-top:20px}
+.order label{display:block;font-size:14px;font-weight:600;margin-bottom:8px}
+.stepper{display:flex;align-items:center;gap:8px}
+.stepper button{width:48px;height:48px;border-radius:10px;border:1px solid var(--bd);background:var(--bg2);cursor:pointer;display:grid;place-items:center}
+.stepper button:hover{border-color:var(--gold-30)}
+.stepper input{flex:1;min-width:0;height:48px;border-radius:10px;border:1px solid var(--bd);background:var(--bg2);text-align:center;font-family:var(--en);font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+.stepper input:focus{border-color:var(--gold)}
+.total{display:flex;align-items:baseline;justify-content:space-between;margin:16px 0}
+.total span{color:var(--tx2);font-size:14px}
+.total b{font-family:var(--en);font-size:22px;font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums}
+.cta{width:100%;min-height:52px;border:0;border-radius:12px;background:var(--gold);color:var(--bg);font-weight:700;font-size:16px;cursor:pointer;transition:transform .2s var(--ease),opacity .2s var(--ease)}
+.cta:hover{transform:translateY(-1px)}
+.cta:active{transform:none;opacity:.9}
+.note{font-size:13px;color:var(--tx2);margin-top:12px;min-height:1.6em}
+.note.ok{color:var(--tx)}
+
+.foot{max-width:720px;margin-inline:auto;padding:24px 16px 40px;border-top:1px solid var(--bd);display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;justify-content:space-between}
+.foot nav{display:flex;flex-wrap:wrap;gap:4px 16px}
+.foot a{display:inline-flex;align-items:center;min-height:44px;font-size:14px;color:var(--tx2);text-decoration:none}
+.foot a:hover{color:var(--gold)}
+.foot p{font-size:13px;color:var(--tx2)}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:1ms!important}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <a class="brand" href="landing.html">
+      <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 6.9L22 9.3l-5.8 4.6L18.2 21 12 17l-6.2 4 2-7.1L2 9.3l7.4-.4z"/></svg></span>
+      <span><b data-ar="السوق × سودان إكسبريس" data-en="alSooq × Sudan Express">السوق × سودان إكسبريس</b><span class="en-sub" dir="ltr">Gold · Freight</span></span>
+    </a>
+    <span class="spacer"></span>
+    <div class="lang" role="group" aria-label="Language"><button data-lang="ar" aria-pressed="true">ع</button><button data-lang="en" aria-pressed="false">EN</button></div>
+  </div>
+</header>
+
+<main>
+  <section class="intro">
+    <span class="eyebrow"><span class="dot" aria-hidden="true"></span><span data-ar="نموذج أولي · الأرقام توضيحية" data-en="Prototype · figures are illustrative">نموذج أولي · الأرقام توضيحية</span></span>
+    <h1 data-ar="امتلك الذهب بالجرام، واشحن بالكيلو" data-en="Own gold by the gram. Ship by the kilo.">امتلك الذهب بالجرام، واشحن بالكيلو</h1>
+    <p data-ar="حصص في ذهب سوداني مادي، وحجز مساحة مشتركة في شحنات مواصلاتي وسودان إكسبريس — من حساب واحد في السوق." data-en="Fractions of physical Sudanese gold, and shared space on Mowasalaty and Sudan Express shipments — from one alSooq account.">حصص في ذهب سوداني مادي، وحجز مساحة مشتركة في شحنات مواصلاتي وسودان إكسبريس — من حساب واحد في السوق.</p>
+  </section>
+
+  <div class="seg" role="tablist" aria-label="Product" data-active="gold" id="seg">
+    <span class="pill" aria-hidden="true"></span>
+    <button role="tab" id="tab-gold" aria-controls="panel-gold" aria-selected="true" data-tab="gold">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h16l-2-6H6zM7 12l1.5-5h7L17 12"/></svg>
+      <span data-ar="خزنة الذهب" data-en="Gold vault">خزنة الذهب</span>
+    </button>
+    <button role="tab" id="tab-freight" aria-controls="panel-freight" aria-selected="false" tabindex="-1" data-tab="freight">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 4h14v12H1zM15 9h4l3 3v4h-7M5.5 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM18.5 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+      <span data-ar="شحن بالحصص" data-en="Shared freight">شحن بالحصص</span>
+    </button>
+  </div>
+
+  <!-- Gold: 1 SGT = 1 gram -->
+  <section class="panel" role="tabpanel" id="panel-gold" aria-labelledby="tab-gold">
+    <div class="p-head">
+      <div>
+        <h2 data-ar="خزنة الذهب السوداني" data-en="Sudan gold vault">خزنة الذهب السوداني</h2>
+        <span class="en-sub" dir="ltr">1 SGT = 1 g</span>
+      </div>
+      <span class="tag" data-ar="مغطّى بسبائك فعلية" data-en="Backed by physical bullion">مغطّى بسبائك فعلية</span>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <div class="l" data-ar="حصتك" data-en="Your holdings">حصتك</div>
+        <div class="v"><span dir="ltr"><span class="num">1.68</span> <small>SGT</small></span></div>
+        <div class="s"><span dir="ltr">≈ $129.20</span></div>
+      </div>
+      <div class="stat">
+        <div class="l" data-ar="احتياطي الخزنة" data-en="Vault reserves">احتياطي الخزنة</div>
+        <div class="v"><span dir="ltr"><span class="num">44.18</span> <small>kg</small></span></div>
+        <div class="s"><span dir="ltr">44,182 SGT</span></div>
+      </div>
+    </div>
+    <p class="desc" data-ar="كل وحدة SGT تمثّل جرامًا واحدًا من ذهب محفوظ. اشترِ أو استرد حصتك بسعر السوق الفوري." data-en="Each SGT represents one gram of stored gold. Buy or redeem your share at the live spot price.">كل وحدة SGT تمثّل جرامًا واحدًا من ذهب محفوظ. اشترِ أو استرد حصتك بسعر السوق الفوري.</p>
+    <div class="order">
+      <label for="grams" data-ar="الكمية (جرام)" data-en="Amount (grams)">الكمية (جرام)</label>
+      <div class="stepper">
+        <button type="button" data-step="-0.5" data-for="grams" aria-label="−0.5 g"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+        <input id="grams" type="number" inputmode="decimal" min="0.5" max="100" step="0.5" value="1">
+        <button type="button" data-step="0.5" data-for="grams" aria-label="+0.5 g"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div>
+      <div class="total"><span data-ar="الإجمالي التقديري" data-en="Estimated total">الإجمالي التقديري</span><b id="goldTotal">$76.90</b></div>
+      <button class="cta" type="button" id="buyGold" data-ar="شراء ذهب" data-en="Buy gold">شراء ذهب</button>
+      <p class="note" id="goldNote" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- Freight: per-kilogram slots -->
+  <section class="panel" role="tabpanel" id="panel-freight" aria-labelledby="tab-freight" hidden>
+    <div class="p-head">
+      <div>
+        <h2 data-ar="شحن مشترك بالكيلو" data-en="Shared freight by the kilo">شحن مشترك بالكيلو</h2>
+        <span class="en-sub" dir="ltr">Mowasalaty · Sudan Express</span>
+      </div>
+      <span class="tag" data-ar="حجز بالكيلوجرام" data-en="Per-kilogram slots">حجز بالكيلوجرام</span>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <div class="l" data-ar="المساحة المتاحة" data-en="Space available">المساحة المتاحة</div>
+        <div class="v"><span dir="ltr"><span class="num" id="kgLeft">14.2</span> <small>kg</small></span></div>
+        <div class="s" data-ar="الخرطوم ← بورتسودان" data-en="Khartoum → Port Sudan">الخرطوم ← بورتسودان</div>
+      </div>
+      <div class="stat">
+        <div class="l" data-ar="السعر لكل كيلو" data-en="Price per kilo">السعر لكل كيلو</div>
+        <div class="v"><span dir="ltr"><span class="num">$3.80</span> <small>/ kg</small></span></div>
+        <div class="s" data-ar="شامل التأمين" data-en="Insurance included">شامل التأمين</div>
+      </div>
+    </div>
+    <p class="desc" data-ar="اجمع شحنتك مع شحنات أخرى على مسارات مواصلاتي وسودان إكسبريس، وادفع مقابل الوزن الذي تحتاجه فقط بدل استئجار شاحنة كاملة." data-en="Combine your parcel with others on Mowasalaty and Sudan Express routes, and pay only for the weight you need instead of chartering a whole truck.">اجمع شحنتك مع شحنات أخرى على مسارات مواصلاتي وسودان إكسبريس، وادفع مقابل الوزن الذي تحتاجه فقط بدل استئجار شاحنة كاملة.</p>
+    <div class="order">
+      <label for="kg" data-ar="الوزن (كيلوجرام)" data-en="Weight (kg)">الوزن (كيلوجرام)</label>
+      <div class="stepper">
+        <button type="button" data-step="-1" data-for="kg" aria-label="−1 kg"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+        <input id="kg" type="number" inputmode="decimal" min="1" max="14" step="1" value="5">
+        <button type="button" data-step="1" data-for="kg" aria-label="+1 kg"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div>
+      <div class="total"><span data-ar="تكلفة الشحن" data-en="Shipping cost">تكلفة الشحن</span><b id="freightTotal">$19.00</b></div>
+      <button class="cta" type="button" id="bookFreight" data-ar="احجز المساحة" data-en="Book this space">احجز المساحة</button>
+      <p class="note" id="freightNote" aria-live="polite"></p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <nav aria-label="Pages">
+    <a href="merchant-workspace.html" data-ar="مساحة عمل التاجر" data-en="Merchant workspace">مساحة عمل التاجر</a>
+    <a href="mowasalaty.html" data-ar="مواصلاتي" data-en="Mowasalaty">مواصلاتي</a>
+    <a href="landing.html" data-ar="الصفحة الرئيسية" data-en="Landing">الصفحة الرئيسية</a>
+  </nav>
+  <p data-ar="نموذج أولي للمراجعة — لا تتم أي عملية شراء أو حجز فعلية." data-en="Prototype for review — no real purchase or booking takes place.">نموذج أولي للمراجعة — لا تتم أي عملية شراء أو حجز فعلية.</p>
+</footer>
+
+<script>
+(function(){
+  // Illustrative prices. In production these come from the live gold feed and the freight API.
+  var PRICE_PER_GRAM = 76.90, PRICE_PER_KG = 3.80;
+  var lang = 'ar';
+  var usd = function(n){ return '$' + n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); };
+  var t = function(ar,en){ return lang === 'ar' ? ar : en; };
+
+  function setLang(l){
+    lang = l;
+    var ar = l === 'ar';
+    document.documentElement.lang = l;
+    document.documentElement.dir = ar ? 'rtl' : 'ltr';
+    document.documentElement.setAttribute('data-lang', l);
+    document.querySelectorAll('[data-ar]').forEach(function(e){ e.textContent = e.getAttribute(ar ? 'data-ar' : 'data-en'); });
+    document.querySelectorAll('.lang [data-lang]').forEach(function(b){ b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === l)); });
+    document.getElementById('goldNote').textContent = '';
+    document.getElementById('freightNote').textContent = '';
+  }
+  document.querySelectorAll('.lang [data-lang]').forEach(function(b){ b.addEventListener('click', function(){ setLang(b.getAttribute('data-lang')); }); });
+
+  // Tabs (ARIA tabs pattern: arrow keys move between tabs, following reading direction).
+  var seg = document.getElementById('seg');
+  var tabs = [].slice.call(seg.querySelectorAll('[role="tab"]'));
+  function select(name, focus){
+    seg.setAttribute('data-active', name);
+    tabs.forEach(function(tab){
+      var on = tab.getAttribute('data-tab') === name;
+      tab.setAttribute('aria-selected', String(on));
+      tab.tabIndex = on ? 0 : -1;
+      var panel = document.getElementById(tab.getAttribute('aria-controls'));
+      panel.hidden = !on;
+      if (on) { panel.classList.remove('enter'); void panel.offsetWidth; panel.classList.add('enter'); if (focus) tab.focus(); }
+    });
+    if (location.hash !== '#' + name) history.replaceState(null, '', '#' + name);
+  }
+  tabs.forEach(function(tab, i){
+    tab.addEventListener('click', function(){ select(tab.getAttribute('data-tab')); });
+    tab.addEventListener('keydown', function(e){
+      var rtl = document.documentElement.dir === 'rtl';
+      var next = { ArrowRight: rtl ? -1 : 1, ArrowLeft: rtl ? 1 : -1 }[e.key];
+      if (e.key === 'Home') next = -i; if (e.key === 'End') next = tabs.length - 1 - i;
+      if (next === undefined) return;
+      e.preventDefault();
+      select(tabs[(i + next + tabs.length) % tabs.length].getAttribute('data-tab'), true);
+    });
+  });
+
+  // Quantity steppers and totals.
+  function clamp(input){
+    var min = +input.min, max = +input.max, v = parseFloat(input.value);
+    if (isNaN(v)) v = min;
+    v = Math.min(max, Math.max(min, Math.round(v / +input.step) * +input.step));
+    input.value = +v.toFixed(2);
+    return v;
+  }
+  var grams = document.getElementById('grams'), kg = document.getElementById('kg');
+  function update(){
+    document.getElementById('goldTotal').textContent = usd((parseFloat(grams.value) || 0) * PRICE_PER_GRAM);
+    document.getElementById('freightTotal').textContent = usd((parseFloat(kg.value) || 0) * PRICE_PER_KG);
+  }
+  document.querySelectorAll('[data-step]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var input = document.getElementById(b.getAttribute('data-for'));
+      input.value = (parseFloat(input.value) || 0) + parseFloat(b.getAttribute('data-step'));
+      clamp(input); update();
+    });
+  });
+  [grams, kg].forEach(function(input){
+    input.addEventListener('input', update);
+    input.addEventListener('change', function(){ clamp(input); update(); });
+  });
+
+  document.getElementById('buyGold').addEventListener('click', function(){
+    var g = clamp(grams); update();
+    var n = document.getElementById('goldNote');
+    n.className = 'note ok';
+    n.textContent = t('طلب تجريبي: ' + g + ' جرام بقيمة ' + usd(g * PRICE_PER_GRAM) + '. لا يتم خصم أي مبلغ في هذا النموذج.',
+                      'Demo order: ' + g + ' g for ' + usd(g * PRICE_PER_GRAM) + '. Nothing is charged in this prototype.');
+  });
+  document.getElementById('bookFreight').addEventListener('click', function(){
+    var k = clamp(kg); update();
+    var n = document.getElementById('freightNote');
+    n.className = 'note ok';
+    n.textContent = t('حجز تجريبي: ' + k + ' كجم بقيمة ' + usd(k * PRICE_PER_KG) + '. لا يتم حجز فعلي في هذا النموذج.',
+                      'Demo booking: ' + k + ' kg for ' + usd(k * PRICE_PER_KG) + '. Nothing is booked in this prototype.');
+  });
+
+  setLang('ar');
+  update();
+  select(location.hash === '#freight' ? 'freight' : 'gold');
+})();
+</script>
+</body>
+</html>
