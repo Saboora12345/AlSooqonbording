@@ -1,0 +1,2459 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>حسابات السوق · alSooq Accounts</title>
+    <meta
+      name="description"
+      content="alSooq accounts: gold by the gram, a cross-border USDT wallet, an e-commerce receivable account and USSD access, protected by escrow. Dark landing page prototype."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* alSooq brand, dark edition: the clay/gold/palm family brightened for a black ground. */
+      :root {
+        color-scheme: dark;
+        --bg: #000;
+        --bg-2: #0d0a08;
+        --bg-3: #15100d;
+        --bar: #17120f;
+        --line: #2a221d;
+        --line-2: #3a2f28;
+        --tx: #fbf7f1;
+        --tx-2: #a8a29e;
+        --tx-3: #8a817b;
+        --clay: #d9824f;
+        --clay-2: #e0915e;
+        --clay-deep: #8a4b2a;
+        --gold: #e0b563;
+        --palm: #5fb88a;
+        --grad: linear-gradient(120deg, #f0d08a 0%, #e0a15e 45%, #d9824f 100%);
+        --grad-card: radial-gradient(
+          120% 90% at 70% 20%,
+          #b0602f 0%,
+          #5f3119 38%,
+          #221008 72%,
+          #0a0503 100%
+        );
+        --r-pill: 999px;
+        --r: 20px;
+        --ar: "IBM Plex Sans Arabic", system-ui, sans-serif;
+        --en: "IBM Plex Sans", system-ui, sans-serif;
+        --gap: 120px;
+        --ease: cubic-bezier(0.2, 0, 0, 1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--tx);
+        font-family: var(--ar);
+        font-size: 16px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      [data-lang="en"] body {
+        font-family: var(--en);
+      }
+      .num {
+        font-family: var(--en);
+        font-variant-numeric: tabular-nums;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button,
+      input,
+      select {
+        font: inherit;
+        color: inherit;
+      }
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        text-wrap: balance;
+        letter-spacing: -0.02em;
+      }
+      [data-lang="ar"] h1,
+      [data-lang="ar"] h2 {
+        letter-spacing: 0;
+      }
+      p {
+        margin: 0;
+      }
+      :focus-visible {
+        outline: 2px solid var(--gold);
+        outline-offset: 3px;
+        border-radius: 8px;
+      }
+      .wrap {
+        max-width: 1280px;
+        margin-inline: auto;
+        padding-inline: 24px;
+      }
+      @media (max-width: 600px) {
+        .wrap {
+          padding-inline: 16px;
+        }
+      }
+      svg.i {
+        width: 20px;
+        height: 20px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex: none;
+      }
+      [dir="rtl"] .flip {
+        transform: scaleX(-1);
+      }
+      .sr {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+      .section {
+        padding-block: calc(var(--gap) / 2);
+      }
+      @media (max-width: 800px) {
+        :root {
+          --gap: 80px;
+        }
+      }
+
+      /* buttons */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 48px;
+        padding: 0 26px;
+        border-radius: var(--r-pill);
+        font-weight: 600;
+        font-size: 15px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition:
+          background 0.2s var(--ease),
+          border-color 0.2s var(--ease);
+      }
+      .btn-primary {
+        background: var(--clay);
+        color: #000;
+      }
+      .btn-primary:hover {
+        background: var(--clay-2);
+      }
+      .btn-outline {
+        border-color: var(--line-2);
+        color: var(--tx);
+        background: transparent;
+      }
+      .btn-outline:hover {
+        border-color: var(--tx);
+      }
+      .btn-light {
+        background: var(--tx);
+        color: #000;
+      }
+      .btn-light:hover {
+        background: #e9e2d8;
+      }
+      .link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 600;
+        font-size: 15px;
+        min-height: 44px;
+      }
+      .link:hover {
+        color: var(--gold);
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        border-radius: var(--r-pill);
+        background: var(--grad);
+        color: #1b0e06;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .grad-text {
+        background: var(--grad);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      /* 1. announcement + nav */
+      .announce {
+        background: var(--bar);
+        color: var(--tx-2);
+        font-size: 12px;
+        line-height: 1.5;
+        text-align: center;
+        padding: 8px 16px;
+      }
+      .announce p + p {
+        margin-top: 2px;
+      }
+      .announce a {
+        display: inline-block;
+        padding-block: 12px;
+        margin-block: -12px;
+        color: var(--tx);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        margin-inline-start: 6px;
+      }
+      .nav {
+        position: sticky;
+        top: env(safe-area-inset-top, 0px);
+        z-index: 50;
+        background: rgba(0, 0, 0, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--line);
+      }
+      .nav-in {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        height: 64px;
+      }
+      .mark {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 44px;
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .mark .br {
+        font-weight: 300;
+        color: var(--tx-3);
+        font-family: var(--en);
+        font-size: 22px;
+      }
+      .mark .en {
+        font-family: var(--en);
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--tx-2);
+        font-weight: 600;
+      }
+      .nav-links {
+        display: flex;
+        gap: 2px;
+        margin: 0 auto;
+        list-style: none;
+        padding: 0;
+      }
+      .nav-links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 12px;
+        font-size: 14px;
+        color: #d6d0c8;
+        border-radius: 8px;
+      }
+      .nav-links a:hover {
+        color: #fff;
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .lang-sel {
+        background: transparent;
+        border: 1px solid var(--line-2);
+        border-radius: var(--r-pill);
+        height: 40px;
+        padding: 0 12px;
+        font-size: 13px;
+        color: #d6d0c8;
+        cursor: pointer;
+      }
+      .lang-sel option {
+        background: #111;
+      }
+      .icon-btn {
+        width: 44px;
+        height: 44px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: none;
+        border: 0;
+        cursor: pointer;
+        color: #fff;
+        position: relative;
+      }
+      .icon-btn:hover {
+        background: var(--bg-3);
+      }
+      .cart-dot {
+        position: absolute;
+        top: 9px;
+        inset-inline-end: 9px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--clay);
+      }
+      .burger,
+      .drawer {
+        display: none;
+      }
+      @media (max-width: 1060px) {
+        .nav-links,
+        .nav-right .lang-sel {
+          display: none;
+        }
+        .burger {
+          display: grid;
+        }
+        .nav-right {
+          margin-inline-start: auto;
+        }
+        .drawer {
+          display: block;
+          border-top: 1px solid var(--line);
+          padding-block: 8px 20px;
+        }
+        .drawer[hidden] {
+          display: none;
+        }
+        .drawer a {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          min-height: 52px;
+          border-bottom: 1px solid var(--line);
+          font-size: 17px;
+          font-weight: 600;
+        }
+        .drawer .lang-sel {
+          margin-top: 16px;
+          width: 100%;
+          height: 44px;
+        }
+      }
+      @media (max-width: 420px) {
+        .mark .en {
+          display: none;
+        }
+      }
+
+      /* 2. hero */
+      .hero {
+        padding-block: 72px 40px;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.05fr 1fr;
+        gap: 56px;
+        align-items: center;
+      }
+      .hero h1 {
+        font-size: clamp(38px, 6vw, 70px);
+        line-height: 1.1;
+        font-weight: 700;
+        margin-top: 22px;
+      }
+      [data-lang="en"] .hero h1 {
+        line-height: 1.03;
+      }
+      .hero .sub {
+        color: var(--tx-2);
+        font-size: 17px;
+        max-width: 48ch;
+        margin-top: 22px;
+      }
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px 24px;
+        margin-top: 32px;
+      }
+      .trust {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        margin-top: 48px;
+        border-top: 1px solid var(--line);
+        padding-top: 24px;
+      }
+      .trust div {
+        padding-inline: 18px;
+        border-inline-start: 1px solid var(--line);
+      }
+      .trust div:first-child {
+        padding-inline-start: 0;
+        border-inline-start: 0;
+      }
+      .trust b {
+        display: block;
+        font-family: var(--en);
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+      .trust span {
+        font-size: 13px;
+        color: var(--tx-2);
+        line-height: 1.45;
+        display: block;
+        margin-top: 4px;
+      }
+      .hero-art {
+        position: relative;
+        aspect-ratio: 1 / 1.02;
+        max-width: 100%;
+        border-radius: 28px;
+        background: var(--grad-card);
+        overflow: hidden;
+        display: grid;
+        place-items: center;
+        border: 1px solid #3a2012;
+      }
+      .hero-art::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(60% 40% at 50% 100%, rgba(224, 181, 99, 0.25), transparent 70%);
+      }
+      @media (max-width: 900px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-art {
+          aspect-ratio: 4 / 3;
+        }
+      }
+      @media (max-width: 620px) {
+        .trust {
+          grid-template-columns: 1fr 1fr;
+          row-gap: 20px;
+        }
+        .trust div:nth-child(3) {
+          padding-inline-start: 0;
+          border-inline-start: 0;
+        }
+      }
+
+      /* placeholder renders */
+      .phone {
+        position: relative;
+        z-index: 1;
+        width: 42%;
+        aspect-ratio: 0.5;
+        border-radius: 32px;
+        background: linear-gradient(160deg, #2c2622 0%, #0f0c0a 60%, #1f1a17 100%);
+        padding: 10px;
+        box-shadow:
+          0 40px 80px -30px #000,
+          inset 0 1px 0 rgba(255, 255, 255, 0.14);
+        transform: rotate(-7deg);
+      }
+      .phone .scr {
+        height: 100%;
+        border-radius: 24px;
+        background: linear-gradient(170deg, #fffcf6, #efe7d8);
+        color: #2e241b;
+        padding: 18% 12% 10%;
+        display: flex;
+        flex-direction: column;
+        gap: 8%;
+      }
+      .phone .lbl {
+        font-size: clamp(9px, 1vw, 12px);
+        color: #6b5b4b;
+        font-weight: 600;
+      }
+      .phone .bal {
+        font-family: var(--en);
+        font-weight: 700;
+        font-size: clamp(16px, 2.2vw, 26px);
+        line-height: 1.1;
+      }
+      .phone .row {
+        height: 9%;
+        border-radius: 8px;
+        background: rgba(138, 75, 42, 0.1);
+      }
+      .phone .go {
+        margin-top: auto;
+        height: 11%;
+        border-radius: 999px;
+        background: linear-gradient(145deg, #8a4b2a, #5f3119);
+      }
+
+      /* 3. features */
+      .features {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-block: 1px solid var(--line);
+      }
+      .feature {
+        padding: 36px 32px;
+      }
+      .feature + .feature {
+        border-inline-start: 1px solid var(--line);
+      }
+      .feature .ic {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: rgba(224, 181, 99, 0.12);
+        color: var(--gold);
+        margin-bottom: 18px;
+      }
+      .feature h3 {
+        font-size: 19px;
+        font-weight: 700;
+      }
+      .feature p {
+        color: var(--tx-2);
+        font-size: 15px;
+        margin-top: 8px;
+        max-width: 38ch;
+      }
+      @media (max-width: 820px) {
+        .features {
+          grid-template-columns: 1fr;
+        }
+        .feature + .feature {
+          border-inline-start: 0;
+          border-top: 1px solid var(--line);
+        }
+        .feature {
+          padding-inline: 0;
+        }
+      }
+
+      /* 4. cinematic banner */
+      .cine {
+        position: relative;
+        border-radius: 28px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        background:
+          radial-gradient(50% 70% at 22% 50%, rgba(224, 181, 99, 0.16), transparent 60%),
+          radial-gradient(60% 80% at 80% 100%, rgba(217, 130, 79, 0.18), transparent 60%),
+          linear-gradient(180deg, #0a0706, #000);
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        align-items: center;
+        min-height: 440px;
+      }
+      .cine::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+        background-size: 44px 44px;
+        -webkit-mask-image: radial-gradient(70% 90% at 30% 50%, #000 20%, transparent 75%);
+        mask-image: radial-gradient(70% 90% at 30% 50%, #000 20%, transparent 75%);
+      }
+      .cine-copy {
+        position: relative;
+        padding: 56px;
+      }
+      .cine h2 {
+        font-size: clamp(30px, 4.4vw, 52px);
+        line-height: 1.12;
+        font-weight: 700;
+      }
+      .paths {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 28px;
+        margin-top: 36px;
+      }
+      .paths div {
+        display: grid;
+        gap: 12px;
+        justify-items: start;
+      }
+      .paths b {
+        font-size: 15px;
+      }
+      .coin-wrap {
+        position: relative;
+        display: grid;
+        place-items: center;
+        padding: 40px;
+        height: 100%;
+      }
+      .coin {
+        width: min(260px, 70%);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: radial-gradient(
+          circle at 32% 28%,
+          #fff0c4 0%,
+          #f0cb72 22%,
+          #d59a35 52%,
+          #7a4e0a 88%
+        );
+        box-shadow:
+          0 0 0 10px rgba(224, 181, 99, 0.14),
+          0 0 0 11px rgba(255, 255, 255, 0.06),
+          0 50px 90px -30px rgba(224, 181, 99, 0.5),
+          inset -14px -18px 30px rgba(90, 50, 0, 0.55),
+          inset 10px 12px 24px rgba(255, 245, 215, 0.5);
+        transform: rotate(-12deg);
+      }
+      .coin span {
+        font-family: var(--ar);
+        font-size: clamp(90px, 11vw, 130px);
+        font-weight: 700;
+        color: #fff6e0;
+        line-height: 1;
+        text-shadow: 0 3px 0 #a26d12;
+      }
+      @media (max-width: 860px) {
+        .cine {
+          grid-template-columns: 1fr;
+        }
+        .cine-copy {
+          padding: 36px 24px 8px;
+        }
+        .coin-wrap {
+          padding: 24px 24px 40px;
+          order: -1;
+        }
+      }
+
+      /* section heads */
+      .shead {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 48px;
+      }
+      .shead h2,
+      .t-head h2,
+      .center h2,
+      .faq h2 {
+        font-size: clamp(32px, 4.6vw, 56px);
+        line-height: 1.1;
+        font-weight: 700;
+      }
+      .shead p,
+      .center .lead {
+        color: var(--tx-2);
+        font-size: 17px;
+        margin-top: 14px;
+        max-width: 54ch;
+      }
+
+      /* 5. product grid */
+      .pgrid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border: 1px solid var(--line);
+      }
+      .pcard {
+        position: relative;
+        padding: 28px 24px 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .pcard + .pcard {
+        border-inline-start: 1px solid var(--line);
+      }
+      .pcard::before,
+      .pcard::after {
+        content: "";
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-color: #6b5a4d;
+        border-style: solid;
+        pointer-events: none;
+      }
+      .pcard::before {
+        top: -1px;
+        inset-inline-start: -1px;
+        border-width: 1px;
+        border-inline-end-width: 0;
+        border-bottom-width: 0;
+      }
+      .pcard::after {
+        bottom: -1px;
+        inset-inline-end: -1px;
+        border-width: 1px;
+        border-inline-start-width: 0;
+        border-top-width: 0;
+      }
+      .pimg {
+        position: relative;
+        aspect-ratio: 1;
+        max-width: 100%;
+        border-radius: 16px;
+        background: var(--grad-card);
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        border: 1px solid #3a2012;
+      }
+      .pcard h3 {
+        font-size: 20px;
+        font-weight: 700;
+      }
+      .pcard .desc {
+        color: var(--tx-2);
+        font-size: 14px;
+        line-height: 1.55;
+      }
+      .stars {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--tx-3);
+      }
+      .stars .s {
+        color: var(--gold);
+        letter-spacing: 1px;
+      }
+      .badge-new {
+        position: absolute;
+        top: 20px;
+        inset-inline-end: 20px;
+        z-index: 2;
+        background: var(--clay);
+        color: #000;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        padding: 4px 10px;
+        border-radius: var(--r-pill);
+      }
+      .pcard .link {
+        margin-top: auto;
+      }
+      @media (max-width: 1100px) {
+        .pgrid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .pcard:nth-child(3) {
+          border-inline-start: 0;
+        }
+        .pcard:nth-child(n + 3) {
+          border-top: 1px solid var(--line);
+        }
+      }
+      @media (max-width: 620px) {
+        .pgrid {
+          grid-template-columns: 1fr;
+        }
+        .pcard + .pcard {
+          border-inline-start: 0;
+          border-top: 1px solid var(--line);
+        }
+      }
+      .bar-gold {
+        width: 56%;
+        aspect-ratio: 2.2;
+        border-radius: 8px;
+        background: linear-gradient(160deg, #fff0c4 0%, #e5b85a 40%, #a26d12 100%);
+        clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%);
+        display: grid;
+        place-items: center;
+        color: #5a3a06;
+        font-family: var(--en);
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.1em;
+        box-shadow: 0 30px 50px -20px #000;
+      }
+      .tok {
+        width: 46%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: radial-gradient(circle at 32% 28%, #7fe0bd, #26a17b 55%, #115a44);
+        color: #fff;
+        font-family: var(--en);
+        font-weight: 700;
+        font-size: clamp(20px, 2.4vw, 30px);
+        box-shadow: 0 30px 50px -20px #000;
+      }
+      .receipt {
+        width: 46%;
+        aspect-ratio: 0.72;
+        border-radius: 10px;
+        background: linear-gradient(170deg, #fffcf6, #efe7d8);
+        padding: 12%;
+        display: flex;
+        flex-direction: column;
+        gap: 9%;
+        box-shadow: 0 30px 50px -20px #000;
+        transform: rotate(5deg);
+      }
+      .receipt i {
+        height: 7%;
+        border-radius: 4px;
+        background: rgba(138, 75, 42, 0.18);
+      }
+      .receipt i:first-child {
+        width: 60%;
+        background: #8a4b2a;
+      }
+      .receipt b {
+        margin-top: auto;
+        height: 12%;
+        border-radius: 5px;
+        background: rgba(47, 107, 79, 0.9);
+      }
+      .keypad {
+        width: 40%;
+        aspect-ratio: 0.52;
+        border-radius: 18px;
+        background: linear-gradient(160deg, #2c2622, #0f0c0a);
+        padding: 12% 12% 14%;
+        display: grid;
+        grid-template-rows: 1fr 2fr;
+        gap: 10%;
+        box-shadow: 0 30px 50px -20px #000;
+      }
+      .keypad .s2 {
+        border-radius: 6px;
+        background: #cfe6d4;
+        color: #16301f;
+        font-family: var(--en);
+        font-weight: 700;
+        font-size: clamp(10px, 1.2vw, 14px);
+        display: grid;
+        place-items: center;
+      }
+      .keypad .keys {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12%;
+      }
+      .keypad .keys i {
+        border-radius: 4px;
+        background: #3a332e;
+      }
+
+      /* 6. offer banner */
+      .offer {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 32px;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: linear-gradient(100deg, #0a0706 40%, #2a1509);
+        overflow: hidden;
+      }
+      .offer-copy {
+        padding: 56px;
+      }
+      .offer h2 {
+        font-size: clamp(28px, 3.6vw, 44px);
+        line-height: 1.12;
+        font-weight: 700;
+        margin-top: 18px;
+      }
+      .offer p {
+        color: var(--tx-2);
+        margin-top: 14px;
+        max-width: 46ch;
+      }
+      .offer .btn {
+        margin-top: 28px;
+      }
+      .offer-art {
+        min-height: 320px;
+        display: grid;
+        place-items: center;
+      }
+      .card-v {
+        width: min(340px, 80%);
+        aspect-ratio: 1.586;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #3a1d0d 0%, #8a4b2a 50%, #d9824f 100%);
+        position: relative;
+        transform: rotate(-9deg);
+        box-shadow:
+          0 40px 80px -30px rgba(217, 130, 79, 0.55),
+          inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      }
+      .card-v::before {
+        content: "";
+        position: absolute;
+        left: 9%;
+        top: 34%;
+        width: 14%;
+        aspect-ratio: 1.3;
+        border-radius: 5px;
+        background: linear-gradient(135deg, #f3dca0, #b88b3a);
+      }
+      .card-v span {
+        position: absolute;
+        left: 9%;
+        bottom: 12%;
+        font-family: var(--en);
+        font-size: 12px;
+        letter-spacing: 0.2em;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .card-v i {
+        position: absolute;
+        right: 9%;
+        bottom: 11%;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        color: #fff6e0;
+      }
+      @media (max-width: 860px) {
+        .offer {
+          grid-template-columns: 1fr;
+        }
+        .offer-copy {
+          padding: 36px 24px 0;
+        }
+        .offer-art {
+          min-height: 240px;
+        }
+      }
+
+      /* 7. currencies */
+      .center {
+        text-align: center;
+      }
+      .center .lead {
+        margin-inline: auto;
+      }
+      .coins {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+        margin-top: 48px;
+        list-style: none;
+        padding: 0;
+      }
+      .coins li {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-family: var(--en);
+        font-weight: 700;
+        font-size: 13px;
+        color: #fff;
+        box-shadow:
+          inset 0 -6px 12px rgba(0, 0, 0, 0.28),
+          inset 0 4px 8px rgba(255, 255, 255, 0.22);
+      }
+
+      /* 8. informed */
+      .informed {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 48px;
+        align-items: end;
+        border-top: 1px solid var(--line);
+        padding-top: 64px;
+      }
+      .informed h2 {
+        font-size: clamp(34px, 5vw, 64px);
+        line-height: 1.08;
+        font-weight: 700;
+      }
+      .informed p {
+        color: var(--tx-2);
+        font-size: 17px;
+        max-width: 52ch;
+      }
+      .informed .btn {
+        margin-top: 28px;
+      }
+      @media (max-width: 860px) {
+        .informed {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+      }
+
+      /* 9. testimonials */
+      .t-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+      }
+      .t-head .note {
+        color: var(--tx-3);
+        font-size: 13px;
+        margin-top: 10px;
+      }
+      .t-nav {
+        display: flex;
+        gap: 10px;
+      }
+      .circ {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 1px solid var(--line-2);
+        background: none;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        color: #fff;
+        transition: border-color 0.2s;
+      }
+      .circ:hover {
+        border-color: #fff;
+      }
+      .circ:disabled {
+        opacity: 0.35;
+        cursor: default;
+        border-color: var(--line-2);
+      }
+      .track {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: calc((100% - 40px) / 3);
+        gap: 20px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        padding-bottom: 4px;
+      }
+      .track::-webkit-scrollbar {
+        display: none;
+      }
+      .quote {
+        margin: 0;
+        scroll-snap-align: start;
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        background: var(--bg-2);
+      }
+      .quote p {
+        color: var(--tx-2);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      .who {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: auto;
+      }
+      .av {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 15px;
+        color: #1b0e06;
+        background: var(--grad);
+        flex: none;
+      }
+      .who b {
+        display: block;
+        font-size: 14px;
+      }
+      .who span span {
+        font-size: 13px;
+        color: var(--tx-3);
+        font-family: var(--en);
+      }
+      @media (max-width: 1000px) {
+        .track {
+          grid-auto-columns: calc((100% - 20px) / 2);
+        }
+      }
+      @media (max-width: 620px) {
+        .track {
+          grid-auto-columns: 88%;
+        }
+      }
+
+      /* 10. faq */
+      .faq {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        align-items: start;
+      }
+      .faq h2 {
+        margin-bottom: 32px;
+      }
+      .qlist {
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        overflow: hidden;
+      }
+      .q {
+        border-top: 1px solid var(--line);
+      }
+      .q:first-child {
+        border-top: 0;
+      }
+      .q button {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        text-align: start;
+        background: none;
+        border: 0;
+        padding: 18px 22px;
+        min-height: 64px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        color: #d6d0c8;
+      }
+      .q button:hover {
+        color: #fff;
+        background: var(--bg-2);
+      }
+      .q button[aria-expanded="true"] {
+        color: #fff;
+        background: var(--bg-3);
+      }
+      .q .plus {
+        transition: transform 0.25s var(--ease);
+        color: var(--tx-2);
+      }
+      .q button[aria-expanded="true"] .plus {
+        transform: rotate(45deg);
+        color: var(--gold);
+      }
+      .q .inline-a {
+        display: none;
+        padding: 0 22px 22px;
+        color: var(--tx-2);
+        font-size: 15px;
+      }
+      .answer {
+        position: sticky;
+        top: 96px;
+        border-inline-start: 1px solid var(--line);
+        padding-inline-start: 40px;
+        padding-block: 8px;
+      }
+      .answer h3 {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.3;
+        margin-top: 18px;
+      }
+      .answer p {
+        color: var(--tx-2);
+        margin-top: 14px;
+        font-size: 16px;
+        max-width: 54ch;
+      }
+      @media (max-width: 860px) {
+        .faq {
+          grid-template-columns: 1fr;
+        }
+        .answer {
+          display: none;
+        }
+        .q .inline-a:not([hidden]) {
+          display: block;
+        }
+      }
+
+      /* 11. closing */
+      .closing {
+        text-align: center;
+      }
+      .closing h2 {
+        font-size: clamp(40px, 7.5vw, 96px);
+        line-height: 1.08;
+        font-weight: 700;
+      }
+      .closing .btn {
+        margin-top: 40px;
+      }
+
+      /* 12. newsletter + footer */
+      .news {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        border-top: 1px solid var(--line);
+        padding-top: 64px;
+      }
+      .news h3 {
+        font-size: 24px;
+        font-weight: 700;
+      }
+      .news p {
+        color: var(--tx-2);
+        font-size: 15px;
+        margin-top: 8px;
+      }
+      .socials {
+        display: flex;
+        gap: 8px;
+        margin: 20px 0 0;
+        list-style: none;
+        padding: 0;
+      }
+      .socials a {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1px solid var(--line-2);
+        display: grid;
+        place-items: center;
+        color: #d6d0c8;
+      }
+      .socials a:hover {
+        border-color: #fff;
+        color: #fff;
+      }
+      .sub-form {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+      .sub-form input {
+        flex: 1 1 220px;
+        min-width: 0;
+        height: 48px;
+        border-radius: var(--r-pill);
+        border: 1px solid var(--line-2);
+        background: var(--bg-2);
+        padding: 0 20px;
+        font-size: 15px;
+        font-family: var(--en);
+      }
+      .sub-form input::placeholder {
+        color: var(--tx-3);
+      }
+      .sub-form input:focus {
+        outline: none;
+        border-color: var(--clay);
+      }
+      .form-msg {
+        font-size: 13px;
+        margin-top: 10px;
+        min-height: 1.5em;
+        color: var(--tx-2);
+      }
+      .form-msg.ok {
+        color: var(--palm);
+      }
+      .form-msg.err {
+        color: #f0a08a;
+      }
+      @media (max-width: 860px) {
+        .news {
+          grid-template-columns: 1fr;
+        }
+      }
+      .foot-cols {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 32px;
+        border-top: 1px solid var(--line);
+        margin-top: 64px;
+        padding-top: 48px;
+      }
+      .foot-cols h4 {
+        margin: 0 0 12px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #fff;
+      }
+      .foot-cols ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .foot-cols a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        font-size: 14px;
+        color: var(--tx-2);
+      }
+      .foot-cols a:hover {
+        color: #fff;
+      }
+      @media (max-width: 900px) {
+        .foot-cols {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      @media (max-width: 560px) {
+        .foot-cols {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .legal {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        border-top: 1px solid var(--line);
+        margin-top: 48px;
+        padding-block: 28px 40px;
+      }
+      .legal .fine {
+        color: var(--tx-3);
+        font-size: 12px;
+        line-height: 1.7;
+        max-width: 70ch;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .chips li {
+        height: 28px;
+        padding: 0 10px;
+        border: 1px solid var(--line-2);
+        border-radius: 6px;
+        display: grid;
+        place-items: center;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--tx-2);
+      }
+      .legal-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition-duration: 1ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="announce" role="region" aria-label="Announcements">
+      <p>
+        <span
+          data-ar="محفظة USDT عبر الحدود متاحة الآن لتجار السوق."
+          data-en="The cross-border USDT wallet is now open to alSooq merchants."
+          >محفظة USDT عبر الحدود متاحة الآن لتجار السوق.</span
+        ><a href="fractional.html#accounts" data-ar="اعرف المزيد" data-en="Learn more"
+          >اعرف المزيد</a
+        >
+      </p>
+      <p>
+        <span
+          data-ar="السوق لن يطلب منك رمزك السري أبدًا."
+          data-en="alSooq will never ask you for your PIN."
+          >السوق لن يطلب منك رمزك السري أبدًا.</span
+        ><a href="#faq" data-ar="اعرف المزيد" data-en="Learn more">اعرف المزيد</a>
+      </p>
+    </div>
+
+    <header class="nav">
+      <div class="wrap nav-in">
+        <a class="mark" href="landing.html" aria-label="alSooq"
+          ><span class="br" aria-hidden="true">[</span>السوق<span class="en">alSooq</span
+          ><span class="br" aria-hidden="true">]</span></a
+        >
+        <nav aria-label="Main">
+          <ul class="nav-links">
+            <li><a href="#products" data-ar="المنتجات" data-en="Products">المنتجات</a></li>
+            <li><a href="#coins" data-ar="المحفظة" data-en="Wallet">المحفظة</a></li>
+            <li><a href="#learn" data-ar="تعلّم" data-en="Learn">تعلّم</a></li>
+            <li>
+              <a href="merchant-workspace.html" data-ar="للأعمال" data-en="For Business">للأعمال</a>
+            </li>
+            <li><a href="#footer" data-ar="للمطورين" data-en="For Developers">للمطورين</a></li>
+            <li><a href="#faq" data-ar="الدعم" data-en="Support">الدعم</a></li>
+          </ul>
+        </nav>
+        <div class="nav-right">
+          <label class="sr" for="lang-top">Language</label>
+          <select id="lang-top" class="lang-sel" data-lang-select>
+            <option value="ar">العربية</option>
+            <option value="en">English</option>
+          </select>
+          <button type="button" class="icon-btn" aria-label="Cart">
+            <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 4h2l2.4 11.2a1 1 0 0 0 1 .8h8.8a1 1 0 0 0 1-.76L20 8H6.2" />
+              <circle cx="9" cy="20" r="1.2" />
+              <circle cx="17" cy="20" r="1.2" /></svg
+            ><span class="cart-dot" aria-hidden="true"></span>
+          </button>
+          <button
+            type="button"
+            class="icon-btn burger"
+            id="burger"
+            aria-expanded="false"
+            aria-controls="drawer"
+            aria-label="Menu"
+          >
+            <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="wrap drawer" id="drawer" hidden>
+        <a href="#products"
+          ><span data-ar="المنتجات" data-en="Products">المنتجات</span
+          ><span aria-hidden="true">←</span></a
+        >
+        <a href="#coins"
+          ><span data-ar="المحفظة" data-en="Wallet">المحفظة</span
+          ><span aria-hidden="true">←</span></a
+        >
+        <a href="#learn"
+          ><span data-ar="تعلّم" data-en="Learn">تعلّم</span><span aria-hidden="true">←</span></a
+        >
+        <a href="merchant-workspace.html"
+          ><span data-ar="للأعمال" data-en="For Business">للأعمال</span
+          ><span aria-hidden="true">←</span></a
+        >
+        <a href="#footer"
+          ><span data-ar="للمطورين" data-en="For Developers">للمطورين</span
+          ><span aria-hidden="true">←</span></a
+        >
+        <a href="#faq"
+          ><span data-ar="الدعم" data-en="Support">الدعم</span><span aria-hidden="true">←</span></a
+        >
+        <label class="sr" for="lang-drawer">Language</label>
+        <select id="lang-drawer" class="lang-sel" data-lang-select>
+          <option value="ar">العربية</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- 2. hero -->
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div>
+            <span class="pill" data-ar="مالك، بموافقتك أنت" data-en="Your money, on your approval"
+              >مالك، بموافقتك أنت</span
+            >
+            <h1
+              data-ar="تجاوز الصرّافين والمحافظ الهشّة"
+              data-en="Go beyond cash counters and fragile wallets"
+            >
+              تجاوز الصرّافين والمحافظ الهشّة
+            </h1>
+            <p
+              class="sub"
+              data-ar="احتفظ بالذهب بالجرام، وبالدولار كعملة USDT، وبمستحقات متجرك في حساب واحد في السوق. كل دفعة محمية بالضمان وتتأكد من هاتفك، حتى بدون إنترنت."
+              data-en="Hold gold by the gram, dollars as USDT and your store's receivables in one alSooq account. Every payment is held in escrow and confirmed from your phone, even without internet."
+            >
+              احتفظ بالذهب بالجرام، وبالدولار كعملة USDT، وبمستحقات متجرك في حساب واحد في السوق. كل
+              دفعة محمية بالضمان وتتأكد من هاتفك، حتى بدون إنترنت.
+            </p>
+            <div class="cta-row">
+              <a
+                class="btn btn-primary"
+                href="merchant-onboarding.html"
+                data-ar="افتح حسابًا"
+                data-en="Open an account"
+                >افتح حسابًا</a
+              >
+              <a class="link" href="#learn"
+                ><span data-ar="كيف يعمل الضمان" data-en="How escrow works">كيف يعمل الضمان</span
+                ><svg class="i flip" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" /></svg
+              ></a>
+            </div>
+            <div class="trust">
+              <div>
+                <b>1 g</b
+                ><span data-ar="أصغر وحدة ذهب (1 SGT)" data-en="smallest gold unit (1 SGT)"
+                  >أصغر وحدة ذهب (1 SGT)</span
+                >
+              </div>
+              <div>
+                <b>3</b
+                ><span
+                  data-ar="ممرات تحويل: السعودية، الإمارات، مصر"
+                  data-en="corridors: KSA, UAE, Egypt"
+                  >ممرات تحويل: السعودية، الإمارات، مصر</span
+                >
+              </div>
+              <div>
+                <b>100%</b
+                ><span data-ar="من طلبات المتجر بالضمان" data-en="of store orders held in escrow"
+                  >من طلبات المتجر بالضمان</span
+                >
+              </div>
+              <div>
+                <b dir="ltr">*888#</b
+                ><span
+                  data-ar="يعمل بدون إنترنت (رمز توضيحي)"
+                  data-en="works offline (placeholder code)"
+                  >يعمل بدون إنترنت (رمز توضيحي)</span
+                >
+              </div>
+            </div>
+          </div>
+          <div
+            class="hero-art"
+            role="img"
+            aria-label="alSooq app showing a gold balance, placeholder render"
+          >
+            <div class="phone">
+              <div class="scr">
+                <span class="lbl" data-ar="رصيد الذهب" data-en="Gold balance">رصيد الذهب</span>
+                <span class="bal">1.68 SGT</span>
+                <span class="row"></span><span class="row"></span><span class="row"></span>
+                <span class="go"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. features -->
+      <section class="section" aria-label="Why alSooq">
+        <div class="wrap features">
+          <div class="feature">
+            <div class="ic">
+              <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" />
+              </svg>
+            </div>
+            <h3 data-ar="وضوح أكثر" data-en="More clarity">وضوح أكثر</h3>
+            <p
+              data-ar="ترى السعر والرسوم والمبلغ الذي يصلك قبل أن تؤكد. لا رسوم مخفية عند الصرّاف."
+              data-en="See the rate, the fee and what you receive before you confirm. No hidden margin at the counter."
+            >
+              ترى السعر والرسوم والمبلغ الذي يصلك قبل أن تؤكد. لا رسوم مخفية عند الصرّاف.
+            </p>
+          </div>
+          <div class="feature">
+            <div class="ic">
+              <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 6h16M4 12h10M4 18h6" />
+                <path d="M17 15l3 3-3 3" />
+              </svg>
+            </div>
+            <h3 data-ar="خيارات أكثر" data-en="More choice">خيارات أكثر</h3>
+            <p
+              data-ar="ذهب، أو USDT، أو جنيه في محفظة الهاتف. ادفع من التطبيق أو من أي هاتف عبر USSD."
+              data-en="Gold, USDT or pounds in your mobile wallet. Pay from the app or from any phone over USSD."
+            >
+              ذهب، أو USDT، أو جنيه في محفظة الهاتف. ادفع من التطبيق أو من أي هاتف عبر USSD.
+            </p>
+          </div>
+          <div class="feature">
+            <div class="ic">
+              <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="5" y="11" width="14" height="10" rx="2" />
+                <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+              </svg>
+            </div>
+            <h3 data-ar="تحكّم أكبر" data-en="More control">تحكّم أكبر</h3>
+            <p
+              data-ar="يبقى المبلغ بالضمان حتى تؤكد الاستلام. لا يتحرك شيء من حسابك دون موافقتك."
+              data-en="Payments stay in escrow until you confirm delivery. Nothing leaves your account without your approval."
+            >
+              يبقى المبلغ بالضمان حتى تؤكد الاستلام. لا يتحرك شيء من حسابك دون موافقتك.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. cinematic banner -->
+      <section class="section" id="learn" aria-labelledby="start-h">
+        <div class="wrap">
+          <div class="cine">
+            <div class="cine-copy">
+              <h2 id="start-h" data-ar="لا تعرف من أين تبدأ؟" data-en="Not sure where to start?">
+                لا تعرف من أين تبدأ؟
+              </h2>
+              <div class="paths">
+                <div>
+                  <b data-ar="أنا جديد على السوق" data-en="I'm new to alSooq">أنا جديد على السوق</b>
+                  <a
+                    class="btn btn-light"
+                    href="#faq"
+                    data-ar="ابدأ بالأساسيات"
+                    data-en="Start with the basics"
+                    >ابدأ بالأساسيات</a
+                  >
+                </div>
+                <div>
+                  <b data-ar="أدير متجرًا" data-en="I run a store">أدير متجرًا</b>
+                  <a
+                    class="btn btn-outline"
+                    href="merchant-onboarding.html"
+                    data-ar="افتح حساب تاجر"
+                    data-en="Open a merchant account"
+                    >افتح حساب تاجر</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="coin-wrap" aria-hidden="true">
+              <div class="coin"><span>س</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. products -->
+      <section class="section" id="products" aria-labelledby="prod-h">
+        <div class="wrap">
+          <div class="shead">
+            <div>
+              <h2 id="prod-h" data-ar="النقد وحده ليس آمنًا" data-en="Cash alone isn't safe">
+                النقد وحده ليس آمنًا
+              </h2>
+              <p
+                data-ar="النقد يُفقد ويُسرق وتتآكل قيمته. حسابات السوق تحفظ القيمة بالذهب أو بالدولار، ولا تحرّكها إلا بموافقتك."
+                data-en="Cash gets lost, stolen and eaten by inflation. alSooq accounts keep value in gold or dollars and move it only when you approve."
+              >
+                النقد يُفقد ويُسرق وتتآكل قيمته. حسابات السوق تحفظ القيمة بالذهب أو بالدولار، ولا
+                تحرّكها إلا بموافقتك.
+              </p>
+            </div>
+            <a
+              class="btn btn-outline"
+              href="fractional.html"
+              data-ar="قارن الحسابات"
+              data-en="Compare accounts"
+              >قارن الحسابات</a
+            >
+          </div>
+          <div class="pgrid">
+            <article class="pcard">
+              <div class="pimg" role="img" aria-label="Gold bar, placeholder render">
+                <div class="bar-gold">SGT</div>
+              </div>
+              <h3 data-ar="خزنة الذهب" data-en="Gold vault">خزنة الذهب</h3>
+              <span><span class="pill">1 SGT = 1 g</span></span>
+              <p
+                class="desc"
+                data-ar="امتلك الذهب السوداني بالجرام، واسترده أو بِعه بسعر السوق."
+                data-en="Own Sudanese gold by the gram, and redeem or sell it at the market price."
+              >
+                امتلك الذهب السوداني بالجرام، واسترده أو بِعه بسعر السوق.
+              </p>
+              <div class="stars">
+                <span class="s" aria-hidden="true">★★★★★</span
+                ><span data-ar="تقييم توضيحي" data-en="Sample rating">تقييم توضيحي</span>
+              </div>
+              <a class="link" href="fractional.html#gold"
+                ><span data-ar="اعرف المزيد" data-en="Learn more">اعرف المزيد</span
+                ><svg class="i flip" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" /></svg
+              ></a>
+            </article>
+            <article class="pcard">
+              <span class="badge-new" data-ar="جديد" data-en="NEW">جديد</span>
+              <div class="pimg" role="img" aria-label="USDT token, placeholder render">
+                <div class="tok">USDT</div>
+              </div>
+              <h3 data-ar="محفظة العملة المستقرة" data-en="Stablecoin wallet">
+                محفظة العملة المستقرة
+              </h3>
+              <span
+                ><span class="pill" data-ar="USDT · 3 ممرات" data-en="USDT · 3 corridors"
+                  >USDT · 3 ممرات</span
+                ></span
+              >
+              <p
+                class="desc"
+                data-ar="استقبل من السعودية والإمارات ومصر، واحتفظ بالدولار أو حوّله إلى جنيه."
+                data-en="Receive from KSA, UAE and Egypt, then hold dollars or convert to pounds."
+              >
+                استقبل من السعودية والإمارات ومصر، واحتفظ بالدولار أو حوّله إلى جنيه.
+              </p>
+              <div class="stars">
+                <span class="s" aria-hidden="true">★★★★★</span
+                ><span data-ar="تقييم توضيحي" data-en="Sample rating">تقييم توضيحي</span>
+              </div>
+              <a class="link" href="fractional.html#accounts"
+                ><span data-ar="اعرف المزيد" data-en="Learn more">اعرف المزيد</span
+                ><svg class="i flip" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" /></svg
+              ></a>
+            </article>
+            <article class="pcard">
+              <div class="pimg" role="img" aria-label="Receipt, placeholder render">
+                <div class="receipt"><i></i><i></i><i></i><i></i><b></b></div>
+              </div>
+              <h3 data-ar="حساب المستحقات" data-en="Receivable account">حساب المستحقات</h3>
+              <span
+                ><span class="pill" data-ar="ضمان حتى التسليم" data-en="Escrow until delivery"
+                  >ضمان حتى التسليم</span
+                ></span
+              >
+              <p
+                class="desc"
+                data-ar="حساب لكل تاجر يستقبل مدفوعات متجرك الإلكتروني ويسوّيها إلى محفظتك."
+                data-en="One account per merchant that collects your online store payments and settles them to your wallet."
+              >
+                حساب لكل تاجر يستقبل مدفوعات متجرك الإلكتروني ويسوّيها إلى محفظتك.
+              </p>
+              <div class="stars">
+                <span class="s" aria-hidden="true">★★★★☆</span
+                ><span data-ar="تقييم توضيحي" data-en="Sample rating">تقييم توضيحي</span>
+              </div>
+              <a class="link" href="fractional.html#accounts"
+                ><span data-ar="اعرف المزيد" data-en="Learn more">اعرف المزيد</span
+                ><svg class="i flip" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" /></svg
+              ></a>
+            </article>
+            <article class="pcard">
+              <div class="pimg" role="img" aria-label="Basic phone keypad, placeholder render">
+                <div class="keypad">
+                  <span class="s2" dir="ltr">*888#</span>
+                  <span class="keys"
+                    ><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i
+                  ></span>
+                </div>
+              </div>
+              <h3 data-ar="الوصول عبر USSD" data-en="USSD access">الوصول عبر USSD</h3>
+              <span
+                ><span class="pill" data-ar="بدون إنترنت" data-en="No internet needed"
+                  >بدون إنترنت</span
+                ></span
+              >
+              <p
+                class="desc"
+                data-ar="اشترِ ذهبًا واحجز شحنًا وحرّر الضمان من أي هاتف، حتى البسيط."
+                data-en="Buy gold, book freight and release escrow from any phone, even a basic one."
+              >
+                اشترِ ذهبًا واحجز شحنًا وحرّر الضمان من أي هاتف، حتى البسيط.
+              </p>
+              <div class="stars">
+                <span class="s" aria-hidden="true">★★★★☆</span
+                ><span data-ar="تقييم توضيحي" data-en="Sample rating">تقييم توضيحي</span>
+              </div>
+              <a class="link" href="fractional.html#ussd"
+                ><span data-ar="اعرف المزيد" data-en="Learn more">اعرف المزيد</span
+                ><svg class="i flip" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" /></svg
+              ></a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. offer banner -->
+      <section class="section" aria-labelledby="offer-h">
+        <div class="wrap">
+          <div class="offer">
+            <div class="offer-copy">
+              <span class="pill" data-ar="محفظة حويل" data-en="Hawil wallet">محفظة حويل</span>
+              <h2
+                id="offer-h"
+                data-ar="استلم من الخارج، واصرف في السوق"
+                data-en="Get paid from abroad, spend at the souk"
+              >
+                استلم من الخارج، واصرف في السوق
+              </h2>
+              <p
+                data-ar="تصل تحويلات المغتربين إلى محفظتك بالدولار الرقمي، وتدفع بها في متاجر السوق مباشرة برسوم تحويل 1٪ (توضيحية)."
+                data-en="Remittances land in your wallet as digital dollars, and you pay alSooq stores with them directly at a 1% conversion fee (illustrative)."
+              >
+                تصل تحويلات المغتربين إلى محفظتك بالدولار الرقمي، وتدفع بها في متاجر السوق مباشرة
+                برسوم تحويل 1٪ (توضيحية).
+              </p>
+              <a
+                class="btn btn-outline"
+                href="fractional.html#accounts"
+                data-ar="شاهد الحسابات"
+                data-en="See the accounts"
+                >شاهد الحسابات</a
+              >
+            </div>
+            <div class="offer-art" aria-hidden="true">
+              <div class="card-v"><span>•••• 4096</span><i>السوق</i></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. currencies -->
+      <section class="section" id="coins" aria-labelledby="coins-h">
+        <div class="wrap center">
+          <h2
+            id="coins-h"
+            data-ar="الذهب والدولار والجنيه في مكان واحد"
+            data-en="Gold, dollars and pounds in one place"
+          >
+            الذهب والدولار والجنيه في مكان واحد
+          </h2>
+          <p
+            class="lead"
+            data-ar="احتفظ وحوّل وادفع بما يناسبك، من التطبيق أو عبر USSD."
+            data-en="Hold, convert and pay in what suits you, from the app or over USSD."
+          >
+            احتفظ وحوّل وادفع بما يناسبك، من التطبيق أو عبر USSD.
+          </p>
+          <ul class="coins">
+            <li
+              style="background: radial-gradient(circle at 32% 28%, #fff0c4, #d59a35 55%, #7a4e0a)"
+            >
+              SGT
+            </li>
+            <li style="background: #26a17b">USDT</li>
+            <li style="background: #8a4b2a">SDG</li>
+            <li style="background: #2f6b4f">SAR</li>
+            <li style="background: #9c2f2f">AED</li>
+            <li style="background: #3d3a36">EGP</li>
+            <li style="background: #2775ca">USDC</li>
+            <li style="background: #5f3119">USD</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 8. informed -->
+      <section class="section" aria-labelledby="inf-h">
+        <div class="wrap informed">
+          <h2 id="inf-h" data-ar="قرارات مبنية على معلومات" data-en="Make informed decisions">
+            قرارات مبنية على معلومات
+          </h2>
+          <div>
+            <p
+              data-ar="قبل أي تأكيد، يعرض السوق السعر المستخدم والرسوم والمبلغ النهائي بالجنيه والدولار. وإذا ابتعد السعر عن سعر السوق، تظهر لك رسالة تنبيه قبل الدفع."
+              data-en="Before you confirm, alSooq shows the rate it used, the fee and the final amount in pounds and dollars. If the rate drifts from the market, you get a warning before you pay."
+            >
+              قبل أي تأكيد، يعرض السوق السعر المستخدم والرسوم والمبلغ النهائي بالجنيه والدولار. وإذا
+              ابتعد السعر عن سعر السوق، تظهر لك رسالة تنبيه قبل الدفع.
+            </p>
+            <a
+              class="btn btn-outline"
+              href="dashboard.html"
+              data-ar="شاهد لوحة المنظومة"
+              data-en="See the ecosystem dashboard"
+              >شاهد لوحة المنظومة</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. testimonials -->
+      <section class="section" aria-labelledby="t-h">
+        <div class="wrap">
+          <div class="t-head">
+            <div>
+              <h2 id="t-h" data-ar="عملاء راضون كُثر" data-en="Countless happy customers">
+                عملاء راضون كُثر
+              </h2>
+              <p
+                class="note"
+                data-ar="آراء توضيحية لهذا النموذج."
+                data-en="Sample reviews for this prototype."
+              >
+                آراء توضيحية لهذا النموذج.
+              </p>
+            </div>
+            <div class="t-nav">
+              <button type="button" class="circ" id="prev" aria-label="Previous">
+                <svg class="i flip" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M15 6l-6 6 6 6" />
+                </svg>
+              </button>
+              <button type="button" class="circ" id="next" aria-label="Next">
+                <svg class="i flip" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 6l6 6-6 6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="track" id="track" tabindex="0" role="region" aria-label="Reviews">
+            <figure class="quote">
+              <p
+                data-ar="ابني في الرياض يرسل لي بالدولار الرقمي، وأشتري بها التوابل لمتجري مباشرة. وفّرت ما كنت أدفعه للصرّاف كل شهر."
+                data-en="My son in Riyadh sends me digital dollars and I buy spices for my store with them directly. I stopped paying the money-changer every month."
+              >
+                ابني في الرياض يرسل لي بالدولار الرقمي، وأشتري بها التوابل لمتجري مباشرة. وفّرت ما
+                كنت أدفعه للصرّاف كل شهر.
+              </p>
+              <figcaption class="who">
+                <span class="av">ف</span
+                ><span
+                  ><b data-ar="فاطمة ع." data-en="Fatima A.">فاطمة ع.</b
+                  ><span>@fatima.spices</span></span
+                >
+              </figcaption>
+            </figure>
+            <figure class="quote">
+              <p
+                data-ar="الضمان غيّر تعاملي مع العملاء الجدد. يدفعون مقدمًا وهم مطمئنون، وأستلم المبلغ بعد التسليم مباشرة."
+                data-en="Escrow changed how I deal with new customers. They pay upfront without worrying, and I get the money right after delivery."
+              >
+                الضمان غيّر تعاملي مع العملاء الجدد. يدفعون مقدمًا وهم مطمئنون، وأستلم المبلغ بعد
+                التسليم مباشرة.
+              </p>
+              <figcaption class="who">
+                <span class="av">م</span
+                ><span
+                  ><b data-ar="محمد ك." data-en="Mohamed K.">محمد ك.</b
+                  ><span>@kassala.crafts</span></span
+                >
+              </figcaption>
+            </figure>
+            <figure class="quote">
+              <p
+                data-ar="أشتري جرامًا من الذهب كل أسبوع بدل أن أحتفظ بالجنيه. أرى السعر والرسوم قبل أن أؤكد، وهذا ما أحتاجه."
+                data-en="I buy a gram of gold every week instead of holding pounds. I see the price and the fee before I confirm, and that's what I need."
+              >
+                أشتري جرامًا من الذهب كل أسبوع بدل أن أحتفظ بالجنيه. أرى السعر والرسوم قبل أن أؤكد،
+                وهذا ما أحتاجه.
+              </p>
+              <figcaption class="who">
+                <span class="av">س</span
+                ><span
+                  ><b data-ar="سارة م." data-en="Sara M.">سارة م.</b><span>@sara.saves</span></span
+                >
+              </figcaption>
+            </figure>
+            <figure class="quote">
+              <p
+                data-ar="والدي لا يستخدم الإنترنت، لكنه يحرّر الضمان لشحناته من هاتفه البسيط عبر USSD."
+                data-en="My father doesn't use the internet, but he releases escrow for his shipments from his basic phone over USSD."
+              >
+                والدي لا يستخدم الإنترنت، لكنه يحرّر الضمان لشحناته من هاتفه البسيط عبر USSD.
+              </p>
+              <figcaption class="who">
+                <span class="av">ع</span
+                ><span
+                  ><b data-ar="عثمان ح." data-en="Osman H.">عثمان ح.</b
+                  ><span>@osman.freight</span></span
+                >
+              </figcaption>
+            </figure>
+            <figure class="quote">
+              <p
+                data-ar="حساب المستحقات أعطاني رقمًا واحدًا لكل مدفوعات متجري الإلكتروني، والتسوية تصل إلى محفظتي في اليوم التالي."
+                data-en="The receivable account gave me one number for all my online store payments, and settlement reaches my wallet the next day."
+              >
+                حساب المستحقات أعطاني رقمًا واحدًا لكل مدفوعات متجري الإلكتروني، والتسوية تصل إلى
+                محفظتي في اليوم التالي.
+              </p>
+              <figcaption class="who">
+                <span class="av">ن</span
+                ><span
+                  ><b data-ar="نور أ." data-en="Nour E.">نور أ.</b><span>@nour.market</span></span
+                >
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. faq -->
+      <section class="section" id="faq" aria-labelledby="faq-h">
+        <div class="wrap faq">
+          <div>
+            <h2 id="faq-h" data-ar="أسئلة شائعة" data-en="Questions, answered">أسئلة شائعة</h2>
+            <div class="qlist" id="qlist"></div>
+          </div>
+          <div class="answer" id="answer" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <!-- 11. closing -->
+      <section class="section closing" aria-labelledby="close-h">
+        <div class="wrap">
+          <h2 id="close-h" class="grad-text">
+            <span data-ar="مالك محفوظ." data-en="Your money, kept.">مالك محفوظ.</span><br /><span
+              data-ar="وسوقك مفتوح."
+              data-en="Your market, open."
+              >وسوقك مفتوح.</span
+            >
+          </h2>
+          <a
+            class="btn btn-light"
+            href="merchant-onboarding.html"
+            data-ar="افتح حسابك"
+            data-en="Open your account"
+            >افتح حسابك</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <!-- 12. newsletter + footer -->
+    <footer id="footer">
+      <div class="wrap">
+        <div class="news">
+          <div>
+            <h3 data-ar="ابقَ على تواصل" data-en="Stay in touch">ابقَ على تواصل</h3>
+            <p
+              data-ar="تنبيهات الأمان وأخبار السوق، حيث تتابعنا."
+              data-en="Security notices and alSooq news, wherever you follow us."
+            >
+              تنبيهات الأمان وأخبار السوق، حيث تتابعنا.
+            </p>
+            <ul class="socials">
+              <li>
+                <a href="#footer" aria-label="X"
+                  ><svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M4 4l16 16M20 4L4 20" /></svg
+                ></a>
+              </li>
+              <li>
+                <a href="#footer" aria-label="WhatsApp"
+                  ><svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z" />
+                    <path
+                      d="M9 9.5c.5 2 2.5 4 4.5 4.5l1-1 2 1-.5 1.5c-3 .5-7-3.5-6.5-6.5L11 8.5l1 2z"
+                    /></svg
+                ></a>
+              </li>
+              <li>
+                <a href="#footer" aria-label="Facebook"
+                  ><svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z" /></svg
+                ></a>
+              </li>
+              <li>
+                <a href="#footer" aria-label="Instagram"
+                  ><svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="4" y="4" width="16" height="16" rx="5" />
+                    <circle cx="12" cy="12" r="3.5" /></svg
+                ></a>
+              </li>
+              <li>
+                <a href="#footer" aria-label="LinkedIn"
+                  ><svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="4" y="4" width="16" height="16" rx="3" />
+                    <path d="M8 10v6M8 7.5v.01M12 16v-3.5a2 2 0 0 1 4 0V16" /></svg
+                ></a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 data-ar="اشترك في النشرة" data-en="Subscribe to our newsletter">اشترك في النشرة</h3>
+            <p
+              data-ar="رسالة واحدة في الشهر. يمكنك إلغاء الاشتراك في أي وقت."
+              data-en="One email a month. Unsubscribe any time."
+            >
+              رسالة واحدة في الشهر. يمكنك إلغاء الاشتراك في أي وقت.
+            </p>
+            <form class="sub-form" id="sub-form" novalidate>
+              <label class="sr" for="email">Email</label>
+              <input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                dir="ltr"
+              />
+              <button type="submit" class="btn btn-primary" data-ar="اشترك" data-en="Subscribe">
+                اشترك
+              </button>
+            </form>
+            <p class="form-msg" id="form-msg" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <div class="foot-cols">
+          <div>
+            <h4 data-ar="المنتجات" data-en="Products">المنتجات</h4>
+            <ul>
+              <li>
+                <a href="fractional.html#gold" data-ar="خزنة الذهب" data-en="Gold vault"
+                  >خزنة الذهب</a
+                >
+              </li>
+              <li>
+                <a
+                  href="fractional.html#accounts"
+                  data-ar="محفظة العملة المستقرة"
+                  data-en="Stablecoin wallet"
+                  >محفظة العملة المستقرة</a
+                >
+              </li>
+              <li>
+                <a
+                  href="fractional.html#accounts"
+                  data-ar="حساب المستحقات"
+                  data-en="Receivable account"
+                  >حساب المستحقات</a
+                >
+              </li>
+              <li>
+                <a href="fractional.html#freight" data-ar="الشحن بالحصص" data-en="Shared freight"
+                  >الشحن بالحصص</a
+                >
+              </li>
+              <li>
+                <a href="fractional.html#ussd" data-ar="الوصول عبر USSD" data-en="USSD access"
+                  >الوصول عبر USSD</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 data-ar="الأعمال" data-en="Business">الأعمال</h4>
+            <ul>
+              <li>
+                <a
+                  href="merchant-onboarding.html"
+                  data-ar="تسجيل التاجر"
+                  data-en="Merchant onboarding"
+                  >تسجيل التاجر</a
+                >
+              </li>
+              <li>
+                <a
+                  href="merchant-workspace.html"
+                  data-ar="مساحة عمل التاجر"
+                  data-en="Merchant workspace"
+                  >مساحة عمل التاجر</a
+                >
+              </li>
+              <li>
+                <a href="mowasalaty.html" data-ar="مواصلاتي" data-en="Mowasalaty">مواصلاتي</a>
+              </li>
+              <li>
+                <a href="dashboard.html" data-ar="لوحة المنظومة" data-en="Ecosystem dashboard"
+                  >لوحة المنظومة</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 data-ar="المطورون" data-en="Developers">المطورون</h4>
+            <ul>
+              <li>
+                <a
+                  href="site/2_Core_Platform/Catalog_SDK.html"
+                  data-ar="حزمة الكتالوج"
+                  data-en="Catalog SDK"
+                  >حزمة الكتالوج</a
+                >
+              </li>
+              <li>
+                <a
+                  href="site/3_Service_SDKs/SudanExpress_Merchant_SDK.html"
+                  data-ar="حزمة سودان إكسبريس"
+                  data-en="Sudan Express SDK"
+                  >حزمة سودان إكسبريس</a
+                >
+              </li>
+              <li>
+                <a
+                  href="site/2_Core_Platform/Order_Lifecycle_Demo.html"
+                  data-ar="دورة حياة الطلب"
+                  data-en="Order lifecycle"
+                  >دورة حياة الطلب</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 data-ar="القانوني" data-en="Legal">القانوني</h4>
+            <ul>
+              <li>
+                <a href="#footer" data-ar="شروط الاستخدام" data-en="Terms of use">شروط الاستخدام</a>
+              </li>
+              <li>
+                <a href="#footer" data-ar="سياسة الخصوصية" data-en="Privacy policy"
+                  >سياسة الخصوصية</a
+                >
+              </li>
+              <li><a href="#footer" data-ar="الإفصاحات" data-en="Disclosures">الإفصاحات</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 data-ar="الوظائف" data-en="Careers">الوظائف</h4>
+            <ul>
+              <li>
+                <a href="#footer" data-ar="الوظائف المتاحة" data-en="Open roles">الوظائف المتاحة</a>
+              </li>
+              <li>
+                <a href="#footer" data-ar="فريق الأمان" data-en="Security team">فريق الأمان</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="legal">
+          <p
+            class="fine"
+            data-ar="نموذج أولي للمراجعة. الأرقام والأسعار والتقييمات والآراء توضيحية. خدمات الذهب والعملة المستقرة وحسابات المستحقات تخضع لموافقة الجهات التنظيمية قبل الإطلاق."
+            data-en="Prototype for review. Figures, rates, ratings and reviews are illustrative. Gold, stablecoin and receivable-account services are subject to regulatory approval before launch."
+          >
+            نموذج أولي للمراجعة. الأرقام والأسعار والتقييمات والآراء توضيحية. خدمات الذهب والعملة
+            المستقرة وحسابات المستحقات تخضع لموافقة الجهات التنظيمية قبل الإطلاق.
+          </p>
+          <div class="legal-row">
+            <ul class="chips">
+              <li data-ar="محفظة الهاتف" data-en="Mobile wallet">محفظة الهاتف</li>
+              <li data-ar="تحويل بنكي" data-en="Bank transfer">تحويل بنكي</li>
+              <li>USDT</li>
+              <li>USSD</li>
+            </ul>
+            <ul class="chips">
+              <li data-ar="شريك" data-en="Partner">شريك</li>
+              <li data-ar="شريك" data-en="Partner">شريك</li>
+            </ul>
+            <label class="sr" for="lang-foot">Language</label>
+            <select id="lang-foot" class="lang-sel" data-lang-select>
+              <option value="ar">العربية</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        var lang = "ar";
+        var t = function (ar, en) {
+          return lang === "ar" ? ar : en;
+        };
+
+        // FAQ content: left list, right detail (inline under the question on small screens).
+        var faqs = [
+          [
+            "ما هو الضمان في السوق؟",
+            "What is alSooq escrow?",
+            "عند الدفع لمتجر، يُحفظ المبلغ في حساب ضمان. لا يصل إلى التاجر إلا بعد أن تؤكد استلام الطلب، فإن لم يصل الطلب يعود المبلغ إليك.",
+            "When you pay a store, the money is held in an escrow account. It reaches the merchant only after you confirm the order arrived; if it doesn't arrive, the money comes back to you.",
+          ],
+          [
+            "هل الذهب في حسابي حقيقي؟",
+            "Is the gold in my account real?",
+            "كل وحدة SGT تمثّل جرامًا واحدًا من ذهب مادي محفوظ. يمكنك بيعه بسعر السوق أو طلب استرداده وفق شروط الخدمة.",
+            "Each SGT unit represents one gram of stored physical gold. You can sell it at the market price or request redemption under the service terms.",
+          ],
+          [
+            "كيف تعمل محفظة USDT؟",
+            "How does the USDT wallet work?",
+            "يرسل لك أهلك أو عملاؤك من الخارج بالدولار الرقمي. تحتفظ به كما هو، أو تحوّله إلى جنيه في محفظة الهاتف، وترى السعر والرسوم قبل التأكيد.",
+            "Family or customers abroad send you digital dollars. Keep them as they are, or convert to pounds in your mobile wallet, and see the rate and fee before you confirm.",
+          ],
+          [
+            "هل أحتاج إلى إنترنت؟",
+            "Do I need internet?",
+            "لا. يمكنك شراء الذهب وحجز الشحن والتحقق من الرصيد وتحرير الضمان من أي هاتف عبر USSD. الرمز *888# توضيحي حتى الإطلاق.",
+            "No. You can buy gold, book freight, check your balance and release escrow from any phone over USSD. The code *888# is a placeholder until launch.",
+          ],
+          [
+            "ماذا لو فقدت هاتفي؟",
+            "What if I lose my phone?",
+            "أموالك في حسابك وليست على الهاتف. أوقف الحساب من أي جهاز أو عبر خدمة العملاء، ثم ادخل من هاتف جديد برقمك وتحقق الهوية.",
+            "Your money is in your account, not on the phone. Freeze the account from any device or through support, then sign in on a new phone with your number and identity check.",
+          ],
+        ];
+        var qlist = document.getElementById("qlist"),
+          answer = document.getElementById("answer"),
+          openIdx = 0;
+        faqs.forEach(function (f, i) {
+          var item = document.createElement("div");
+          item.className = "q";
+          var b = document.createElement("button");
+          b.type = "button";
+          b.id = "faq-q" + i;
+          b.setAttribute("aria-controls", "faq-a" + i);
+          b.innerHTML =
+            '<span></span><svg class="i plus" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
+          var a = document.createElement("p");
+          a.className = "inline-a";
+          a.id = "faq-a" + i;
+          b.addEventListener("click", function () {
+            openIdx = openIdx === i && window.matchMedia("(max-width:860px)").matches ? -1 : i;
+            renderFaq();
+          });
+          item.appendChild(b);
+          item.appendChild(a);
+          qlist.appendChild(item);
+        });
+        function renderFaq() {
+          [].forEach.call(qlist.querySelectorAll(".q"), function (item, i) {
+            var on = i === openIdx;
+            item.querySelector("button span").textContent = t(faqs[i][0], faqs[i][1]);
+            item.querySelector("button").setAttribute("aria-expanded", String(on));
+            var a = item.querySelector(".inline-a");
+            a.textContent = t(faqs[i][2], faqs[i][3]);
+            a.hidden = !on;
+          });
+          answer.textContent = "";
+          if (openIdx < 0) return;
+          var pill = document.createElement("span");
+          pill.className = "pill";
+          pill.textContent = t(
+            "سؤال " + (openIdx + 1) + " من " + faqs.length,
+            "Question " + (openIdx + 1) + " of " + faqs.length,
+          );
+          var h = document.createElement("h3");
+          h.textContent = t(faqs[openIdx][0], faqs[openIdx][1]);
+          var p = document.createElement("p");
+          p.textContent = t(faqs[openIdx][2], faqs[openIdx][3]);
+          answer.appendChild(pill);
+          answer.appendChild(h);
+          answer.appendChild(p);
+        }
+
+        // Language: Arabic (RTL) by default, English (LTR) on request. Every selector stays in sync.
+        var selects = document.querySelectorAll("[data-lang-select]");
+        function setLang(l) {
+          lang = l;
+          var ar = l === "ar";
+          document.documentElement.lang = l;
+          document.documentElement.dir = ar ? "rtl" : "ltr";
+          document.documentElement.setAttribute("data-lang", l);
+          document.querySelectorAll("[data-ar]").forEach(function (e) {
+            e.textContent = e.getAttribute(ar ? "data-ar" : "data-en");
+          });
+          document.querySelectorAll(".drawer a span[aria-hidden]").forEach(function (s) {
+            s.textContent = ar ? "←" : "→";
+          });
+          selects.forEach(function (s) {
+            s.value = l;
+          });
+          document.getElementById("form-msg").textContent = "";
+          renderFaq();
+          syncCarousel();
+        }
+        selects.forEach(function (s) {
+          s.addEventListener("change", function () {
+            setLang(s.value);
+          });
+        });
+
+        // Burger menu
+        var burger = document.getElementById("burger"),
+          drawer = document.getElementById("drawer");
+        function closeDrawer() {
+          drawer.hidden = true;
+          burger.setAttribute("aria-expanded", "false");
+        }
+        burger.addEventListener("click", function () {
+          var open = burger.getAttribute("aria-expanded") === "true";
+          drawer.hidden = open;
+          burger.setAttribute("aria-expanded", String(!open));
+        });
+        drawer.addEventListener("click", function (e) {
+          if (e.target.closest("a")) closeDrawer();
+        });
+
+        // Testimonial carousel. In RTL the track scrolls toward negative scrollLeft, so "next" flips sign.
+        var track = document.getElementById("track"),
+          prev = document.getElementById("prev"),
+          next = document.getElementById("next");
+        function stepSize() {
+          var c = track.querySelector(".quote");
+          return c ? c.getBoundingClientRect().width + 20 : 300;
+        }
+        function dirSign() {
+          return document.documentElement.dir === "rtl" ? -1 : 1;
+        }
+        function syncCarousel() {
+          var pos = Math.abs(track.scrollLeft);
+          prev.disabled = pos < 4;
+          next.disabled = pos + track.clientWidth > track.scrollWidth - 4;
+        }
+        prev.addEventListener("click", function () {
+          track.scrollBy({ left: -stepSize() * dirSign() });
+        });
+        next.addEventListener("click", function () {
+          track.scrollBy({ left: stepSize() * dirSign() });
+        });
+        track.addEventListener(
+          "scroll",
+          function () {
+            requestAnimationFrame(syncCarousel);
+          },
+          { passive: true },
+        );
+        window.addEventListener("resize", syncCarousel);
+
+        // Newsletter: validated in the page, nothing is sent (prototype).
+        var form = document.getElementById("sub-form"),
+          email = document.getElementById("email"),
+          msg = document.getElementById("form-msg");
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var v = email.value.trim();
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
+            msg.className = "form-msg err";
+            msg.textContent = t(
+              "اكتب بريدًا إلكترونيًا مثل name@example.com.",
+              "Enter an email address like name@example.com.",
+            );
+            email.focus();
+            return;
+          }
+          msg.className = "form-msg ok";
+          msg.textContent = t(
+            "تم تسجيل ⁦" + v + "⁩ (تجريبي: لم يُرسل شيء).",
+            v + " is on the list (demo: nothing was sent).",
+          );
+          form.reset();
+        });
+
+        setLang("ar");
+      })();
+    </script>
+  </body>
+</html>
