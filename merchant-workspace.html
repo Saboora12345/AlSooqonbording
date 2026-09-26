@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <style>
 :root{
   --sand:#F6F1E7; --sand-2:#EFE7D8; --card:#FFFCF6; --white:#fff;
@@ -228,6 +229,31 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 .corridor .cv b{font-size:13px;font-weight:700;color:var(--palm)}
 .corridor .cv span{font-size:10.5px;color:var(--ink-3);display:block}
 
+/* ecosystem modules */
+.mods{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+@media(max-width:960px){.mods{grid-template-columns:1fr}}
+.mod{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;transition:transform .28s var(--ease),box-shadow .28s,border-color .28s}
+.mod:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--clay-30)}
+.mod-h{display:flex;align-items:center;gap:11px}
+.mod-h .mi{width:40px;height:40px;border-radius:12px;flex:none;display:grid;place-items:center;background:var(--clay-08);color:var(--clay)}
+.mod.mw .mi{background:rgba(29,95,191,.1);color:#1d5fbf}.mod.ft .mi{background:var(--gold-tint);color:var(--gold)}
+.mod-h b{font-size:14.5px;font-weight:700;display:block;line-height:1.25}
+.mod-h span{font-size:11.5px;color:var(--ink-3);font-weight:600}
+.mod-h .new{margin-inline-start:auto;font-size:10px;font-weight:700;color:#1d5fbf;background:rgba(29,95,191,.1);padding:3px 9px;border-radius:var(--r-pill)}
+.mod .feat{display:flex;flex-wrap:wrap;gap:6px}
+.mod .feat span{font-size:11px;font-weight:600;color:var(--ink-2);background:var(--sand-2);padding:4px 10px;border-radius:var(--r-pill)}
+.mod .trips{display:flex;flex-direction:column;gap:6px}
+.mod .trip{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;padding:8px 10px;border:1px solid var(--line-soft);border-radius:var(--r-sm);background:var(--white)}
+.mod .trip b{font-weight:600}
+.mod .trip .num{font-weight:700;color:#1d5fbf}
+.mod .stat{display:flex;gap:18px}
+.mod .stat div span{font-size:10.5px;color:var(--ink-3);font-weight:600;display:block}
+.mod .stat div b{font-size:16px;font-weight:700}
+.mod .go{margin-top:auto;align-self:flex-start}
+.mod.mw .go{background:#1d5fbf}
+.mod .map{height:180px;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line-soft);background:var(--sand-2);position:relative;z-index:0}
+.mod .map .fb{position:absolute;inset:0;display:grid;place-items:center;font-size:11.5px;color:var(--ink-3);text-align:center;padding:12px}
+
 /* reveal */
 .rev{opacity:0;transform:translateY(16px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .rev.in{opacity:1;transform:none}
@@ -336,6 +362,53 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
     </div>
   </section>
 
+  <!-- ecosystem modules -->
+  <div class="section-h rev">
+    <div>
+      <h2 data-ar="وحدات المنظومة" data-en="Ecosystem modules">وحدات المنظومة</h2>
+      <p data-ar="الشحن والتنقل والتمويل من مساحة عمل واحدة" data-en="Shipping, mobility and finance from one workspace">الشحن والتنقل والتمويل من مساحة عمل واحدة</p>
+    </div>
+  </div>
+  <section class="mods" aria-label="Ecosystem modules">
+    <article class="mod rev">
+      <div class="mod-h">
+        <div class="mi"><svg class="ic" viewBox="0 0 24 24"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg></div>
+        <div><b>Sudan Express</b><span data-ar="الشحن والتوصيل" data-en="Logistics &amp; shipping">الشحن والتوصيل</span></div>
+      </div>
+      <div class="stat">
+        <div><span data-ar="شحنات نشطة" data-en="Active shipments">شحنات نشطة</span><b class="num">12</b></div>
+        <div><span data-ar="تُسلَّم اليوم" data-en="Due today">تُسلَّم اليوم</span><b class="num">4</b></div>
+      </div>
+      <div class="feat"><span data-ar="تتبّع الشحنات" data-en="Tracking">تتبّع الشحنات</span><span data-ar="الدفع عند الاستلام" data-en="Cash on delivery">الدفع عند الاستلام</span></div>
+      <a class="btn-sm go" href="#" data-ar="إدارة الشحنات" data-en="Manage shipments">إدارة الشحنات</a>
+    </article>
+
+    <article class="mod mw rev">
+      <div class="mod-h">
+        <div class="mi"><svg class="ic" viewBox="0 0 24 24"><path d="M4 16V6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10M4 16h16M4 16v3h3v-3m10 0v3h3v-3M4 10h16M7.5 13h.01M16.5 13h.01"/></svg></div>
+        <div><b data-ar="مواصلاتي" data-en="Mowasalaty">مواصلاتي</b><span data-ar="خدمات التنقل" data-en="Mobility services">خدمات التنقل</span></div>
+        <span class="new" data-ar="جديد" data-en="New">جديد</span>
+      </div>
+      <div class="map" id="mwMap" role="img" aria-label="Mowasalaty route map"></div>
+      <div class="trips" id="mwTrips" aria-live="polite"></div>
+      <div class="feat"><span data-ar="عرض المسارات" data-en="View routes">عرض المسارات</span><span data-ar="حجز التذاكر" data-en="Book tickets">حجز التذاكر</span><span data-ar="تتبّع الأسطول" data-en="Fleet tracking">تتبّع الأسطول</span></div>
+      <a class="btn-sm go" href="mowasalaty.html" data-ar="فتح مواصلاتي" data-en="Open Mowasalaty">فتح مواصلاتي</a>
+    </article>
+
+    <article class="mod ft rev">
+      <div class="mod-h">
+        <div class="mi"><svg class="ic" viewBox="0 0 24 24"><path d="M2 5h20v14H2zM2 10h20M6 15h4"/></svg></div>
+        <div><b data-ar="التمويل" data-en="FinTech">التمويل</b><span data-ar="المدفوعات والتقسيط" data-en="Payments &amp; installments">المدفوعات والتقسيط</span></div>
+      </div>
+      <div class="stat">
+        <div><span data-ar="حد الائتمان" data-en="Credit line">حد الائتمان</span><b class="num">15,000</b></div>
+        <div><span data-ar="أقساط متبقية" data-en="Instalments left">أقساط متبقية</span><b class="num">1</b></div>
+      </div>
+      <div class="feat"><span data-ar="اشترِ الآن وادفع لاحقًا" data-en="Buy now, pay later">اشترِ الآن وادفع لاحقًا</span><span data-ar="تمويل المخزون" data-en="Inventory finance">تمويل المخزون</span></div>
+      <a class="btn-sm go" href="#financing" data-ar="خيارات التمويل" data-en="Finance options">خيارات التمويل</a>
+    </article>
+  </section>
+
   <!-- pipeline board -->
   <div class="board-wrap">
     <div class="section-h rev">
@@ -406,7 +479,7 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 
   <!-- financing + trust + remittance -->
   <div class="grid3">
-    <section class="panel rev">
+    <section class="panel rev" id="financing">
       <div class="panel-h g">
         <div class="lft"><div class="pi"><svg class="ic" viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
           <div><h3 data-ar="تمويل مرتبط بالاستخدام" data-en="Usage-linked financing">تمويل مرتبط بالاستخدام</h3><span class="sub" data-ar="قروض مربوطة بأصناف الكتالوج" data-en="Microloans tied to catalog items">قروض مربوطة بأصناف الكتالوج</span></div></div>
@@ -461,11 +534,13 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
       <a href="index.html" data-ar="التطبيق الموحّد" data-en="Unified app">التطبيق الموحّد</a>
       <a href="dashboard.html" data-ar="لوحة المنظومة" data-en="Dashboard">لوحة المنظومة</a>
       <a href="merchant-onboarding.html" data-ar="تسجيل التاجر" data-en="Onboarding">تسجيل التاجر</a>
+      <a href="mowasalaty.html" data-ar="مواصلاتي" data-en="Mowasalaty">مواصلاتي</a>
     </div>
     <div class="fc" data-ar="نموذج أولي للمراجعة — كل الأرقام توضيحية." data-en="Prototype for review — all figures illustrative.">نموذج أولي للمراجعة — كل الأرقام توضيحية.</div>
   </div>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
 (function(){
   var docEl=document.documentElement, reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -561,6 +636,37 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
     recount();
   }
   if(!reduce){setInterval(advance,3200);}
+
+  // Mowasalaty tile: next departures + route map.
+  // Mock data — in production this comes from api.alsooq.com/mowasalaty/trips via the server-side proxy.
+  var stops={Khartoum:[15.5007,32.5599],Madani:[14.4012,33.5199],Atbara:[17.7022,33.9864],Kassala:[15.4510,36.4000],PortSudan:[19.6158,37.2164]};
+  var names={Khartoum:['الخرطوم','Khartoum'],Madani:['مدني','Madani'],Atbara:['عطبرة','Atbara'],Kassala:['كسلا','Kassala'],PortSudan:['بورتسودان','Port Sudan']};
+  var trips=[{from:'Khartoum',to:'Madani',time:'08:00'},{from:'Khartoum',to:'Atbara',time:'09:30'},{from:'Kassala',to:'PortSudan',time:'11:15'}];
+  var tripBox=document.getElementById('mwTrips');
+  trips.forEach(function(t){
+    var row=document.createElement('div');row.className='trip';
+    var r=document.createElement('b');
+    r.setAttribute('data-ar',names[t.from][0]+' ← '+names[t.to][0]);
+    r.setAttribute('data-en',names[t.from][1]+' → '+names[t.to][1]);
+    var tm=document.createElement('span');tm.className='num';tm.textContent=t.time;
+    row.appendChild(r);row.appendChild(tm);tripBox.appendChild(row);
+  });
+  var mapEl=document.getElementById('mwMap');
+  if(window.L){
+    var map=L.map(mapEl,{zoomControl:false,attributionControl:true,scrollWheelZoom:false});
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:12,attribution:'&copy; OpenStreetMap'}).addTo(map);
+    var pts=[];
+    trips.forEach(function(t){
+      L.polyline([stops[t.from],stops[t.to]],{color:'#1d5fbf',weight:3,opacity:.8,dashArray:'6 6'}).addTo(map);
+    });
+    Object.keys(stops).forEach(function(k){
+      pts.push(stops[k]);
+      L.circleMarker(stops[k],{radius:5,color:'#fff',weight:2,fillColor:'#1d5fbf',fillOpacity:1}).addTo(map).bindTooltip(names[k][1]);
+    });
+    map.fitBounds(pts,{padding:[18,18]});
+  }else{
+    mapEl.innerHTML='<div class="fb">Map unavailable offline · الخريطة غير متاحة</div>';
+  }
 
   setLang('ar');
 })();
