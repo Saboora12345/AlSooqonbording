@@ -563,6 +563,9 @@
       .foot a:hover {
         text-decoration: underline;
       }
+      .foot a:focus-visible {
+        outline-color: var(--ink);
+      }
 
       /* layout at smaller widths */
       @media (max-width: 1020px) {
@@ -631,7 +634,9 @@
             id="menuOpen"
             aria-expanded="false"
             aria-controls="menu"
-            aria-label="Menu"
+            aria-label="القائمة"
+            data-ar-label="القائمة"
+            data-en-label="Menu"
           >
             <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16" /></svg>
           </button>
@@ -650,7 +655,9 @@
             class="phone"
             id="phone"
             role="img"
-            aria-label="alSooq merchant app: store balance and recent payments"
+            aria-label="تطبيق تاجر السوق: رصيد المتجر وآخر المدفوعات"
+            data-ar-label="تطبيق تاجر السوق: رصيد المتجر وآخر المدفوعات"
+            data-en-label="alSooq merchant app: store balance and recent payments"
           >
             <div class="screen" aria-hidden="true">
               <div class="app-top">
@@ -693,7 +700,7 @@
                 <div class="rows">
                   <h2 data-ar="آخر المدفوعات" data-en="Recent payments">آخر المدفوعات</h2>
                   <div class="r">
-                    <span class="ic g"
+                    <span class="ic"
                       ><svg class="i" viewBox="0 0 24 24">
                         <path d="M12 3v18M17 7H9.5a2.5 2.5 0 0 0 0 5h5a2.5 2.5 0 0 1 0 5H7" /></svg
                     ></span>
@@ -764,16 +771,32 @@
       </div>
     </header>
 
-    <div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+    <div
+      class="menu"
+      id="menu"
+      role="dialog"
+      aria-modal="true"
+      aria-label="القائمة"
+      data-ar-label="القائمة"
+      data-en-label="Menu"
+      hidden
+    >
       <div class="menu-top">
         <a class="logo" href="landing.html" aria-label="alSooq">س</a>
-        <button type="button" class="burger" id="menuClose" aria-label="Close menu">
+        <button
+          type="button"
+          class="burger"
+          id="menuClose"
+          aria-label="إغلاق القائمة"
+          data-ar-label="إغلاق القائمة"
+          data-en-label="Close menu"
+        >
           <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M6 6l12 12M18 6L6 18" />
           </svg>
         </button>
       </div>
-      <nav aria-label="Main">
+      <nav aria-label="الرئيسية" data-ar-label="الرئيسية" data-en-label="Main">
         <ul>
           <li>
             <a href="merchant-workspace.html"
@@ -808,7 +831,13 @@
           </li>
         </ul>
       </nav>
-      <div class="lang" role="group" aria-label="Language">
+      <div
+        class="lang"
+        role="group"
+        aria-label="اللغة"
+        data-ar-label="اللغة"
+        data-en-label="Language"
+      >
         <button type="button" class="pill pill-black" data-lang="ar" aria-pressed="true">
           عربي
         </button>
@@ -819,7 +848,7 @@
     </div>
 
     <footer class="foot">
-      <nav aria-label="Footer">
+      <nav aria-label="التذييل" data-ar-label="التذييل" data-en-label="Footer">
         <a href="landing.html" data-ar="الصفحة الرئيسية" data-en="Home">الصفحة الرئيسية</a>
         <a href="accounts.html" data-ar="حسابات السوق" data-en="alSooq accounts">حسابات السوق</a>
         <a href="dashboard.html" data-ar="لوحة المنظومة" data-en="Ecosystem dashboard"
@@ -838,7 +867,14 @@
       (function () {
         var menu = document.getElementById("menu"),
           openBtn = document.getElementById("menuOpen"),
-          closeBtn = document.getElementById("menuClose");
+          closeBtn = document.getElementById("menuClose"),
+          behind = [document.querySelector(".hero"), document.querySelector(".foot")];
+
+        function setBehindInert(on) {
+          behind.forEach(function (el) {
+            el.inert = on;
+          });
+        }
 
         function setLang(l) {
           var ar = l === "ar";
@@ -847,6 +883,9 @@
           document.documentElement.setAttribute("data-lang", l);
           document.querySelectorAll("[data-ar]").forEach(function (e) {
             e.textContent = e.getAttribute(ar ? "data-ar" : "data-en");
+          });
+          document.querySelectorAll("[data-ar-label]").forEach(function (e) {
+            e.setAttribute("aria-label", e.getAttribute(ar ? "data-ar-label" : "data-en-label"));
           });
           document.querySelectorAll(".lang [data-lang]").forEach(function (b) {
             b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === l));
@@ -862,12 +901,14 @@
           menu.hidden = false;
           openBtn.setAttribute("aria-expanded", "true");
           document.body.style.overflow = "hidden";
+          setBehindInert(true);
           closeBtn.focus();
         }
         function closeMenu() {
           menu.hidden = true;
           openBtn.setAttribute("aria-expanded", "false");
           document.body.style.overflow = "";
+          setBehindInert(false);
           openBtn.focus();
         }
         openBtn.addEventListener("click", openMenu);
