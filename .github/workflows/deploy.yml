@@ -1,0 +1,56 @@
+name: Deploy AlSooqonbording to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # production branch only
+  workflow_dispatch: # allow manual runs from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  # This repo is a set of self-contained static HTML prototypes at the root
+  # (index.html, landing.html, dashboard.html, mowasalaty.html,
+  # mowasalaty-promax.html, ...) plus the site/ reference set. There is no
+  # bundler/build step, so we simply stage the static files and publish them.
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Assemble static site
+        run: |
+          mkdir -p _site
+          # top-level pages (index.html becomes the Pages landing page)
+          cp ./*.html _site/
+          # reference prototypes under site/
+          if [ -d site ]; then cp -R site _site/site; fi
+          # keep README available at the deployed root for context
+          cp README.md _site/ 2>/dev/null || true
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سودان إكسبريس · Sudan Express — شحن مصر إلى السودان</title>
+<meta name="description" content="Sudan Express / Billion Express — per-kilo cargo Cairo → Khartoum. Bilingual rate menu (template).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#123251; --navy-2:#1C4A73; --ink:#14202E; --ink-2:#51637A;
+  --amber:#C77D0A; --amber-12:rgba(199,125,10,.12); --amber-30:rgba(199,125,10,.30);
+  --ground:#FBFAF7; --card:#FFFFFF; --line:#E7E1D3; --line-soft:#F0EBDF;
+  --ph:#B26B08; /* placeholder color */
+  --ar:'IBM Plex Sans Arabic',system-ui,sans-serif; --en:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ar);background:var(--ground);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.ph{color:var(--ph);font-family:var(--mono);font-weight:600;white-space:nowrap}
+.en{font-family:var(--en)}
+.wrap{max-width:820px;margin-inline:auto;padding:22px 20px 60px}
+.tpl{display:flex;align-items:center;gap:9px;background:var(--amber-12);border:1px solid var(--amber-30);color:#8a5606;border-radius:10px;padding:9px 13px;font-size:12.5px;font-weight:600;margin-bottom:18px}
+.tpl svg{width:16px;height:16px;flex-shrink:0}
+
+.sheet{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 1px 2px rgba(20,32,46,.04),0 24px 50px -34px rgba(20,32,46,.28)}
+.hd{background:var(--navy);color:#fff;padding:22px 26px;display:flex;align-items:center;gap:16px}
+.logo{width:56px;height:56px;border-radius:13px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ph);font-family:var(--mono);font-size:10px;font-weight:600;text-align:center;line-height:1.15;border:1px dashed var(--amber-30)}
+.hd h1{font-size:23px;font-weight:700;line-height:1.2}
+.hd .sub{font-size:13px;color:rgba(255,255,255,.72);margin-top:3px}
+.hd .en-name{font-family:var(--en);font-weight:600;letter-spacing:.01em}
+.hd .wa{margin-inline-start:auto;text-align:left;font-size:12px;color:rgba(255,255,255,.8)}
+.hd .wa b{display:block;font-size:15px;color:#fff}
+
+.route{display:flex;align-items:center;justify-content:center;gap:14px;padding:16px 26px;border-bottom:1px solid var(--line);background:#fff}
+.route .c{font-weight:700;font-size:16px}
+.route .arrow{color:var(--amber)}
+.route .t{font-size:12px;color:var(--ink-2)}
+
+.sec{padding:18px 26px}
+.sec h2{font-size:13px;letter-spacing:.02em;color:var(--ink-2);font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.sec h2::after{content:"";flex:1;height:1px;background:var(--line)}
+
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead th{text-align:right;font-size:11.5px;letter-spacing:.03em;color:var(--ink-2);font-weight:600;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+thead th.en{font-family:var(--en)}
+tbody td{padding:11px 10px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+.cls b{font-weight:600}
+.cls span{display:block;font-family:var(--en);font-size:11px;color:var(--ink-2)}
+.price{font-family:var(--mono);font-weight:600;color:var(--navy);white-space:nowrap}
+.unit{font-size:11px;color:var(--ink-2)}
+
+.allin{margin:4px 26px 20px;background:var(--navy);color:#fff;border-radius:14px;padding:18px 22px;display:flex;align-items:center;gap:18px}
+.allin .big{font-family:var(--mono);font-size:30px;font-weight:600;color:#FFD68A;line-height:1}
+.allin .lbl b{font-size:15px}
+.allin .lbl span{display:block;font-size:12px;color:rgba(255,255,255,.72);margin-top:3px}
+.allin ul{margin-inline-start:auto;list-style:none;font-size:12.5px;color:rgba(255,255,255,.85);display:flex;flex-direction:column;gap:5px}
+.allin li{display:flex;align-items:center;gap:7px}
+.allin li svg{width:14px;height:14px;color:#FFD68A}
+
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:10px 26px;padding:2px 26px 20px;font-size:13px}
+.notes .n b{font-weight:600}
+.notes .n span{color:var(--ink-2)}
+.ft{border-top:1px solid var(--line);padding:16px 26px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12px;color:var(--ink-2);background:#fff}
+.ft b{color:var(--ink)}
+@media(max-width:640px){.hd{flex-wrap:wrap}.hd .wa{margin-inline-start:0;text-align:right;width:100%}.allin{flex-wrap:wrap}.allin ul{margin-inline-start:0;width:100%}.notes{grid-template-columns:1fr}}
+@media print{body{background:#fff}.tpl{display:none}.wrap{padding:0}.sheet{border:0;box-shadow:none;border-radius:0}@page{size:A4;margin:14mm}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="tpl">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>
+    السعر الأساسي وواتساب محدّثان · العناوين وبعض الفئات قيد الإضافة. · Base rate &amp; WhatsApp are live · addresses and specialty classes pending.
+  </div>
+
+  <div class="sheet">
+    <div class="hd">
+      <span class="logo" style="padding:6px;border:1px solid var(--line);"><img src="deck/assets/gentle-care.jpg" alt="Gentle Care" style="width:100%;height:100%;object-fit:contain;"></span>
+      <div>
+        <h1>سودان إكسبريس <span class="en-name" style="opacity:.85">· Sudan Express</span></h1>
+        <div class="sub">شحن الطرود من مصر إلى السودان — <span class="en">Billion Express cargo · Egypt → Sudan</span></div>
+      </div>
+      <div class="wa">
+        واتساب · WhatsApp<b class="mono" style="direction:ltr;unicode-bidi:embed;">+20 137259068</b>
+      </div>
+    </div>
+
+    <div class="route">
+      <span class="c">القاهرة</span>
+      <svg class="arrow" width="30" height="16" viewBox="0 0 30 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 8H2"/><path d="M9 2 2 8l7 6"/></svg>
+      <span class="c">الخرطوم</span>
+      <span class="t">· من <b style="color:var(--navy)">88</b> ج.م/كجم · from 88 EGP/kg</span>
+    </div>
+
+    <div class="sec">
+      <h2>السعر بالكيلو · Per-kilo rate</h2>
+      <div style="display:flex;align-items:center;gap:18px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;flex-wrap:wrap;">
+        <div><span style="font-family:var(--mono);font-size:42px;font-weight:600;color:var(--navy);">88</span> <span style="font-size:15px;color:var(--ink-2);">ج.م / كجم · EGP per kg</span></div>
+        <div style="margin-inline-start:auto;text-align:left;font-size:13px;color:var(--ink-2);line-height:1.7;">
+          <div>سعر موحّد للشحنات العامة · القاهرة ← الخرطوم.</div>
+          <div class="en">Flat rate for general cargo · Cairo → Khartoum.</div>
+          <div style="margin-top:4px;">فئات خاصة (إلكترونيات · قابل للكسر): <span class="ph">حسب الطلب</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="allin">
+      <div class="big" style="font-size:24px;">تواصل للسعر <span style="font-size:13px;color:rgba(255,255,255,.7)">Ask for a quote</span></div>
+      <div class="lbl"><b>عرض «الكل شامل»</b><span>All-Inclusive · one price, door to door</span></div>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg> استلام من الباب · Pickup</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg> تخليص جمركي · Customs</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg> توصيل بالسودان · Delivery</li>
+      </ul>
+    </div>
+
+    <div class="sec" style="padding-top:0">
+      <h2>ملاحظات · Notes</h2>
+      <div class="notes">
+        <div class="n"><b>تأمين · Insurance:</b> <span>اختياري حسب قيمة الشحنة · optional, per declared value.</span></div>
+        <div class="n"><b>تجميع · Consolidation:</b> <span>ندمج عدة طرود في شحنة واحدة لتقليل الكلفة.</span></div>
+        <div class="n"><b>ممنوعات · Prohibited:</b> <span>بضائع خطرة أو ممنوعة قانوناً · dangerous or restricted goods.</span></div>
+        <div class="n"><b>الدفع · Payment:</b> <span>تواصل عبر واتساب · via WhatsApp.</span></div>
+      </div>
+    </div>
+
+    <div class="ft">
+      <span><b>واتساب · WhatsApp:</b> <span class="mono" style="direction:ltr;unicode-bidi:embed;">+20 137259068</span></span>
+      <span><b>القاهرة · Cairo:</b> <span class="ph">[العنوان قريباً]</span></span>
+      <span><b>الخرطوم · Khartoum:</b> <span class="ph">[العنوان قريباً]</span></span>
+    </div>
+  </div>
+</div>
+</body>
+</html>
