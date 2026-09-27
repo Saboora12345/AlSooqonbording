@@ -80,3 +80,22 @@ cross-linking. See [`site/README.md`](./site/README.md) for its structure.
 
 *Prototype for review. All balances, figures and fares are illustrative; partner
 and bank logos are added only after agreements.*
+
+## MCP: 21st.dev components
+
+The repo registers the [21st.dev](https://21st.dev) MCP server at project scope in
+[`.mcp.json`](./.mcp.json), so anyone opening the repo in Claude Code gets it after
+approving the server once.
+
+```bash
+export API_KEY_21ST=your-key   # the key is read from the environment, never committed
+claude                          # then run /mcp to confirm "21st" is connected
+```
+
+Equivalent command if you want to add it yourself:
+`claude mcp add --scope project --transport http 21st https://21st.dev/api/mcp --header 'x-api-key: ${API_KEY_21ST}'`
+
+The project skill [`.claude/skills/21st-ui`](./.claude/skills/21st-ui/SKILL.md) tells
+Claude how to port 21st.dev's React/Tailwind output into these single-file pages:
+vanilla HTML/CSS/JS, the alSooq or Mowasalaty tokens, IBM Plex, RTL + LTR, and
+reduced-motion support.
