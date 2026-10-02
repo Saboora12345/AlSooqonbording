@@ -8,7 +8,9 @@
       name="description"
       content="Every alSooq page in one place, with a copy-link button for each and a share-all action. روابط جميع صفحات السوق للمشاركة."
     />
-    <meta name="theme-color" content="#F6F1E7" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F6F1E7" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#17120F" />
+    <meta name="color-scheme" content="light dark" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -244,6 +246,81 @@
       .toast.on {
         opacity: 1;
         transform: none;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --sand: #17120f;
+          --card: #211a15;
+          --ink: #f3ece1;
+          --ink-2: #bdaf9e;
+          --ink-3: #a39481;
+          --clay: #e39a6b;
+          --clay-deep: #f0b58c;
+          --clay-08: rgba(227, 154, 107, 0.12);
+          --clay-30: rgba(227, 154, 107, 0.4);
+          --line: #3a2f27;
+          --palm: #4c9a76;
+          --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -16px rgba(0, 0, 0, 0.6);
+        }
+        .btn-primary {
+          color: #17120f;
+        }
+        .copy[data-done] {
+          color: #17120f;
+        }
+        pre {
+          background: #0e0b09;
+        }
+        .toast {
+          background: #f3ece1;
+          color: #17120f;
+        }
+      }
+      /* first-visit entrance: opacity + small rise, ease-out, short stagger */
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      header > *,
+      .row {
+        animation: rise 0.32s var(--ease) backwards;
+      }
+      header > *:nth-child(2) {
+        animation-delay: 40ms;
+      }
+      header > *:nth-child(3) {
+        animation-delay: 80ms;
+      }
+      header > *:nth-child(4) {
+        animation-delay: 120ms;
+      }
+      .row:nth-child(1) {
+        animation-delay: 140ms;
+      }
+      .row:nth-child(2) {
+        animation-delay: 180ms;
+      }
+      .row:nth-child(3) {
+        animation-delay: 220ms;
+      }
+      .row:nth-child(4) {
+        animation-delay: 260ms;
+      }
+      .row:nth-child(5) {
+        animation-delay: 300ms;
+      }
+      .row:nth-child(6) {
+        animation-delay: 340ms;
+      }
+      .row:nth-child(7) {
+        animation-delay: 380ms;
       }
     </style>
     <link rel="stylesheet" href="assets/native.css" />
