@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>معلومات عامة · alSooq General Info</title>
+    <meta
+      name="description"
+      content="Every alSooq page in one place, with a copy-link button for each and a share-all action. روابط جميع صفحات السوق للمشاركة."
+    />
+    <meta name="theme-color" content="#F6F1E7" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --sand: #f6f1e7;
+        --card: #fffcf6;
+        --ink: #2e241b;
+        --ink-2: #6b5b4b;
+        --ink-3: #7a6957;
+        --clay: #8a4b2a;
+        --clay-deep: #5f3119;
+        --clay-08: rgba(138, 75, 42, 0.08);
+        --clay-30: rgba(138, 75, 42, 0.3);
+        --palm: #2f6b4f;
+        --line: #dccfbb;
+        --r: 14px;
+        --ease: cubic-bezier(0.23, 1, 0.32, 1);
+        --shadow: 0 1px 2px rgba(46, 36, 27, 0.05), 0 10px 30px -16px rgba(46, 36, 27, 0.2);
+        --ar: "IBM Plex Sans Arabic", system-ui, sans-serif;
+        --en: "IBM Plex Sans", system-ui, sans-serif;
+        --mono: "IBM Plex Mono", ui-monospace, monospace;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      body {
+        font-family: var(--ar);
+        background: var(--sand);
+        color: var(--ink);
+        line-height: 1.6;
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: max(24px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
+          max(40px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+      }
+      .wrap {
+        max-width: 760px;
+        margin-inline: auto;
+      }
+      header {
+        padding: 24px 0 28px;
+      }
+      .eyebrow {
+        font: 500 12px/1 var(--mono);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--clay);
+      }
+      h1 {
+        font-size: clamp(28px, 6vw, 40px);
+        line-height: 1.2;
+        margin-top: 12px;
+        font-weight: 700;
+      }
+      h1 .en {
+        display: block;
+        font: 500 clamp(15px, 3.4vw, 18px)/1.4 var(--en);
+        color: var(--ink-3);
+        margin-top: 8px;
+      }
+      .lead {
+        margin-top: 16px;
+        max-width: 56ch;
+        color: var(--ink-2);
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+      }
+      button {
+        font: inherit;
+        cursor: pointer;
+        border: 0;
+        background: none;
+        color: inherit;
+      }
+      .btn {
+        min-height: 44px;
+        padding: 0 20px;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 15px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition:
+          background-color 0.15s var(--ease),
+          border-color 0.15s var(--ease),
+          color 0.15s var(--ease);
+      }
+      .btn-primary {
+        background: var(--clay);
+        color: #fff;
+      }
+      .btn-ghost {
+        border: 1.5px solid var(--line);
+        background: var(--card);
+      }
+      .btn:focus-visible,
+      .link:focus-visible,
+      .copy:focus-visible {
+        outline: 2px solid var(--clay);
+        outline-offset: 3px;
+      }
+      @media (hover: hover) and (pointer: fine) {
+        .btn-primary:hover {
+          background: var(--clay-deep);
+        }
+        .btn-ghost:hover {
+          border-color: var(--clay);
+          color: var(--clay);
+        }
+        .row:hover {
+          border-color: var(--clay-30);
+        }
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 8px;
+        display: grid;
+        gap: 12px;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 6px 6px 6px 16px;
+        box-shadow: var(--shadow);
+        transition: border-color 0.2s var(--ease);
+      }
+      [dir="rtl"] .row {
+        padding: 6px 16px 6px 6px;
+      }
+      .link {
+        flex: 1;
+        min-width: 0;
+        display: block;
+        padding: 12px 0;
+        text-decoration: none;
+        color: inherit;
+      }
+      .link b {
+        display: block;
+        font-size: 17px;
+        font-weight: 600;
+        overflow-wrap: anywhere;
+      }
+      .link .en {
+        display: block;
+        font: 400 13px/1.4 var(--en);
+        color: var(--ink-3);
+        margin-top: 2px;
+      }
+      .link code {
+        display: block;
+        font: 400 12.5px/1.4 var(--mono);
+        color: var(--clay);
+        margin-top: 6px;
+        direction: ltr;
+        text-align: start;
+        overflow-wrap: anywhere;
+      }
+      .copy {
+        flex: none;
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0 14px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--clay);
+        background: var(--clay-08);
+        transition:
+          background-color 0.15s var(--ease),
+          color 0.15s var(--ease);
+      }
+      .copy[data-done] {
+        background: var(--palm);
+        color: #fff;
+      }
+      h2 {
+        font-size: 18px;
+        margin: 36px 0 4px;
+      }
+      .note {
+        color: var(--ink-2);
+        font-size: 15px;
+        max-width: 60ch;
+      }
+      pre {
+        margin-top: 14px;
+        padding: 16px;
+        border-radius: var(--r);
+        background: var(--ink);
+        color: #f6f1e7;
+        font: 400 13px/1.7 var(--mono);
+        direction: ltr;
+        text-align: left;
+        overflow-x: auto;
+        white-space: pre;
+      }
+      .toast {
+        position: fixed;
+        inset-inline: 16px;
+        bottom: max(20px, env(safe-area-inset-bottom));
+        margin-inline: auto;
+        width: fit-content;
+        max-width: calc(100% - 32px);
+        background: var(--ink);
+        color: #fff;
+        padding: 12px 18px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 600;
+        opacity: 0;
+        transform: translateY(8px);
+        pointer-events: none;
+        transition:
+          opacity 0.2s var(--ease),
+          transform 0.2s var(--ease);
+      }
+      .toast.on {
+        opacity: 1;
+        transform: none;
+      }
+    </style>
+    <link rel="stylesheet" href="assets/native.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <header>
+        <div class="eyebrow">alSooq · Gentle Care</div>
+        <h1>معلومات عامة<span class="en">General Info — every page, one link each</span></h1>
+        <p class="lead">
+          كل صفحات السوق في مكان واحد. انسخ رابط أي صفحة بضغطة، أو شارك القائمة كاملة مع الفريق.
+          <span lang="en" dir="ltr" style="font-family: var(--en)"
+            >Copy a single page link, or share the whole list with the team.</span
+          >
+        </p>
+        <div class="actions">
+          <button class="btn btn-primary" id="share" type="button">مشاركة الكل · Share all</button>
+          <button class="btn btn-ghost" id="copyAll" type="button">نسخ القائمة · Copy list</button>
+        </div>
+      </header>
+
+      <ul id="list">
+        <li class="row">
+          <a class="link" href="merchant-onboarding.html"
+            ><b>انضمام التاجر</b><span class="en">Merchant Onboarding</span
+            ><code>/merchant-onboarding.html</code></a
+          ><button class="copy" type="button" data-path="/merchant-onboarding.html">نسخ</button>
+        </li>
+        <li class="row">
+          <a class="link" href="sudan-express.html"
+            ><b>سودان إكسبريس</b><span class="en">Sudan Express</span
+            ><code>/sudan-express.html</code></a
+          ><button class="copy" type="button" data-path="/sudan-express.html">نسخ</button>
+        </li>
+        <li class="row">
+          <a class="link" href="merchant-workspace.html"
+            ><b>مساحة عمل التاجر</b><span class="en">Merchant Workspace</span
+            ><code>/merchant-workspace.html</code></a
+          ><button class="copy" type="button" data-path="/merchant-workspace.html">نسخ</button>
+        </li>
+        <li class="row">
+          <a class="link" href="accounts.html"
+            ><b>الحسابات</b><span class="en">Accounts</span><code>/accounts.html</code></a
+          ><button class="copy" type="button" data-path="/accounts.html">نسخ</button>
+        </li>
+        <li class="row">
+          <a class="link" href="merchant-app.html"
+            ><b>تطبيق التاجر</b><span class="en">Merchant App</span
+            ><code>/merchant-app.html</code></a
+          ><button class="copy" type="button" data-path="/merchant-app.html">نسخ</button>
+        </li>
+        <li class="row">
+          <a class="link" href="cross-sell.html"
+            ><b>مركز البيع المتقاطع</b><span class="en">Cross-Sell Hub</span
+            ><code>/cross-sell.html</code></a
+          ><button class="copy" type="button" data-path="/cross-sell.html">نسخ</button>
+        </li>
+        <li class="row">
+          <a class="link" href="general-info.html"
+            ><b>معلومات عامة</b><span class="en">General Info (this page)</span
+            ><code>/general-info.html</code></a
+          ><button class="copy" type="button" data-path="/general-info.html">نسخ</button>
+        </li>
+      </ul>
+
+      <h2>للخريطة والمشاركة · For your sitemap</h2>
+      <p class="note">
+        الروابط أعلاه نسبية، وتعمل مباشرة على أي نطاق ينشر الموقع. عند النسخ تُضاف إليها عنوان
+        الموقع الحالي تلقائياً. Paths are relative; copying prepends the current site address.
+      </p>
+      <pre id="plain"></pre>
+    </main>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+      (function () {
+        var rows = Array.prototype.slice.call(document.querySelectorAll(".copy"));
+        var toast = document.getElementById("toast"),
+          timer;
+        function abs(p) {
+          return location.origin + p;
+        }
+        function text() {
+          return rows
+            .map(function (b) {
+              var row = b.closest(".row");
+              return (
+                row.querySelector(".en").textContent.replace(" (this page)", "") +
+                " — " +
+                abs(b.dataset.path)
+              );
+            })
+            .join("\n");
+        }
+        function say(msg) {
+          toast.textContent = msg;
+          toast.classList.add("on");
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            toast.classList.remove("on");
+          }, 1800);
+        }
+        function copy(str, done) {
+          function fallback() {
+            var t = document.createElement("textarea");
+            t.value = str;
+            t.style.cssText = "position:fixed;opacity:0";
+            document.body.appendChild(t);
+            t.select();
+            try {
+              document.execCommand("copy");
+              done(true);
+            } catch (e) {
+              done(false);
+            }
+            document.body.removeChild(t);
+          }
+          if (navigator.clipboard && window.isSecureContext)
+            navigator.clipboard.writeText(str).then(function () {
+              done(true);
+            }, fallback);
+          else fallback();
+        }
+        document.getElementById("plain").textContent = text();
+        rows.forEach(function (b) {
+          b.addEventListener("click", function () {
+            copy(abs(b.dataset.path), function (ok) {
+              if (!ok) return say("تعذّر النسخ · Copy failed");
+              b.dataset.done = "1";
+              b.textContent = "تم ✓";
+              say("تم نسخ الرابط · Link copied");
+              setTimeout(function () {
+                delete b.dataset.done;
+                b.textContent = "نسخ";
+              }, 1500);
+            });
+          });
+        });
+        document.getElementById("copyAll").addEventListener("click", function () {
+          copy(text(), function (ok) {
+            say(ok ? "تم نسخ القائمة · List copied" : "تعذّر النسخ · Copy failed");
+          });
+        });
+        document.getElementById("share").addEventListener("click", function () {
+          if (navigator.share) {
+            navigator.share({ title: "alSooq", text: text() }).catch(function () {});
+          } else {
+            copy(text(), function (ok) {
+              say(ok ? "تم نسخ القائمة · List copied" : "تعذّر النسخ · Copy failed");
+            });
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
