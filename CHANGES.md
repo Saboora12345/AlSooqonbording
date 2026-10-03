@@ -63,3 +63,11 @@ was copied); Shopify provider (unverifiable without a store); a Vercel deploy; r
 - `html-validate` error counts unchanged vs. base on every page.
 - MCP server builds and all tools respond over the protocol.
 - Isolated from the static prototype and its Vercel deployment.
+
+## 5 · Design outcome page (`kit/outcome.html`)
+Built with the kit's own components: the three verticals side by side (accent re-tint verified on rendered
+gradients), a measured MarketNest comparison (kept / adopted / rejected, WCAG ratios), and a done / waiting /
+not-done ledger. MarketNest is a reference only: Lora and flat borders conflict with the approved Plex + clay
+system, its placeholder (2.52:1) and secondary-as-text (2.19:1) fail AA. Adopt later: seller provenance on
+product cards (needs real city/story from merchants) and natural image ratios once photos exist.
+`.aq-brand` tap target raised from 40px to 44px.

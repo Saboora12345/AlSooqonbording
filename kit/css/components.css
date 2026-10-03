@@ -61,7 +61,7 @@ aq-nav { display: block; position: sticky; top: 0; z-index: var(--aq-z-nav); }
   border-block-end: 1px solid var(--aq-line-soft); padding-block-start: env(safe-area-inset-top, 0px);
 }
 .aq-nav__row { display: flex; align-items: center; gap: var(--aq-s-4); min-height: 68px; }
-.aq-brand { display: flex; align-items: center; gap: var(--aq-s-3); }
+.aq-brand { display: flex; min-block-size: 44px; align-items: center; gap: var(--aq-s-3); }
 .aq-brand__mark {
   width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
   background: var(--aq-grad-accent); color: var(--aq-white); font-weight: 700; font-size: 22px; box-shadow: var(--aq-clay-raise), var(--aq-glow);
