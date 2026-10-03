@@ -1,0 +1,18 @@
+# Base44 dev environment — alSooq static HTML prototype
+# Serves the collection of static HTML pages via nginx on port 3000.
+# Source is bind-mounted so edits are reflected immediately (reload the preview).
+services:
+  web:
+    image: nginx:alpine
+    restart: on-failure
+    ports:
+      - "3000:80"
+    volumes:
+      - ./:/usr/share/nginx/html:ro
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/landing.html | head -1 | grep -q html"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
