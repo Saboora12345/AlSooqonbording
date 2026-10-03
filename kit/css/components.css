@@ -199,6 +199,15 @@ aq-product-card { display: block; }
   .aq-stages { grid-template-columns: 1fr 1fr; }
 }
 
+/* ── link tile (landing: one idea per card; a dashed tile marks a destination that doesn't exist yet) ── */
+.aq-tile { display: grid; gap: var(--aq-s-3); align-content: start; transition: transform var(--aq-d) var(--aq-ease), box-shadow var(--aq-d); }
+.aq-tile:active { transform: scale(0.985); }
+.aq-tile__icon { width: 48px; height: 48px; border-radius: var(--aq-r-sm); display: grid; place-items: center; background: var(--aq-accent-tint); color: var(--aq-accent-ink); }
+.aq-tile__icon svg { width: 24px; height: 24px; }
+.aq-tile p { color: var(--aq-ink-2); }
+.aq-tile > .aq-placeholder { justify-self: start; }
+.aq-tile[aria-disabled='true'] { border-style: dashed; background: transparent; box-shadow: none; }   /* no opacity: keeps text at full AA contrast */
+
 /* ── footer ────────────────────────────────────────────────────────── */
 aq-footer { display: block; }
 .aq-foot { border-block-start: 1px solid var(--aq-line-soft); padding-block: var(--aq-s-6) calc(var(--aq-s-7) + env(safe-area-inset-bottom, 0px)); margin-block-start: var(--aq-s-7); color: var(--aq-ink-3); font-size: var(--aq-fs-xs); }
@@ -212,6 +221,7 @@ aq-footer { display: block; }
   .aq-chip[aria-pressed='true']:hover { color: var(--aq-white); }
   .aq-nav__links a:hover { background: var(--aq-accent-tint); color: var(--aq-accent-ink); }
   .aq-pcard:hover { transform: translateY(-4px); box-shadow: var(--aq-sh-3); }
+  a.aq-tile:hover { transform: translateY(-4px); box-shadow: var(--aq-sh-3); }
   .aq-radio:hover { border-color: var(--aq-accent-line); }
   .aq-seat:not([disabled]):hover { border-color: var(--aq-accent); }
   .aq-ws__side button:hover { background: var(--aq-accent-tint); }
