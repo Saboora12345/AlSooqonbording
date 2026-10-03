@@ -13,12 +13,21 @@
   --sand:#F6F1E7; --sand-2:#EFE7D8; --sand-3:#EDE4D3; --card:#FFFCF6; --white:#fff;
   --ink:#2E241B; --ink-2:#6B5B4B; --ink-3:#93826F; --kraft:#E4D2B4;
   --clay:#8A4B2A; --clay-deep:#5F3119; --clay-08:rgba(138,75,42,.08); --clay-12:rgba(138,75,42,.12); --clay-30:rgba(138,75,42,.3);
-  --palm:#2F6B4F; --palm-tint:#E3EFE8; --palm-12:rgba(47,107,79,.12); --gold:#B8862F; --gold-tint:rgba(184,134,47,.12);
-  --line:#DCCFBB; --line-soft:rgba(220,207,187,.6);
+  --palm:#2F6B4F; --palm-tint:#E3EFE8; --palm-12:rgba(47,107,79,.12);
+  --gold:#B8862F; --gold-deep:#8C6420; --gold-tint:rgba(184,134,47,.12); --gold-30:rgba(184,134,47,.3);
+  --trust:var(--gold);
+  --line:#DCCFBB; --line-soft:rgba(220,207,187,.6); --hair:rgba(46,36,27,.07);
   --r:16px; --r-sm:10px; --r-lg:24px; --r-pill:999px;
-  --ease:cubic-bezier(.16,1,.3,1); --io:cubic-bezier(.77,0,.175,1);
-  --shadow:0 1px 2px rgba(46,36,27,.05),0 10px 30px -14px rgba(46,36,27,.2);
-  --shadow-lg:0 2px 6px rgba(46,36,27,.06),0 34px 64px -26px rgba(46,36,27,.34);
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px; --sp-7:48px; --sp-8:64px;
+  --ease:cubic-bezier(.16,1,.3,1); --io:cubic-bezier(.77,0,.175,1); --spring:cubic-bezier(.34,1.56,.64,1);
+  --d-fast:150ms; --d:240ms; --d-slow:420ms;
+  --sh-1:0 1px 2px rgba(46,36,27,.06);
+  --sh-2:0 1px 2px rgba(46,36,27,.05),0 8px 24px -14px rgba(46,36,27,.22);
+  --sh-3:0 2px 6px rgba(46,36,27,.06),0 22px 46px -20px rgba(46,36,27,.30);
+  --sh-4:0 3px 10px rgba(46,36,27,.08),0 42px 74px -28px rgba(46,36,27,.40);
+  --shadow:var(--sh-2); --shadow-lg:var(--sh-4);
+  --glow-clay:0 10px 28px -10px rgba(138,75,42,.5);
+  --glow-gold:0 10px 28px -10px rgba(184,134,47,.42);
   --ar:'IBM Plex Sans Arabic',system-ui,sans-serif; --en:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -55,10 +64,10 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 .lang button[aria-pressed="true"]{background:var(--clay);color:#fff}
 .btn{display:inline-flex;align-items:center;gap:9px;border-radius:var(--r-pill);padding:12px 20px;font-size:14px;font-weight:600;transition:transform .24s var(--ease),box-shadow .24s,background .24s;white-space:nowrap}
 .btn svg{width:17px;height:17px}
-.btn-primary{background:var(--clay);color:#fff;box-shadow:0 8px 22px -8px rgba(138,75,42,.55)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 34px -10px rgba(138,75,42,.6);background:var(--clay-deep)}
-.btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow)}
-.btn-ghost:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--clay-30)}
+.btn-primary{background:linear-gradient(135deg,var(--clay),var(--clay-deep));color:#fff;box-shadow:var(--glow-clay)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 38px -12px rgba(138,75,42,.62)}
+.btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:var(--sh-1)}
+.btn-ghost:hover{transform:translateY(-2px);box-shadow:var(--sh-3);border-color:var(--clay-30)}
 .btn-lg{padding:15px 26px;font-size:15px}
 @media(max-width:820px){.nav{display:none}.hdr .btn .txt{display:none}}
 
@@ -212,6 +221,23 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 .foot .lk b{font-size:14px;font-weight:700}.foot .lk .en{font-size:9px;color:var(--ink-3);letter-spacing:.12em;text-transform:uppercase;font-weight:600;display:block}
 .foot .note{font-size:11.5px;color:var(--ink-3);max-width:46ch;line-height:1.5}.foot .note b{color:var(--clay);font-weight:600}
 
+/* design-system polish — gold trust accent on interactive surfaces */
+.cat,.app{isolation:isolate}
+.cat::before,.app::before{content:"";position:absolute;top:0;inset-inline:0;height:3px;background:linear-gradient(90deg,var(--clay),var(--gold));transform:scaleX(0);transform-origin:center;transition:transform var(--d) var(--ease);border-radius:3px}
+.cat:hover::before,.app:hover::before,.cat:focus-visible::before,.app:focus-visible::before{transform:scaleX(1)}
+.app.gold::before{background:linear-gradient(90deg,var(--gold),var(--gold-deep))}
+.app.palm::before{background:linear-gradient(90deg,var(--palm),#1f4d38)}
+
+/* proof strip — credibility band after hero (Trust & Authority pattern) */
+.proof{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-2);padding:20px 8px;margin-top:8px}
+.pf{display:flex;align-items:center;gap:12px;justify-content:center;padding:6px 14px;position:relative}
+.pf:not(:last-child)::after{content:"";position:absolute;inset-inline-end:0;top:14%;height:72%;width:1px;background:var(--line-soft)}
+.pf .pi{width:40px;height:40px;border-radius:12px;flex:none;display:grid;place-items:center;background:var(--gold-tint);color:var(--gold)}
+.pf.c .pi{background:var(--clay-08);color:var(--clay)}.pf.p .pi{background:var(--palm-12);color:var(--palm)}
+.pf b{font-size:14px;font-weight:700;letter-spacing:-.01em;display:block;line-height:1.15}
+.pf span{font-size:11.5px;color:var(--ink-3);font-weight:600}
+@media(max-width:760px){.proof{grid-template-columns:1fr 1fr;gap:6px}.pf:nth-child(2)::after{display:none}.pf{justify-content:flex-start}}
+
 /* reveal motion */
 .rev{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .rev.in{opacity:1;transform:none}
@@ -260,7 +286,7 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
     <a href="#bank" data-ar="البنوك" data-en="Banking">البنوك</a>
     <a href="#dashboard" data-ar="اللوحة" data-en="Dashboard">اللوحة</a>
   </nav>
-  <div class="lang" role="group" aria-label="Language"><button data-lang="ar" aria-pressed="true">ع</button><button data-lang="en" aria-pressed="false">EN</button></div>
+  <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="ar" aria-pressed="true">ع</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
   <a class="btn btn-primary" href="index.html"><svg class="ic"><use href="#i-arrow"/></svg><span class="txt" data-ar="افتح التطبيق" data-en="Launch app">افتح التطبيق</span></a>
 </div></header>
 
@@ -300,6 +326,14 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
     </div>
   </div>
 </div></section>
+
+<!-- proof strip -->
+<section class="proof rev" aria-label="Trust &amp; credibility">
+  <div class="pf"><span class="pi"><svg class="ic"><use href="#i-shield"/></svg></span><span><b data-ar="مضمون بالأمانة" data-en="Escrow-secured">مضمون بالأمانة</b><span data-ar="يُفرج عند التسليم" data-en="Released on handover">يُفرج عند التسليم</span></span></div>
+  <div class="pf p"><span class="pi"><svg class="ic"><use href="#i-globe"/></svg></span><span><b data-ar="حوالات مرخّصة" data-en="Licensed corridors">حوالات مرخّصة</b><span data-ar="الشتات ← السودان" data-en="Diaspora → Sudan">الشتات ← السودان</span></span></div>
+  <div class="pf c"><span class="pi"><svg class="ic"><use href="#i-check"/></svg></span><span><b data-ar="تجّار موثّقون" data-en="Verified merchants">تجّار موثّقون</b><span data-ar="هوية مؤكّدة" data-en="Identity confirmed">هوية مؤكّدة</span></span></div>
+  <div class="pf"><span class="pi"><svg class="ic"><use href="#i-bank"/></svg></span><span><b data-ar="KYC بمعايير بنكية" data-en="Bank-grade KYC">KYC بمعايير بنكية</b><span data-ar="عبر بنك شريك" data-en="Via partner bank">عبر بنك شريك</span></span></div>
+</section>
 
 <!-- journey -->
 <section class="sec" id="journey">

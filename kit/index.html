@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#F6F1E7">
+<title>السوق · alSooq UI kit — one design DNA, every vertical</title>
+<meta name="description" content="alSooq design kit: shared tokens and bilingual components inherited by marketplace, mobility and logistics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<script defer src="js/sample-data.js"></script>
+<script defer src="js/alsooq-ui.js"></script>
+</head>
+<body>
+<aq-nav current=""></aq-nav>
+
+<main id="main">
+  <section class="aq-hero"><div class="aq-wrap">
+    <span class="aq-eyebrow" data-ar="مجموعة الواجهة" data-en="UI kit">مجموعة الواجهة</span>
+    <h1><span data-ar="تصميم واحد، " data-en="One design DNA, ">تصميم واحد، </span><span class="aq-hl" data-ar="لكل قطاع." data-en="for every vertical.">لكل قطاع.</span></h1>
+    <p class="aq-lede" data-ar="الخطوط والألوان والظلال والحركة معرَّفة مرة واحدة. كل قطاع يغيّر لون التمييز فقط، ويرث الباقي." data-en="Type, colour, depth and motion are defined once. Each vertical swaps the accent and inherits the rest.">الخطوط والألوان والظلال والحركة معرَّفة مرة واحدة. كل قطاع يغيّر لون التمييز فقط، ويرث الباقي.</p>
+  </div></section>
+
+  <section class="aq-sec" style="padding-block-start:0"><div class="aq-wrap">
+    <div class="aq-grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))">
+      <a class="aq-card" data-vertical="marketplace" href="marketplace.html" style="display:grid;gap:var(--aq-s-3)">
+        <span class="aq-pcard__media" style="aspect-ratio:auto;padding:var(--aq-s-4);border-radius:var(--aq-r)" id="ic-m"></span>
+        <h3 data-ar="السوق" data-en="Marketplace">السوق</h3>
+        <p style="color:var(--aq-ink-2)" data-ar="كتالوج، بطاقات منتجات، ودفع بالأمانة." data-en="Catalog, product cards and escrow checkout.">كتالوج، بطاقات منتجات، ودفع بالأمانة.</p>
+        <span class="aq-pill" data-ar="التمييز: طين" data-en="Accent: clay">التمييز: طين</span>
+      </a>
+      <a class="aq-card" data-vertical="mobility" href="mobility.html" style="display:grid;gap:var(--aq-s-3)">
+        <span class="aq-pcard__media" style="aspect-ratio:auto;padding:var(--aq-s-4);border-radius:var(--aq-r)" id="ic-b"></span>
+        <h3 data-ar="مواصلاتي" data-en="Mwasalati">مواصلاتي</h3>
+        <p style="color:var(--aq-ink-2)" data-ar="حجز مقعد بخمس خطوات وتذكرة برمز QR." data-en="Five-step seat booking and a QR ticket.">حجز مقعد بخمس خطوات وتذكرة برمز QR.</p>
+        <span class="aq-pill" data-ar="التمييز: أزرق" data-en="Accent: blue">التمييز: أزرق</span>
+      </a>
+      <a class="aq-card" data-vertical="logistics" href="logistics.html" style="display:grid;gap:var(--aq-s-3)">
+        <span class="aq-pcard__media" style="aspect-ratio:auto;padding:var(--aq-s-4);border-radius:var(--aq-r)" id="ic-l"></span>
+        <h3 data-ar="سودان إكسبريس" data-en="Sudan Express">سودان إكسبريس</h3>
+        <p style="color:var(--aq-ink-2)" data-ar="تسعيرة بالكيلو، دفع بالأمانة، وبوليصة." data-en="Per-kilo quote, escrow payment and waybill.">تسعيرة بالكيلو، دفع بالأمانة، وبوليصة.</p>
+        <span class="aq-pill" data-ar="التمييز: كحلي" data-en="Accent: navy">التمييز: كحلي</span>
+      </a>
+      <a class="aq-card" href="merchant.html" style="display:grid;gap:var(--aq-s-3)">
+        <span class="aq-pcard__media" style="aspect-ratio:auto;padding:var(--aq-s-4);border-radius:var(--aq-r)" id="ic-w"></span>
+        <h3 data-ar="لوحة التاجر" data-en="Merchant workspace">لوحة التاجر</h3>
+        <p style="color:var(--aq-ink-2)" data-ar="لوحة واحدة تتلوّن بحسب القطاع." data-en="One console that re-tints per vertical.">لوحة واحدة تتلوّن بحسب القطاع.</p>
+        <span class="aq-pill" data-ar="ترث كل شيء" data-en="Inherits everything">ترث كل شيء</span>
+      </a>
+    </div>
+  </div></section>
+</main>
+<aq-footer></aq-footer>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  [['ic-m', 'shop'], ['ic-b', 'bus'], ['ic-l', 'truck'], ['ic-w', 'chart']].forEach(function (p) {
+    var el = document.getElementById(p[0]); el.innerHTML = AQ.icon(p[1]);
+    el.firstChild.style.cssText = 'width:36px;height:36px';
+  });
+});
+</script>
+</body>
+</html>

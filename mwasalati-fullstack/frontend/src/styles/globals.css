@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-brand-cream text-brand-brown antialiased;
+  }
+
+  [dir="rtl"] body {
+    @apply font-ar;
+  }
+
+  [dir="ltr"] body {
+    @apply font-en;
+  }
+}
+
+@layer components {
+  /* Perforated-ticket edge, echoing the logo mark — used on ticket/receipt cards */
+  .ticket-edge {
+    background-image: radial-gradient(circle, transparent 6px, #f2e8d5 6.5px);
+    background-size: 16px 16px;
+    background-position: -8px center;
+  }
+}
