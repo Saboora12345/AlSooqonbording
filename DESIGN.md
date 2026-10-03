@@ -24,6 +24,17 @@ colors:
   mw-line: "#CFDEE8"
   mw-green: "#1B9E77"
   mw-amber: "#C77D0A"
+  # Sudan Express page
+  se-navy: "#123251"
+  se-amber: "#C77D0A"
+  se-amber-text: "#B26B08"
+  # Dark "field" pages (accounts, merchant-app)
+  dk-bg: "#0D0A08"
+  dk-line: "#2A221D"
+  dk-text: "#FBF7F1"
+  dk-clay: "#D9824F"
+  dk-gold: "#E0B563"
+  dk-palm: "#5FB88A"
   # Gentle Care corporate (approximate, from logo JPG; confirm hex with owner)
   gc-royal: "#1E5AA8"
   gc-sky: "#3FA9DD"
@@ -57,6 +68,8 @@ Two systems coexist, one per product. Don't blend them on one screen.
 
 - **Warm (AlSooq, deck, Sudani Express):** `ground`/`sand` surfaces, `ink` text, `clay` as the single brand accent, `gold` for emphasis and highlights, `palm` for success and confirmed states. Hairlines use `line`.
 - **Cool (Mwasalati):** `mw-bg` surface, `mw-ink` text, `mw-blue` primary, `mw-cyan` secondary. `mw-green` is success, `mw-amber` is warning.
+- **Sudan Express page:** `ground` surface with `se-navy` as the primary and `se-amber` as the accent (`se-amber-text` where amber sits on light and needs contrast).
+- **Dark field pages (accounts, merchant-app):** near-black surfaces with the clay and gold lifted for contrast (`dk-clay`, `dk-gold`, `dk-palm`). Same hues as the warm system, brighter values.
 - **Gentle Care (corporate decks and documents only):** royal blue is the one accent, the rest are tints. The deck keeps the warm palette and shows the Gentle Care logo as a blue accent on a white chip; it is not re-skinned to blue.
 
 One accent per screen. Everything else is neutral or a tint of the accent.
@@ -84,7 +97,7 @@ RTL by default (`dir="rtl"`); use logical properties (`margin-inline-start`, `in
 
 ## Motion
 
-Use `--ease` (`cubic-bezier(.16,1,.3,1)`) with 150ms for micro-interactions and longer for entrances. Respect `prefers-reduced-motion`.
+Use `--ease` (`cubic-bezier(.16,1,.3,1)`) on every page with 150ms for micro-interactions and longer for entrances. Respect `prefers-reduced-motion`.
 
 ## Do's and don'ts
 
