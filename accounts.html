@@ -45,7 +45,7 @@
         --ar: "IBM Plex Sans Arabic", system-ui, sans-serif;
         --en: "IBM Plex Sans", system-ui, sans-serif;
         --gap: 120px;
-        --ease: cubic-bezier(0.2, 0, 0, 1);
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
       }
       * {
         box-sizing: border-box;
@@ -156,23 +156,29 @@
         background: var(--clay);
         color: #000;
       }
-      .btn-primary:hover {
-        background: var(--clay-2);
+      @media (hover: hover) and (pointer: fine) {
+        .btn-primary:hover {
+          background: var(--clay-2);
+        }
       }
       .btn-outline {
         border-color: var(--line-2);
         color: var(--tx);
         background: transparent;
       }
-      .btn-outline:hover {
-        border-color: var(--tx);
+      @media (hover: hover) and (pointer: fine) {
+        .btn-outline:hover {
+          border-color: var(--tx);
+        }
       }
       .btn-light {
         background: var(--tx);
         color: #000;
       }
-      .btn-light:hover {
-        background: #e9e2d8;
+      @media (hover: hover) and (pointer: fine) {
+        .btn-light:hover {
+          background: #e9e2d8;
+        }
       }
       .link {
         display: inline-flex;
@@ -182,8 +188,10 @@
         font-size: 15px;
         min-height: 44px;
       }
-      .link:hover {
-        color: var(--gold);
+      @media (hover: hover) and (pointer: fine) {
+        .link:hover {
+          color: var(--gold);
+        }
       }
       .pill {
         display: inline-flex;
@@ -277,8 +285,10 @@
         color: #d6d0c8;
         border-radius: 8px;
       }
-      .nav-links a:hover {
-        color: #fff;
+      @media (hover: hover) and (pointer: fine) {
+        .nav-links a:hover {
+          color: #fff;
+        }
       }
       .nav-right {
         display: flex;
@@ -310,8 +320,10 @@
         color: #fff;
         position: relative;
       }
-      .icon-btn:hover {
-        background: var(--bg-3);
+      @media (hover: hover) and (pointer: fine) {
+        .icon-btn:hover {
+          background: var(--bg-3);
+        }
       }
       .cart-dot {
         position: absolute;
@@ -1046,8 +1058,10 @@
         color: #fff;
         transition: border-color 0.2s;
       }
-      .circ:hover {
-        border-color: #fff;
+      @media (hover: hover) and (pointer: fine) {
+        .circ:hover {
+          border-color: #fff;
+        }
       }
       .circ:disabled {
         opacity: 0.35;
@@ -1159,9 +1173,11 @@
         font-weight: 600;
         color: #d6d0c8;
       }
-      .q button:hover {
-        color: #fff;
-        background: var(--bg-2);
+      @media (hover: hover) and (pointer: fine) {
+        .q button:hover {
+          color: #fff;
+          background: var(--bg-2);
+        }
       }
       .q button[aria-expanded="true"] {
         color: #fff;
@@ -1258,9 +1274,11 @@
         place-items: center;
         color: #d6d0c8;
       }
-      .socials a:hover {
-        border-color: #fff;
-        color: #fff;
+      @media (hover: hover) and (pointer: fine) {
+        .socials a:hover {
+          border-color: #fff;
+          color: #fff;
+        }
       }
       .sub-form {
         display: flex;
@@ -1329,8 +1347,10 @@
         font-size: 14px;
         color: var(--tx-2);
       }
-      .foot-cols a:hover {
-        color: #fff;
+      @media (hover: hover) and (pointer: fine) {
+        .foot-cols a:hover {
+          color: #fff;
+        }
       }
       @media (max-width: 900px) {
         .foot-cols {
@@ -1390,6 +1410,8 @@
         }
       }
     </style>
+    <meta name="theme-color" content="#000000" />
+    <link rel="stylesheet" href="assets/native.css" />
   </head>
   <body>
     <div class="announce" role="region" aria-label="Announcements">

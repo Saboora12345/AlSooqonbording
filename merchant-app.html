@@ -30,7 +30,7 @@
         --gold: #86611c;
         --ar: "IBM Plex Sans Arabic", system-ui, sans-serif;
         --en: "IBM Plex Sans", system-ui, sans-serif;
-        --ease: cubic-bezier(0.2, 0, 0, 1);
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
       }
       * {
         box-sizing: border-box;
@@ -113,27 +113,35 @@
         height: 12px;
         stroke-width: 2.2;
       }
-      .pill:hover .arrow-wrap {
-        transform: translateX(3px);
+      @media (hover: hover) and (pointer: fine) {
+        .pill:hover .arrow-wrap {
+          transform: translateX(3px);
+        }
       }
-      [dir="rtl"] .pill:hover .arrow-wrap {
-        transform: translateX(-3px);
+      @media (hover: hover) and (pointer: fine) {
+        [dir="rtl"] .pill:hover .arrow-wrap {
+          transform: translateX(-3px);
+        }
       }
       .pill-white {
         background: var(--paper);
         color: var(--ink);
       }
-      .pill-white:hover {
-        background: var(--ink);
-        color: var(--paper);
+      @media (hover: hover) and (pointer: fine) {
+        .pill-white:hover {
+          background: var(--ink);
+          color: var(--paper);
+        }
       }
       .pill-black {
         background: var(--ink);
         color: var(--paper);
       }
-      .pill-black:hover {
-        background: var(--paper);
-        color: var(--ink);
+      @media (hover: hover) and (pointer: fine) {
+        .pill-black:hover {
+          background: var(--paper);
+          color: var(--ink);
+        }
       }
       .pill-white:focus-visible,
       .pill-black:focus-visible {
@@ -192,9 +200,11 @@
           background 0.2s var(--ease),
           color 0.2s var(--ease);
       }
-      .burger:hover {
-        background: var(--paper);
-        color: var(--ink);
+      @media (hover: hover) and (pointer: fine) {
+        .burger:hover {
+          background: var(--paper);
+          color: var(--ink);
+        }
       }
       .stage {
         flex: 1;
@@ -236,8 +246,10 @@
         display: inline-flex;
         align-items: center;
       }
-      .copy .aside:hover {
-        text-decoration-color: var(--cream);
+      @media (hover: hover) and (pointer: fine) {
+        .copy .aside:hover {
+          text-decoration-color: var(--cream);
+        }
       }
       .device-col {
         align-self: end;
@@ -522,8 +534,10 @@
         font-weight: 500;
         color: #9a938c;
       }
-      .menu li a:hover {
-        color: var(--cream-2);
+      @media (hover: hover) and (pointer: fine) {
+        .menu li a:hover {
+          color: var(--cream-2);
+        }
       }
       .lang {
         display: flex;
@@ -560,8 +574,10 @@
         min-height: 44px;
         color: var(--ink);
       }
-      .foot a:hover {
-        text-decoration: underline;
+      @media (hover: hover) and (pointer: fine) {
+        .foot a:hover {
+          text-decoration: underline;
+        }
       }
       .foot a:focus-visible {
         outline-color: var(--ink);
@@ -613,6 +629,8 @@
         }
       }
     </style>
+    <meta name="theme-color" content="#E7DFCD" />
+    <link rel="stylesheet" href="assets/native.css" />
   </head>
   <body>
     <header class="hero">
