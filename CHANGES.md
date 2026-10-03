@@ -41,6 +41,24 @@ domain modules, behind one async connector seam (`EcosystemRepo`).
 
 Run: `cd mcp && npm install && npm run build && npm start`
 
+## 4 · Brand UI kit + Next.js skeleton (`kit/`, `next-commerce/`)
+One design DNA for every vertical: shared tokens, bilingual RTL/LTR components, and a brand checker.
+
+- `kit/` — static HTML/JS, no build: `tokens.css` (the only colour/font definitions), `components.css`,
+  custom elements `<aq-nav> <aq-product-card> <aq-checkout> <aq-workspace> <aq-footer>`, and pages for
+  marketplace, mobility, logistics and the merchant console. A vertical swaps only the accent trio.
+- `next-commerce/` — the same system as a typed Next.js 16 app, with a `CommerceProvider` seam for
+  Next.js Commerce. `scripts/sync-kit.mjs` keeps CSS and sample data single-sourced from `kit/`.
+- `kit/scripts/check-brand.mjs` (`npm run check:brand`) — 7 rules, negative-tested: raw colours, fonts,
+  physical left/right CSS, ungated `:hover`, derived accent tokens, page basics, invented phone numbers.
+- Colour choices are measured against WCAG AA (e.g. `--ink-3` and gold-as-text failed and were corrected).
+- Owner honesty rules honoured: only the confirmed 88 EGP/kg and the three fare amounts are real; the rest
+  are labelled illustrative or visible `[PLACEHOLDER]`s.
+- Branch brought up to date with `main` first (two conflicts resolved; validator parity with `main`).
+
+Not done: "Phenomenon Studio" structure (its site is blocked here and no reference was supplied; nothing
+was copied); Shopify provider (unverifiable without a store); a Vercel deploy; real-device testing.
+
 ## Verification
 - `html-validate` error counts unchanged vs. base on every page.
 - MCP server builds and all tools respond over the protocol.

@@ -28,6 +28,13 @@ one tap — into the **Customer app**, the **Merchant app**, or the embedded
 
 The pages link to each other: landing → app + dashboard, dashboard → app + landing, and the app / onboarding / workspace hand off into the merchant console (`index.html#merchant` / `#merchant:express`).
 
+## UI kit & Next.js skeleton
+
+[`kit/`](./kit) holds the shared design tokens and bilingual components (nav, product card, checkout
+flow, merchant workspace) that the marketplace, mobility and logistics verticals inherit, with a brand
+checker (`npm run check:brand`). [`next-commerce/`](./next-commerce) is the same system as a typed
+Next.js app with a Next.js Commerce provider seam. See each folder's README.
+
 ## Run it
 
 Open `landing.html` (or `index.html`) in any modern browser. No build step, no
