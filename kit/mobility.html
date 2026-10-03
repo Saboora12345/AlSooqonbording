@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#F6F1E7">
+<title>مواصلاتي · Mwasalati — kit skeleton</title>
+<meta name="description" content="Mwasalati booking skeleton: boarding point, fare, seat, payment, QR ticket. Same design DNA as the marketplace, mobility accent.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<script defer src="js/sample-data.js"></script>
+<script defer src="js/alsooq-ui.js"></script>
+</head>
+<body data-vertical="mobility">
+<aq-nav current="mobility"></aq-nav>
+
+<main id="main">
+  <section class="aq-hero"><div class="aq-wrap aq-hero__grid">
+    <div>
+      <span class="aq-eyebrow" data-ar="مواصلاتي · حجز مقعد" data-en="Mwasalati · seat booking">مواصلاتي · حجز مقعد</span>
+      <h1><span data-ar="احجز مقعد الغد. " data-en="Book tomorrow’s seat. ">احجز مقعد الغد. </span><span class="aq-hl" data-ar="تصلك التذكرة برمز QR." data-en="Your ticket arrives as a QR code.">تصلك التذكرة برمز QR.</span></h1>
+      <p class="aq-lede" data-ar="اختر نقطة الصعود والأجرة والمقعد، وادفع من محفظتك. كل رحلة تفتح لك باباً إلى الخدمات المالية." data-en="Pick a boarding point, a fare and a seat, then pay from your wallet. Every ride opens a door to financial services.">اختر نقطة الصعود والأجرة والمقعد، وادفع من محفظتك. كل رحلة تفتح لك باباً إلى الخدمات المالية.</p>
+      <div class="aq-hero__cta">
+        <a class="aq-btn aq-btn--primary aq-btn--lg" href="#book" data-ar="ابدأ الحجز" data-en="Start booking">ابدأ الحجز</a>
+      </div>
+    </div>
+    <div class="aq-hero__art">
+      <div class="aq-card" style="width:min(100%,340px);display:grid;gap:var(--aq-s-4);justify-items:center">
+        <span class="aq-illustrative" data-ar="تذكرة نموذجية" data-en="Sample ticket">تذكرة نموذجية</span>
+        <div class="aq-qr" role="img" aria-label="QR placeholder">QR</div>
+        <span class="aq-placeholder">[TICKET ID]</span>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="aq-sec" id="book"><div class="aq-wrap">
+    <div class="aq-sec__head"><div><h2 data-ar="احجز مقعدك" data-en="Book your seat">احجز مقعدك</h2><p data-ar="خمس خطوات قصيرة." data-en="Five short steps.">خمس خطوات قصيرة.</p></div>
+      <span class="aq-illustrative" data-ar="الأجرة مؤكَّدة · باقي البيانات توضيحية" data-en="Fares confirmed · other data illustrative">الأجرة مؤكَّدة · باقي البيانات توضيحية</span></div>
+    <aq-checkout id="flow" class="aq-card" steps='[
+      {"id":"boarding","ar":"نقطة الصعود","en":"Boarding point"},
+      {"id":"fare","ar":"الأجرة","en":"Fare"},
+      {"id":"seat","ar":"المقعد","en":"Seat"},
+      {"id":"pay","ar":"الدفع","en":"Payment","next_ar":"ادفع واصدر التذكرة","next_en":"Pay and issue ticket"},
+      {"id":"ticket","ar":"التذكرة","en":"Ticket"}]'>
+      <section data-step="boarding"><h3 data-ar="من أين تصعد؟" data-en="Where do you board?">من أين تصعد؟</h3><div class="aq-choices" id="boarding" role="radiogroup"></div></section>
+      <section data-step="fare"><h3 data-ar="اختر الأجرة" data-en="Choose a fare">اختر الأجرة</h3><div class="aq-choices" id="fares" role="radiogroup"></div></section>
+      <section data-step="seat">
+        <h3 data-ar="اختر مقعدك" data-en="Pick your seat">اختر مقعدك</h3>
+        <p style="margin-block-end:var(--aq-s-4)"><span class="aq-illustrative" data-ar="تخطيط توضيحي" data-en="Illustrative layout">تخطيط توضيحي</span></p>
+        <div class="aq-seatmap" id="seats" role="group" aria-label="Seats"></div>
+        <p id="seatmsg" role="alert" style="color:var(--aq-danger);margin-block-start:var(--aq-s-3);text-align:center"></p>
+      </section>
+      <section data-step="pay">
+        <h3 data-ar="الدفع" data-en="Payment">الدفع</h3>
+        <div class="aq-choices" role="radiogroup">
+          <label class="aq-radio"><input type="radio" name="method" value="wallet" checked><b data-ar="محفظة حوّل" data-en="Hawil wallet">محفظة حوّل</b><span data-ar="خصم فوري." data-en="Instant debit.">خصم فوري.</span></label>
+        </div>
+        <div class="aq-summary" style="margin-block-start:var(--aq-s-5)"><div class="aq-total"><span data-ar="الأجرة" data-en="Fare">الأجرة</span><span class="aq-price" id="paytotal"></span></div></div>
+      </section>
+      <section data-step="ticket">
+        <h3 data-ar="تذكرتك" data-en="Your ticket">تذكرتك</h3>
+        <div class="aq-hero__grid" style="grid-template-columns:auto 1fr;gap:var(--aq-s-5)">
+          <div class="aq-qr" role="img" aria-label="QR placeholder">QR</div>
+          <div class="aq-summary" id="ticketsum"></div>
+        </div>
+      </section>
+    </aq-checkout>
+  </div></section>
+</main>
+<aq-footer></aq-footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var M = AQ.sample.mobility, S = { boarding: null, fare: null, seat: null }, flow = document.getElementById('flow');
+  function radio(name, id, label, sub, checked, placeholder) {
+    return '<label class="aq-radio"><input type="radio" name="' + name + '" value="' + id + '" required' + (checked ? ' checked' : '') + '><b' + (placeholder ? ' class="aq-placeholder"' : '') + '>' + AQ.esc(label) + '</b>' + (sub ? '<span class="aq-num">' + AQ.esc(sub) + '</span>' : '') + '</label>';
+  }
+  function paint() {
+    document.getElementById('boarding').innerHTML = M.boarding.map(function (b) { return radio('boarding', b.id, AQ.t(b.ar, b.en), '', S.boarding === b.id, true); }).join('');
+    document.getElementById('fares').innerHTML = M.fares.map(function (f) { return radio('fare', f.id, AQ.t(f.ar, f.en), AQ.money(f.amount, M.currency), S.fare === f.id); }).join('');
+    var seats = '';
+    for (var r = 1; r <= M.seatRows; r++) {
+      ['A', 'B', null, 'C', 'D'].forEach(function (c) {
+        if (!c) { seats += '<span class="aq-aisle"></span>'; return; }
+        var id = r + c, taken = M.taken.indexOf(id) > -1;
+        seats += '<button type="button" class="aq-seat" data-seat="' + id + '" aria-pressed="' + (S.seat === id) + '"' + (taken ? ' disabled' : '') + ' aria-label="' + AQ.esc(AQ.t('مقعد ', 'Seat ') + id + (taken ? AQ.t(' — محجوز', ' — taken') : '')) + '">' + id + '</button>';
+      });
+    }
+    document.getElementById('seats').innerHTML = seats;
+    summary();
+  }
+  function summary() {
+    var fare = M.fares.filter(function (f) { return f.id === S.fare; })[0];
+    document.getElementById('paytotal').textContent = fare ? AQ.money(fare.amount, M.currency) : '—';
+    var b = M.boarding.filter(function (x) { return x.id === S.boarding; })[0];
+    document.getElementById('ticketsum').innerHTML =
+      row(AQ.t('نقطة الصعود', 'Boarding'), b ? '<span class="aq-placeholder">' + AQ.esc(AQ.t(b.ar, b.en)) + '</span>' : '—') +
+      row(AQ.t('الأجرة', 'Fare'), fare ? AQ.esc(AQ.t(fare.ar, fare.en)) + ' · ' + AQ.esc(AQ.money(fare.amount, M.currency)) : '—') +
+      row(AQ.t('المقعد', 'Seat'), AQ.esc(S.seat || '—')) +
+      row(AQ.t('رقم التذكرة', 'Ticket ID'), '<span class="aq-placeholder">[TICKET ID]</span>');
+  }
+  function row(k, v) { return '<div><span>' + AQ.esc(k) + '</span><span>' + v + '</span></div>'; }
+  flow.addEventListener('change', function (e) { if (e.target.name === 'boarding') S.boarding = e.target.value; if (e.target.name === 'fare') S.fare = e.target.value; summary(); });  // no re-render: keeps keyboard focus
+  document.getElementById('seats').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-seat]'); if (!b) return; S.seat = b.getAttribute('data-seat'); document.getElementById('seatmsg').textContent = '';
+    [].forEach.call(this.querySelectorAll('[data-seat]'), function (x) { x.setAttribute('aria-pressed', x === b); }); summary();
+  });
+  flow.addEventListener('aq:validate', function (e) {
+    if (e.detail.id === 'seat' && !S.seat) { e.preventDefault(); document.getElementById('seatmsg').textContent = AQ.t('اختر مقعداً للمتابعة.', 'Pick a seat to continue.'); }
+  });
+  document.addEventListener('aq:lang', paint);
+  paint();
+});
+</script>
+</body>
+</html>
