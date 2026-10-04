@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>مساحة التاجر · alSooq Merchant Workspace</title>
+    <meta
+      name="description"
+      content="alSooq merchant services hub: Sudan Express shipping and Mowasalaty transport from one place."
+    />
+    <meta name="theme-color" content="#f6f1e7" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&family=IBM+Plex+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Same tokens as merchant-workspace.html. Clay is the accent, palm for money, gold only for Mowasalaty. */
+      :root {
+        --sand: #f6f1e7;
+        --card: #fffcf6;
+        --ink: #2e241b;
+        --ink-2: #6b5b4b;
+        --clay: #8a4b2a;
+        --clay-deep: #5f3119;
+        --clay-08: rgba(138, 75, 42, 0.08);
+        --gold: #b8862f;
+        --gold-ink: #86611c;
+        --gold-tint: rgba(184, 134, 47, 0.12);
+        --line: #dccfbb;
+        --r: 16px;
+        --r-pill: 999px;
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        --shadow: 0 1px 2px rgba(46, 36, 27, 0.05), 0 10px 30px -16px rgba(46, 36, 27, 0.2);
+        --ar: "IBM Plex Sans Arabic", system-ui, sans-serif;
+        --en: "IBM Plex Sans", system-ui, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--sand);
+        color: var(--ink);
+        font-family: var(--ar);
+        line-height: 1.6;
+      }
+      html[lang="en"] body {
+        font-family: var(--en);
+      }
+      a {
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 2px solid var(--clay);
+        outline-offset: 3px;
+      }
+
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 20px clamp(16px, 4vw, 48px);
+        border-bottom: 1px solid var(--line);
+      }
+      .top-end {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px 16px;
+      }
+      .top h1 {
+        margin: 0;
+        font-size: clamp(20px, 2.4vw, 28px);
+        font-weight: 700;
+      }
+      .top p {
+        margin: 2px 0 0;
+        color: var(--ink-2);
+        font-size: 14px;
+      }
+      .top .back {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        color: var(--ink-2);
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .top .back:hover {
+        color: var(--clay);
+      }
+      .lang {
+        display: flex;
+        padding: 3px;
+        border: 1px solid var(--line);
+        border-radius: var(--r-pill);
+        background: var(--card);
+      }
+      .lang button {
+        min-width: 44px;
+        min-height: 38px;
+        padding: 0 12px;
+        border: 0;
+        border-radius: var(--r-pill);
+        background: transparent;
+        color: var(--ink-2);
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .lang button[aria-pressed="true"] {
+        background: var(--ink);
+        color: var(--card);
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+        gap: 16px;
+        padding: clamp(16px, 4vw, 48px);
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .card {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 22px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        box-shadow: var(--shadow);
+      }
+      .card h2 {
+        margin: 0;
+        font-size: 19px;
+      }
+      .card h2 small {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink-2);
+      }
+      .card p {
+        margin: 0;
+        color: var(--ink-2);
+      }
+      .card .btn {
+        margin-top: auto;
+        align-self: flex-start;
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 20px;
+        border-radius: var(--r-pill);
+        background: var(--clay);
+        color: var(--card);
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.2s var(--ease);
+      }
+      .card .btn:hover {
+        background: var(--clay-deep);
+      }
+      .card .btn:active,
+      .lang button:active {
+        transform: scale(0.97);
+      }
+
+      /* Mowasalaty keeps its gold identity */
+      .card.mw {
+        border-top: 4px solid var(--gold);
+      }
+      .card.mw .btn {
+        background: var(--gold-ink);
+      }
+      .card.mw .btn:hover {
+        background: var(--ink);
+      }
+      .route {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        background: var(--gold-tint);
+      }
+      /* the sketch reads in the page's direction: Khartoum sits at the start */
+      [dir="rtl"] .route {
+        transform: scaleX(-1);
+      }
+      .stops {
+        display: flex;
+        justify-content: space-between;
+        margin: -4px 0 0;
+        padding: 0 6px;
+        list-style: none;
+        color: var(--gold-ink);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .card.soon {
+        border-style: dashed;
+        background: transparent;
+        box-shadow: none;
+      }
+      .card.soon .tag {
+        align-self: flex-start;
+        padding: 2px 10px;
+        border-radius: var(--r-pill);
+        background: var(--clay-08);
+        color: var(--clay);
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      @media (max-width: 560px) {
+        .top {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .top-end {
+          justify-content: space-between;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition-duration: 1ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top">
+      <div>
+        <h1 data-ar="مساحة التاجر" data-en="Merchant workspace">مساحة التاجر</h1>
+        <p data-ar="خدمات المنظومة من مكان واحد" data-en="Your ecosystem services in one place">
+          خدمات المنظومة من مكان واحد
+        </p>
+      </div>
+      <div class="top-end">
+        <a
+          class="back"
+          href="merchant-workspace.html"
+          data-ar="لوحة التاجر الكاملة ←"
+          data-en="Full merchant console →"
+          >لوحة التاجر الكاملة ←</a
+        >
+        <div class="lang" role="group" aria-label="اللغة · Language">
+          <button type="button" data-lang="ar" aria-pressed="true" lang="ar">ع</button>
+          <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="card" aria-labelledby="se-t">
+        <h2 id="se-t">
+          <span data-ar="سودان إكسبريس" data-en="Sudan Express">سودان إكسبريس</span>
+          <small data-ar="الشحن واللوجستيات" data-en="Shipping and logistics"
+            >الشحن واللوجستيات</small
+          >
+        </h2>
+        <p
+          data-ar="احجز مساحة شحن بالكيلو من القاهرة إلى الخرطوم وتابع طرودك حتى التسليم."
+          data-en="Book cargo space by the kilo from Cairo to Khartoum and track parcels to delivery."
+        >
+          احجز مساحة شحن بالكيلو من القاهرة إلى الخرطوم وتابع طرودك حتى التسليم.
+        </p>
+        <a
+          class="btn"
+          href="fractional.html#freight"
+          data-ar="إدارة الشحنات"
+          data-en="Manage shipments"
+          >إدارة الشحنات</a
+        >
+      </section>
+
+      <section class="card mw" aria-labelledby="mw-t">
+        <h2 id="mw-t">
+          <span data-ar="مواصلاتي" data-en="Mowasalaty">مواصلاتي</span>
+          <small data-ar="النقل" data-en="Transport">النقل</small>
+        </h2>
+        <p
+          data-ar="المسارات والجداول وبيع التذاكر للرحلات بين المدن."
+          data-en="Routes, timetables and ticket sales for intercity trips."
+        >
+          المسارات والجداول وبيع التذاكر للرحلات بين المدن.
+        </p>
+        <svg class="route" viewBox="0 0 320 120" role="img" aria-labelledby="route-t">
+          <title id="route-t">مخطط مسار: الخرطوم ← مدني ← كسلا</title>
+          <path
+            d="M30 90 C 110 20, 190 110, 290 34"
+            fill="none"
+            stroke="#86611C"
+            stroke-width="3"
+            stroke-dasharray="6 6"
+          />
+          <circle cx="30" cy="90" r="7" fill="#86611C" />
+          <circle cx="160" cy="66" r="6" fill="#FFFCF6" stroke="#86611C" stroke-width="3" />
+          <circle cx="290" cy="34" r="7" fill="#86611C" />
+        </svg>
+        <ol class="stops" aria-hidden="true">
+          <li data-ar="الخرطوم" data-en="Khartoum">الخرطوم</li>
+          <li data-ar="مدني" data-en="Wad Madani">مدني</li>
+          <li data-ar="كسلا" data-en="Kassala">كسلا</li>
+        </ol>
+        <a class="btn" href="mowasalaty.html" data-ar="فتح مواصلاتي" data-en="Open Mowasalaty"
+          >فتح مواصلاتي</a
+        >
+      </section>
+
+      <section class="card soon" aria-labelledby="more-t">
+        <span class="tag" data-ar="قريباً" data-en="Coming soon">قريباً</span>
+        <h2 id="more-t" data-ar="خدمات أخرى" data-en="More services">خدمات أخرى</h2>
+        <p
+          data-ar="شركاء جدد ينضمون إلى المنظومة. ستظهر خدماتهم هنا عند إطلاقها."
+          data-en="New partners are joining the ecosystem. Their services will appear here at launch."
+        >
+          شركاء جدد ينضمون إلى المنظومة. ستظهر خدماتهم هنا عند إطلاقها.
+        </p>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        var docEl = document.documentElement;
+        var routeTitle = document.getElementById("route-t");
+        var buttons = document.querySelectorAll(".lang [data-lang]");
+        var titles = {
+          ar: ["مساحة التاجر · alSooq Merchant Workspace", "مخطط مسار: الخرطوم ← مدني ← كسلا"],
+          en: ["alSooq Merchant Workspace", "Route sketch: Khartoum → Wad Madani → Kassala"],
+        };
+        function setLang(l) {
+          var ar = l === "ar";
+          docEl.lang = l;
+          docEl.dir = ar ? "rtl" : "ltr";
+          docEl.setAttribute("data-lang", l);
+          document.querySelectorAll("[data-ar]").forEach(function (el) {
+            el.textContent = el.getAttribute(ar ? "data-ar" : "data-en");
+          });
+          document.title = titles[l][0];
+          routeTitle.textContent = titles[l][1];
+          buttons.forEach(function (b) {
+            b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === l));
+          });
+        }
+        buttons.forEach(function (b) {
+          b.addEventListener("click", function () {
+            setLang(b.getAttribute("data-lang"));
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
