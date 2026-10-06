@@ -7,6 +7,7 @@
     "no-trailing-whitespace": "off",
     "attribute-boolean-style": "off",
     "void-style": "off",
-    "long-title": "off"
+    "long-title": "off",
+    "doctype-style": "off"
   }
 }

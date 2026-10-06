@@ -1,0 +1,68 @@
+/* alSooq · Kit base — reset, bilingual type, a11y, mobile-native baseline.
+   No colours or font names here: tokens only. */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;   /* we give our own :active feedback */
+  scroll-behavior: smooth;
+}
+body {
+  min-height: 100dvh;
+  background: var(--aq-sand) var(--aq-grad-ground) no-repeat;
+  color: var(--aq-ink);
+  font: 400 var(--aq-fs-md)/1.65 var(--aq-ar);
+  -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
+}
+html[lang='en'] body { font-family: var(--aq-en); }
+h1, h2, h3 { text-wrap: balance; line-height: 1.15; letter-spacing: -0.02em; }
+a { color: inherit; text-decoration: none; }
+[id] { scroll-margin-block-start: 112px; }   /* anchors land below the sticky nav (+ mobile link row) */
+img, svg { display: block; max-width: 100%; }
+ul, ol { list-style: none; }
+[hidden] { display: none !important; }   /* component display rules must never beat the hidden attribute */
+
+/* numbers & codes: tabular so prices and weights align */
+.aq-num, .aq-mono { font-family: var(--aq-en); font-variant-numeric: tabular-nums; }
+.aq-mono { font-family: var(--aq-mono); }
+
+/* bilingual helpers (the JS swaps [data-ar]/[data-en] text; these hide whole blocks) */
+html[lang='ar'] .aq-en-only, html[lang='en'] .aq-ar-only { display: none !important; }
+
+/* inputs: 16px stops iOS zooming the page on focus (never disable zoom instead) */
+input, select, textarea, button { font: inherit; color: inherit; }
+input, select, textarea { font-size: 16px; }
+
+/* controls: no stray selection / callout / double-tap delay. Content stays selectable. */
+button, [role='button'], a.aq-btn, .aq-chip, .aq-seat, .aq-radio {
+  -webkit-user-select: none; user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+  cursor: pointer;
+}
+button { background: none; border: 0; }
+
+:focus-visible { outline: 2.5px solid var(--aq-accent-ink); outline-offset: 3px; border-radius: 6px; }
+
+.aq-sr {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+.aq-skip {
+  position: absolute; inset-inline-start: var(--aq-s-4); top: -100px; z-index: 100;
+  background: var(--aq-ink); color: var(--aq-white); padding: var(--aq-s-3) var(--aq-s-4);
+  border-radius: var(--aq-r-sm);
+}
+.aq-skip:focus { top: var(--aq-s-3); }
+
+.aq-wrap {
+  width: 100%; max-width: 1160px; margin-inline: auto;
+  /* symmetric: whichever side the notch is on (landscape), both sides stay balanced in RTL and LTR */
+  padding-inline: max(var(--aq-s-5), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}

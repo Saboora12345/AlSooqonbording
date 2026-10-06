@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "21st": {
+      "type": "http",
+      "url": "https://21st.dev/api/mcp",
+      "headers": {
+        "x-api-key": "${API_KEY_21ST}"
+      }
+    },
+    "alsooq": {
+      "command": "node",
+      "args": ["mcp/dist/index.js"],
+      "env": {}
+    }
+  }
+}

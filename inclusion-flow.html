@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover" />
+    <title>Inclusion Flywheel — Financial Inclusion Sudan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Sans+Arabic:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --sand: #e7dfcd;
+        --paper: #fbf8f1;
+        --ink: #151a2b;
+        --espresso: #3a2412;
+        --coffee: #6a3e1e;
+        --gold: #b4822c;
+        --line: #d9ceb7;
+        --muted: #6e5e45;
+        --ok: #2f6b3f;
+        --no: #9a2f2f;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --sand: #1a1712;
+          --paper: #24201a;
+          --ink: #f1eadb;
+          --espresso: #eadfc8;
+          --coffee: #d9b58a;
+          --gold: #d9a64a;
+          --line: #3b342a;
+          --muted: #b8a98c;
+          --ok: #7bc48e;
+          --no: #e58a8a;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+      }
+      body {
+        background: var(--sand);
+        color: var(--espresso);
+        font:
+          16px/1.65 "IBM Plex Sans Arabic",
+          "IBM Plex Sans",
+          system-ui,
+          sans-serif;
+      }
+      .wrap {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 40px 16px 72px;
+      }
+      .eyebrow {
+        font:
+          500 11px "IBM Plex Mono",
+          monospace;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      h1 {
+        font-size: clamp(28px, 5vw, 44px);
+        line-height: 1.2;
+        margin: 8px 0 6px;
+        color: var(--ink);
+      }
+      .en {
+        font-family: "IBM Plex Sans", sans-serif;
+        direction: ltr;
+        color: var(--muted);
+        font-size: 0.92em;
+      }
+      .lede {
+        max-width: 62ch;
+        margin: 10px 0 36px;
+      }
+      h2 {
+        font-size: 20px;
+        margin: 0 0 4px;
+        color: var(--ink);
+      }
+      section {
+        margin: 0 0 40px;
+      }
+      .step-n {
+        display: inline-grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--gold);
+        color: #fff;
+        font:
+          600 13px "IBM Plex Mono",
+          monospace;
+        margin-inline-end: 8px;
+      }
+
+      /* gate demo */
+      .gate {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 20px;
+      }
+      .toggle {
+        display: inline-flex;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 16px;
+      }
+      .toggle button {
+        font: inherit;
+        border: 0;
+        background: transparent;
+        color: var(--espresso);
+        padding: 9px 16px;
+        cursor: pointer;
+        min-height: 44px;
+      }
+      .toggle button[aria-pressed="true"] {
+        background: var(--coffee);
+        color: #fff;
+      }
+      .path {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: stretch;
+      }
+      .node {
+        flex: 1 1 150px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 12px;
+        background: var(--sand);
+        min-height: 92px;
+      }
+      .node b {
+        display: block;
+        color: var(--ink);
+      }
+      .node small {
+        color: var(--muted);
+      }
+      .node.stop {
+        border-color: var(--no);
+      }
+      .node.stop b {
+        color: var(--no);
+      }
+      .node.go {
+        border-color: var(--ok);
+      }
+      .node.go b {
+        color: var(--ok);
+      }
+      .arrow {
+        align-self: center;
+        color: var(--gold);
+        font-size: 20px;
+      }
+      [dir="rtl"] .arrow {
+        transform: scaleX(-1);
+      }
+      .hide {
+        display: none !important;
+      }
+      .wallets {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 10px;
+      }
+      .chip {
+        font-size: 13px;
+        border: 1px solid var(--line);
+        border-radius: 99px;
+        padding: 2px 10px;
+        background: var(--paper);
+      }
+
+      /* data */
+      .cols {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 12px;
+      }
+      .card {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 16px;
+      }
+      .card h3 {
+        margin: 0 0 6px;
+        font-size: 16px;
+        color: var(--ink);
+      }
+      .card ul {
+        margin: 6px 0 0;
+        padding-inline-start: 18px;
+        color: var(--muted);
+        font-size: 14.5px;
+      }
+      .tag {
+        display: inline-block;
+        font:
+          500 10px "IBM Plex Mono",
+          monospace;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        border: 1px dashed var(--gold);
+        color: var(--gold);
+        border-radius: 6px;
+        padding: 2px 7px;
+        margin-top: 10px;
+      }
+      svg {
+        width: 100%;
+        height: auto;
+        display: block;
+        margin-top: 8px;
+      }
+
+      /* loop */
+      .loop {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 10px;
+        counter-reset: s;
+      }
+      .loop .card {
+        position: relative;
+      }
+      .loop .card::before {
+        counter-increment: s;
+        content: counter(s);
+        position: absolute;
+        top: 10px;
+        inset-inline-end: 12px;
+        font:
+          500 12px "IBM Plex Mono",
+          monospace;
+        color: var(--gold);
+      }
+      .note {
+        border-inline-start: 3px solid var(--gold);
+        padding: 6px 14px;
+        color: var(--muted);
+        font-size: 14.5px;
+        margin-top: 14px;
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .node,
+        .card {
+          transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+        }
+        @media (hover: hover) and (pointer: fine) {
+          .card:hover {
+            transform: translateY(-2px);
+          }
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="assets/native.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="eyebrow">Financial Inclusion Sudan · Gentle Care</div>
+      <h1>التذكرة المدعومة تفتح الباب المالي</h1>
+      <div class="en">The subsidized ticket is the front door to a financial account.</div>
+      <p class="lede">
+        لا تُباع التذكرة المدعومة إلا لمن لديه محفظة مرخّصة. من لا يملك واحدة لا يُرفض، بل يذهب إلى
+        وكيل يفتح له المحفظة في دقيقتين ثم يشتري. كل راكب يدخل النظام المالي بهذه الطريقة، وكل تذكرة
+        تترك أثراً يمكن قياسه.
+      </p>
+
+      <section aria-labelledby="g">
+        <h2 id="g"><span class="step-n">1</span>البوابة · The gate</h2>
+        <div class="gate">
+          <div class="toggle" role="group" aria-label="حالة الراكب">
+            <button id="b-has" aria-pressed="true">لديه محفظة · Has a wallet</button>
+            <button id="b-no" aria-pressed="false">بلا حساب · No account</button>
+          </div>
+          <div class="path" id="p-has">
+            <div class="node"><b>راكب</b><small>Rider asks for a subsidized ticket</small></div>
+            <span class="arrow">➜</span>
+            <div class="node">
+              <b>تحقق من المحفظة</b><small>Wallet check via licensed provider</small>
+            </div>
+            <span class="arrow">➜</span>
+            <div class="node go">
+              <b>تذكرة QR مدعومة</b><small>Paid from wallet, one per rider per trip</small>
+            </div>
+          </div>
+          <div class="path hide" id="p-no">
+            <div class="node stop">
+              <b>لا محفظة</b><small>Cannot buy, even from an agent, without an account</small>
+            </div>
+            <span class="arrow">➜</span>
+            <div class="node">
+              <b>وكيل مُعتمد</b
+              ><small>Agent registers the rider: ID, phone, wallet opened (KYC)</small>
+            </div>
+            <span class="arrow">➜</span>
+            <div class="node"><b>محفظة جديدة</b><small>One of the licensed providers</small></div>
+            <span class="arrow">➜</span>
+            <div class="node go">
+              <b>تذكرة QR مدعومة</b><small>First ticket = first digital transaction</small>
+            </div>
+          </div>
+          <div class="wallets" aria-label="Licensed wallets">
+            <span class="chip">MoMo</span><span class="chip">Sah · صاح</span
+            ><span class="chip">Bede · بيدي</span><span class="chip">Bravo · براڤو</span
+            ><span class="chip">Cashi · كاشي</span><span class="chip">Zakher · زاخر</span>
+          </div>
+          <div class="note" dir="ltr" lang="en">
+            Provider list: Central Bank of Sudan licensed fintechs (2022–2025). Which of these sign
+            up for Mwasalati is not agreed yet.
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="d">
+        <h2 id="d"><span class="step-n">2</span>ما نجمعه · The data</h2>
+        <div class="cols">
+          <div class="card">
+            <h3>إيرادات التذاكر اليومية</h3>
+            <svg
+              viewBox="0 0 220 90"
+              role="img"
+              aria-label="Schematic daily ticket revenue bars, not real figures"
+            >
+              <g fill="var(--gold)">
+                <rect x="8" y="50" width="22" height="30" rx="3" />
+                <rect x="38" y="42" width="22" height="38" rx="3" />
+                <rect x="68" y="34" width="22" height="46" rx="3" />
+                <rect x="98" y="38" width="22" height="42" rx="3" />
+                <rect x="128" y="24" width="22" height="56" rx="3" />
+                <rect x="158" y="14" width="22" height="66" rx="3" />
+                <rect x="188" y="20" width="22" height="60" rx="3" />
+              </g>
+              <line x1="4" y1="81" x2="214" y2="81" stroke="var(--line)" />
+            </svg>
+            <span class="tag">Schematic · not actuals</span>
+          </div>
+          <div class="card">
+            <h3>سلوك الراكب</h3>
+            <ul>
+              <li>رحلات لكل محفظة، وخطوط وأوقات الذروة</li>
+              <li>أول مرة تستخدم فيها المحفظة</li>
+              <li>أي وكيل سجّل أكثر</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>درجة ثقة مالية</h3>
+            <ul>
+              <li>انتظام الدفع يبني سجلاً</li>
+              <li>الأساس لتقسيط مشتريات السوق لاحقاً</li>
+              <li>يشترط موافقة الراكب وحماية البيانات</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="l">
+        <h2 id="l"><span class="step-n">3</span>الحلقة · The loop</h2>
+        <div class="loop">
+          <div class="card">
+            <h3>مواصلاتي</h3>
+            <small class="en">Ticket bought with a wallet</small>
+          </div>
+          <div class="card">
+            <h3>السوق</h3>
+            <small class="en">Rider sees products, pays into escrow</small>
+          </div>
+          <div class="card">
+            <h3>سوداني إكسبريس</h3>
+            <small class="en">Cargo and fractional freight, stablecoin settlement</small>
+          </div>
+          <div class="card">
+            <h3>سودابوست</h3>
+            <small class="en">Last-mile delivery under the post-office agreement</small>
+          </div>
+          <div class="card">
+            <h3>الاستلام ثم الدفع</h3>
+            <small class="en">Buyer confirms, seller gets paid, wallet balance grows</small>
+          </div>
+        </div>
+        <div class="note" dir="ltr" lang="en">
+          Open items: who supplies the e-commerce stock (your note says "admissions", I read it as
+          our own supply line, please confirm), and the exact Sudapost agreement terms. Subsidy size
+          per ticket is not set, so no amounts appear here.
+        </div>
+      </section>
+    </div>
+    <script>
+      (function () {
+        var has = document.getElementById("b-has"),
+          no = document.getElementById("b-no"),
+          ph = document.getElementById("p-has"),
+          pn = document.getElementById("p-no");
+        function set(h) {
+          has.setAttribute("aria-pressed", h);
+          no.setAttribute("aria-pressed", !h);
+          ph.classList.toggle("hide", !h);
+          pn.classList.toggle("hide", h);
+        }
+        has.onclick = function () {
+          set(true);
+        };
+        no.onclick = function () {
+          set(false);
+        };
+      })();
+    </script>
+  </body>
+</html>
