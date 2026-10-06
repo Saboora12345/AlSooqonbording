@@ -330,26 +330,22 @@
       background: var(--clay);
       color: #fff;
       box-shadow: 0 8px 22px -8px rgba(138, 75, 42, 0.55);
-    }
-
-    .btn-primary:hover:not(:disabled) {
+    }@media (hover:hover) and (pointer:fine){.btn-primary:hover:not(:disabled){
       transform: translateY(-2px);
       box-shadow: 0 14px 30px -8px rgba(138, 75, 42, 0.6);
       background: var(--clay-deep);
-    }
+    }}
 
     .btn-secondary {
       background: var(--card);
       color: var(--ink);
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
-    }
-
-    .btn-secondary:hover:not(:disabled) {
+    }@media (hover:hover) and (pointer:fine){.btn-secondary:hover:not(:disabled){
       transform: translateY(-2px);
       box-shadow: var(--shadow-lg);
       border-color: var(--clay-30);
-    }
+    }}
 
     .btn:disabled {
       opacity: 0.6;
@@ -391,13 +387,11 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
-    }
-
-    .filter-btn:hover {
+    }@media (hover:hover) and (pointer:fine){.filter-btn:hover{
       border-color: var(--clay-30);
       background: var(--clay-08);
       color: var(--clay);
-    }
+    }}
 
     .filter-btn.active {
       background: var(--clay);
@@ -450,11 +444,9 @@
       color: var(--clay);
       text-decoration: none;
       font-weight: 600;
-    }
-
-    .footer a:hover {
+    }@media (hover:hover) and (pointer:fine){.footer a:hover{
       text-decoration: underline;
-    }
+    }}
 
     @media (max-width: 640px) {
       .header {
@@ -492,6 +484,7 @@
       }
     }
   </style>
+<link rel="stylesheet" href="assets/native.css">
 </head>
 <body>
   <div class="bg" aria-hidden="true">

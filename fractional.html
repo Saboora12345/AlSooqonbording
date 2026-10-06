@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -35,6 +35,7 @@
         --shadow: 0 1px 2px rgba(46, 36, 27, 0.05), 0 10px 30px -16px rgba(46, 36, 27, 0.2);
         --ar: "IBM Plex Sans Arabic", system-ui, sans-serif;
         --en: "IBM Plex Sans", system-ui, sans-serif;
+        --mono: "IBM Plex Mono", ui-monospace, monospace;
         --ease: cubic-bezier(0.16, 1, 0.3, 1);
       }
       * {
@@ -380,8 +381,10 @@
         display: grid;
         place-items: center;
       }
-      .stepper button:hover {
-        border-color: var(--clay-30);
+      @media (hover: hover) and (pointer: fine) {
+        .stepper button:hover {
+          border-color: var(--clay-30);
+        }
       }
       .stepper input {
         flex: 1;
@@ -431,8 +434,10 @@
           transform 0.2s var(--ease),
           opacity 0.2s var(--ease);
       }
-      .cta:hover {
-        transform: translateY(-1px);
+      @media (hover: hover) and (pointer: fine) {
+        .cta:hover {
+          transform: translateY(-1px);
+        }
       }
       .cta:active {
         transform: none;
@@ -473,7 +478,7 @@
         letter-spacing: 0.06em;
       }
       .ussd pre {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-family: var(--mono);
         font-size: 14px;
         line-height: 1.7;
         white-space: pre-wrap;
@@ -531,9 +536,11 @@
         font-weight: 600;
         cursor: pointer;
       }
-      .ghost:hover {
-        color: var(--ink);
-        border-color: var(--clay-30);
+      @media (hover: hover) and (pointer: fine) {
+        .ghost:hover {
+          color: var(--ink);
+          border-color: var(--clay-30);
+        }
       }
       .pay {
         display: flex;
@@ -630,8 +637,10 @@
         place-items: center;
         flex: none;
       }
-      .copy:hover {
-        border-color: var(--clay-30);
+      @media (hover: hover) and (pointer: fine) {
+        .copy:hover {
+          border-color: var(--clay-30);
+        }
       }
       .rows {
         list-style: none;
@@ -712,8 +721,10 @@
         color: var(--ink-2);
         text-decoration: none;
       }
-      .foot a:hover {
-        color: var(--clay);
+      @media (hover: hover) and (pointer: fine) {
+        .foot a:hover {
+          color: var(--clay);
+        }
       }
       .foot p {
         font-size: 13px;
@@ -727,6 +738,7 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="assets/native.css" />
   </head>
   <body>
     <header class="hdr">

@@ -2,6 +2,9 @@
 
 Durable context for Claude Code sessions on this repo. Owner: Abbas (abbas_sabir@hotmail.com).
 
+## Design system
+See `DESIGN.md` for tokens (both palettes, type, RTL, currency rules). Read it before any UI work.
+
 ## Writing style (owner preference)
 - Arabic + English. Avoid robotic filler and canned connectors; vary sentence length;
   prefer concrete detail over generalities; keep a human, direct voice. Applies to EN too.

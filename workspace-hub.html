@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" data-lang="ar">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>مساحة التاجر · alSooq Merchant Workspace</title>
     <meta
       name="description"
@@ -91,8 +91,10 @@
         font-weight: 600;
         text-decoration: none;
       }
-      .top .back:hover {
-        color: var(--clay);
+      @media (hover: hover) and (pointer: fine) {
+        .top .back:hover {
+          color: var(--clay);
+        }
       }
       .lang {
         display: flex;
@@ -164,8 +166,10 @@
         text-decoration: none;
         transition: background 0.2s var(--ease);
       }
-      .card .btn:hover {
-        background: var(--clay-deep);
+      @media (hover: hover) and (pointer: fine) {
+        .card .btn:hover {
+          background: var(--clay-deep);
+        }
       }
       .card .btn:active,
       .lang button:active {
@@ -179,8 +183,10 @@
       .card.mw .btn {
         background: var(--gold-ink);
       }
-      .card.mw .btn:hover {
-        background: var(--ink);
+      @media (hover: hover) and (pointer: fine) {
+        .card.mw .btn:hover {
+          background: var(--ink);
+        }
       }
       .route {
         display: block;
@@ -234,6 +240,7 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="assets/native.css" />
   </head>
   <body>
     <header class="top">

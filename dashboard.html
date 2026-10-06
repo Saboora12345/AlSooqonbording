@@ -17,8 +17,15 @@
   --line:#DCCFBB; --line-soft:rgba(220,207,187,.6);
   --r:16px; --r-sm:10px; --r-lg:22px; --r-pill:999px;
   --ease:cubic-bezier(.16,1,.3,1); --io:cubic-bezier(.77,0,.175,1);
-  --shadow:0 1px 2px rgba(46,36,27,.05),0 10px 30px -16px rgba(46,36,27,.2);
-  --shadow-lg:0 2px 6px rgba(46,36,27,.06),0 30px 60px -28px rgba(46,36,27,.32);
+  --gold-deep:#8C6420; --gold-30:rgba(184,134,47,.3); --trust:var(--gold);
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px; --sp-7:48px; --sp-8:64px;
+  --spring:cubic-bezier(.34,1.56,.64,1);
+  --sh-1:0 1px 2px rgba(46,36,27,.06);
+  --sh-2:0 1px 2px rgba(46,36,27,.05),0 8px 24px -14px rgba(46,36,27,.22);
+  --sh-3:0 2px 6px rgba(46,36,27,.06),0 22px 46px -20px rgba(46,36,27,.30);
+  --sh-4:0 3px 10px rgba(46,36,27,.08),0 42px 74px -28px rgba(46,36,27,.40);
+  --glow-clay:0 10px 28px -10px rgba(138,75,42,.5); --glow-gold:0 10px 28px -10px rgba(184,134,47,.42);
+  --shadow:var(--sh-2); --shadow-lg:var(--sh-4);
   --ar:'IBM Plex Sans Arabic',system-ui,sans-serif; --en:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -54,8 +61,7 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 .lang{display:flex;border:1px solid var(--line);border-radius:var(--r-pill);overflow:hidden}
 .lang button{padding:7px 12px;font-size:12px;font-weight:700;color:var(--ink-2);transition:.15s}
 .lang button[aria-pressed="true"]{background:var(--clay);color:#fff}
-.hbtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--card);border-radius:var(--r-pill);padding:9px 15px;font-size:13px;font-weight:600;box-shadow:var(--shadow);transition:transform .24s,box-shadow .24s,border-color .24s}
-.hbtn:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--clay-30)}
+.hbtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--card);border-radius:var(--r-pill);padding:9px 15px;font-size:13px;font-weight:600;box-shadow:var(--shadow);transition:transform .24s,box-shadow .24s,border-color .24s}@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--clay-30)}}
 .hbtn svg{width:16px;height:16px}
 @media(max-width:720px){.range .txt-lg{display:none}.brand .en{display:none}.hbtn .txt{display:none}}
 
@@ -69,8 +75,7 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 
 /* KPI row */
 .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:16px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .28s var(--ease),box-shadow .28s}
-.kpi:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .28s var(--ease),box-shadow .28s}@media (hover:hover) and (pointer:fine){.kpi:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}}
 .kpi .kt{display:flex;align-items:center;justify-content:space-between}
 .kpi .ki{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--clay-08);color:var(--clay)}
 .kpi.g .ki{background:var(--gold-tint);color:var(--gold)}.kpi.p .ki{background:var(--palm-12);color:var(--palm)}
@@ -104,8 +109,7 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 .chart .grid-l{stroke:var(--line-soft);stroke-width:1;stroke-dasharray:3 4}
 .chart .axis{font-family:var(--mono);font-size:10px;fill:var(--ink-3)}
 .pathline{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.dot{opacity:0;transition:opacity .3s}
-.chart:hover .dot{opacity:1}
+.dot{opacity:0;transition:opacity .3s}@media (hover:hover) and (pointer:fine){.chart:hover .dot{opacity:1}}
 
 /* bar chart */
 .bars{display:flex;align-items:flex-end;gap:14px;height:200px;padding-top:10px}
@@ -175,9 +179,9 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 .rev{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .rev.in{opacity:1;transform:none}
 .hbtn:active,.kpi:active,.range button:active,.lang button:active{transform:scale(.97)}
-@media(hover:none){.hbtn:hover,.kpi:hover{transform:none;box-shadow:var(--shadow)}}
 @media(prefers-reduced-motion:reduce){*{animation:none !important;transition-property:opacity,color,background-color,border-color,fill,stroke !important}.rev{opacity:1;transform:none}}
 </style>
+<link rel="stylesheet" href="assets/native.css">
 </head>
 <body>
 <div class="bg" aria-hidden="true"><span class="b1"></span><span class="b2"></span></div>

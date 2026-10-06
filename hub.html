@@ -1,34 +1,132 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Al-Sooq + Mowasalty | Investor Hub</title>
-<link rel="icon" href="https://al-sooqonbording.vercel.app/favicon.ico">
-<style>
-body{font-family:Inter,system-ui;background:#fafafa;color:#111;padding:24px}
-.wrap{max-width:480px;margin:0 auto;background:#fff;border:1px solid #eee;border-radius:24px;padding:24px;box-shadow:0 10px 40px rgba(0,0,0,0.06)}
-.logo{width:48px;height:48px;background:#111;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:16px}
-h1{margin:0;font-size:22px} .tag{color:#666;font-size:14px;margin:8px 0 24px}
-a.link{display:flex;justify-content:space-between;align-items:center;padding:16px;border:1px solid #eee;border-radius:14px;text-decoration:none;color:#111;margin-bottom:10px;font-weight:600;transition:0.2s}
-a.link:hover{background:#111;color:#fff} a.link span{font-size:12px;color:#888;font-weight:400} a.primary{background:#111;color:#fff}
-.small{text-align:center;color:#999;font-size:11px;margin-top:20px}
-</style>
-</head>
-<body>
-<div class="wrap">
-<div class="logo">A</div>
-<h1>Al-Sooq + Mowasalty</h1>
-<div class="tag">Financial Inclusion via Embedded Services - Sudan<br>Investor & Partner Hub</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Al-Sooq + Mowasalty | Investor Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="https://al-sooqonbording.vercel.app/favicon.ico" />
+    <style>
+      :root {
+        --sand: #f6f1e7;
+        --ground: #fbfaf7;
+        --ink: #2e241b;
+        --clay: #8a4b2a;
+        --line: #dccfbb;
+        --r: 16px;
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        --shadow: 0 1px 2px rgba(46, 36, 27, 0.05), 0 10px 30px -16px rgba(46, 36, 27, 0.2);
+        --en: "IBM Plex Sans", system-ui, sans-serif;
+      }
+      body {
+        font-family: var(--en);
+        background: var(--sand);
+        color: var(--ink);
+        padding: 24px;
+      }
+      .wrap {
+        max-width: 480px;
+        margin: 0 auto;
+        background: var(--ground);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 24px;
+        box-shadow: var(--shadow);
+      }
+      .logo {
+        width: 48px;
+        height: 48px;
+        background: var(--clay);
+        color: #fff;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 22px;
+      }
+      .tag {
+        color: #6b5b4b;
+        font-size: 14px;
+        margin: 8px 0 24px;
+      }
+      a.link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        text-decoration: none;
+        color: var(--ink);
+        margin-bottom: 10px;
+        font-weight: 600;
+        transition:
+          background 0.15s var(--ease),
+          color 0.15s var(--ease);
+      }
+      @media (hover: hover) and (pointer: fine) {
+        a.link:hover {
+          background: var(--clay);
+          color: #fff;
+          border-color: var(--clay);
+        }
+      }
+      a.link span {
+        font-size: 12px;
+        color: #76654f;
+        font-weight: 400;
+      }
+      @media (hover: hover) and (pointer: fine) {
+        a.link:hover span {
+          color: #fff;
+        }
+      }
+      a.primary {
+        background: var(--clay);
+        color: #fff;
+        border-color: var(--clay);
+      }
+      a.primary span {
+        color: #fff;
+      }
+      .small {
+        text-align: center;
+        color: #76654f;
+        font-size: 11px;
+        margin-top: 20px;
+      }
+    </style>
+    <link rel="stylesheet" href="assets/native.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="logo">A</div>
+      <h1>Al-Sooq + Mowasalty</h1>
+      <div class="tag">
+        Financial Inclusion via Embedded Services - Sudan<br />Investor & Partner Hub
+      </div>
 
-<a class="link primary" href="/deck/">🚀 Main Investor Deck <span>→</span></a>
-<a class="link" href="/sudan-express.html">🚌 Mowasalty - Sudan Express <span>Live Demo</span></a>
-<a class="link" href="/merchant-onboarding.html">🏪 Merchant Onboarding <span>Flow</span></a>
-<a class="link" href="/merchant-workspace.html">💼 Merchant Workspace <span>Flow</span></a>
-<a class="link" href="/merchant-app.html">📱 Merchant App <span>Flow</span></a>
-<a class="link" href="/accounts.html">💳 Accounts & Wallet <span>Flow</span></a>
-<a class="link" href="/cross-sell.html">🔗 Cross-Sell Hub <span>Embedded Finance</span></a>
+      <a class="link primary" href="/deck/">Main Investor Deck <span>→</span></a>
+      <a class="link" href="/sudan-express.html"
+        >Mowasalty - Sudan Express <span>Live Demo</span></a
+      >
+      <a class="link" href="/merchant-onboarding.html">Merchant Onboarding <span>Flow</span></a>
+      <a class="link" href="/merchant-workspace.html">Merchant Workspace <span>Flow</span></a>
+      <a class="link" href="/merchant-app.html">Merchant App <span>Flow</span></a>
+      <a class="link" href="/accounts.html">Accounts & Wallet <span>Flow</span></a>
+      <a class="link" href="/cross-sell.html">Cross-Sell Hub <span>Embedded Finance</span></a>
 
-<div class="small">al-sooqonbording.vercel.app<br>Contact: Mohamed Sabir</div>
-</div>
-</body>
+      <div class="small">al-sooqonbording.vercel.app<br />Contact: Mohamed Sabir</div>
+    </div>
+  </body>
 </html>
