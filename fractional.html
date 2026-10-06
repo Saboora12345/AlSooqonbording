@@ -381,8 +381,10 @@
         display: grid;
         place-items: center;
       }
-      .stepper button:hover {
-        border-color: var(--clay-30);
+      @media (hover: hover) and (pointer: fine) {
+        .stepper button:hover {
+          border-color: var(--clay-30);
+        }
       }
       .stepper input {
         flex: 1;
@@ -432,8 +434,10 @@
           transform 0.2s var(--ease),
           opacity 0.2s var(--ease);
       }
-      .cta:hover {
-        transform: translateY(-1px);
+      @media (hover: hover) and (pointer: fine) {
+        .cta:hover {
+          transform: translateY(-1px);
+        }
       }
       .cta:active {
         transform: none;
@@ -532,9 +536,11 @@
         font-weight: 600;
         cursor: pointer;
       }
-      .ghost:hover {
-        color: var(--ink);
-        border-color: var(--clay-30);
+      @media (hover: hover) and (pointer: fine) {
+        .ghost:hover {
+          color: var(--ink);
+          border-color: var(--clay-30);
+        }
       }
       .pay {
         display: flex;
@@ -631,8 +637,10 @@
         place-items: center;
         flex: none;
       }
-      .copy:hover {
-        border-color: var(--clay-30);
+      @media (hover: hover) and (pointer: fine) {
+        .copy:hover {
+          border-color: var(--clay-30);
+        }
       }
       .rows {
         list-style: none;
@@ -713,8 +721,10 @@
         color: var(--ink-2);
         text-decoration: none;
       }
-      .foot a:hover {
-        color: var(--clay);
+      @media (hover: hover) and (pointer: fine) {
+        .foot a:hover {
+          color: var(--clay);
+        }
       }
       .foot p {
         font-size: 13px;
@@ -728,6 +738,7 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="assets/native.css" />
   </head>
   <body>
     <header class="hdr">
