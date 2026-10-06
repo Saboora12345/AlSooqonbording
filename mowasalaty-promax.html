@@ -247,11 +247,10 @@
         transition:
           transform 0.24s,
           box-shadow 0.24s;
-      }
-      .alsooq-link:hover {
+      }@media (hover:hover) and (pointer:fine){.alsooq-link:hover{
         transform: translateY(-2px);
         box-shadow: 0 8px 20px -8px rgba(184, 134, 47, 0.5);
-      }
+      }}
       .alsooq-link svg {
         width: 15px;
         height: 15px;
@@ -2415,7 +2414,8 @@
         }
       }
     </style>
-  </head>
+  <link rel="stylesheet" href="assets/native.css">
+</head>
   <body>
     <div class="studio">
       <!-- studio topbar -->

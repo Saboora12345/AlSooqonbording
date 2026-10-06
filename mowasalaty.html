@@ -57,8 +57,7 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 .live .d{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 1.6s var(--io) infinite}
 @keyframes blink{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(27,158,119,.4)}50%{opacity:.4;box-shadow:0 0 0 5px rgba(27,158,119,0)}}
 .spacer{flex:1}
-.alsooq-link{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--gold);color:var(--gold);background:var(--gold-12);border-radius:var(--r-pill);padding:8px 14px;font-size:12.5px;font-weight:700;transition:transform .24s,box-shadow .24s}
-.alsooq-link:hover{transform:translateY(-2px);box-shadow:0 8px 20px -8px rgba(184,134,47,.5)}
+.alsooq-link{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--gold);color:var(--gold);background:var(--gold-12);border-radius:var(--r-pill);padding:8px 14px;font-size:12.5px;font-weight:700;transition:transform .24s,box-shadow .24s}@media (hover:hover) and (pointer:fine){.alsooq-link:hover{transform:translateY(-2px);box-shadow:0 8px 20px -8px rgba(184,134,47,.5)}}
 .alsooq-link svg{width:15px;height:15px}
 .lang{display:flex;border:1px solid var(--line);border-radius:var(--r-pill);overflow:hidden}
 .lang button{padding:7px 12px;font-size:12px;font-weight:700;color:var(--ink-2);transition:.15s}
@@ -91,15 +90,13 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 .promo .px{flex:1;min-width:0;position:relative;z-index:1}
 .promo .px b{font-size:13.5px;font-weight:700;display:block}
 .promo .px span{font-size:12px;color:rgba(246,241,231,.72)}
-.promo .pcta{position:relative;z-index:1;display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#2E241B;font-weight:700;font-size:12.5px;padding:9px 15px;border-radius:var(--r-pill);white-space:nowrap;transition:transform .2s}
-.promo .pcta:hover{transform:translateY(-2px)}
+.promo .pcta{position:relative;z-index:1;display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#2E241B;font-weight:700;font-size:12.5px;padding:9px 15px;border-radius:var(--r-pill);white-space:nowrap;transition:transform .2s}@media (hover:hover) and (pointer:fine){.promo .pcta:hover{transform:translateY(-2px)}}
 .promo .pcta svg{width:15px;height:15px}
 @media(max-width:600px){.promo{flex-wrap:wrap}.promo .pcta{width:100%;justify-content:center}}
 
 /* KPI row */
 .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .28s var(--ease),box-shadow .28s}
-.kpi:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .28s var(--ease),box-shadow .28s}@media (hover:hover) and (pointer:fine){.kpi:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}}
 .kpi .kt{display:flex;align-items:center;justify-content:space-between}
 .kpi .ki{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--blue-08);color:var(--blue)}
 .kpi.c .ki{background:var(--cyan-12);color:var(--cyan)}.kpi.g .ki{background:var(--green-12);color:var(--green)}
@@ -178,20 +175,17 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 .field .inp input,.field .inp select{border:0;outline:0;background:none;width:100%}
 .field .inp select{cursor:pointer}
 .swap{display:flex;justify-content:center;margin:-4px 0}
-.swap button{width:34px;height:34px;border-radius:50%;background:var(--blue-08);color:var(--blue);display:grid;place-items:center;transition:transform .3s var(--io),background .2s}
-.swap button:hover{transform:rotate(180deg);background:var(--blue-12)}
+.swap button{width:34px;height:34px;border-radius:50%;background:var(--blue-08);color:var(--blue);display:grid;place-items:center;transition:transform .3s var(--io),background .2s}@media (hover:hover) and (pointer:fine){.swap button:hover{transform:rotate(180deg);background:var(--blue-12)}}
 .book-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:var(--r-pill);font-size:13.5px;font-weight:700;transition:transform .2s,box-shadow .2s}
-.btn-primary{background:linear-gradient(145deg,var(--blue),var(--blue-deep));color:#fff;box-shadow:0 8px 20px -8px rgba(0,119,182,.6)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px -8px rgba(0,119,182,.7)}
+.btn-primary{background:linear-gradient(145deg,var(--blue),var(--blue-deep));color:#fff;box-shadow:0 8px 20px -8px rgba(0,119,182,.6)}@media (hover:hover) and (pointer:fine){.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px -8px rgba(0,119,182,.7)}}
 .btn-ghost{background:var(--white);color:var(--blue);border:1px solid var(--blue-30)}
 .btn svg{width:17px;height:17px}
 
 /* trip results */
 .results{margin-top:20px;display:flex;flex-direction:column;gap:11px}
 .results-h{font-size:12.5px;font-weight:700;color:var(--ink-2);display:flex;align-items:center;gap:8px;margin-bottom:2px}
-.trip{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;border:1px solid var(--line);background:var(--white);border-radius:var(--r);padding:15px 18px;box-shadow:0 1px 2px rgba(11,42,56,.04);transition:transform .24s,box-shadow .24s,border-color .24s}
-.trip:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--blue-30)}
+.trip{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;border:1px solid var(--line);background:var(--white);border-radius:var(--r);padding:15px 18px;box-shadow:0 1px 2px rgba(11,42,56,.04);transition:transform .24s,box-shadow .24s,border-color .24s}@media (hover:hover) and (pointer:fine){.trip:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--blue-30)}}
 .trip.new{animation:pop .5s var(--ease)}
 @keyframes pop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 .trip .tt{text-align:center}
@@ -207,8 +201,7 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 .trip .tend{text-align:end;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
 .trip .tend .price b{font-size:19px;font-weight:700}
 .trip .tend .price small{font-size:11px;color:var(--ink-3)}
-.trip .tend .bk{display:inline-flex;align-items:center;gap:6px;background:var(--gold-12);color:var(--gold);border:1px solid var(--gold);font-weight:700;font-size:11.5px;padding:7px 13px;border-radius:var(--r-pill);transition:transform .2s}
-.trip .tend .bk:hover{transform:translateY(-2px)}
+.trip .tend .bk{display:inline-flex;align-items:center;gap:6px;background:var(--gold-12);color:var(--gold);border:1px solid var(--gold);font-weight:700;font-size:11.5px;padding:7px 13px;border-radius:var(--r-pill);transition:transform .2s}@media (hover:hover) and (pointer:fine){.trip .tend .bk:hover{transform:translateY(-2px)}}
 .trip .tend .bk svg{width:13px;height:13px}
 @media(max-width:640px){.trip{grid-template-columns:1fr;text-align:start}.trip .tt,.trip .tend{text-align:start;align-items:flex-start}}
 .api-note{display:flex;align-items:flex-start;gap:9px;font-size:11px;color:var(--ink-3);background:var(--bg-2);border:1px dashed var(--line);border-radius:var(--r-sm);padding:11px 13px;margin-top:14px}
@@ -253,8 +246,7 @@ table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}
 thead th{text-align:start;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);font-weight:700;padding:12px 16px;background:var(--bg-2);border-bottom:1px solid var(--line);white-space:nowrap}
 tbody td{padding:13px 16px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
 tbody tr:last-child td{border-bottom:0}
-tbody tr{transition:background .15s}
-tbody tr:hover{background:var(--blue-08)}
+tbody tr{transition:background .15s}@media (hover:hover) and (pointer:fine){tbody tr:hover{background:var(--blue-08)}}
 .veh{display:flex;align-items:center;gap:10px}
 .veh .vi{width:34px;height:34px;border-radius:9px;flex:none;display:grid;place-items:center;background:var(--blue-08);color:var(--blue);font-size:16px}
 .veh b{font-size:12.5px;font-weight:700;display:block;line-height:1.2}
@@ -267,8 +259,7 @@ tbody tr:hover{background:var(--blue-08)}
 
 /* maintenance cards */
 .maint-list{display:flex;flex-direction:column;gap:11px}
-.mcard{display:flex;align-items:center;gap:13px;border:1px solid var(--line);background:var(--white);border-radius:var(--r);padding:14px 16px;transition:transform .24s,box-shadow .24s}
-.mcard:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.mcard{display:flex;align-items:center;gap:13px;border:1px solid var(--line);background:var(--white);border-radius:var(--r);padding:14px 16px;transition:transform .24s,box-shadow .24s}@media (hover:hover) and (pointer:fine){.mcard:hover{transform:translateY(-3px);box-shadow:var(--shadow)}}
 .mcard .mci{width:40px;height:40px;border-radius:11px;flex:none;display:grid;place-items:center;background:var(--amber-12);color:var(--amber)}
 .mcard .mci.ok{background:var(--green-12);color:var(--green)}.mcard .mci.due{background:var(--red-12);color:var(--red)}
 .mcard .mcx{flex:1;min-width:0}
@@ -294,12 +285,12 @@ tbody tr:hover{background:var(--blue-08)}
 .foot{border-top:1px solid var(--line-soft);margin-top:44px}
 .foot-in{max-width:1280px;margin-inline:auto;padding:26px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .foot .fl{display:flex;gap:18px;flex-wrap:wrap}
-.foot .fl a{font-size:12.5px;font-weight:600;color:var(--ink-2);transition:color .2s}
-.foot .fl a:hover{color:var(--blue)}
+.foot .fl a{font-size:12.5px;font-weight:600;color:var(--ink-2);transition:color .2s}@media (hover:hover) and (pointer:fine){.foot .fl a:hover{color:var(--blue)}}
 .foot .fc{font-size:11.5px;color:var(--ink-3)}
 
 @media(prefers-reduced-motion:reduce){*{animation:none !important;transition-duration:1ms !important}.rev{opacity:1;transform:none}}
 </style>
+<link rel="stylesheet" href="assets/native.css">
 </head>
 <body>
 <div class="bg" aria-hidden="true"><span class="b1"></span><span class="b2"></span></div>

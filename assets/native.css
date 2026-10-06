@@ -50,3 +50,21 @@ a.btn:active, a.pill:active, .btn:active, .chip:active, .opt:active, .type-card:
     scroll-behavior: auto !important;
   }
 }
+
+/* Keyboard focus: visible on every interactive element, never on mouse click. */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* In-page anchors land below sticky headers and glide unless motion is reduced. */
+html { scroll-padding-top: 88px; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* Sticky headers clear the notch when the page runs edge to edge. */
+.hdr {
+  padding-top: env(safe-area-inset-top, 0px);
+}
