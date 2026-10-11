@@ -60,13 +60,13 @@
         --ar: "IBM Plex Sans Arabic", system-ui, sans-serif;
         --en: "IBM Plex Sans", system-ui, sans-serif;
         --mono: "IBM Plex Mono", monospace;
-        /* passenger segment colors (seat reselling) */
-        --p1: #0077b6;
-        --p2: #1b9e77;
+        /* passenger segment colors (seat reselling) — restrained in-brand
+           categorical set: deep blue, cyan, clay, slate. Avoids semantic
+           green (money) and red (danger) so colour stays meaningful. */
+        --p1: #023e8a;
+        --p2: #0096c7;
         --p3: #c77d0a;
-        --p4: #c4453b;
-        --p5: #7b3fa0;
-        --p6: #0096c7;
+        --p4: #566b7a;
       }
       * {
         box-sizing: border-box;
@@ -911,17 +911,10 @@
         color: var(--ink-3);
         margin-top: 4px;
       }
-      .kpi.g .kv {
-        color: var(--green);
-      }
-      .kpi.b .kv {
-        color: var(--blue);
-      }
-      .kpi.c .kv {
-        color: var(--cyan);
-      }
-      .kpi.a .kv {
-        color: var(--amber);
+      /* KPI figures stay neutral display type — colour is reserved for the
+         accent (gauge) and for semantic green (money), not decoration. */
+      .kpi .kv {
+        color: var(--ink);
       }
       .gauge {
         display: flex;
@@ -1198,7 +1191,12 @@
       <!-- HERO -->
       <section class="hero">
         <span class="eyebrow"
-          >🚍 <span class="ar-only">مواصلاتي — سوق سعة الحركة</span
+          ><svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 17V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10" />
+            <path d="M4 12h16" />
+            <circle cx="7.5" cy="17.5" r="1.5" />
+            <circle cx="16.5" cy="17.5" r="1.5" /></svg
+          ><span class="ar-only">مواصلاتي — سوق سعة الحركة</span
           ><span class="en-only">Mowasalaty — Mobility Capacity Exchange</span></span
         >
         <h1>
@@ -1556,7 +1554,7 @@
                     cy="46"
                     r="40"
                     fill="none"
-                    stroke="var(--green)"
+                    stroke="var(--blue)"
                     stroke-width="8"
                     stroke-linecap="round"
                     stroke-dasharray="251.3"
