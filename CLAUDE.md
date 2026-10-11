@@ -2,6 +2,9 @@
 
 Durable context for Claude Code sessions on this repo. Owner: Abbas (abbas_sabir@hotmail.com).
 
+## Design system
+See `DESIGN.md` for tokens (both palettes, type, RTL, currency rules). Read it before any UI work.
+
 ## Writing style (owner preference)
 - Arabic + English. Avoid robotic filler and canned connectors; vary sentence length;
   prefer concrete detail over generalities; keep a human, direct voice. Applies to EN too.
@@ -38,4 +41,20 @@ Durable context for Claude Code sessions on this repo. Owner: Abbas (abbas_sabir
 - **Mwasalati** (مواصلاتي) — digital transport ticketing; QR ticket; every ride → financial gateway.
 - **AlSooq** (السوق) — secure bilingual marketplace; escrow payments; in-app installment financing.
 - **Sudani Express** (سوداني إكسبريس) — fractional freight forwarding + e-commerce; stablecoin settlement.
-- Audience/anchor institution: Central Bank of Sudan (بنك السودان المركزي).
+- Central Bank of Sudan references were REMOVED from the deck per owner request. The
+  running header is now "Financial Inclusion Sudan"; Gentle Care is the presenter.
+- A live interactive web deck lives at `/deck` (Vercel). Its Mwasalati slide embeds the
+  real `mowasalaty.html` app in an iframe (same-origin). Canvas format forbids iframes, so
+  that live embed exists only in the web deck, not the Design canvas.
+
+## Confirmed real inputs (from owner, 2026-09)
+- **Sudan Express cargo rate:** 88 EGP per kg (Cairo → Khartoum), flat for general cargo.
+  Specialty classes (electronics/fragile) and All-Inclusive price still on request.
+- **WhatsApp:** +20 137259068 (as supplied — looks one digit short of a standard Egyptian
+  mobile +20 1X XXXXXXXX; confirm with owner). Used on sudan-express.html and cross-sell.html.
+- **Mowasalati fares:** 3,000 / 8,000 / 15,000 SDG (three tiers). Replaces the earlier
+  placeholder band. Not yet wired into a specific screen — confirm placement (deck ticket,
+  mowasalaty.html, or a fare card) before applying.
+- **Gentle Care logo:** confirmed (blue box + masked figure); file at
+  `deck/assets/gentle-care.jpg`, also used on sudan-express.html header.
+- Still pending: Cairo & Khartoum office addresses, social handle, exact brand hex.
