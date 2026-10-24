@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#F6F1E7">
+<title>سودان إكسبريس · Sudan Express — kit skeleton</title>
+<meta name="description" content="Sudan Express shipping skeleton: shipment details, per-kilo quote, escrow payment, waybill. Same design DNA, logistics accent.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<script defer src="js/sample-data.js"></script>
+<script defer src="js/alsooq-ui.js"></script>
+</head>
+<body data-vertical="logistics">
+<aq-nav current="logistics"></aq-nav>
+
+<main id="main">
+  <section class="aq-hero"><div class="aq-wrap aq-hero__grid">
+    <div>
+      <span class="aq-eyebrow" data-ar="سودان إكسبريس · القاهرة ← الخرطوم" data-en="Sudan Express · Cairo → Khartoum">سودان إكسبريس · القاهرة ← الخرطوم</span>
+      <h1><span data-ar="من القاهرة إلى الخرطوم، " data-en="Cairo to Khartoum, ">من القاهرة إلى الخرطوم، </span><span class="aq-hl aq-num" id="hero-rate"></span></h1>
+      <p class="aq-lede" data-ar="سعر ثابت للبضائع العامة. الأصناف الخاصة (إلكترونيات، قابلة للكسر) والسعر الشامل عند الطلب." data-en="A flat rate for general cargo. Specialty classes (electronics, fragile) and the all-inclusive price are on request.">سعر ثابت للبضائع العامة. الأصناف الخاصة (إلكترونيات، قابلة للكسر) والسعر الشامل عند الطلب.</p>
+      <div class="aq-hero__cta">
+        <a class="aq-btn aq-btn--primary aq-btn--lg" href="#ship" data-ar="احسب شحنتك" data-en="Quote your shipment">احسب شحنتك</a>
+        <a class="aq-btn aq-btn--ghost aq-btn--lg" id="wa" hidden data-ar="تواصل عبر واتساب" data-en="WhatsApp us">تواصل عبر واتساب</a>
+      </div>
+      <dl class="aq-stats">
+        <div><dt class="aq-sr" data-ar="الحد الأدنى للوزن" data-en="Minimum weight">الحد الأدنى للوزن</dt><dd><b><span class="aq-placeholder">[MIN WEIGHT]</span></b><span data-ar="الحد الأدنى للوزن" data-en="Minimum weight">الحد الأدنى للوزن</span></dd></div>
+        <div><dt class="aq-sr" data-ar="مدة النقل" data-en="Transit">مدة النقل</dt><dd><b><span class="aq-placeholder">[TRANSIT]</span></b><span data-ar="مدة النقل" data-en="Transit">مدة النقل</span></dd></div>
+        <div><dt class="aq-sr" data-ar="السعر الشامل" data-en="All-inclusive">السعر الشامل</dt><dd><b><span class="aq-placeholder">[ALL-INCLUSIVE EGP]</span></b><span data-ar="السعر الشامل" data-en="All-inclusive">السعر الشامل</span></dd></div>
+      </dl>
+    </div>
+    <div class="aq-hero__art">
+      <div class="aq-card" style="width:min(100%,340px);text-align:center;display:grid;gap:var(--aq-s-2)">
+        <span class="aq-eyebrow" style="justify-self:center" data-ar="سعر الكيلو · مؤكَّد" data-en="Per-kilo rate · confirmed">سعر الكيلو · مؤكَّد</span>
+        <b class="aq-num" id="art-rate" style="font-size:4rem;line-height:1.1;color:var(--aq-accent-ink)"></b>
+        <span data-ar="جنيه مصري للكيلو" data-en="Egyptian pounds per kilo">جنيه مصري للكيلو</span>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="aq-sec" id="ship"><div class="aq-wrap">
+    <div class="aq-sec__head"><div><h2 data-ar="اشحن الآن" data-en="Ship now">اشحن الآن</h2><p data-ar="أربع خطوات، والمبلغ محجوز حتى التسليم." data-en="Four steps, with funds held until delivery.">أربع خطوات، والمبلغ محجوز حتى التسليم.</p></div></div>
+    <aq-checkout id="flow" class="aq-card" steps='[
+      {"id":"details","ar":"بيانات الشحنة","en":"Shipment"},
+      {"id":"quote","ar":"التسعيرة","en":"Quote"},
+      {"id":"pay","ar":"الدفع بالأمانة","en":"Escrow payment","next_ar":"ادفع واصدر البوليصة","next_en":"Pay and issue waybill"},
+      {"id":"waybill","ar":"البوليصة","en":"Waybill"}]'>
+      <section data-step="details">
+        <h3 data-ar="ماذا ستشحن؟" data-en="What are you shipping?">ماذا ستشحن؟</h3>
+        <div class="aq-form">
+          <div class="aq-field"><label for="f-kg" data-ar="الوزن (كيلو)" data-en="Weight (kg)">الوزن (كيلو)</label><input id="f-kg" name="kg" type="number" inputmode="decimal" min="0.1" step="0.1" required><small data-ar="الحد الأدنى للوزن عند الطلب." data-en="Minimum weight on request.">الحد الأدنى للوزن عند الطلب.</small></div>
+        </div>
+        <div class="aq-choices" role="radiogroup" style="margin-block-start:var(--aq-s-4)">
+          <label class="aq-radio"><input type="radio" name="cls" value="general" checked><b data-ar="بضائع عامة" data-en="General cargo">بضائع عامة</b><span data-ar="سعر الكيلو الثابت." data-en="The flat per-kilo rate.">سعر الكيلو الثابت.</span></label>
+          <label class="aq-radio" aria-disabled="true" style="opacity:.55"><input type="radio" name="cls" value="special" disabled><b data-ar="أصناف خاصة" data-en="Specialty classes">أصناف خاصة</b><span data-ar="إلكترونيات وقابلة للكسر — عند الطلب." data-en="Electronics and fragile — on request.">إلكترونيات وقابلة للكسر — عند الطلب.</span></label>
+        </div>
+      </section>
+      <section data-step="quote">
+        <h3 data-ar="تسعيرتك" data-en="Your quote">تسعيرتك</h3>
+        <div class="aq-summary">
+          <div><span data-ar="المسار" data-en="Route">المسار</span><span id="q-route"></span></div>
+          <div><span data-ar="الوزن" data-en="Weight">الوزن</span><span class="aq-num" id="q-kg"></span></div>
+          <div><span data-ar="سعر الكيلو" data-en="Per-kilo rate">سعر الكيلو</span><span class="aq-num" id="q-rate"></span></div>
+          <div class="aq-total"><span data-ar="الإجمالي" data-en="Total">الإجمالي</span><span class="aq-price" id="q-total"></span></div>
+        </div>
+        <p style="margin-block-start:var(--aq-s-3);color:var(--aq-ink-2)"><span data-ar="مدة النقل: " data-en="Transit: ">مدة النقل: </span><span class="aq-placeholder">[TRANSIT]</span></p>
+      </section>
+      <section data-step="pay">
+        <h3 data-ar="الدفع إلى الأمانة" data-en="Pay into escrow">الدفع إلى الأمانة</h3>
+        <div class="aq-choices" role="radiogroup">
+          <label class="aq-radio"><input type="radio" name="method" value="wallet" checked><b data-ar="محفظة حوّل" data-en="Hawil wallet">محفظة حوّل</b><span data-ar="المبلغ محجوز حتى مسح التسليم." data-en="Held until the handover scan.">المبلغ محجوز حتى مسح التسليم.</span></label>
+        </div>
+        <div class="aq-summary" style="margin-block-start:var(--aq-s-5)"><div class="aq-total"><span data-ar="الإجمالي" data-en="Total">الإجمالي</span><span class="aq-price" id="p-total"></span></div></div>
+      </section>
+      <section data-step="waybill">
+        <h3 data-ar="بوليصة الشحن" data-en="Waybill">بوليصة الشحن</h3>
+        <div class="aq-hero__grid" style="grid-template-columns:auto 1fr;gap:var(--aq-s-5)">
+          <div class="aq-qr" role="img" aria-label="QR placeholder">QR</div>
+          <div class="aq-summary">
+            <div><span data-ar="رقم البوليصة" data-en="Waybill ID">رقم البوليصة</span><span class="aq-placeholder">[WAYBILL ID]</span></div>
+            <div><span data-ar="المبلغ المحجوز" data-en="Held in escrow">المبلغ المحجوز</span><span class="aq-price" id="w-total"></span></div>
+            <div><span data-ar="واتساب" data-en="WhatsApp">واتساب</span><span class="aq-placeholder" id="w-wa">[WHATSAPP]</span></div>
+          </div>
+        </div>
+        <p style="margin-block-start:var(--aq-s-4);color:var(--aq-ink-2)" data-ar="يُمسح الرمز عند التسليم، وعندها يُفرج المبلغ." data-en="The code is scanned at handover; that releases the funds.">يُمسح الرمز عند التسليم، وعندها يُفرج المبلغ.</p>
+      </section>
+    </aq-checkout>
+  </div></section>
+</main>
+<aq-footer></aq-footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var L = AQ.sample.logistics;
+  function kg() { var v = parseFloat(document.getElementById('f-kg').value); return isNaN(v) ? 0 : v; }
+  function total() { return Math.round(kg() * L.ratePerKg * 100) / 100; }
+  function paint() {
+    var rate = AQ.money(L.ratePerKg, L.currency) + AQ.t(' / كجم', ' / kg');
+    document.getElementById('hero-rate').textContent = rate + AQ.t('.', '.');
+    document.getElementById('art-rate').textContent = AQ.num(L.ratePerKg);
+    document.getElementById('q-route').textContent = AQ.t(L.route.from.ar + ' ← ' + L.route.to.ar, L.route.from.en + ' → ' + L.route.to.en);
+    document.getElementById('q-kg').textContent = AQ.num(kg()) + ' ' + AQ.t('كجم', 'kg');
+    document.getElementById('q-rate').textContent = rate;
+    ['q-total', 'p-total', 'w-total'].forEach(function (id) { document.getElementById(id).textContent = AQ.money(total(), L.currency); });
+    // WhatsApp: only shown once the owner-confirmed number is configured (AQ.config.whatsapp)
+    var wa = document.getElementById('wa'), n = (AQ.config.whatsapp || '').replace(/\D/g, '');
+    wa.hidden = !n; if (n) { wa.href = 'https://wa.me/' + n; document.getElementById('w-wa').outerHTML = '<span id="w-wa" class="aq-num" dir="ltr">+' + AQ.esc(n) + '</span>'; }
+  }
+  document.getElementById('f-kg').addEventListener('input', paint);
+  document.addEventListener('aq:lang', paint);
+  paint();
+});
+</script>
+</body>
+</html>
