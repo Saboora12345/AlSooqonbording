@@ -386,6 +386,71 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
 .foot .note{font-size:11.5px;color:var(--ink-3);max-width:46ch;line-height:1.5}
 .foot .note b{color:var(--clay);font-weight:600}
 
+/* ═══════════ iPhone 17 app showcase ═══════════ */
+.showcase{display:grid;grid-template-columns:1.05fr 1.35fr;gap:48px;align-items:center;
+  margin-top:8px;padding:40px;border-radius:var(--r-lg);position:relative;overflow:hidden;
+  background:radial-gradient(120% 90% at 100% 0%,var(--clay-08),transparent 55%),linear-gradient(180deg,var(--card),var(--sand-2));
+  border:1px solid var(--line)}
+.sc-copy .eyebrow{margin-bottom:14px}
+.sc-copy h2{font-size:clamp(26px,3.4vw,38px);line-height:1.15;letter-spacing:-.02em;font-weight:800}
+.sc-copy .lede{color:var(--ink-2);margin-top:14px;max-width:44ch;line-height:1.65}
+.sc-points{list-style:none;margin-top:22px;display:flex;flex-direction:column;gap:14px}
+.sc-points li{display:flex;gap:12px;align-items:flex-start}
+.sc-points .pi{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--clay-08);color:var(--clay)}
+.sc-points .pi svg{width:17px;height:17px}
+.sc-points b{display:block;font-size:14.5px;font-weight:700}
+.sc-points span span{display:block;font-size:12.5px;color:var(--ink-3);line-height:1.5;margin-top:1px}
+.sc-spec{margin-top:26px;display:flex;flex-wrap:wrap;gap:8px}
+.sc-spec .tag{font-size:11px;font-weight:600;letter-spacing:.04em;padding:6px 11px;border-radius:var(--r-pill);background:var(--card);border:1px solid var(--line);color:var(--ink-2)}
+.sc-spec .tag svg{width:12px;height:12px;vertical-align:-2px;margin-inline-end:5px;color:var(--clay)}
+.sc-stage{position:relative;display:flex;justify-content:center;align-items:flex-end;min-height:520px}
+.ip17{position:relative;border-radius:52px;padding:10px;
+  background:linear-gradient(150deg,#e7e1d6 0%,#b8b1a4 20%,#8f887b 38%,#efe9de 52%,#9a9388 70%,#c9c2b5 100%);
+  box-shadow:var(--shadow-xl),inset 0 0 0 1px rgba(255,255,255,.35)}
+.ip17::before{content:"";position:absolute;inset:4px;border-radius:48px;box-shadow:inset 0 0 0 1.5px rgba(40,34,26,.45);pointer-events:none}
+.ip17::after{content:"";position:absolute;inset-inline-start:-2px;top:150px;width:3px;height:92px;border-radius:3px;background:linear-gradient(90deg,#8f887b,#c9c2b5);box-shadow:0 60px 0 #8f887b,0 -58px 0 #8f887b}
+.ip17-screen{position:relative;border-radius:43px;overflow:hidden;background:var(--sand);width:248px;height:520px;display:flex;flex-direction:column}
+.ip17-island{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:5;width:88px;height:26px;border-radius:999px;background:#0d0b09;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+.ip17-island::after{content:"";position:absolute;top:50%;inset-inline-end:11px;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#2b3a4a,#07101a 70%)}
+.ip17-top{padding:46px 18px 12px;background:var(--card);border-bottom:1px solid var(--line-soft);display:flex;align-items:center;justify-content:space-between}
+.ip17-top .mk{width:28px;height:28px;border-radius:9px;color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px;background:linear-gradient(145deg,var(--clay),var(--clay-deep))}
+.ip17-top .mt b{font-size:13.5px;font-weight:700;display:block;line-height:1.1}
+.ip17-top .mt span{font-size:8px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.ip17-top .mtitle{display:flex;align-items:center;gap:9px}
+.ip17-body{flex:1;padding:13px;display:flex;flex-direction:column;gap:9px;overflow:hidden}
+.ip17-bal{border-radius:16px;padding:14px;color:#fff;background:linear-gradient(140deg,var(--clay),var(--clay-deep))}
+.ip17-bal .lbl{font-size:9px;letter-spacing:.11em;text-transform:uppercase;opacity:.85;font-weight:600}
+.ip17-bal .amt{font-size:21px;font-weight:800;margin-top:3px}
+.ip17-bal .amt small{font-size:11px;font-weight:600;opacity:.85}
+.ip17-bal .sub{font-size:9.5px;opacity:.8;margin-top:2px}
+.ip17-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 11px}
+.ip17-row .ri{flex:none;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--clay-08);color:var(--clay)}
+.ip17-row.palm .ri{background:var(--palm-12);color:var(--palm)}
+.ip17-row.gold .ri{background:var(--gold-tint);color:var(--gold)}
+.ip17-row .ri svg{width:15px;height:15px}
+.ip17-row .rt{flex:1;min-width:0}
+.ip17-row .rt b{display:block;font-size:11.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ip17-row .rt span{display:block;font-size:9.5px;color:var(--ink-3)}
+.ip17-row .rv{font-size:11.5px;font-weight:700}
+.ip17-row .rv.pos{color:var(--palm)}
+.ip17-tab{display:flex;background:var(--card);border-top:1px solid var(--line-soft);padding:9px 6px 16px}
+.ip17-tab button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;color:var(--ink-3);font:inherit;font-size:8.5px;font-weight:600;cursor:default}
+.ip17-tab button svg{width:18px;height:18px}
+.ip17-tab button.on{color:var(--clay)}
+.ip17.lead{z-index:3}
+.ip17.back{position:absolute;bottom:26px;transform:scale(.84);z-index:1;opacity:.92;filter:saturate(.95)}
+.ip17.back .ip17-screen{height:500px}
+.ip17.back-l{inset-inline-start:2px;transform:scale(.84) rotate(-5deg)}
+.ip17.back-r{inset-inline-end:2px;transform:scale(.84) rotate(5deg)}
+.ip17.back-r .ip17-top .mk,.ip17.back-r .ip17-bal{background:linear-gradient(145deg,var(--palm),#1f4a37)}
+.ip17.back-r .ip17-tab button.on,.ip17.back-r .ip17-row .ri{color:var(--palm)}
+.ip17.back-r .ip17-row .ri{background:var(--palm-12)}
+.ip17.back-l .ip17-top .mk,.ip17.back-l .ip17-bal{background:linear-gradient(145deg,var(--gold),#8f6820)}
+.ip17.back-l .ip17-tab button.on,.ip17.back-l .ip17-row .ri{color:var(--gold)}
+.ip17.back-l .ip17-row .ri{background:var(--gold-tint)}
+@keyframes ip17float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.ip17.lead{animation:ip17float 5.5s var(--ease-io) infinite}
+
 /* entrance motion */
 .rise{opacity:0;transform:translateY(12px);transition:opacity var(--d-slow) var(--ease-out),transform var(--d-slow) var(--ease-out)}
 .rise.in{opacity:1;transform:none}
@@ -404,6 +469,8 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
   .stage-copy{position:static}
   .switch .txt{display:none}
   .switch button{padding:9px 12px}
+  .showcase{grid-template-columns:1fr;gap:30px;padding:30px 26px}
+  .sc-stage{min-height:480px;margin-top:4px}
 }
 @media (max-width:560px){
   .wrap{padding-inline:16px}
@@ -412,6 +479,10 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
   .wallet{display:none}
   .brand-txt .en{display:none}
   .hero{padding-block:38px 20px}
+  .showcase{padding:24px 18px}
+  .ip17.back{display:none}
+  .sc-stage{min-height:0}
+  .sc-spec{gap:7px}
 }
 </style>
 <link rel="stylesheet" href="assets/native.css">
@@ -574,6 +645,80 @@ svg.ic{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;strok
           </span>
           <span class="role-go"><span data-ar="افتح الكونسول" data-en="Open console">افتح الكونسول</span><svg class="ic ic-sm"><use href="#i-arrow"/></svg></span>
         </button>
+      </div>
+    </section>
+
+    <!-- iPhone 17 app showcase -->
+    <section class="sec">
+      <div class="sec-head">
+        <h2 data-ar="في راحة يدك" data-en="In the palm of your hand">في راحة يدك</h2>
+        <span class="en" data-ar="تطبيق واحد · ثلاثة أسطح" data-en="One app · three surfaces">تطبيق واحد · ثلاثة أسطح</span>
+        <span class="rule"></span>
+      </div>
+      <div class="showcase rise">
+        <div class="sc-copy">
+          <p class="eyebrow"><span class="dot"></span><span data-ar="مصمَّم لشاشة iPhone 17" data-en="Built for the iPhone 17 display">مصمَّم لشاشة iPhone 17</span></p>
+          <h2 data-ar-html='السوق كله يسكن <span class="hl">جهازاً واحداً.</span>' data-en-html='The whole souk lives on <span class="hl">one device.</span>'>السوق كله يسكن <span class="hl">جهازاً واحداً.</span></h2>
+          <p class="lede" data-ar="واجهة حوّل الموحّدة على طراز iPhone 17 — جزيرة ديناميكية، حواف رفيعة، وإطار تيتانيوم. السطح نفسه يتبدّل بين العميل والتاجر والبنك دون أن يغادر المستخدم التطبيق." data-en="The unified Hawil interface on an iPhone 17-class frame — Dynamic Island, slim bezels and a titanium rail. The same surface flips between Customer, Merchant and Bank without ever leaving the app.">واجهة حوّل الموحّدة على طراز iPhone 17 — جزيرة ديناميكية، حواف رفيعة، وإطار تيتانيوم. السطح نفسه يتبدّل بين العميل والتاجر والبنك دون أن يغادر المستخدم التطبيق.</p>
+          <ul class="sc-points">
+            <li><span class="pi"><svg class="ic"><use href="#i-wallet"/></svg></span><span><b data-ar="محفظة ودفع QR" data-en="Wallet & QR pay">محفظة ودفع QR</b><span data-ar="ادفع من محفظة حوّل أو امسح رمزاً في ثانية." data-en="Pay from the Hawil wallet or scan a code in a second.">ادفع من محفظة حوّل أو امسح رمزاً في ثانية.</span></span></li>
+            <li><span class="pi"><svg class="ic"><use href="#i-truck"/></svg></span><span><b data-ar="تتبّع حي للتوصيل" data-en="Live delivery tracking">تتبّع حي للتوصيل</b><span data-ar="حالة شحنة سودا إكسبريس لحظة بلحظة." data-en="Suda Express status, minute by minute.">حالة شحنة سودا إكسبريس لحظة بلحظة.</span></span></li>
+            <li><span class="pi"><svg class="ic"><use href="#i-shield"/></svg></span><span><b data-ar="حماية بالأمانة" data-en="Escrow protection">حماية بالأمانة</b><span data-ar="يبقى المبلغ محجوزاً حتى يؤكَّد الاستلام." data-en="Funds stay held until receipt is confirmed.">يبقى المبلغ محجوزاً حتى يؤكَّد الاستلام.</span></span></li>
+          </ul>
+          <div class="sc-spec">
+            <span class="tag"><svg class="ic"><use href="#i-globe"/></svg><span data-ar="عربي وإنجليزي · RTL كامل" data-en="Arabic & English · full RTL">عربي وإنجليزي · RTL كامل</span></span>
+            <span class="tag"><svg class="ic"><use href="#i-layers"/></svg><span data-ar="ثلاثة أسطح · بنية واحدة" data-en="Three surfaces · one core">ثلاثة أسطح · بنية واحدة</span></span>
+          </div>
+        </div>
+
+        <div class="sc-stage" aria-hidden="true">
+          <!-- back-left: Merchant (gold) -->
+          <div class="ip17 back back-l">
+            <div class="ip17-screen">
+              <span class="ip17-island"></span>
+              <div class="ip17-top"><div class="mtitle"><span class="mk">م</span><div class="mt"><b data-ar="التاجر" data-en="Merchant">التاجر</b><span data-ar="لوحة" data-en="Console">لوحة</span></div></div></div>
+              <div class="ip17-body">
+                <div class="ip17-bal"><div class="lbl" data-ar="مبيعات اليوم" data-en="Today's sales">مبيعات اليوم</div><div class="amt"><span class="num">412,000</span> <small data-ar="ج" data-en="SDG">ج</small></div><div class="sub" data-ar="تخطيطي" data-en="schematic">تخطيطي</div></div>
+                <div class="ip17-row gold"><span class="ri"><svg class="ic"><use href="#i-box"/></svg></span><div class="rt"><b data-ar="طلب جديد" data-en="New order">طلب جديد</b><span>#SX-4472</span></div></div>
+                <div class="ip17-row gold"><span class="ri"><svg class="ic"><use href="#i-ticket"/></svg></span><div class="rt"><b data-ar="بوليصة شحن" data-en="Waybill">بوليصة شحن</b><span data-ar="سودا إكسبريس" data-en="Suda Express">سودا إكسبريس</span></div></div>
+              </div>
+              <div class="ip17-tab"><button type="button" tabindex="-1" class="on"><svg class="ic"><use href="#i-chart"/></svg></button><button type="button" tabindex="-1"><svg class="ic"><use href="#i-box"/></svg></button><button type="button" tabindex="-1"><svg class="ic"><use href="#i-wallet"/></svg></button></div>
+            </div>
+          </div>
+
+          <!-- back-right: Bank (palm) -->
+          <div class="ip17 back back-r">
+            <div class="ip17-screen">
+              <span class="ip17-island"></span>
+              <div class="ip17-top"><div class="mtitle"><span class="mk">ب</span><div class="mt"><b data-ar="البنك" data-en="Bank">البنك</b><span data-ar="مدمج" data-en="Embedded">مدمج</span></div></div></div>
+              <div class="ip17-body">
+                <div class="ip17-bal"><div class="lbl" data-ar="تحت الإدارة" data-en="Under management">تحت الإدارة</div><div class="amt"><span class="num">1.8M</span> <small data-ar="ج" data-en="SDG">ج</small></div><div class="sub" data-ar="تخطيطي" data-en="schematic">تخطيطي</div></div>
+                <div class="ip17-row palm"><span class="ri"><svg class="ic"><use href="#i-remit"/></svg></span><div class="rt"><b data-ar="حوالة واردة" data-en="Remittance in">حوالة واردة</b><span data-ar="KYC مؤكّد" data-en="KYC ok">KYC مؤكّد</span></div></div>
+                <div class="ip17-row palm"><span class="ri"><svg class="ic"><use href="#i-card"/></svg></span><div class="rt"><b data-ar="تمويل وشراء لاحق" data-en="Financing & BNPL">تمويل وشراء لاحق</b><span data-ar="عبر واجهات" data-en="via APIs">عبر واجهات</span></div></div>
+              </div>
+              <div class="ip17-tab"><button type="button" tabindex="-1" class="on"><svg class="ic"><use href="#i-bank"/></svg></button><button type="button" tabindex="-1"><svg class="ic"><use href="#i-remit"/></svg></button><button type="button" tabindex="-1"><svg class="ic"><use href="#i-card"/></svg></button></div>
+            </div>
+          </div>
+
+          <!-- lead: Customer (clay) -->
+          <div class="ip17 lead">
+            <div class="ip17-screen">
+              <span class="ip17-island"></span>
+              <div class="ip17-top"><div class="mtitle"><span class="mk">س</span><div class="mt"><b data-ar="السوق" data-en="alSooq">السوق</b><span data-ar="تطبيق العميل" data-en="Customer">تطبيق العميل</span></div></div><svg class="ic ic-sm" style="color:var(--ink-3)"><use href="#i-bell"/></svg></div>
+              <div class="ip17-body">
+                <div class="ip17-bal">
+                  <div class="lbl" data-ar="محفظة حوّل" data-en="Hawil wallet">محفظة حوّل</div>
+                  <div class="amt"><span class="num">248,500</span> <small data-ar="ج" data-en="SDG">ج</small></div>
+                  <div class="sub" data-ar="منها ٧١٬٠٠٠ في الأمانة · تخطيطي" data-en="incl. 71,000 in escrow · schematic">منها ٧١٬٠٠٠ في الأمانة · تخطيطي</div>
+                </div>
+                <div class="ip17-row"><span class="ri"><svg class="ic"><use href="#i-truck"/></svg></span><div class="rt"><b data-ar="في الطريق إليك" data-en="On the way to you">في الطريق إليك</b><span data-ar="#SX-4471 · ~١٢ دقيقة" data-en="#SX-4471 · ~12 min">#SX-4471 · ~١٢ دقيقة</span></div><span class="rv">—</span></div>
+                <div class="ip17-row palm"><span class="ri"><svg class="ic"><use href="#i-recv"/></svg></span><div class="rt"><b data-ar="حوالة من الخارج" data-en="Remittance in">حوالة من الخارج</b><span data-ar="عبر بنك شريك" data-en="via partner bank">عبر بنك شريك</span></div><span class="rv pos">+<span class="num">120,000</span></span></div>
+                <div class="ip17-row"><span class="ri"><svg class="ic"><use href="#i-ticket"/></svg></span><div class="rt"><b data-ar="تذكرة مواصلاتي" data-en="Mwasalati ticket">تذكرة مواصلاتي</b><span>#MW-118</span></div><span class="rv">−<span class="num">28,500</span></span></div>
+              </div>
+              <div class="ip17-tab"><button type="button" tabindex="-1" class="on"><svg class="ic"><use href="#i-shop"/></svg></button><button type="button" tabindex="-1"><svg class="ic"><use href="#i-box"/></svg></button><button type="button" tabindex="-1"><svg class="ic"><use href="#i-wallet"/></svg></button><button type="button" tabindex="-1"><svg class="ic"><use href="#i-qr"/></svg></button></div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
