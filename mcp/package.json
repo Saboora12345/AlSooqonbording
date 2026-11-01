@@ -1,0 +1,26 @@
+{
+  "name": "@alsooq/mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MCP server for the alSooq / Hawil ecosystem — Marketplace, Mobility (Mowasalaty) and Logistics (Suda Express + escrow) tools.",
+  "type": "module",
+  "bin": {
+    "alsooq-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "dev": "tsc -p tsconfig.json && node dist/index.js",
+    "inspect": "npx @modelcontextprotocol/inspector node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "pg": "^8.23.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "@types/pg": "^8.23.1",
+    "typescript": "^5.5.4"
+  }
+}

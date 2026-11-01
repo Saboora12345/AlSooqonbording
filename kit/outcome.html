@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#F6F1E7">
+<title>alSooq · Design outcome</title>
+<meta name="description" content="The finished alSooq design system: one DNA, three verticals, and how it measures up against the MarketNest reference.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<style>
+  .out-verticals { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: var(--aq-s-5); align-items: start; }
+  .out-vcol { display: grid; gap: var(--aq-s-3); padding: var(--aq-s-4); border-radius: var(--aq-r); background: var(--aq-sand-2); }
+  .out-vcol h3 { margin: 0; color: var(--aq-accent-ink); }
+  .out-swatches { display: flex; gap: var(--aq-s-2); }
+  .out-swatches i { inline-size: 32px; block-size: 32px; border-radius: var(--aq-r-sm); box-shadow: var(--aq-clay-raise); }
+  .out-swatches i:nth-child(1) { background: var(--aq-accent); }
+  .out-swatches i:nth-child(2) { background: var(--aq-accent-deep); }
+  .out-swatches i:nth-child(3) { background: var(--aq-sand-3); }
+  .out-three { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: var(--aq-s-5); }
+  .out-three .aq-card h3 { margin-block-start: 0; }
+  .out-three ul { margin: 0; padding-inline-start: 1.1em; display: grid; gap: var(--aq-s-2); font-size: var(--aq-fs-sm); }
+  .out-table td { white-space: normal; vertical-align: top; }
+  .out-table td:first-child { font-weight: 700; }
+  .out-note { margin-block-start: var(--aq-s-4); }
+  .out-num { direction: ltr; unicode-bidi: isolate; font-family: var(--aq-mono); font-variant-numeric: tabular-nums; }
+</style>
+<script defer src="js/sample-data.js"></script>
+<script defer src="js/alsooq-ui.js"></script>
+</head>
+<body data-vertical="marketplace">
+<aq-nav current="marketplace"></aq-nav>
+
+<main id="main">
+  <section class="aq-hero"><div class="aq-wrap">
+    <span class="aq-eyebrow" data-ar="النتيجة النهائية · نظام التصميم" data-en="Final outcome · design system">النتيجة النهائية · نظام التصميم</span>
+    <h1><span data-ar="هوية واحدة، " data-en="One identity, ">هوية واحدة، </span><span class="aq-hl" data-ar="ثلاثة قطاعات، لا نسخ ولصق." data-en="three verticals, no copy-paste.">ثلاثة قطاعات، لا نسخ ولصق.</span></h1>
+    <p class="aq-lede" data-ar="القطاع يغيّر ثلاثة ألوان فقط. الخطوط والظلال والزوايا والتخطيط المرآتي تأتي من نفس الملفات. هذه الصفحة مبنية بمكوّنات الحزمة نفسها، لا بصورة عنها." data-en="A vertical changes three colours and nothing else. Type, shadows, radii and RTL mirroring come from the same files. This page is built with the kit's own components, not a picture of them.">القطاع يغيّر ثلاثة ألوان فقط. الخطوط والظلال والزوايا والتخطيط المرآتي تأتي من نفس الملفات. هذه الصفحة مبنية بمكوّنات الحزمة نفسها، لا بصورة عنها.</p>
+  </div></section>
+
+  <section class="aq-sec"><div class="aq-wrap">
+    <div class="aq-sec__head"><div><h2 data-ar="القطاعات الثلاثة" data-en="The three verticals">القطاعات الثلاثة</h2><p data-ar="نفس البطاقة والزر والشارة. الذي تغيّر هو لون التمييز فقط." data-en="Same card, button and pill. Only the accent moved.">نفس البطاقة والزر والشارة. الذي تغيّر هو لون التمييز فقط.</p></div></div>
+    <div class="out-verticals">
+      <div class="out-vcol" data-vertical="marketplace">
+        <h3 data-ar="السوق" data-en="Marketplace">السوق</h3>
+        <div class="out-swatches" aria-hidden="true"><i></i><i></i><i></i></div>
+        <aq-product-card sku="out-m" name-ar="طقم قهوة يدوي" name-en="Handmade coffee set" price="45000" merchant="متجر توضيحي" verified icon="box" tag-ar="توضيحي" tag-en="Illustrative"></aq-product-card>
+        <a class="aq-btn aq-btn--primary" href="marketplace.html" data-ar="افتح السوق" data-en="Open marketplace">افتح السوق</a>
+      </div>
+      <div class="out-vcol" data-vertical="mobility">
+        <h3 data-ar="المواصلات" data-en="Mobility">المواصلات</h3>
+        <div class="out-swatches" aria-hidden="true"><i></i><i></i><i></i></div>
+        <aq-product-card sku="out-t" name-ar="تذكرة، الفئة الأولى" name-en="Ticket, fare tier 1" price="3000" merchant="مواصلاتي" verified icon="bus" tag-ar="سعر مؤكَّد" tag-en="Confirmed fare"></aq-product-card>
+        <a class="aq-btn aq-btn--primary" href="mobility.html" data-ar="افتح المواصلات" data-en="Open mobility">افتح المواصلات</a>
+      </div>
+      <div class="out-vcol" data-vertical="logistics">
+        <h3 data-ar="الشحن" data-en="Logistics">الشحن</h3>
+        <div class="out-swatches" aria-hidden="true"><i></i><i></i><i></i></div>
+        <aq-product-card sku="out-l" name-ar="شحن عام، للكيلوغرام" name-en="General cargo, per kg" price="88" currency="EGP" merchant="Sudan Express" verified icon="truck" tag-ar="القاهرة ← الخرطوم" tag-en="Cairo → Khartoum"></aq-product-card>
+        <a class="aq-btn aq-btn--primary" href="logistics.html" data-ar="افتح الشحن" data-en="Open logistics">افتح الشحن</a>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="aq-sec"><div class="aq-wrap">
+    <div class="aq-sec__head"><div><h2 data-ar="مقابل مرجع MarketNest" data-en="Against the MarketNest reference">مقابل مرجع MarketNest</h2><p data-ar="لم نستبدل الهوية. أخذنا ما يخدم الثقة وتركنا ما يتعارض مع هويتكم المعتمدة." data-en="We did not swap the brand. We took what builds trust and left what fights your approved identity.">لم نستبدل الهوية. أخذنا ما يخدم الثقة وتركنا ما يتعارض مع هويتكم المعتمدة.</p></div></div>
+    <div class="aq-card aq-tablewrap">
+      <table class="aq-table out-table">
+        <thead><tr>
+          <th data-ar="البند" data-en="Topic">البند</th>
+          <th data-ar="MarketNest" data-en="MarketNest">MarketNest</th>
+          <th data-ar="alSooq" data-en="alSooq">alSooq</th>
+          <th data-ar="القرار" data-en="Verdict">القرار</th>
+        </tr></thead>
+        <tbody>
+          <tr><td data-ar="الخطوط" data-en="Type">الخطوط</td><td>Lora · Open Sans</td><td>IBM Plex Sans Arabic · IBM Plex Sans</td><td data-ar="نُبقي Plex: لا يوجد عربي في Lora ولا Open Sans المقرَّر" data-en="Keep Plex: the brief mandates it, and Lora has no Arabic">نُبقي Plex: لا يوجد عربي في Lora ولا Open Sans المقرَّر</td></tr>
+          <tr><td data-ar="العمق" data-en="Depth">العمق</td><td data-ar="مسطّح، حدود فقط" data-en="Flat, borders only">مسطّح، حدود فقط</td><td data-ar="ظلال طينية ناعمة" data-en="Soft clay shadows">ظلال طينية ناعمة</td><td data-ar="نُبقي الطين: طلبتموه صراحة" data-en="Keep clay: you asked for it by name">نُبقي الطين: طلبتموه صراحة</td></tr>
+          <tr><td data-ar="اللون الأساسي" data-en="Primary">اللون الأساسي</td><td><span class="out-num">#C2410C</span> · <span class="out-num">5.18:1</span></td><td data-ar="طين دافئ، معتمد من المالك" data-en="Warm clay, owner-approved">طين دافئ، معتمد من المالك</td><td data-ar="لا تغيير" data-en="No change">لا تغيير</td></tr>
+          <tr><td data-ar="أصل البائع وموقعه" data-en="Seller provenance">أصل البائع وموقعه</td><td data-ar="على كل بطاقة" data-en="On every card">على كل بطاقة</td><td data-ar="شارة «موثّق» فقط" data-en="“Verified” badge only">شارة «موثّق» فقط</td><td data-ar="نأخذه: يحتاج مدينة وقصة من التاجر نفسه، فلن نخترعهما" data-en="Adopt: needs a city and a story from the merchant, so we won't invent them">نأخذه: يحتاج مدينة وقصة من التاجر نفسه، فلن نخترعهما</td></tr>
+          <tr><td data-ar="لا ضغط شرائي" data-en="No urgency tactics">لا ضغط شرائي</td><td data-ar="ممنوع العدّاد و«بقيت قطعة»" data-en="No timers, no “1 left”">ممنوع العدّاد و«بقيت قطعة»</td><td data-ar="غير موجود أصلاً" data-en="Already absent">غير موجود أصلاً</td><td data-ar="يتوافق" data-en="Aligned">يتوافق</td></tr>
+          <tr><td data-ar="نسب الصور" data-en="Image ratios">نسب الصور</td><td data-ar="النسبة الطبيعية" data-en="Natural ratio">النسبة الطبيعية</td><td data-ar="أيقونات فقط، لا صور بعد" data-en="Icons only, no photos yet">أيقونات فقط، لا صور بعد</td><td data-ar="نأخذه عند إضافة الصور" data-en="Adopt when photos arrive">نأخذه عند إضافة الصور</td></tr>
+          <tr><td data-ar="حقل الإدخال" data-en="Input placeholder">حقل الإدخال</td><td><span class="out-num">#A8A29E</span> · <span class="out-num">2.52:1</span></td><td><span class="out-num">≥ 4.5:1</span></td><td data-ar="لا نأخذه: يفشل AA" data-en="Reject: fails AA">لا نأخذه: يفشل AA</td></tr>
+          <tr><td data-ar="لون ثانوي للنص" data-en="Secondary as text">لون ثانوي للنص</td><td><span class="out-num">#D4A373</span> · <span class="out-num">2.19:1</span></td><td data-ar="الذهب زينة، ونصه بلون أغمق ٤٫٥:١" data-en="Gold is decoration; its text uses a darker 4.5:1 shade">الذهب زينة، ونصه بلون أغمق ٤٫٥:١</td><td data-ar="لا نأخذه: يفشل AA" data-en="Reject: fails AA">لا نأخذه: يفشل AA</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="aq-lede out-note"><span class="aq-illustrative" data-ar="النسب محسوبة بمعادلة WCAG، على الخلفيات المذكورة في الملف المرجعي" data-en="Ratios computed with the WCAG formula on the backgrounds the reference file specifies">النسب محسوبة بمعادلة WCAG، على الخلفيات المذكورة في الملف المرجعي</span></p>
+  </div></section>
+
+  <section class="aq-sec"><div class="aq-wrap">
+    <div class="aq-sec__head"><div><h2 data-ar="ما تحقّق وما لم يتحقّق" data-en="Done and not done">ما تحقّق وما لم يتحقّق</h2></div></div>
+    <div class="out-three">
+      <div class="aq-card"><h3 data-ar="جاهز" data-en="Done">جاهز</h3><ul>
+        <li data-ar="حزمة `kit/` بلا بناء، وتطبيق Next.js 16 بنفس الهوية" data-en="`kit/` with no build step, and a Next.js 16 app on the same DNA">حزمة `kit/` بلا بناء، وتطبيق Next.js 16 بنفس الهوية</li>
+        <li data-ar="سبع قواعد فحص للهوية، مجرَّبة بحالات فاشلة" data-en="Seven brand-check rules, each tested against a deliberate failure">سبع قواعد فحص للهوية، مجرَّبة بحالات فاشلة</li>
+        <li data-ar="عربي RTL وإنجليزي LTR على كل صفحة" data-en="Arabic RTL and English LTR on every page">عربي RTL وإنجليزي LTR على كل صفحة</li>
+        <li data-ar="خادم MCP بثماني أدوات ومحوّل Postgres" data-en="MCP server with eight tools and a Postgres adapter">خادم MCP بثماني أدوات ومحوّل Postgres</li>
+      </ul></div>
+      <div class="aq-card"><h3 data-ar="ينتظر منكم" data-en="Waiting on you">ينتظر منكم</h3><ul>
+        <li data-ar="رقم واتساب (الرقم المرسَل ينقصه خانة على الأرجح)" data-en="WhatsApp number (the one supplied looks a digit short)">رقم واتساب (الرقم المرسَل ينقصه خانة على الأرجح)</li>
+        <li data-ar="عنوانا مكتبي القاهرة والخرطوم" data-en="Cairo and Khartoum office addresses">عنوانا مكتبي القاهرة والخرطوم</li>
+        <li data-ar="أسماء فئات مواصلاتي ونقاط الصعود" data-en="Mwasalati tier names and boarding points">أسماء فئات مواصلاتي ونقاط الصعود</li>
+        <li data-ar="الألوان السداسية الدقيقة لشعار Gentle Care" data-en="Exact hex for the Gentle Care logo">الألوان السداسية الدقيقة لشعار Gentle Care</li>
+      </ul></div>
+      <div class="aq-card"><h3 data-ar="لم يُنفَّذ" data-en="Not done">لم يُنفَّذ</h3><ul>
+        <li data-ar="هيكل Phenomenon Studio: الموقع محجوب هنا ولم يصلنا مرجع" data-en="Phenomenon Studio structure: the site is blocked here and no reference arrived">هيكل Phenomenon Studio: الموقع محجوب هنا ولم يصلنا مرجع</li>
+        <li data-ar="موصّل Shopify ونشر Vercel لتطبيق Next.js" data-en="Shopify provider and a Vercel deploy of the Next.js app">موصّل Shopify ونشر Vercel لتطبيق Next.js</li>
+        <li data-ar="اختبار على جهاز حقيقي وقارئ شاشة" data-en="Real-device and screen-reader testing">اختبار على جهاز حقيقي وقارئ شاشة</li>
+        <li data-ar="تفعيل GitHub Pages (إعداد يدوي في المستودع)" data-en="GitHub Pages activation (a manual repo setting)">تفعيل GitHub Pages (إعداد يدوي في المستودع)</li>
+      </ul></div>
+    </div>
+  </div></section>
+</main>
+
+<aq-footer></aq-footer>
+</body>
+</html>

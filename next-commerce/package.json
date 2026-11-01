@@ -1,0 +1,27 @@
+{
+  "name": "@alsooq/next-commerce",
+  "version": "0.1.0",
+  "private": true,
+  "description": "alSooq Next.js skeleton: shared design tokens, bilingual RTL/LTR components and a commerce-provider seam (Next.js Commerce / Shopify) — deploy on Vercel with Root Directory = next-commerce.",
+  "scripts": {
+    "sync:kit": "node scripts/sync-kit.mjs",
+    "predev": "npm run sync:kit",
+    "dev": "next dev",
+    "prebuild": "npm run sync:kit",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "npm run sync:kit && tsc --noEmit",
+    "check:brand": "node ../kit/scripts/check-brand.mjs ../kit ."
+  },
+  "dependencies": {
+    "next": "^16.3.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "typescript": "^5.5.4"
+  }
+}

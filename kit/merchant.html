@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#F6F1E7">
+<title>لوحة التاجر · Merchant workspace — kit skeleton</title>
+<meta name="description" content="One merchant console that inherits the design DNA and re-tints per vertical.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<script defer src="js/sample-data.js"></script>
+<script defer src="js/alsooq-ui.js"></script>
+</head>
+<body data-vertical="marketplace">
+<aq-nav current="merchant"></aq-nav>
+
+<main id="main">
+  <section class="aq-sec"><div class="aq-wrap">
+    <div class="aq-sec__head">
+      <div>
+        <h1 style="font-size:var(--aq-fs-xl)" data-ar="لوحة التاجر" data-en="Merchant workspace">لوحة التاجر</h1>
+        <p data-ar="لوحة واحدة، وتتلوّن بحسب القطاع. المسار: طلب ← عرض ← تسوية ← ثقة." data-en="One console that re-tints per vertical. The flow: Request → Offer → Settlement → Trust.">لوحة واحدة، وتتلوّن بحسب القطاع. المسار: طلب ← عرض ← تسوية ← ثقة.</p>
+      </div>
+      <div role="group" aria-label="Vertical" style="display:flex;gap:var(--aq-s-2);flex-wrap:wrap">
+        <button type="button" class="aq-chip" data-v="marketplace" aria-pressed="true" data-ar="السوق" data-en="Marketplace">السوق</button>
+        <button type="button" class="aq-chip" data-v="mobility" aria-pressed="false" data-ar="مواصلاتي" data-en="Mwasalati">مواصلاتي</button>
+        <button type="button" class="aq-chip" data-v="logistics" aria-pressed="false" data-ar="سودان إكسبريس" data-en="Sudan Express">سودان إكسبريس</button>
+      </div>
+    </div>
+    <aq-workspace id="ws" vertical="marketplace"></aq-workspace>
+  </div></section>
+</main>
+<aq-footer></aq-footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var chips = [].slice.call(document.querySelectorAll('[data-v]'));
+  chips.forEach(function (c) {
+    c.addEventListener('click', function () {
+      var v = c.getAttribute('data-v');
+      document.body.setAttribute('data-vertical', v);                 // re-tints every token-driven surface
+      document.getElementById('ws').setAttribute('vertical', v);      // swaps the sample data
+      chips.forEach(function (x) { x.setAttribute('aria-pressed', x === c); });
+    });
+  });
+});
+</script>
+</body>
+</html>

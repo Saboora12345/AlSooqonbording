@@ -1,0 +1,11 @@
+{
+  "ecosystem": "AlSooq-Mowasalty-SudaExpress",
+  "note": "Generated from the live server in src/. Tool names match what tools/list returns over stdio. Data is illustrative until a real EcosystemRepo (Postgres) is wired in.",
+  "server": { "name": "alsooq-mcp", "version": "0.1.0", "transport": "stdio", "command": "node", "args": ["mcp/dist/index.js"] },
+  "modules": [
+    { "name": "marketplace", "source": "src/marketplace/tools.ts", "tools": ["marketplace_search_catalog", "marketplace_get_service"] },
+    { "name": "mobility", "source": "src/mobility/tools.ts", "tools": ["mobility_search_trips", "mobility_fleet_status"] },
+    { "name": "logistics", "source": "src/logistics/tools.ts", "tools": ["logistics_quote_shipment", "logistics_create_waybill", "escrow_hold", "escrow_release_on_scan"] }
+  ],
+  "notDeployedYet": ["cart", "financing"]
+}

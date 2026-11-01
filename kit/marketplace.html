@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#F6F1E7">
+<title>السوق · alSooq Marketplace — kit skeleton</title>
+<meta name="description" content="alSooq marketplace skeleton: nav, product cards, escrow checkout flow. Bilingual AR RTL / EN LTR.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<script defer src="js/sample-data.js"></script>
+<script defer src="js/alsooq-ui.js"></script>
+</head>
+<body data-vertical="marketplace">
+<aq-nav current="marketplace"></aq-nav>
+
+<main id="main">
+  <section class="aq-hero"><div class="aq-wrap aq-hero__grid">
+    <div>
+      <span class="aq-eyebrow" data-ar="السوق · الأمانة تحمي الطرفين" data-en="Marketplace · escrow protects both sides">السوق · الأمانة تحمي الطرفين</span>
+      <h1><span data-ar="اشترِ بأمان. " data-en="Buy safely. ">اشترِ بأمان. </span><span class="aq-hl" data-ar="لا يصل المال للبائع قبل أن يصلك الطلب." data-en="The seller is paid only after your order arrives.">لا يصل المال للبائع قبل أن يصلك الطلب.</span></h1>
+      <p class="aq-lede" data-ar="يُحجز المبلغ في الأمانة، ويُفرج عنه عندما تؤكّد الاستلام بالمسح. تتصفّح، تضيف، وتدفع من محفظة حوّل." data-en="Your payment is held in escrow and released when you confirm delivery by scan. Browse, add, and pay from the Hawil wallet.">يُحجز المبلغ في الأمانة، ويُفرج عنه عندما تؤكّد الاستلام بالمسح. تتصفّح، تضيف، وتدفع من محفظة حوّل.</p>
+      <div class="aq-hero__cta">
+        <a class="aq-btn aq-btn--primary aq-btn--lg" href="#catalog" data-ar="تصفّح الكتالوج" data-en="Browse the catalog">تصفّح الكتالوج</a>
+        <a class="aq-btn aq-btn--ghost aq-btn--lg" href="#checkout" data-ar="مسار الدفع" data-en="Checkout flow">مسار الدفع</a>
+      </div>
+    </div>
+    <div class="aq-hero__art">
+      <div class="aq-card" style="width:min(100%,360px)">
+        <p><span class="aq-illustrative" data-ar="توضيحي" data-en="Illustrative">توضيحي</span></p>
+        <div class="aq-summary" style="margin-block-start:var(--aq-s-3)">
+          <div><span data-ar="تم الدفع" data-en="Paid">تم الدفع</span><span class="aq-pill" data-ar="محجوز في الأمانة" data-en="Held in escrow">محجوز في الأمانة</span></div>
+          <div><span data-ar="في الطريق" data-en="On the way">في الطريق</span><span class="aq-pill" data-ar="قيد الشحن" data-en="Shipping">قيد الشحن</span></div>
+          <div><span data-ar="مسح عند التسليم" data-en="Scan at handover">مسح عند التسليم</span><span class="aq-pill aq-pill--ok" data-ar="يُفرج المبلغ" data-en="Funds released">يُفرج المبلغ</span></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="aq-sec" id="catalog"><div class="aq-wrap">
+    <div class="aq-sec__head">
+      <div><h2 data-ar="الكتالوج" data-en="Catalog">الكتالوج</h2><p data-ar="تجّار موثّقون، وأسعار بالجنيه السوداني." data-en="Verified merchants, prices in Sudanese pounds.">تجّار موثّقون، وأسعار بالجنيه السوداني.</p></div>
+      <span class="aq-illustrative" data-ar="كتالوج توضيحي — ليس عروضاً حقيقية" data-en="Illustrative catalog — not real listings">كتالوج توضيحي — ليس عروضاً حقيقية</span>
+    </div>
+    <div class="aq-grid" id="grid"></div>
+    <div class="aq-cartbar" id="cartbar" hidden>
+      <div aria-live="polite"><b id="cartcount"></b> · <span class="aq-price" id="carttotal"></span></div>
+      <a class="aq-btn aq-btn--primary" href="#checkout" data-ar="إتمام الطلب" data-en="Checkout">إتمام الطلب</a>
+    </div>
+  </div></section>
+
+  <section class="aq-sec" id="checkout"><div class="aq-wrap">
+    <div class="aq-sec__head"><div><h2 data-ar="مسار الدفع" data-en="Checkout">مسار الدفع</h2><p data-ar="أربع خطوات. المبلغ يبقى محجوزاً حتى التسليم." data-en="Four steps. Funds stay held until delivery.">أربع خطوات. المبلغ يبقى محجوزاً حتى التسليم.</p></div></div>
+    <aq-checkout id="flow" class="aq-card" steps='[
+      {"id":"cart","ar":"السلة","en":"Cart"},
+      {"id":"delivery","ar":"التوصيل","en":"Delivery"},
+      {"id":"pay","ar":"الدفع بالأمانة","en":"Escrow payment","next_ar":"ادفع إلى الأمانة","next_en":"Pay into escrow"},
+      {"id":"done","ar":"التأكيد","en":"Confirmed"}]'>
+      <section data-step="cart">
+        <h3 data-ar="سلتك" data-en="Your cart">سلتك</h3>
+        <ul class="aq-summary" id="cartlist"></ul>
+        <p id="cartmsg" role="alert" style="color:var(--aq-danger);margin-block-start:var(--aq-s-3)"></p>
+      </section>
+      <section data-step="delivery">
+        <h3 data-ar="بيانات التوصيل" data-en="Delivery details">بيانات التوصيل</h3>
+        <div class="aq-form">
+          <div class="aq-field"><label for="f-name" data-ar="الاسم" data-en="Name">الاسم</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="aq-field"><label for="f-phone" data-ar="رقم الهاتف" data-en="Phone">رقم الهاتف</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required><small data-ar="للتواصل عند التسليم." data-en="For delivery contact.">للتواصل عند التسليم.</small></div>
+          <div class="aq-field"><label for="f-area" data-ar="المدينة والحي" data-en="City and area">المدينة والحي</label><input id="f-area" name="area" type="text" autocomplete="address-level2" required></div>
+        </div>
+      </section>
+      <section data-step="pay">
+        <h3 data-ar="الدفع إلى الأمانة" data-en="Pay into escrow">الدفع إلى الأمانة</h3>
+        <div class="aq-choices" role="radiogroup">
+          <label class="aq-radio"><input type="radio" name="method" value="wallet" checked><b data-ar="محفظة حوّل" data-en="Hawil wallet">محفظة حوّل</b><span data-ar="خصم فوري، والمبلغ محجوز." data-en="Instant debit, funds held.">خصم فوري، والمبلغ محجوز.</span></label>
+          <label class="aq-radio"><input type="radio" name="method" value="bank"><b data-ar="تحويل بنكي" data-en="Bank transfer">تحويل بنكي</b><span data-ar="عبر بنك شريك." data-en="Via a partner bank.">عبر بنك شريك.</span></label>
+        </div>
+        <div class="aq-summary" style="margin-block-start:var(--aq-s-5)"><div class="aq-total"><span data-ar="الإجمالي" data-en="Total">الإجمالي</span><span class="aq-price" id="paytotal"></span></div></div>
+      </section>
+      <section data-step="done">
+        <h3 data-ar="تم حجز المبلغ في الأمانة" data-en="Funds are held in escrow">تم حجز المبلغ في الأمانة</h3>
+        <p data-ar="يُفرج عنه للبائع عند تأكيد الاستلام بالمسح." data-en="It is released to the seller when you confirm receipt by scan.">يُفرج عنه للبائع عند تأكيد الاستلام بالمسح.</p>
+        <p style="margin-block-start:var(--aq-s-3)"><span data-ar="رقم الطلب: " data-en="Order ref: ">رقم الطلب: </span><span class="aq-placeholder">[ORDER REF]</span></p>
+        <div class="aq-hero__cta"><a class="aq-btn aq-btn--ghost" href="merchant.html" data-ar="شاهد الطلب في لوحة التاجر" data-en="See it in the merchant console">شاهد الطلب في لوحة التاجر</a></div>
+      </section>
+    </aq-checkout>
+  </div></section>
+</main>
+<aq-footer></aq-footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var cart = {}, grid = document.getElementById('grid'), flow = document.getElementById('flow');
+  AQ.sample.products.forEach(function (p) {
+    var el = document.createElement('aq-product-card');
+    el.setAttribute('sku', p.sku); el.setAttribute('name-ar', p.ar); el.setAttribute('name-en', p.en);
+    el.setAttribute('price', p.price); el.setAttribute('merchant', p.merchant); el.setAttribute('icon', p.icon);
+    if (p.verified) el.setAttribute('verified', '');
+    if (p.tag) { el.setAttribute('tag-ar', p.tag[0]); el.setAttribute('tag-en', p.tag[1]); }
+    grid.appendChild(el);
+  });
+  function total() { return Object.keys(cart).reduce(function (s, k) { return s + cart[k].price * cart[k].qty; }, 0); }
+  function count() { return Object.keys(cart).reduce(function (s, k) { return s + cart[k].qty; }, 0); }
+  function paint() {
+    var n = count(), bar = document.getElementById('cartbar');
+    bar.hidden = n === 0;
+    document.getElementById('cartcount').textContent = AQ.num(n) + ' ' + AQ.t('عنصر', n === 1 ? 'item' : 'items');
+    document.getElementById('carttotal').textContent = AQ.money(total(), 'SDG');
+    document.getElementById('paytotal').textContent = AQ.money(total(), 'SDG');
+    var list = document.getElementById('cartlist');
+    list.innerHTML = n === 0 ? '<li style="display:block;color:var(--aq-ink-2)">' + AQ.esc(AQ.t('السلة فارغة. أضف عناصر من الكتالوج.', 'Your cart is empty. Add items from the catalog.')) + '</li>' :
+      Object.keys(cart).map(function (k) {
+        var c = cart[k];
+        return '<div><span>' + AQ.esc(AQ.t(c.ar, c.en)) + ' × ' + AQ.esc(AQ.num(c.qty)) + '</span><span class="aq-price">' + AQ.esc(AQ.money(c.price * c.qty, 'SDG')) +
+          ' <button type="button" class="aq-btn aq-btn--ghost" data-remove="' + AQ.esc(k) + '" aria-label="' + AQ.esc(AQ.t('إزالة ', 'Remove ') + AQ.t(c.ar, c.en)) + '">' + AQ.esc(AQ.t('إزالة', 'Remove')) + '</button></span></div>';
+      }).join('');
+  }
+  document.addEventListener('aq:add', function (e) {
+    var d = e.detail; cart[d.sku] = cart[d.sku] || { ar: d.ar, en: d.en, price: d.price, qty: 0 }; cart[d.sku].qty++; paint();
+  });
+  document.getElementById('cartlist').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-remove]'); if (b) { delete cart[b.getAttribute('data-remove')]; paint(); }
+  });
+  flow.addEventListener('aq:validate', function (e) {
+    if (e.detail.id === 'cart' && count() === 0) {
+      e.preventDefault();
+      document.getElementById('cartmsg').textContent = AQ.t('أضف عنصراً واحداً على الأقل.', 'Add at least one item.');
+    } else { document.getElementById('cartmsg').textContent = ''; }
+  });
+  document.addEventListener('aq:lang', paint);
+  paint();
+});
+</script>
+</body>
+</html>

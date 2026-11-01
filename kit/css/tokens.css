@@ -1,0 +1,119 @@
+/* ═══════════════════════════════════════════════════════════════════
+   alSooq · Kit tokens — the ONLY file that defines brand colours & fonts.
+   Everything else uses var(--aq-*). `npm run check:brand` enforces this.
+
+   Ground  : sand / ink / clay / palm / gold   (canonical app system)
+   Type    : IBM Plex Sans Arabic + IBM Plex Sans (+ Plex Mono for numbers)
+   Depth   : "clay" — soft raised shadows, big radii, muted gradients
+   Verticals inherit everything and swap ONLY the accent trio below.
+   ═══════════════════════════════════════════════════════════════════ */
+:root {
+  color-scheme: light;
+
+  /* ground & ink */
+  --aq-sand: #F6F1E7;
+  --aq-sand-2: #EFE7D8;
+  --aq-sand-3: #EDE4D3;
+  --aq-card: #FFFCF6;
+  --aq-white: #FFFFFF;
+  --aq-ink: #2E241B;
+  --aq-ink-2: #6B5B4B;
+  --aq-ink-3: #7A6A58;            /* was #93826F (3.3:1) — now AA 4.6:1 on sand */
+  --aq-line: #DCCFBB;
+  --aq-line-soft: rgb(220 207 187 / 0.6);
+
+  /* brand colours */
+  --aq-clay: #8A4B2A;
+  --aq-clay-deep: #5F3119;
+  --aq-palm: #2F6B4F;             /* settled money only */
+  --aq-gold: #B8862F;             /* decoration / fills with dark ink — NEVER small text */
+  --aq-gold-ink: #8C6420;         /* gold when it must be read as text (4.7:1) */
+  --aq-danger: #B3261E;
+
+  /* vertical accents (source: index / mowasalaty / sudan-express pages) */
+  --aq-mobility: #0077B6;
+  --aq-mobility-deep: #023E8A;
+  --aq-mobility-2: #0096C7;
+  --aq-logistics: #1C4A73;
+  --aq-logistics-deep: #123251;
+  --aq-logistics-ink: #14202E;
+  --aq-amber: #C77D0A;            /* with dark ink only: white on amber is 3.3:1 */
+  --aq-amber-ink: #8F5A06;        /* amber when it must be read as text (5.1:1) */
+
+  /* ACTIVE accent — default vertical is the marketplace (clay) */
+  --aq-accent: var(--aq-clay);              /* fills (white text on top, AA) */
+  --aq-accent-deep: var(--aq-clay-deep);
+  --aq-accent-ink: var(--aq-clay);          /* the accent when used as TEXT on light ground */
+  --aq-accent-2: var(--aq-gold);            /* secondary / decorative fills */
+  --aq-accent-2-ink: var(--aq-gold-ink);    /* secondary when READ (gradient headlines, labels) */
+
+  /* type */
+  --aq-ar: 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
+  --aq-en: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --aq-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --aq-fs-xs: 0.75rem;
+  --aq-fs-sm: 0.875rem;
+  --aq-fs-md: 1rem;
+  --aq-fs-lg: 1.25rem;
+  --aq-fs-xl: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
+  --aq-fs-hero: clamp(2.25rem, 1.4rem + 4vw, 3.75rem);
+
+  /* space — 4px grid */
+  --aq-s-1: 4px;  --aq-s-2: 8px;  --aq-s-3: 12px; --aq-s-4: 16px;
+  --aq-s-5: 24px; --aq-s-6: 32px; --aq-s-7: 48px; --aq-s-8: 72px;
+
+  /* shape */
+  --aq-r-sm: 10px; --aq-r: 16px; --aq-r-lg: 24px; --aq-r-pill: 999px;
+
+  /* clay depth: top-edge highlight + soft inner shade + diffuse drop */
+  --aq-sh-1: 0 1px 2px rgb(46 36 27 / 0.06);
+  --aq-sh-2: 0 1px 2px rgb(46 36 27 / 0.05), 0 8px 24px -14px rgb(46 36 27 / 0.22);
+  --aq-sh-3: 0 2px 6px rgb(46 36 27 / 0.06), 0 22px 46px -20px rgb(46 36 27 / 0.30);
+  --aq-clay-raise:
+    inset 0 1px 0 rgb(255 255 255 / 0.75),
+    inset 0 -3px 6px rgb(46 36 27 / 0.05),
+    0 10px 24px -14px rgb(46 36 27 / 0.30);
+  --aq-clay-press: inset 0 3px 8px rgb(46 36 27 / 0.18);
+
+  /* muted gradients */
+  --aq-grad-card: linear-gradient(165deg, var(--aq-card), var(--aq-sand-2));
+
+  /* motion — decelerating only; press is fast */
+  --aq-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --aq-d-press: 120ms;
+  --aq-d: 240ms;
+  --aq-d-slow: 520ms;
+
+  --aq-z-nav: 60;
+  --aq-tap: 44px;                 /* minimum touch target */
+}
+
+/* verticals: change the accent trio, nothing else */
+[data-vertical='mobility'] {
+  --aq-accent: var(--aq-mobility);
+  --aq-accent-deep: var(--aq-mobility-deep);
+  --aq-accent-ink: var(--aq-mobility-deep);   /* blue-on-sand text needs the deep value (10:1) */
+  --aq-accent-2: var(--aq-mobility-2);
+  --aq-accent-2-ink: var(--aq-mobility);
+}
+[data-vertical='logistics'] {
+  --aq-accent: var(--aq-logistics);
+  --aq-accent-deep: var(--aq-logistics-deep);
+  --aq-accent-ink: var(--aq-logistics);
+  --aq-accent-2: var(--aq-amber);
+  --aq-accent-2-ink: var(--aq-amber-ink);
+}
+
+/* DERIVED accent tokens must be re-declared wherever the accent can change. A custom property that
+   references var(--aq-accent) is resolved on the element that declares it — declared only on :root it
+   would freeze at clay and every vertical would inherit the clay value. Declaring on :root AND
+   [data-vertical] makes each vertical recompute them from its own accent trio. */
+:root, [data-vertical] {
+  --aq-accent-tint: color-mix(in srgb, var(--aq-accent) 9%, transparent);
+  --aq-accent-tint-2: color-mix(in srgb, var(--aq-accent) 16%, transparent);
+  --aq-accent-line: color-mix(in srgb, var(--aq-accent) 32%, transparent);
+  --aq-glow: 0 10px 28px -10px color-mix(in srgb, var(--aq-accent) 55%, transparent);
+  --aq-grad-accent: linear-gradient(135deg, var(--aq-accent), var(--aq-accent-deep));
+  --aq-grad-ground: radial-gradient(120% 80% at 80% -10%, var(--aq-accent-tint-2), transparent 60%);
+}

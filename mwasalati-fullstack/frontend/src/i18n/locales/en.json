@@ -1,0 +1,44 @@
+{
+  "app": { "name": "Mwasalati" },
+  "nav": { "home": "Home", "routes": "Routes", "wallet": "Wallet", "profile": "Profile" },
+  "home": {
+    "greeting": "Where are you headed?",
+    "sub": "Buy tomorrow's seat today — fixed fares, no haggling.",
+    "cta": "Choose a route"
+  },
+  "routes": {
+    "title": "Choose your route",
+    "short": "Short",
+    "medium": "Medium",
+    "long": "Long",
+    "selectStop": "Select boarding point",
+    "seatsLeft": "{{count}} seat left",
+    "seatsLeft_plural": "{{count}} seats left"
+  },
+  "booking": {
+    "title": "Pick your seats",
+    "seatCap": "14 seats per van",
+    "hold": "Hold seats",
+    "holdNote": "Held for 5 minutes while you pay",
+    "total": "Total",
+    "confirm": "Confirm & pay"
+  },
+  "ticket": {
+    "title": "Your ticket",
+    "boarding": "Boarding point",
+    "departure": "Departure",
+    "seat": "Seat",
+    "showQr": "Show this QR code at boarding"
+  },
+  "wallet": {
+    "title": "Wallet",
+    "balance": "Balance",
+    "topUp": "Top up",
+    "history": "Recent activity"
+  },
+  "fares": {
+    "short": "Short — 3,000 SDG",
+    "medium": "Medium — 10,000 SDG",
+    "long": "Long — 15,000 SDG"
+  }
+}

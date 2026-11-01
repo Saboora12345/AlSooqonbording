@@ -1,0 +1,11 @@
+/* Next-specific glue only. Brand values live in kit/css/tokens.css (synced into ./_kit). */
+
+/* point the font tokens at the self-hosted next/font families, keeping the kit's fallbacks */
+:root {
+  --aq-ar: var(--font-ar), 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
+  --aq-en: var(--font-en), 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --aq-mono: var(--font-mono), 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* page wrapper carries data-vertical, so the vertical's tint reaches the whole page */
+.aq-page { min-height: 100dvh; background: var(--aq-sand) var(--aq-grad-ground) no-repeat; }

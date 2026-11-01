@@ -7,7 +7,8 @@
     "format": "prettier --write \"*.html\" \"site/**/*.html\"",
     "format:check": "prettier --check \"*.html\" \"site/**/*.html\"",
     "lint": "html-validate \"*.html\" \"site/**/*.html\"",
-    "test": "npm run lint && npm run format:check"
+    "test": "npm run lint && npm run format:check",
+    "check:brand": "node kit/scripts/check-brand.mjs kit next-commerce"
   },
   "devDependencies": {
     "html-validate": "^8.24.1",
