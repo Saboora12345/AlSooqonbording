@@ -1,0 +1,52 @@
+/* AlSooq design tokens — extracted from index.html, mowasalaty.html, sudan-express.html.
+   Base theme = AlSooq (sand + clay). Product themes override only ground, ink, line and accent. */
+:root {
+  /* ground & ink */
+  --sand: #F6F1E7; --sand-2: #EFE7D8; --sand-3: #EDE4D3; --card: #FFFCF6; --white: #FFFFFF;
+  --kraft: #E4D2B4; --line: #DCCFBB; --line-soft: rgba(220, 207, 187, .6);
+  --ink: #2E241B; --ink-2: #6B5B4B; --ink-3: #93826F; /* ink-3: 14px+ bold or non-essential only */
+
+  /* accent & meaning */
+  --clay: #8A4B2A; --clay-deep: #5F3119; --clay-tint: #F3E4DA;
+  --clay-12: rgba(138, 75, 42, .12); --clay-30: rgba(138, 75, 42, .30);
+  --palm: #2F6B4F; --palm-tint: #E3EFE8;   /* money arrived safely */
+  --gold: #B8862F; --gold-text: #86611C;   /* gold token / cross-app */
+  --amber: #C77D0A; --red: #C4453B;
+
+  /* type */
+  --ar: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --en: 'IBM Plex Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* space (4px base) */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-6: 24px; --s-8: 32px; --s-12: 48px; --s-16: 64px;
+
+  /* radius */
+  --r-xs: 7px; --r-sm: 10px; --r: 14px; --r-lg: 20px; --r-pill: 999px;
+
+  /* elevation (warm brown) */
+  --shadow: 0 1px 2px rgba(46, 36, 27, .05), 0 8px 24px -12px rgba(46, 36, 27, .18);
+  --shadow-lg: 0 2px 4px rgba(46, 36, 27, .06), 0 30px 60px -24px rgba(46, 36, 27, .32);
+  --shadow-xl: 0 4px 8px rgba(46, 36, 27, .07), 0 44px 88px -28px rgba(46, 36, 27, .40);
+
+  /* motion */
+  --d-fast: 150ms; --d: 240ms; --d-slow: 420ms;
+  --ease-out: cubic-bezier(.16, 1, .3, 1); --ease-io: cubic-bezier(.77, 0, .175, 1); --snap: cubic-bezier(.2, 0, 0, 1);
+}
+
+/* Mowasalati — cool ground, blue accent */
+[data-theme="mowasalati"] {
+  --sand: #EDF4F8; --sand-2: #E1ECF2; --card: #FFFFFF; --line: #CFDEE8;
+  --ink: #0B2A38; --ink-2: #456070; --ink-3: #7C93A0;
+  --clay: #0077B6; --clay-deep: #023E8A; --clay-tint: rgba(0, 119, 182, .08);
+  --cyan: #0096C7; --cyan-2: #48CAE4; --palm: #1B9E77;
+  --r: 16px; --r-lg: 22px;
+}
+
+/* Sudan Express — paper ground, navy accent, amber for price */
+[data-theme="sudan-express"] {
+  --sand: #FBFAF7; --card: #FFFFFF; --line: #E7E1D3; --line-soft: #F0EBDF;
+  --ink: #14202E; --ink-2: #51637A;
+  --clay: #123251; --clay-deep: #1C4A73; --clay-tint: rgba(18, 50, 81, .08);
+  --amber: #C77D0A;
+}
