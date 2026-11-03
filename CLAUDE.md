@@ -57,4 +57,8 @@ See `DESIGN.md` for tokens (both palettes, type, RTL, currency rules). Read it b
   mowasalaty.html, or a fare card) before applying.
 - **Gentle Care logo:** confirmed (blue box + masked figure); file at
   `deck/assets/gentle-care.jpg`, also used on sudan-express.html header.
+- **AlSooq stock:** AlSooq e-commerce sells the owner's OWN stock (confirmed 2026-10).
+- **Subsidized tickets:** sold only to holders of a licensed wallet; agents must register (KYC)
+  riders who have no account. Flow lives on deck slide 08 and `inclusion-flow.html`.
+- **Deck (web) is now 9 slides:** ... 07 Cornerstone (banks + licensed fintech) · 08 Inclusion Flow · 09 Closing.
 - Still pending: Cairo & Khartoum office addresses, social handle, exact brand hex.
